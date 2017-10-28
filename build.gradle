@@ -4,14 +4,6 @@ apply plugin: 'pmd'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-jar {
-    baseName = 'docker-unittests'
-    version = '0.1.0'
-    manifest {
-        attributes "Main-Class":"org.dgroup.dockertest.App"
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -20,11 +12,9 @@ dependencies {
     // Common libs
     compile 'org.slf4j:slf4j-api:1.7.+'
     compile 'ch.qos.logback:logback-classic:1.+'
-    compile 'org.projectlombok:lombok:1.16.18'
     compile 'one.util:streamex:0.6.2'
     compile 'org.cactoos:cactoos:0.20.1'
     compile 'org.yaml:snakeyaml:1.19'
-
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.2.3'
 
@@ -56,3 +46,19 @@ test {
         }
     }
 }
+
+/**
+ *  Allows to build *.jar file with transitive dependencies.
+ *  Gradle doesn't support such feature
+ *    https://discuss.gradle.org/t/how-to-include-dependencies-in-jar/19571/5.
+ **/
+task fatJar(type: Jar) {
+    manifest {
+        attributes "Main-Class":"org.dgroup.dockertest.App"
+    }
+    project.version = '0.1.0'
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+fatJar.dependsOn check

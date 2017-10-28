@@ -26,7 +26,7 @@ public final class FileArg {
             throw new CmdArgNotFoundException(
                     new UncheckedText(
                             new FormattedText(
-                                    "Can't detect the file with tests due to missing '%s' cmd.",
+                                    "Can't detect the file with tests due to missing '%s' flag.",
                                     SRC_FILE_ARG
                             )
                     ).asString()
