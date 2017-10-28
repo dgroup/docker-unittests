@@ -1,12 +1,11 @@
 package org.dgroup.dockertest.text;
 
-import lombok.AllArgsConstructor;
 import org.cactoos.list.ListOf;
 
 import java.text.MessageFormat;
 import java.util.Collection;
 
-@AllArgsConstructor
+
 public class FormattedTextWithRepeatableArguments {
 
     private final String pattern;
@@ -14,6 +13,11 @@ public class FormattedTextWithRepeatableArguments {
 
     public FormattedTextWithRepeatableArguments(String pattern, Object... args) {
         this(pattern, new ListOf<>(args));
+    }
+
+    public FormattedTextWithRepeatableArguments(String pattern, Collection<Object> args) {
+        this.pattern = pattern;
+        this.args = args;
     }
 
     public String asString() {

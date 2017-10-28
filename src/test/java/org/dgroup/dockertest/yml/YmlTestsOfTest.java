@@ -1,6 +1,5 @@
 package org.dgroup.dockertest.yml;
 
-import lombok.extern.slf4j.Slf4j;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
 import org.junit.Test;
@@ -13,10 +12,9 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
- * @author Yurii Dubinka (dgroup@ex.ua)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
  **/
-@Slf4j
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class YmlTestsOfTest {
 

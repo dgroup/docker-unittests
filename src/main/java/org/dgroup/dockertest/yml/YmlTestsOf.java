@@ -1,6 +1,5 @@
 package org.dgroup.dockertest.yml;
 
-import lombok.extern.slf4j.Slf4j;
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
 import org.cactoos.iterator.Mapped;
@@ -16,10 +15,9 @@ import java.util.Map;
 /**
  * .
  *
- * @author Yurii Dubinka (dgroup@ex.ua)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
  **/
-@Slf4j
 public final class YmlTestsOf implements Iterable<YmlTagTest> {
 
     private final String testsAsText;

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Represents a commandline cmd for the file with tests.
  *
- * @author  Yurii Dubinka (dgroup@ex.ua)
+ * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since   0.1.0
  **/
 public final class FileArg {

@@ -1,6 +1,5 @@
 package org.dgroup.dockertest.test;
 
-import org.dgroup.dockertest.cmd.ImageArg;
 import org.dgroup.dockertest.docker.CmdOutput;
 import org.dgroup.dockertest.docker.DockerContainer;
 import org.dgroup.dockertest.test.output.Output;
@@ -11,7 +10,7 @@ import java.util.function.Predicate;
 /**
  * .
  *
- * @author Yurii Dubinka (dgroup@ex.ua)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
  **/
 public final class DefaultTest implements Test {
@@ -34,12 +33,12 @@ public final class DefaultTest implements Test {
         this.dockerCmd = dockerCmd;
     }
 
-    public DefaultTest(ImageArg image, YmlTagTest yml) {
+    public DefaultTest(String image, YmlTagTest yml) {
         this(
                 yml.assume(),
                 null,
                 null,
-                image.name(),
+                image,
                 yml.cmd()
         );
     }
