@@ -32,6 +32,10 @@ public final class YmlTagTest {
         return tag.map().get("cmd").toString();
     }
 
+    public String[] cmdAsArray(){
+        return cmd().split(" ");
+    }
+
     public List<YmlTagOutputPredicate> output() {
         return new YmlTagOutput(
                 (List<Map<String, String>>) tag.map().get("output")

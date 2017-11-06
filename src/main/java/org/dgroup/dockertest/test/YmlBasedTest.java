@@ -5,7 +5,7 @@ import org.dgroup.dockertest.UncheckedCallable;
 import org.dgroup.dockertest.UncheckedTernary;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.docker.DefaultDockerContainer;
-import org.dgroup.dockertest.docker.LocalSystemAsDockerContainer;
+import org.dgroup.dockertest.docker.FakeDockerContainer;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 import org.dgroup.dockertest.yml.YmlTagTest;
 
@@ -40,9 +40,9 @@ public final class YmlBasedTest implements Test {
                 new UncheckedTernary<>(
                         new Ternary<UncheckedCallable<String>>(
                                 image.specified(),
-                                () -> new DefaultDockerContainer(image.value(), yml.cmd())
+                                () -> new DefaultDockerContainer(image.value(), yml.cmdAsArray())
                                         .run().text(),
-                                () -> new LocalSystemAsDockerContainer(yml.cmd())
+                                () -> new FakeDockerContainer(yml.cmdAsArray())
                                         .run().text()
                         )
                 ).value()
@@ -52,7 +52,7 @@ public final class YmlBasedTest implements Test {
 
     @Override
     public TestingOutcome execute() {
-        return new DefaultTestingOutcome(
+        return new TestingOutcomeByDefault(
                 scenario, cmd, cmdOutput.call(), conditions
         );
     }

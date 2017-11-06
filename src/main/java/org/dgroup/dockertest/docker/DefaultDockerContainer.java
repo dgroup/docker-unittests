@@ -2,6 +2,8 @@ package org.dgroup.dockertest.docker;
 
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
+import org.dgroup.dockertest.cmd.CmdOutput;
+import org.dgroup.dockertest.cmd.DefaultCmdOutput;
 
 /**
  * .
@@ -13,7 +15,7 @@ public final class DefaultDockerContainer implements DockerContainer {
 
     private final SystemProcess process;
 
-    public DefaultDockerContainer(String image, String cmd) {
+    public DefaultDockerContainer(String image, String... cmd) {
         this(
                 new SystemProcess(
                         new UncheckedText(

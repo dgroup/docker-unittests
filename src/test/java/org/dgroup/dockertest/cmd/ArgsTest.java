@@ -4,7 +4,7 @@ import org.dgroup.dockertest.YmlResource;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
  * .
@@ -24,7 +24,7 @@ public class ArgsTest {
                                 "with-single-test.yml"
                         ).file().getAbsolutePath()
                 ).tests().iterator().next().execute().message(),
-                equalTo("Passed scenario `java version is 1.8`. Output for command `java -version` should contain=`Java(TM) SE Runtime Environment (build 1.8`.")
+                startsWith("Passed scenario `java version is 1.8`. Output for command `java -version` is `java version \"1.8")
         );
     }
 }

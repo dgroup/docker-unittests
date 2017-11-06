@@ -1,4 +1,4 @@
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.cmd;
 
 /**
  * Represents cmd output as text.

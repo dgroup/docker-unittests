@@ -1,6 +1,7 @@
 package org.dgroup.dockertest.text;
 
 import one.util.streamex.StreamEx;
+import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 
@@ -27,6 +28,10 @@ public final class StringOf {
     public StringOf(Iterable<String> values, String delimiter) {
         this.values = values;
         this.delimiter = delimiter;
+    }
+
+    public StringOf(String[] cmd) {
+        this(new IterableOf<>(cmd), " ");
     }
 
 

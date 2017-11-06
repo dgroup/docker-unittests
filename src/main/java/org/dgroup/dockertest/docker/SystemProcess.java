@@ -10,15 +10,19 @@ import java.io.IOException;
  **/
 public final class SystemProcess {
 
-    private final String cmd;
+    private final ProcessBuilder process;
 
-    public SystemProcess(String cmd) {
-        this.cmd = cmd;
+    public SystemProcess(String... cmd) {
+        this(new ProcessBuilder(cmd).redirectErrorStream(true));
+    }
+
+    public SystemProcess(ProcessBuilder process) {
+        this.process = process;
     }
 
     public Process execute() {
         try {
-            return Runtime.getRuntime().exec(cmd);
+            return process.start();
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
