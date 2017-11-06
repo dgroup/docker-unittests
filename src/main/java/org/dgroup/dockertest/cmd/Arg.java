@@ -21,4 +21,8 @@ public final class Arg {
     public String value() {
         return args.get(args.indexOf(name) + 1);
     }
+
+    public boolean specified() {
+        return args.contains(name);
+    }
 }

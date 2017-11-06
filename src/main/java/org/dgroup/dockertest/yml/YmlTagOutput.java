@@ -28,16 +28,16 @@ public final class YmlTagOutput {
                     String expectedText = conditions.values().iterator().next();
 
                     if ("contains".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("contains",expectedText::contains);
+                        return new YmlTagOutputPredicate("contains", expectedText, expectedText::contains);
 
                     if ("equal".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("equal",expectedText::equals);
+                        return new YmlTagOutputPredicate("equal", expectedText, expectedText::equals);
 
                     if ("startWith".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("startWith",expectedText::startsWith);
+                        return new YmlTagOutputPredicate("startWith", expectedText, expectedText::startsWith);
 
                     if ("endWith".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("endWith",expectedText::endsWith);
+                        return new YmlTagOutputPredicate("endWith", expectedText, expectedText::endsWith);
 
                     throw new IllegalYmlFormatException(
                             new PlainFormattedText(

@@ -1,5 +1,7 @@
 package org.dgroup.dockertest.yml;
 
+import org.dgroup.dockertest.text.PlainFormattedText;
+
 /**
  * .
  *
@@ -8,7 +10,7 @@ package org.dgroup.dockertest.yml;
  **/
 public final class IllegalYmlFormatException extends RuntimeException {
 
-    public IllegalYmlFormatException(Object msg){
+    public IllegalYmlFormatException(PlainFormattedText msg){
         this(msg.toString());
     }
 

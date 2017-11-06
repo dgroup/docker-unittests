@@ -1,5 +1,7 @@
 package org.dgroup.dockertest.yml;
 
+import org.dgroup.dockertest.text.PlainFormattedText;
+
 import java.util.function.Predicate;
 
 /**
@@ -11,18 +13,30 @@ import java.util.function.Predicate;
 public final class YmlTagOutputPredicate {
 
     private final String type;
+    private final String expected;
     private final Predicate<String> predicate;
 
-    public YmlTagOutputPredicate(String type, Predicate<String> predicate) {
+    public YmlTagOutputPredicate(String type, String expected, Predicate<String> predicate) {
         this.type = type;
+        this.expected = expected;
         this.predicate = predicate;
     }
 
-    public String type(){
+    public String type() {
         return type;
     }
 
-    public boolean test(String actualValue){
+    public boolean test(String actualValue) {
         return predicate.test(actualValue);
+    }
+
+    public String expected() {
+        return expected;
+    }
+
+    @Override
+    public String toString() {
+        return new PlainFormattedText("%s=`%s`", type, expected)
+                .asString();
     }
 }

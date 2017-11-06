@@ -1,10 +1,8 @@
 package org.dgroup.dockertest.yml;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
+import org.dgroup.dockertest.YmlResource;
 import org.junit.Test;
-
-import java.io.File;
 
 import static org.dgroup.dockertest.AssertThrown.assertThrown;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +20,7 @@ public class YmlTestsOfTest {
     public void versionTagIsMissing() {
         assertThrown(
                 () -> new YmlTestsOf(
-                        file("test_v1.0-with-missing-version-tag.yml")
+                        new YmlResource("with-missing-version-tag.yml").file()
                 ).iterator(),
                 new IllegalYmlFormatException("The `version` tag is missing")
         );
@@ -31,10 +29,10 @@ public class YmlTestsOfTest {
     @Test
     public void iterator() {
         assertThat(
-                "Tests from `test_v1.0.yml` were loaded as Iterable<YmlTest>",
+                "Tests from file `with-3-simple-tests.yml` were loaded as Iterable<YmlTest>",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ),
                 hasSize(3)
@@ -47,7 +45,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/assume` is equal to `\"node version is 8.5.1\"`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).assume(),
                 equalTo("node version is 8.5.1")
@@ -60,7 +58,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/cmd` is equal to `\"node -v\"`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).cmd(),
                 equalTo("node -v")
@@ -73,7 +71,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 4 statements",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output(),
                 hasSize(4)
@@ -86,7 +84,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 1st statement `contains`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(0).type(),
                 equalTo("contains")
@@ -96,7 +94,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 1st statement `contains` and expected value is `v8.5.0`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(0).test("v8.5.0"),
                 equalTo(true)
@@ -109,7 +107,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 2nd statement `startWith`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(1).type(),
                 equalTo("startWith")
@@ -119,7 +117,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 2nd statement `startWith` and expected value is `v8.`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(1).test("v8."),
                 equalTo(true)
@@ -132,7 +130,7 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 3rd statement `endWith`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(2).type(),
                 equalTo("endWith")
@@ -142,20 +140,10 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 3rd statement `endWith` and expected value is `.5.0`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                file("test_v1.0.yml")
+                                new YmlResource("with-3-simple-tests.yml").file()
                         )
                 ).get(1).output().get(2).test(".5.0"),
                 equalTo(true)
-        );
-    }
-
-
-    private File file(String name) {
-        return new File(
-                new FormattedTextWithRepeatableArguments(
-                        "src{0}test{0}resources{0}yml{0}{1}",
-                        File.separator, name
-                ).asString()
         );
     }
 }

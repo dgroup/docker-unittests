@@ -23,4 +23,8 @@ public class FormattedTextWithRepeatableArguments {
     public String asString() {
         return MessageFormat.format(pattern, args.toArray());
     }
+
+    public String toString(){
+        return asString();
+    }
 }

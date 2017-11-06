@@ -1,7 +1,12 @@
 package org.dgroup.dockertest;
 
+import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.test.Test;
+import org.dgroup.dockertest.test.TestingOutcome;
+import org.dgroup.dockertest.test.output.Output;
+
+import java.util.List;
 
 /**
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
@@ -23,9 +28,13 @@ public final class App {
 
 
     public void start() {
-        for (Test test : args.tests()) {
-            test.execute();
-            test.print(args.output());
-        }
+        List<String> tests = new Mapped<>(
+                new Mapped<>(args.tests(), Test::execute),
+                TestingOutcome::message
+        );
+
+        for(Output output : args.outputs())
+            for(String test : tests)
+                output.print(test);
     }
 }

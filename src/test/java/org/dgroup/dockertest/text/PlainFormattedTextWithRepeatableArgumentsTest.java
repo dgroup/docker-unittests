@@ -13,10 +13,10 @@ public class PlainFormattedTextWithRepeatableArgumentsTest {
     public void asString() {
         assertThat(
                 new FormattedTextWithRepeatableArguments(
-                        "{0}{1}test{1}resources{1}testng.xml",
+                        "{0}{1}execute{1}resources{1}testng.xml",
                         "home", File.separator
                 ).asString(),
-                equalTo("home" + File.separator + "test" + File.separator + "resources" + File.separator + "testng.xml")
+                equalTo("home" + File.separator + "execute" + File.separator + "resources" + File.separator + "testng.xml")
         );
     }
 }

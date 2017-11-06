@@ -1,0 +1,8 @@
+version: 1
+
+tests:
+  - test:
+      assume: "java version is 1.8"
+      cmd:    "java -version"
+      output:
+        - contains: "Java(TM) SE Runtime Environment (build 1.8"

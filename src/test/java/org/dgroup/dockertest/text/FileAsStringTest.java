@@ -1,7 +1,6 @@
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.FileAsString;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
