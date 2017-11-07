@@ -30,10 +30,6 @@ public final class YmlTagOutputPredicate {
         return predicate.test(actualValue);
     }
 
-    public String expected() {
-        return expected;
-    }
-
     @Override
     public String toString() {
         return new PlainFormattedText("%s=`%s`", type, expected)
