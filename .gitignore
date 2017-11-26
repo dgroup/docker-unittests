@@ -1,0 +1,15 @@
+/.idea/
+*.ipr
+*.iws
+*.iml
+*.class
+/classes/
+/target/
+/build/
+/cache/
+/logs/
+.gradle
+.vagrant
+*.patch
+Vagrantfile
+out/
