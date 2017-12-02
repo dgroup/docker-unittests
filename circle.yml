@@ -3,6 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+
+notify:
+  webhooks:
+    # A list of hook hashes, containing the url field gitter hook
+    - url: https://webhooks.gitter.im/e/5368aea37d6ab0e42bd6
+
 jobs:
   build:
     docker:
