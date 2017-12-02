@@ -2,7 +2,9 @@ version: 1
 
 tests:
   - test:
-      assume: "java version is 1.8"
-      cmd:    "java -version"
+      assume: "curl version is 7.xxx"
+      cmd:    "curl --version"
       output:
-        - contains: "1.8"
+        - startWith:  "curl 7."
+        - contains:   "Protocols: "
+        - contains:   "Features: "
