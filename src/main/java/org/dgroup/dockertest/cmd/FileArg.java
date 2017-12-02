@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Represents a commandline cmd for the file with tests.
  *
- * @todo Rewrite class considering {@link Arg} entity
+ * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since   0.1.0
  **/
