@@ -490,9 +490,9 @@
     <rule ref="rulesets/java/design.xml/NonThreadSafeSingleton">
         <priority>5</priority>
     </rule>
-    <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody">
+   <!-- <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody">
         <priority>5</priority>
-    </rule>
+    </rule> -->
     <rule ref="rulesets/java/design.xml/ConstantsInInterface">
         <priority>5</priority>
     </rule>
