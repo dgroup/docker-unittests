@@ -3,3 +3,8 @@
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
 
 @todo #/DEV how-to guide is required because users have no idea how to test docker images with this tool
+
+### Contributing F.A.Q.
+1. Use `@todo #/DEV` labels for all todo tasks.
+   Its allows 0pdd to create the issues.
+2.  
