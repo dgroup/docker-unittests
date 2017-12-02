@@ -493,39 +493,39 @@
    <!-- <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody">
         <priority>5</priority>
     </rule> -->
-    <rule ref="rulesets/java/design.xml/ConstantsInInterface">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/PreserveStackTrace">
-        <priority>1</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/UseCollectionIsEmpty">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract">
-        <priority>3</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/SingularField">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/ReturnEmptyArrayRatherThanNull">
-        <priority>3</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod">
-        <priority>5</priority>
-    </rule>
-    <rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement">
-        <priority>3</priority>
-    </rule>
+    <!-- <rule ref="rulesets/java/design.xml/ConstantsInInterface">
+         <priority>5</priority>
+     </rule>-->
+     <rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter">
+         <priority>5</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/PreserveStackTrace">
+         <priority>1</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/UseCollectionIsEmpty">
+         <priority>5</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal">
+         <priority>5</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract">
+         <priority>3</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/SingularField">
+         <priority>5</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/ReturnEmptyArrayRatherThanNull">
+         <priority>3</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod">
+         <priority>5</priority>
+     </rule>
+     <rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement">
+         <priority>3</priority>
+     </rule>
 
 
-    <!-- strictexception.xml -->
+     <!-- strictexception.xml -->
     <rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable">
         <priority>3</priority>
     </rule>
