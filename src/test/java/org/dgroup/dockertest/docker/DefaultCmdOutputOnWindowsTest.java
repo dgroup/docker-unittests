@@ -9,13 +9,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
- * .
- *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
  **/
-@RunWith(RunOnlyOnWindows.class)
-public class DefaultCmdOutputTest {
+@RunWith(RunOnlyOnWindows.class) // @todo #50m/DEV Add the same test for Linux OS
+public class DefaultCmdOutputOnWindowsTest {
 
     @Test(timeout = 1000 * 3)
     public void text() {
