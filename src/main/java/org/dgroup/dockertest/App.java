@@ -34,11 +34,17 @@ import java.util.List;
 /**
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
+ * @version $Id$
  **/
 public final class App {
 
     private final Args args;
 
+    /**
+     * Application start point
+     *
+     * @param args cmd arguments
+     **/
     public App(Args args) {
         this.args = args;
     }
