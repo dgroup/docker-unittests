@@ -26,7 +26,6 @@ package org.dgroup.dockertest.cmd;
 
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
-
 import java.io.File;
 import java.util.List;
 

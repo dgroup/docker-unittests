@@ -26,7 +26,6 @@ package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
 import org.cactoos.text.UncheckedText;
-
 import java.util.Collection;
 
 

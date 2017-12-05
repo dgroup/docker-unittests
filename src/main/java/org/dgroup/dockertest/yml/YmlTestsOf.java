@@ -31,7 +31,6 @@ import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.yaml.snakeyaml.Yaml;
-
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;

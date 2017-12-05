@@ -32,7 +32,6 @@ import org.dgroup.dockertest.docker.DefaultDockerContainer;
 import org.dgroup.dockertest.docker.FakeDockerContainer;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 import org.dgroup.dockertest.yml.YmlTagTest;
-
 import java.util.List;
 
 /**

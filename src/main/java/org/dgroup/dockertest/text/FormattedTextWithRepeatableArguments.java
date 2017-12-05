@@ -25,7 +25,6 @@
 package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
-
 import java.text.MessageFormat;
 import java.util.Collection;
 

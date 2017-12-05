@@ -29,7 +29,6 @@ import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
-
 import java.util.List;
 
 /**

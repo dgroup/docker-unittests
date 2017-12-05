@@ -25,7 +25,6 @@
 package org.dgroup.dockertest.yml;
 
 import org.dgroup.dockertest.text.PlainFormattedText;
-
 import java.util.function.Predicate;
 
 /**

@@ -27,7 +27,6 @@ package org.dgroup.dockertest.yml;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
 import org.junit.Test;
-
 import static org.dgroup.dockertest.AssertThrown.assertThrown;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;

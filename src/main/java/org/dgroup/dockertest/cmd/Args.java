@@ -34,7 +34,6 @@ import org.dgroup.dockertest.test.YmlBasedTest;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.YmlTestsOf;
-
 import java.util.List;
 
 /**

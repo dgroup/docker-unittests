@@ -28,7 +28,6 @@ import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
-
 import java.util.List;
 
 /**

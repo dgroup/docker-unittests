@@ -26,7 +26,6 @@ package org.dgroup.dockertest.yml;
 
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.text.PlainFormattedText;
-
 import java.util.List;
 import java.util.Map;
 

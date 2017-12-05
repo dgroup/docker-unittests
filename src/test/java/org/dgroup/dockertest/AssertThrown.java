@@ -25,7 +25,6 @@
 package org.dgroup.dockertest;
 
 import org.assertj.core.api.ThrowableAssert;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**

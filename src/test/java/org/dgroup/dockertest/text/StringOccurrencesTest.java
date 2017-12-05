@@ -26,7 +26,6 @@ package org.dgroup.dockertest.text;
 
 
 import org.junit.Test;
-
 import static junit.framework.TestCase.assertTrue;
 
 public class StringOccurrencesTest {

@@ -26,7 +26,6 @@ package org.dgroup.dockertest;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
-
 import java.io.File;
 
 /**

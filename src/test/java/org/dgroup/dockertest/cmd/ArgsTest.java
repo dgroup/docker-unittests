@@ -26,7 +26,6 @@ package org.dgroup.dockertest.cmd;
 
 import org.dgroup.dockertest.YmlResource;
 import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
