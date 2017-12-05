@@ -8,4 +8,5 @@
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
-2.  
+2. Run `mvn clean package -Pqulice` before commit. 
+   All issues related to your code should be fixed before commit.
