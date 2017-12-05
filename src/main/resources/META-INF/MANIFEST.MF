@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Class-Path: snakeyaml-1.19.jar cactoos-0.20.1.jar junit-4.12.jar jacks
+ on-core-2.3.0.jar snakeyaml-1.19.jar cactoos-0.20.1.jar jackson-dataf
+ ormat-yaml-2.3.0.jar slf4j-api-1.7.25.jar junit-4.12.jar hamcrest-cor
+ e-1.3.jar hamcrest-all-1.3.jar jackson-annotations-2.2.3.jar hamcrest
+ -all-1.3.jar logback-core-1.2.3.jar logback-classic-1.2.3.jar assertj
+ -core-3.8.0.jar jackson-dataformat-yaml-2.3.0.jar jackson-databind-2.
+ 2.3.jar streamex-0.6.2.jar jackson-databind-2.2.3.jar logback-classic
+ -1.2.3.jar streamex-0.6.2.jar jackson-core-2.3.0.jar logback-core-1.2
+ .3.jar slf4j-api-1.7.25.jar assertj-core-3.8.0.jar jackson-annotation
+ s-2.2.3.jar hamcrest-core-1.3.jar
+Main-Class: org.dgroup.dockertest.App
+
