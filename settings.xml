@@ -23,18 +23,7 @@
   ~ SOFTWARE.
   -->
 
-<configuration>
-
-    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} [%thread] %level %40class{36} %10M %3L - %msg%n
-            </Pattern>
-        </layout>
-    </appender>
-
-    <root level="debug">
-        <appender-ref ref="stdout"/>
-    </root>
-
-</configuration>
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+</settings>

@@ -21,7 +21,6 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   ~ SOFTWARE.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -36,11 +35,12 @@
     <properties>
         <!-- System -->
         <jdk.version>1.8</jdk.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
-        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-        <qulice.plugin.version>0.17.1</qulice.plugin.version>
-        <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
+        <mvn.compiler.version>3.7.0</mvn.compiler.version>
+        <mvn.jar.version>3.0.2</mvn.jar.version>
+        <mvn.dependency.version>3.0.2</mvn.dependency.version>
+        <jacoco.version>0.7.8</jacoco.version>
+        <qulice.version>0.17.1</qulice.version>
+        <sonar.version>3.3.0.603</sonar.version>
         <!-- Dependencies -->
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback-classic.version>1.2.3</logback-classic.version>
@@ -117,7 +117,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>${mvn.compiler.version}</version>
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
@@ -127,7 +127,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
+                <version>${mvn.jar.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -142,7 +142,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
+                <version>${mvn.dependency.version}</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -178,7 +178,7 @@
                     <plugin>
                         <groupId>com.qulice</groupId>
                         <artifactId>qulice-maven-plugin</artifactId>
-                        <version>${qulice.plugin.version}</version>
+                        <version>${qulice.version}</version>
                         <configuration>
                             <license>file:${basedir}/LICENSE.md</license>
                             <excludes combine.children="append">
@@ -196,10 +196,11 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.7.8</version>
+                        <version>${jacoco.version}</version>
                         <configuration>
                             <output>file</output>
                         </configuration>
@@ -268,6 +269,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>sonar</id>
             <build>
@@ -275,7 +277,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
-                        <version>3.3.0.603</version>
+                        <version>${sonar.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
