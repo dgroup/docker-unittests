@@ -34,6 +34,7 @@ import java.util.List;
  *
  * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @since   0.1.0
  **/
 public final class FileArg {

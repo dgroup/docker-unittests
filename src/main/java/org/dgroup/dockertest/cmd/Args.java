@@ -40,6 +40,7 @@ import java.util.List;
  * Represents application command-line arguments.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmai.com)
+ * @version $Id$
  * @since 0.1.0
  **/
 public final class Args {

@@ -29,6 +29,7 @@
  *  thus there are a lot of places with explicit classes casting.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @since 0.1.0
  **/
 package org.dgroup.dockertest.yml;

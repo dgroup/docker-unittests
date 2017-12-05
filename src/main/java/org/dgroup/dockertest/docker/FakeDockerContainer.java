@@ -32,6 +32,7 @@ import org.dgroup.dockertest.cmd.DefaultCmdOutput;
  * It can be used for unit testings (in case when we didn't have the docker in the system.)
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @since 0.1.0
  **/
 public final class FakeDockerContainer implements DockerContainer {

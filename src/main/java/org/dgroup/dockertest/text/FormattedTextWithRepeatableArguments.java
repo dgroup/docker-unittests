@@ -28,7 +28,11 @@ import org.cactoos.list.ListOf;
 import java.text.MessageFormat;
 import java.util.Collection;
 
-
+/**
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
+ * @since 0.1.0
+ **/
 public class FormattedTextWithRepeatableArguments {
 
     private final String pattern;

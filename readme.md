@@ -10,3 +10,31 @@
    Its allows 0pdd to create the issues.
 2. Run `mvn clean package -Pqulice` before commit. 
    All issues related to your code should be fixed before commit.
+3. Each class should have the javadocs with these tags `@author`, `@version`, `@since`.
+   For example,
+   ```java
+   /**
+    * Represents application command-line arguments.
+    *
+    * @author Yurii Dubinka (yurii.dubinka@gmai.com)
+    * @version $Id$
+    * @since 0.1.0
+    **/
+   public final class Args {
+   ...
+   ```
+   You can configure such template in your IDE.
+   For IntelliJ IDEA:
+   - File > Settings > Editor > File and Code Templates > Includes > File Header 
+   - Paste text below
+     ```
+        /**
+         * .
+         * 
+         * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+         * @version $Id$
+         * @since   0.1.0
+         **/
+     ```
+   - Specify your name and email
+   - Press `Apply`, `OK`.  

@@ -31,6 +31,7 @@ import org.dgroup.dockertest.cmd.CmdOutput;
  * Container will be removed after cmd execution.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @since 0.1.0
  **/
 public interface DockerContainer {
