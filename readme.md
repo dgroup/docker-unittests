@@ -4,7 +4,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
 
 @todo #/DEV how-to guide is required because users have no idea how to test docker images with this tool
-
+@todo #/DEV add https://codebeat.co badge as project moved to public state
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
