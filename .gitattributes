@@ -7,7 +7,7 @@
 *.yml text
 *.xml text
 
-# Add commit SHA instead of $Id$ tag to all files with extension below.
+# Add readily-visible signature (in SHA format) to all files (tagged by $Id$) with extension below:
 *.java ident
 *.yml ident
 *.xml ident
