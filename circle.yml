@@ -7,7 +7,7 @@ dependencies:
 
 test:
   override:
-    - mvn package
+    - mvn test
 
 notify:
   webhooks:
