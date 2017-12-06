@@ -40,22 +40,23 @@ import java.util.List;
 public final class TestingOutcomeByDefault implements TestingOutcome {
 
     private final String scenario;
-    private final String cmdOutput;
     private final String cmd;
-    private final List<YmlTagOutputPredicate> expectedConditions;
+    private final String output;
+    private final List<YmlTagOutputPredicate> expected;
 
-    public TestingOutcomeByDefault(String scenario, String cmd, String cmdOutput, List<YmlTagOutputPredicate> expectedConditions) {
+    public TestingOutcomeByDefault(final String scenario, final String cmd, final String output,
+                                   final List<YmlTagOutputPredicate> expected) {
         this.scenario = scenario;
         this.cmd = cmd;
-        this.cmdOutput = cmdOutput;
-        this.expectedConditions = expectedConditions;
+        this.output = output;
+        this.expected = expected;
     }
 
 
     @Override
     public boolean successful() {
         return new Filtered<>(
-                expectedConditions, t -> !t.test(cmdOutput)
+                expected, t -> !t.test(output)
         ).isEmpty();
     }
 
@@ -68,7 +69,7 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
     private String scenarioPassed() {
         return new PlainFormattedText(
                 "Passed scenario `%s`. Output for command `%s` is `%s`",
-                scenario, cmd, cmdOutput
+                scenario, cmd, output
         ).asString();
     }
 
@@ -77,8 +78,8 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
                 "Failed scenario `%s`. Output for command `%s` should %s, however received `%s`",
                 scenario,
                 cmd,
-                new StringOf(expectedConditions, ", "),
-                cmdOutput
+                new StringOf(expected, ", "),
+                output
         ).asString();
     }
 
