@@ -28,23 +28,20 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
+       - checkout
 
       # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      - run: gradle dependencies
+      - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      - run: gradle clean build
+      - run: mvn package
 
       - store_test_results:
           path: build/reports
