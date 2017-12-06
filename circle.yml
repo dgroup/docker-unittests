@@ -1,7 +1,5 @@
-
-# Java Gradle CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-java/ for more details
+# Check https://circleci.com/docs/2.0/language-java for more details
 #
 dependencies:
   override:
@@ -9,8 +7,7 @@ dependencies:
 
 test:
   override:
-    - mvn -o package
-
+    - mvn package
 
 notify:
   webhooks:
