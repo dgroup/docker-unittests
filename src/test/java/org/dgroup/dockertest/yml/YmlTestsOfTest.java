@@ -163,7 +163,8 @@ public class YmlTestsOfTest {
                 "Tag `tests/test[2]/output` has 3rd statement `endWith` and expected value is `.5.0`",
                 new ListOf<>(
                         new YmlTestsOf(
-                                new YmlResource("with-3-simple-tests.yml").file()
+                                new YmlResource("with-3-simple-tests.yml")
+                                        .file()
                         )
                 ).get(1).output().get(2).test(".5.0"),
                 equalTo(true)

@@ -1,1 +1,17 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.java text
+*.yml text
+*.xml text
+
+# Add commit SHA instead of $Id$ tag to all files with extension below.
 *.java ident
+*.yml ident
+*.xml ident
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
