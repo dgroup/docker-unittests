@@ -38,7 +38,7 @@
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.dependency.version>3.0.2</mvn.dependency.version>
-        <jacoco.version>0.7.8</jacoco.version>
+        <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.3.0.603</sonar.version>
         <!-- Dependencies -->
@@ -207,6 +207,7 @@
                         <executions>
                             <execution>
                                 <id>jacoco-initialize</id>
+                                <phase>process-resources</phase>
                                 <goals>
                                     <goal>prepare-agent</goal>
                                 </goals>
