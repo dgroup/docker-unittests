@@ -37,7 +37,7 @@
         <jdk.version>1.8</jdk.version>
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
-        <mvn.dependency.version>3.0.2</mvn.dependency.version>
+        <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.3.0.603</sonar.version>
@@ -141,24 +141,28 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${mvn.dependency.version}</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${mvn.assembly.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.dgroup.dockertest.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>make-a-jar-with-dependencies</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/dependency-jars/
-                            </outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
 
         <resources>
