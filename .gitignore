@@ -6,6 +6,7 @@
 /classes/
 /target/
 /build/
+/mvn/
 /cache/
 /logs/
 .gradle

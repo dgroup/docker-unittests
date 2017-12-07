@@ -1,0 +1,20 @@
+
+version: 1
+
+tests:
+  - test:
+      assume: "java version is 1.9, Debian build"
+      cmd:    "java -version"
+      output:
+        - contains: "openjdk version \"9.0.1\""
+        - contains: "build 9.0.1+11-Debian"
+
+  - test:
+      assume: "curl version is 7.xxx"
+      cmd:    "curl --version"
+      output:
+        - startWith: "curl 7."
+        - contains:  "Protocols: "
+        - contains:  "ldap ldaps pop3"
+        - contains:  "Features: "
+        - contains:  "AsynchDNS IDN IPv6 Largefile GSS-API"

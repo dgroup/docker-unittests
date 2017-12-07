@@ -3,6 +3,41 @@
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
 
+### Testing of docker images
+The main concept is that all tests should use the image as is without any 'internal' go-related features.
+We, like users, receive the image and we are going to check what we've got.
+1. Define an *.yml file with tests
+   ```yml
+   # image-tests.yml
+   
+   version: 1
+   
+   tests:
+     - test:
+         assume: "java version is 1.9, Debian build"
+         cmd:    "java -version"
+         output:
+           - contains: "openjdk version \"9.0.1\""
+           - contains: "build 9.0.1+11-Debian-1"
+   
+     - test:
+         assume: "curl version is 7.xxx"
+         cmd:    "curl --version"
+         output:
+           - startWith: "curl 7."
+           - contains:  "Protocols: "
+           - contains:  "ldap ldaps pop3"
+           - contains:  "Features: "
+           - contains:  "AsynchDNS IDN IPv6 Largefile GSS-API"
+   ```
+2. Run tests for image 
+   ```bash
+    java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
+   ``` 
+   `-f` yml file with tests
+   
+   `-i` docker image 
+   
 @todo #/DEV how-to guide is required because users have no idea how to test docker images with this tool
 @todo #/DEV add https://codebeat.co badge as project moved to public state
 ### Contributing F.A.Q.
