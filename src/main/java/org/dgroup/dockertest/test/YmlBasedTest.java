@@ -64,7 +64,7 @@ public final class YmlBasedTest implements Test {
                 new UncheckedTernary<>(
                         new Ternary<UncheckedCallable<String>>(
                                 image.specified(),
-                                () -> new DefaultDockerContainer(image.value(), yml.cmdAsArray())
+                                () -> new DefaultDockerContainer(image.value(), yml.cmd())
                                         .run().text(),
                                 () -> new FakeDockerContainer(yml.cmdAsArray())
                                         .run().text()

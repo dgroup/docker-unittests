@@ -50,5 +50,4 @@ public class RunOnlyOnWindows extends BlockJUnit4ClassRunner {
     public boolean windows() {
         return System.getProperty("os.name").startsWith("Windows");
     }
-
 }

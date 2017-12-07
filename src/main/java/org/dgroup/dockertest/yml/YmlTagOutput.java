@@ -51,6 +51,7 @@ public final class YmlTagOutput {
                     String condition = conditions.keySet().iterator().next();
                     String expectedText = conditions.values().iterator().next();
 
+                    // @todo #/DEV Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
                     if ("contains".equalsIgnoreCase(condition))
                         return new YmlTagOutputPredicate("contains", expectedText, actual -> actual.contains(expectedText));
 

@@ -40,7 +40,7 @@ public final class DefaultDockerContainer implements DockerContainer {
 
     private final SystemProcess process;
 
-    public DefaultDockerContainer(String image, String... cmd) {
+    public DefaultDockerContainer(String image, String cmd) {
         this(
                 new SystemProcess(
                         new UncheckedText(

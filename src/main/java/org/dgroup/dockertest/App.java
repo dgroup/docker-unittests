@@ -57,13 +57,12 @@ public final class App {
 
 
     public void start() {
-        List<String> tests = new Mapped<>(
+        List<String> testsMessages = new Mapped<>(
                 new Mapped<>(args.tests(), Test::execute),
                 TestingOutcome::message
         );
 
-
         for (Output output : args.outputs())
-            tests.forEach(output::print);
+            testsMessages.forEach(output::print);
     }
 }
