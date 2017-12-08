@@ -2,13 +2,6 @@
 * text=auto
 
 
-# Explicitly declare text files you want to always be normalized and converted
-# to native line endings on checkout.
-*.java text
-*.yml text
-*.xml text
-
-
 # Add readily-visible signature (in SHA format) to all files (tagged by $Id$) with extension below.
 # Read more https://gist.github.com/treyharris/f98b708c9f5b753d60a2 .
 *.java ident

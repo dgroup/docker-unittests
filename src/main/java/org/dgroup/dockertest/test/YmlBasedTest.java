@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,6 +29,7 @@ import org.dgroup.dockertest.UncheckedCallable;
 import org.dgroup.dockertest.UncheckedTernary;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.docker.DefaultDockerContainer;
+import org.dgroup.dockertest.docker.DockerContainerArgs;
 import org.dgroup.dockertest.docker.FakeDockerContainer;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 import org.dgroup.dockertest.yml.YmlTagTest;
@@ -46,14 +47,14 @@ public final class YmlBasedTest implements Test {
     private final String scenario;
     private final String cmd;
     private final List<YmlTagOutputPredicate> conditions;
-    private final UncheckedCallable<String> cmdOutput;
+    private final UncheckedCallable<String> output;
 
     public YmlBasedTest(String scenario, List<YmlTagOutputPredicate> conditions, String cmd,
-                        UncheckedCallable<String> cmdOutput) {
+                        UncheckedCallable<String> output) {
         this.scenario = scenario;
         this.conditions = conditions;
         this.cmd = cmd;
-        this.cmdOutput = cmdOutput;
+        this.output = output;
     }
 
     public YmlBasedTest(Arg image, YmlTagTest yml) {
@@ -64,8 +65,17 @@ public final class YmlBasedTest implements Test {
                 new UncheckedTernary<>(
                         new Ternary<UncheckedCallable<String>>(
                                 image.specified(),
-                                () -> new DefaultDockerContainer(image.value(), yml.cmd())
+                                () -> new DefaultDockerContainer(
+                                        new DockerContainerArgs(
+                                                image.value(), yml.cmdAsArray()
+                                        ).args()
+                                )
                                         .run().text(),
+                                /*
+                                    @todo #/DEV Assessment is required: Do we need
+                                    OS dependent fake containers
+                                    for Unix/Windows systems
+                                 */
                                 () -> new FakeDockerContainer(yml.cmdAsArray())
                                         .run().text()
                         )
@@ -77,7 +87,7 @@ public final class YmlBasedTest implements Test {
     @Override
     public TestingOutcome execute() {
         return new TestingOutcomeByDefault(
-                scenario, cmd, cmdOutput.call(), conditions
+                scenario, cmd, output.call(), conditions
         );
     }
 }

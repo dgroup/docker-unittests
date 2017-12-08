@@ -22,50 +22,39 @@
  * SOFTWARE.
  */
 
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.docker;
 
-import one.util.streamex.StreamEx;
-import org.cactoos.iterable.IterableOf;
-import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
+import org.cactoos.list.ListOf;
 import java.util.List;
 
 /**
- * .
- *
+ * Represents arguments for docker container.
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  **/
-public final class StringOf {
+public final class DockerContainerArgs {
 
-    private final Iterable<String> values;
-    private final CharSequence delimiter;
+    private final String image;
+    private final List<String> cmd;
 
-    public StringOf(List<YmlTagOutputPredicate> conditions, String delimiter) {
-        this(
-                new Mapped<>(conditions, Object::toString),
-                delimiter
-        );
+    /**
+     * @param image docker image for testing
+     * @param cmd contains command which should be executed inside of container
+     *            "java -version" will be split to "java", "-version"
+     **/
+    public DockerContainerArgs(String image, String[] cmd) {
+        this.image = image;
+        this.cmd = new ListOf<>(cmd);
     }
 
-    public StringOf(Iterable<String> values, String delimiter) {
-        this.values = values;
-        this.delimiter = delimiter;
-    }
-
-    public StringOf(String[] cmd) {
-        this(new IterableOf<>(cmd), " ");
-    }
-
-
-    public String asString() {
-        return StreamEx.of(values.iterator())
-                .joining(delimiter == null ? "" : delimiter);
-    }
-
-    @Override
-    public String toString() {
-        return asString();
+    /**
+     *
+     * @return command for execution in array format
+     **/
+    public String[] args() {
+        List<String> args = new ListOf<>("docker", "run", "--rm", this.image);
+        args.addAll(this.cmd);
+        return args.toArray(new String[args.size()]);
     }
 }

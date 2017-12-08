@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,8 +24,6 @@
 
 package org.dgroup.dockertest.docker;
 
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.cmd.CmdOutput;
 import org.dgroup.dockertest.cmd.DefaultCmdOutput;
 
@@ -40,17 +38,8 @@ public final class DefaultDockerContainer implements DockerContainer {
 
     private final SystemProcess process;
 
-    public DefaultDockerContainer(String image, String cmd) {
-        this(
-                new SystemProcess(
-                        new UncheckedText(
-                                new FormattedText(
-                                        "docker run --rm %s %s",
-                                        image, cmd
-                                )
-                        ).asString()
-                )
-        );
+    public DefaultDockerContainer(String ... args) {
+        this(new SystemProcess(args));
     }
 
     public DefaultDockerContainer(SystemProcess process) {
