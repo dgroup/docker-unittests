@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.test;
 
 import java.util.List;
@@ -43,7 +42,6 @@ import org.dgroup.dockertest.yml.YmlTagTest;
  * @since 0.1.0
  **/
 public final class YmlBasedTest implements Test {
-
     private final String scenario;
     private final String cmd;
     private final List<YmlTagOutputPredicate> conditions;
@@ -82,7 +80,6 @@ public final class YmlBasedTest implements Test {
                 ).value()
         );
     }
-
 
     @Override
     public TestingOutcome execute() {

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.docker;
 
 import org.dgroup.dockertest.cmd.CmdOutput;
@@ -35,17 +34,15 @@ import org.dgroup.dockertest.cmd.DefaultCmdOutput;
  * @since 0.1.0
  **/
 public final class DefaultDockerContainer implements DockerContainer {
-
     private final SystemProcess process;
 
-    public DefaultDockerContainer(String ... args) {
+    public DefaultDockerContainer(String... args) {
         this(new SystemProcess(args));
     }
 
     public DefaultDockerContainer(SystemProcess process) {
         this.process = process;
     }
-
 
     @Override
     public CmdOutput run() {

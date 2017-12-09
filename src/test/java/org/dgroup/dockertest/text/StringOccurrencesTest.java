@@ -21,15 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
-
 
 import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 
 public class StringOccurrencesTest {
-
     @Test
     public void equalTo() {
         assertTrue(

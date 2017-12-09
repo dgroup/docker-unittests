@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import java.io.File;
@@ -30,7 +29,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PlainFormattedTextWithRepeatableArgumentsTest {
-
     @Test
     public void asString() {
         assertThat(

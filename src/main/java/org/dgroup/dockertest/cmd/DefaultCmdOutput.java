@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import java.io.BufferedReader;
@@ -39,7 +38,6 @@ import org.cactoos.text.UncheckedText;
  * @since 0.1.0
  **/
 public final class DefaultCmdOutput implements CmdOutput {
-
     private final Process outcome;
 
     public DefaultCmdOutput(Process outcome) {

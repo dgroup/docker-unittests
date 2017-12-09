@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.test.output;
 
 /**
@@ -30,7 +29,6 @@ package org.dgroup.dockertest.test.output;
  * @since 0.1.0
  **/
 public final class StdOutput implements Output {
-
     @Override
     public void print(String msg) {
         System.out.println(msg);

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.yml;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  **/
 public final class YmlTag {
-
     private final Object tag;
     private final String name;
 
@@ -44,7 +42,6 @@ public final class YmlTag {
         this.tag = tag;
         this.name = name;
     }
-
 
     public void verifyExistence() {
         if (tag == null)

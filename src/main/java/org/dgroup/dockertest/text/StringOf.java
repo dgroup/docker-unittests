@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import java.util.List;
@@ -38,7 +37,6 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @since 0.1.0
  **/
 public final class StringOf {
-
     private final Iterable<String> values;
     private final CharSequence delimiter;
 
@@ -57,7 +55,6 @@ public final class StringOf {
     public StringOf(String[] cmd) {
         this(new IterableOf<>(cmd), " ");
     }
-
 
     public String asString() {
         return StreamEx.of(values.iterator())

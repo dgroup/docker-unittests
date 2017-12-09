@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
@@ -34,7 +33,6 @@ import java.util.List;
  * @since 0.1.0
  **/
 public final class Arg {
-
     private final String name;
     private final List<String> args;
 

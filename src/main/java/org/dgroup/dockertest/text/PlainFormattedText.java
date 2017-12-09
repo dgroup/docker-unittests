@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import java.util.Collection;
@@ -34,7 +33,6 @@ import org.cactoos.text.UncheckedText;
  * @since 0.1.0
  **/
 public final class PlainFormattedText {
-
     private final String pattern;
     private final Collection<Object> args;
 
@@ -42,7 +40,7 @@ public final class PlainFormattedText {
         this(pattern, new ListOf<>(args));
     }
 
-    public PlainFormattedText(String pattern, Collection<Object> args){
+    public PlainFormattedText(String pattern, Collection<Object> args) {
         this.pattern = pattern;
         this.args = args;
     }
@@ -50,7 +48,7 @@ public final class PlainFormattedText {
     public String asString() {
         if (new StringOccurrences(pattern, "%s").nonEqualTo(args.size()))
             throw new IllegalArgumentException(
-                    "Wrong amount of arguments("+args.size()+") for pattern '"+pattern+"'."
+                    "Wrong amount of arguments(" + args.size() + ") for pattern '" + pattern + "'."
             );
 
         return new UncheckedText(new org.cactoos.text.FormattedText(pattern, args))

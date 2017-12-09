@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.docker;
 
 import java.io.IOException;
@@ -29,12 +28,11 @@ import java.io.IOException;
 /**
  * .
  *
- * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since   0.1.0
+ * @since 0.1.0
  **/
 public final class SystemProcess {
-
     private final ProcessBuilder process;
 
     public SystemProcess(String... cmd) {

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.docker;
 
 import java.util.List;
@@ -29,19 +28,19 @@ import org.cactoos.list.ListOf;
 
 /**
  * Represents arguments for docker container.
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  **/
 public final class DockerContainerArgs {
-
     private final String image;
     private final List<String> cmd;
 
     /**
      * @param image docker image for testing
-     * @param cmd contains command which should be executed inside of container
-     *            "java -version" will be split to "java", "-version"
+     * @param cmd   contains command which should be executed inside of container
+     *              "java -version" will be split to "java", "-version"
      **/
     public DockerContainerArgs(String image, String[] cmd) {
         this.image = image;
@@ -49,7 +48,6 @@ public final class DockerContainerArgs {
     }
 
     /**
-     *
      * @return command for execution in array format
      **/
     public String[] args() {

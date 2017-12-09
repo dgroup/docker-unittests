@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.docker;
 
 import org.dgroup.dockertest.RunOnlyOnWindows;
@@ -37,7 +36,6 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
  **/
 @RunWith(RunOnlyOnWindows.class) // @todo #50min/DEV Add the same test for Linux OS
 public class DefaultCmdOutputOnWindowsTest {
-
     @Test(timeout = 1000 * 3)
     public void text() {
         assertThat(

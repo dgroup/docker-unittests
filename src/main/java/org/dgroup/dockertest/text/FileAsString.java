@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import java.io.File;
@@ -33,12 +32,11 @@ import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.cmd.FileArg;
 
 /**
- * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since   0.1.0
+ * @since 0.1.0
  **/
 public final class FileAsString {
-
     private final File file;
 
     public FileAsString(List<String> cmdArgs) {
@@ -52,7 +50,6 @@ public final class FileAsString {
     public FileAsString(File file) {
         this.file = file;
     }
-
 
     public String content() {
         return new UncheckedText(

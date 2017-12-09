@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
@@ -34,7 +33,6 @@ import static org.hamcrest.Matchers.containsString;
  * @since 0.1.0
  **/
 public class FileAsStringTest {
-
     @Test
     public void content() {
         assertThat(

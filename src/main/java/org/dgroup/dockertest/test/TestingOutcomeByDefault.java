@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.test;
 
 import java.util.List;
@@ -38,7 +37,6 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @since 0.1.0
  **/
 public final class TestingOutcomeByDefault implements TestingOutcome {
-
     private final String scenario;
     private final String cmd;
     private final String output;
@@ -52,7 +50,6 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
         this.expected = expected;
     }
 
-
     @Override
     public boolean successful() {
         return new Filtered<>(
@@ -64,7 +61,6 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
     public String message() {
         return successful() ? scenarioPassed() : scenarioFailed();
     }
-
 
     private String scenarioPassed() {
         return new PlainFormattedText(

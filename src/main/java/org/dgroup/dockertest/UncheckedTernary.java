@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest;
 
 import org.cactoos.scalar.Ternary;
@@ -34,14 +33,13 @@ import org.cactoos.scalar.Ternary;
  * @since 0.1.0
  **/
 public final class UncheckedTernary<T> {
-
     private final Ternary<T> origin;
 
     public UncheckedTernary(Ternary<T> origin) {
         this.origin = origin;
     }
 
-    public T value(){
+    public T value() {
         try {
             return origin.value();
         } catch (Exception e) {

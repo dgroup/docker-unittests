@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
@@ -34,7 +33,6 @@ import static org.hamcrest.Matchers.equalTo;
  * @since 0.1.0
  **/
 public class FileArgTest {
-
     @Test
     public void file() {
         assertThat(

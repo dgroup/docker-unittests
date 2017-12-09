@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest;
-
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -36,7 +34,6 @@ import org.junit.runners.model.InitializationError;
  * @since 0.1.0
  **/
 public class RunOnlyOnWindows extends BlockJUnit4ClassRunner {
-
     public RunOnlyOnWindows(Class klass) throws InitializationError {
         super(klass);
     }

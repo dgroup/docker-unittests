@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.text;
 
 import java.text.MessageFormat;
@@ -34,7 +33,6 @@ import org.cactoos.list.ListOf;
  * @since 0.1.0
  **/
 public class FormattedTextWithRepeatableArguments {
-
     private final String pattern;
     private final Collection<Object> args;
 
@@ -51,7 +49,7 @@ public class FormattedTextWithRepeatableArguments {
         return MessageFormat.format(pattern, args.toArray());
     }
 
-    public String toString(){
+    public String toString() {
         return asString();
     }
 }

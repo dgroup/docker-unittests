@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.yml;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import java.util.Map;
  **/
 @SuppressWarnings("PMD")
 public final class YmlTagTest {
-
     private final YmlTag tag;
 
     public YmlTagTest(Map<String, Object> yml) {
@@ -57,7 +55,7 @@ public final class YmlTagTest {
         return tag.map().get("cmd").toString();
     }
 
-    public String[] cmdAsArray(){
+    public String[] cmdAsArray() {
         return cmd().split(" ");
     }
 

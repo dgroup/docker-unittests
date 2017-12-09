@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest;
 
 import java.util.List;
@@ -39,23 +38,21 @@ import org.dgroup.dockertest.test.output.Output;
  * @since 0.1.0
  **/
 public final class App {
-
     private final Args args;
 
     /**
      * Ctor.
+     *
      * @param args cmd arguments
      **/
     public App(final Args args) {
         this.args = args;
     }
 
-
     public static void main(String[] args) {
         new App(new Args(args))
                 .start();
     }
-
 
     public void start() {
         List<String> testsMessages = new Mapped<>(

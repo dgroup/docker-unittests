@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import java.io.File;
@@ -32,13 +31,12 @@ import org.cactoos.text.UncheckedText;
 /**
  * Represents a commandline cmd for the file with tests.
  *
- * @todo #50m/DEV Rewrite class considering {@link Arg} entity
- * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since   0.1.0
+ * @todo #50m/DEV Rewrite class considering {@link Arg} entity
+ * @since 0.1.0
  **/
 public final class FileArg {
-
     private static final String SRC_FILE_ARG = "-f";
     private final List<String> args;
 

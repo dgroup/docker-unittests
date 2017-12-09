@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import org.dgroup.dockertest.YmlResource;
@@ -36,7 +35,6 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
  * @since 0.1.0
  **/
 public class ArgsTest {
-
     @Test
     public void test() {
         assertThat(

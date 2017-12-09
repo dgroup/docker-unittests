@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
-
 
 import java.util.List;
 import org.cactoos.io.InputOf;
@@ -44,7 +42,6 @@ import org.dgroup.dockertest.yml.YmlTestsOf;
  * @since 0.1.0
  **/
 public final class Args {
-
     private final List<String> arguments;
 
     public Args(String... arguments) {

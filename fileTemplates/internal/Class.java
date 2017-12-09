@@ -1,6 +1,6 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 #parse("File Header.java")
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -23,6 +23,5 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 public final class ${NAME} {
 }

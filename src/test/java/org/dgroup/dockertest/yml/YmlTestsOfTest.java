@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.yml;
 
 import org.cactoos.list.ListOf;
@@ -38,7 +37,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
  **/
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class YmlTestsOfTest {
-
     @Test
     public void versionTagIsMissing() {
         assertThrown(

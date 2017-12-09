@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.yml;
 
 import org.dgroup.dockertest.text.PlainFormattedText;
@@ -34,8 +33,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  **/
 public final class IllegalYmlFormatException extends RuntimeException {
-
-    public IllegalYmlFormatException(PlainFormattedText msg){
+    public IllegalYmlFormatException(PlainFormattedText msg) {
         this(msg.toString());
     }
 
