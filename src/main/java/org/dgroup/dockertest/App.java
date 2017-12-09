@@ -32,6 +32,8 @@ import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
 
 /**
+ * Application start point.
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
@@ -41,11 +43,10 @@ public final class App {
     private final Args args;
 
     /**
-     * Application start point
-     *
+     * Ctor.
      * @param args cmd arguments
      **/
-    public App(Args args) {
+    public App(final Args args) {
         this.args = args;
     }
 
