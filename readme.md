@@ -38,8 +38,8 @@ We, like users, receive the image and we are going to check what we've got.
    
    `-i` docker image 
    
-@todo #/DEV how-to guide is required because users have no idea how to test docker images with this tool
 @todo #/DEV add https://codebeat.co badge as project moved to public state
+
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
@@ -79,7 +79,7 @@ We, like users, receive the image and we are going to check what we've got.
    - Set `In declarations` equal to 0 in section `Keep Maximum Blank Lines`
 6. Settings > Editor > Code Style > Java > Imports
    - Set the following order for `Import Layout` section
-     ```java
+     ```bash
      import java.*
      import javax.*
      import all other imports

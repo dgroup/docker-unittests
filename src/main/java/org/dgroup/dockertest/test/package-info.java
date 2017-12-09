@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -23,9 +23,10 @@
  */
 
 /**
- * Test for docker image
+ * Classes dedicated to testing procedure.
  *
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @since   0.1.0
  **/
 package org.dgroup.dockertest.test;

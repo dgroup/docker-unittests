@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -23,7 +23,7 @@
  */
 
 /**
- * Format text to CMD argument
+ * Classes which simplify the work with text/string variables.
  *
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since   0.1.0

@@ -23,9 +23,8 @@
  */
 
 /**
- * Package for cmd args test on Windows.
+ * Tests for classes dedicated to interaction with docker container.
  *
-  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0

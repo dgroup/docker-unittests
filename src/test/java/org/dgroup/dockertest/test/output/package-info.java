@@ -23,9 +23,8 @@
  */
 
 /**
- * STD....
+ * Package with unit tests for docker container testing layer.
  *
-  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0

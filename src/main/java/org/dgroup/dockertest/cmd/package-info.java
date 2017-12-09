@@ -21,4 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/**
+ * Classes dedicated for interaction command line arguments,
+ * like file with tests, docker image, etc.
+ *
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
+ * @since 0.1.0
+ **/
 package org.dgroup.dockertest.cmd;

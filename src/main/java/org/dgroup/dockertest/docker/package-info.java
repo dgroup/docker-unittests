@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -23,7 +23,8 @@
  */
 
 /**
- * Run CMD commands from Docker Container
+ * Classes dedicated to interaction with docker containers,
+ * through {@link java.lang.ProcessBuilder}.
  *
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since   0.1.0

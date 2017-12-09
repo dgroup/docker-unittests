@@ -23,7 +23,7 @@
  */
 
 /**
- * Test for text package
+ * Tests for text-related classes.
  *
   *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
