@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest;
 
 /**
- * .
+ * Application start point.
+ * See {@link org.dgroup.dockertest.App} for details.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  **/
-public final class T {
-}
+package org.dgroup.dockertest;

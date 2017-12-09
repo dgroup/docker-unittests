@@ -31,7 +31,7 @@ import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
 
 /**
- * Application start point.
+ * Represents the instance of application.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -43,17 +43,25 @@ public final class App {
     /**
      * Ctor.
      *
-     * @param args cmd arguments
+     * @param args Command-line arguments
      **/
     public App(final Args args) {
         this.args = args;
     }
 
+    /**
+     * Main method.
+     *
+     * @param args Command-line arguments
+     **/
     public static void main(String[] args) {
         new App(new Args(args))
                 .start();
     }
 
+    /**
+     * Run tests and display the results.
+     **/
     public void start() {
         List<String> testsMessages = new Mapped<>(
                 new Mapped<>(args.tests(), Test::execute),
