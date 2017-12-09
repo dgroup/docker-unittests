@@ -70,9 +70,7 @@ public final class YmlBasedTest implements Test {
                                 )
                                         .run().text(),
                                 /*
-                                    @todo #/DEV Assessment is required: Do we need
-                                    OS dependent fake containers
-                                    for Unix/Windows systems
+                                    @todo #/DEV Assessment is required: Do we need OS dependent fake containers for Unix/Windows systems
                                  */
                                 () -> new FakeDockerContainer(yml.cmdAsArray())
                                         .run().text()
