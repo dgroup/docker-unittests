@@ -40,7 +40,8 @@ import org.dgroup.dockertest.yml.YmlTagTest;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class YmlBasedTest implements Test {
     private final String scenario;
     private final String cmd;

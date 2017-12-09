@@ -31,9 +31,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
+ * .
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version 0.1.0
  * @since 0.1.0
- **/
+ */
+
 @RunWith(RunOnlyOnWindows.class) // @todo #50min/DEV Add the same test for Linux OS
 public class DefaultCmdOutputOnWindowsTest {
     @Test(timeout = 1000 * 3)

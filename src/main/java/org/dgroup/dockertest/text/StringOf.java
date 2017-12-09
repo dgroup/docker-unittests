@@ -35,7 +35,8 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class StringOf {
     private final Iterable<String> values;
     private final CharSequence delimiter;

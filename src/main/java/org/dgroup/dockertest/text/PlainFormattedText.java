@@ -28,10 +28,13 @@ import org.cactoos.list.ListOf;
 import org.cactoos.text.UncheckedText;
 
 /**
+ * .
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class PlainFormattedText {
     private final String pattern;
     private final Collection<Object> args;

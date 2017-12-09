@@ -31,8 +31,10 @@ import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
  * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version 0.1.0
  * @since 0.1.0
- **/
+ */
+
 public final class YmlResource {
     private final FormattedTextWithRepeatableArguments path;
 

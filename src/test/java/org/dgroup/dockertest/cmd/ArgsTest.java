@@ -32,8 +32,10 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
  * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version 0.1.0
  * @since 0.1.0
- **/
+ */
+
 public class ArgsTest {
     @Test
     public void test() {
@@ -46,7 +48,7 @@ public class ArgsTest {
                         ).file().getAbsolutePath()
                 ).tests().iterator().next().execute().message(),
                 startsWith(
-                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
+                        "Passed scenario `curl version is 7.xx`. Output for command `curl --version` is"
                 )
         );
     }

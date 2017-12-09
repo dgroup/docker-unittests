@@ -1,7 +1,7 @@
 /**
- * MIT License
+ * Copyright (C) 2006 TopCoder Inc., All Rights Reserved.
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * MIT License.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.dgroup.dockertest;
 
 import org.junit.runner.notification.RunNotifier;
@@ -28,11 +29,13 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
 /**
- * Allows to run particular tests only on Linux system
+ * Allows to run particular tests only on Linux system.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version 0.1.0
  * @since 0.1.0
- **/
+ */
+
 public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
     public RunOnlyOnUnix(Class klass) throws InitializationError {
         super(klass);

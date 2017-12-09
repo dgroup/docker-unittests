@@ -40,7 +40,8 @@ import org.dgroup.dockertest.yml.YmlTestsOf;
  * @author Yurii Dubinka (yurii.dubinka@gmai.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class Args {
     private final List<String> arguments;
 

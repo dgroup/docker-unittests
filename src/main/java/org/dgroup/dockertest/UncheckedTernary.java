@@ -31,7 +31,8 @@ import org.cactoos.scalar.Ternary;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class UncheckedTernary<T> {
     private final Ternary<T> origin;
 

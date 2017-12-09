@@ -35,25 +35,25 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class TestingOutcomeByDefault implements TestingOutcome {
     private final String scenario;
+    private final String cmdoutput;
     private final String cmd;
-    private final String output;
-    private final List<YmlTagOutputPredicate> expected;
+    private final List<YmlTagOutputPredicate> expectedConditions;
 
-    public TestingOutcomeByDefault(final String scenario, final String cmd, final String output,
-                                   final List<YmlTagOutputPredicate> expected) {
+    public TestingOutcomeByDefault(String scenario, String cmd, String cmdoutput, List<YmlTagOutputPredicate> expectedConditions) {
         this.scenario = scenario;
         this.cmd = cmd;
-        this.output = output;
-        this.expected = expected;
+        this.cmdoutput = cmdoutput;
+        this.expectedConditions = expectedConditions;
     }
 
     @Override
     public boolean successful() {
         return new Filtered<>(
-                expected, t -> !t.test(output)
+                expectedConditions, t -> !t.test(cmdoutput)
         ).isEmpty();
     }
 
@@ -65,7 +65,7 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
     private String scenarioPassed() {
         return new PlainFormattedText(
                 "Passed scenario `%s`. Output for command `%s` is `%s`",
-                scenario, cmd, output
+                scenario, cmd, cmdoutput
         ).asString();
     }
 
@@ -74,8 +74,8 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
                 "Failed scenario `%s`. Output for command `%s` should %s, however received `%s`",
                 scenario,
                 cmd,
-                new StringOf(expected, ", "),
-                output
+                new StringOf(expectedConditions, ", "),
+                cmdoutput
         ).asString();
     }
 

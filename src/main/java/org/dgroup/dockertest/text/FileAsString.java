@@ -32,10 +32,13 @@ import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.cmd.FileArg;
 
 /**
+ * .
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class FileAsString {
     private final File file;
 

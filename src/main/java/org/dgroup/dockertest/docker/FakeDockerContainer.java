@@ -33,7 +33,8 @@ import org.dgroup.dockertest.cmd.DefaultCmdOutput;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public final class FakeDockerContainer implements DockerContainer {
     private final SystemProcess process;
 

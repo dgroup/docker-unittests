@@ -72,11 +72,6 @@
             <version>${streamex.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.cactoos</groupId>
-            <artifactId>cactoos</artifactId>
-            <version>${cactoos.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml.version}</version>
@@ -109,6 +104,16 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.cactoos</groupId>
+            <artifactId>cactoos</artifactId>
+            <version>0.20.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jca</groupId>
+            <artifactId>jca</artifactId>
+            <version>1.5</version>
         </dependency>
     </dependencies>
 

@@ -35,7 +35,8 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @since 0.1.0
- **/
+ */
+
 public final class FileArg {
     private static final String SRC_FILE_ARG = "-f";
     private final List<String> args;

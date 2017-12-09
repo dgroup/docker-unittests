@@ -28,10 +28,13 @@ import java.util.Collection;
 import org.cactoos.list.ListOf;
 
 /**
+ * .
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
+
 public class FormattedTextWithRepeatableArguments {
     private final String pattern;
     private final Collection<Object> args;
