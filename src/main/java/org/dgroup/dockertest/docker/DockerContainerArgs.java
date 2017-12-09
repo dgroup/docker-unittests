@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,8 +24,8 @@
 
 package org.dgroup.dockertest.docker;
 
-import org.cactoos.list.ListOf;
 import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
  * Represents arguments for docker container.

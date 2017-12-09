@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,6 +24,7 @@
 
 package org.dgroup.dockertest.test;
 
+import java.util.List;
 import org.cactoos.scalar.Ternary;
 import org.dgroup.dockertest.UncheckedCallable;
 import org.dgroup.dockertest.UncheckedTernary;
@@ -33,7 +34,6 @@ import org.dgroup.dockertest.docker.DockerContainerArgs;
 import org.dgroup.dockertest.docker.FakeDockerContainer;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 import org.dgroup.dockertest.yml.YmlTagTest;
-import java.util.List;
 
 /**
  * .

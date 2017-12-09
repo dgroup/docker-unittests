@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,13 +24,13 @@
 
 package org.dgroup.dockertest.text;
 
+import java.io.File;
+import java.util.List;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.cmd.FileArg;
-import java.io.File;
-import java.util.List;
 
 /**
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)

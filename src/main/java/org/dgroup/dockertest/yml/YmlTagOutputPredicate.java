@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,8 +24,8 @@
 
 package org.dgroup.dockertest.yml;
 
-import org.dgroup.dockertest.text.PlainFormattedText;
 import java.util.function.Predicate;
+import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
  * .

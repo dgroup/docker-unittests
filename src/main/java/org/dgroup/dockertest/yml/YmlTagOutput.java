@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,10 +24,10 @@
 
 package org.dgroup.dockertest.yml;
 
-import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.text.PlainFormattedText;
 import java.util.List;
 import java.util.Map;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
  * .

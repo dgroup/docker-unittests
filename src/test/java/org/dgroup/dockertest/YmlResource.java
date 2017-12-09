@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,9 +24,9 @@
 
 package org.dgroup.dockertest;
 
+import java.io.File;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
-import java.io.File;
 
 /**
  * .

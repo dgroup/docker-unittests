@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,6 +24,9 @@
 
 package org.dgroup.dockertest.yml;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
 import org.cactoos.iterator.Mapped;
@@ -31,9 +34,6 @@ import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.yaml.snakeyaml.Yaml;
-import java.io.File;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * .

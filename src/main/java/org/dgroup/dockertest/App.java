@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,12 +24,12 @@
 
 package org.dgroup.dockertest;
 
+import java.util.List;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
-import java.util.List;
 
 /**
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)

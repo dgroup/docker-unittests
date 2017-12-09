@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -25,6 +25,7 @@
 package org.dgroup.dockertest.cmd;
 
 
+import java.util.List;
 import org.cactoos.io.InputOf;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Mapped;
@@ -34,7 +35,6 @@ import org.dgroup.dockertest.test.YmlBasedTest;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.YmlTestsOf;
-import java.util.List;
 
 /**
  * Represents application command-line arguments.

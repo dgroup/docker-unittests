@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2017 Yurii Dubinka
@@ -24,10 +24,10 @@
 
 package org.dgroup.dockertest.cmd;
 
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.UncheckedText;
 import java.io.File;
 import java.util.List;
+import org.cactoos.text.FormattedText;
+import org.cactoos.text.UncheckedText;
 
 /**
  * Represents a commandline cmd for the file with tests.
