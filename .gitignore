@@ -15,3 +15,5 @@
 Vagrantfile
 out/
 /fileTemplates/
+/.oracle_jre_usage/
+*.jar
