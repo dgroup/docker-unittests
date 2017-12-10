@@ -32,6 +32,7 @@ package org.dgroup.dockertest.test.output;
  */
 public final class StdOutput implements Output {
 
+    // @todo #9 Use jansi for colored std output
     @Override
     public void print(String msg) {
         System.out.println(msg);
