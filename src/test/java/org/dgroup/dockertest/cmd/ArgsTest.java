@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.dgroup.dockertest.cmd;
 
 import org.dgroup.dockertest.YmlResource;
@@ -48,7 +49,7 @@ public class ArgsTest {
                         ).file().getAbsolutePath()
                 ).tests().iterator().next().execute().message(),
                 startsWith(
-                        "Passed scenario `curl version is 7.xx`. Output for command `curl --version` is"
+                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
                 )
         );
     }
