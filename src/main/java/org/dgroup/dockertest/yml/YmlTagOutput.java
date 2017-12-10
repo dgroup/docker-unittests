@@ -44,7 +44,6 @@ public final class YmlTagOutput {
 
     public List<YmlTagOutputPredicate> conditions() {
         return new Mapped<>(
-                tag,
                 conditions -> {
                     String condition = conditions.keySet().iterator().next();
                     String expectedText = conditions.values().iterator().next();
@@ -68,7 +67,8 @@ public final class YmlTagOutput {
                                     condition
                             )
                     );
-                }
+                },
+                tag
         );
     }
 }

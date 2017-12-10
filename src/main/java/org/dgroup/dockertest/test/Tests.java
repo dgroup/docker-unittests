@@ -21,32 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.test;
 
-import org.dgroup.dockertest.cmd.CmdOutput;
-import org.dgroup.dockertest.cmd.DefaultCmdOutput;
+import java.util.List;
+import org.cactoos.collection.Filtered;
+import org.cactoos.iterable.Mapped;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.test.output.Output;
 
 /**
- * Represents current local system as docker container.
- * It can be used for unit testings (in case when we didn't have the docker in the system.)
+ * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- */
-public final class FakeDockerContainer implements DockerContainer {
-    private final SystemProcess process;
+ **/
+public final class Tests {
 
-    public FakeDockerContainer(String... cmd) {
-        this(new SystemProcess(cmd));
+    private final Iterable<Test> tests;
+    private final Iterable<Output> outputs;
+    private List<TestingOutcome> outcomes;
+
+    public Tests(final Iterable<Test> tests, final Iterable<Output> outputs) {
+        this.tests = new Mapped<>(CachedTest::new, tests);
+        this.outputs = outputs;
     }
 
-    public FakeDockerContainer(SystemProcess process) {
-        this.process = process;
+    public void print() {
+        for (final Output output : outputs) {
+            for (TestingOutcome outcome : outcomes) {
+                output.print(outcome.message());
+            }
+        }
     }
 
-    @Override
-    public CmdOutput run() {
-        return new DefaultCmdOutput(process.execute());
+    public void execute() {
+        this.outcomes = new ListOf<>(
+                new Mapped<>(Test::execute, this.tests)
+        );
+    }
+
+    public void makeTheFinalDecision() {
+        if (new Filtered<>(f -> f.message().startsWith("Failed scenario"), outcomes).size() > 0) {
+            outputs.forEach(o -> o.finalDecision("Testing failure."));
+            System.exit(-1);
+        }
+        outputs.forEach(o -> o.finalDecision("Testing successful."));
     }
 }

@@ -28,20 +28,21 @@ import org.cactoos.io.InputOf;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.test.DefaultTestBasedOnYml;
 import org.dgroup.dockertest.test.Test;
-import org.dgroup.dockertest.test.YmlBasedTest;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.YmlTestsOf;
 
 /**
  * Represents application command-line arguments.
- *
+ * See https://docs.oracle.com/javase/tutorial/essential/environment/cmdLineArgs.html for details.
  * @author Yurii Dubinka (yurii.dubinka@gmai.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class Args {
+
     private final List<String> arguments;
 
     public Args(String... arguments) {
@@ -50,14 +51,14 @@ public final class Args {
 
     public Iterable<Test> tests() {
         return new Mapped<>(
+                ymlTagTest -> new DefaultTestBasedOnYml(
+                        new Arg("-i", arguments),
+                        ymlTagTest
+                ),
                 new YmlTestsOf(
                         new InputOf(
                                 new FileArg(arguments).file()
                         )
-                ),
-                ymlTagTest -> new YmlBasedTest(
-                        new Arg("-i", arguments),
-                        ymlTagTest
                 )
         );
     }

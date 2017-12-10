@@ -23,8 +23,6 @@
  */
 package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.cmd.CmdOutput;
-
 /**
  * Represents single docker container.
  * Container will be removed after cmd execution.

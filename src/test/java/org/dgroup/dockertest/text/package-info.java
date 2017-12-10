@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests for text-related classes.
+ * Tests for asText-related classes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

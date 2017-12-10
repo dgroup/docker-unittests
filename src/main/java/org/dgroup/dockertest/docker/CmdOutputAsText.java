@@ -21,9 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.docker;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import org.cactoos.io.InputOf;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 
 /**
  * .
@@ -32,21 +37,23 @@ import java.util.List;
  * @version $Id$
  * @since 0.1.0
  */
-public final class Arg {
+public final class CmdOutputAsText implements CmdOutput {
 
-    private final String name;
-    private final List<String> args;
+    private final Process outcome;
 
-    public Arg(String name, List<String> args) {
-        this.name = name;
-        this.args = args;
+    public CmdOutputAsText(Process outcome) {
+        this.outcome = outcome;
     }
 
-    public String value() {
-        return args.get(args.indexOf(name) + 1);
-    }
-
-    public boolean specified() {
-        return args.contains(name);
+    public String asText() {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(outcome.getInputStream()))) {
+            return new UncheckedText(
+                    new TextOf(
+                            new InputOf(in)
+                    )
+            ).asString();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

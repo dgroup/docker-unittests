@@ -23,36 +23,14 @@
  */
 package org.dgroup.dockertest.docker;
 
-import java.util.List;
-import org.cactoos.list.ListOf;
-
 /**
- * Represents arguments for docker container.
+ * Represents docker command output.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DockerContainerArgs {
-    private final String image;
-    private final List<String> cmd;
+public interface CmdOutput {
 
-    /**
-     * @param image docker image for testing
-     * @param cmd   contains command which should be executed inside of container
-     *              "java -version" will be split to "java", "-version"
-     */
-    public DockerContainerArgs(String image, String[] cmd) {
-        this.image = image;
-        this.cmd = new ListOf<>(cmd);
-    }
-
-    /**
-     * @return command for execution in array format
-     */
-    public String[] args() {
-        List<String> args = new ListOf<>("docker", "run", "--rm", this.image);
-        args.addAll(this.cmd);
-        return args.toArray(new String[args.size()]);
-    }
+    String asText();
 }

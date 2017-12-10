@@ -24,12 +24,22 @@
 package org.dgroup.dockertest.test.output;
 
 /**
- * .
+ * Represent an output where we can print the testing results
+ * (std out, xml, html, etc).
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public interface Output {
+
+    /**
+     * Print single test result
+     **/
     void print(String msg);
+
+    /**
+     * Print the final decision regarding testing procedure.
+     **/
+    void finalDecision(String msg);
 }

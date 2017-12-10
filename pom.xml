@@ -29,7 +29,7 @@
 
     <groupId>org.dgroup.dockertest</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -45,7 +45,7 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <streamex.version>0.6.5</streamex.version>
-        <cactoos.version>0.20.1</cactoos.version>
+        <cactoos.version>0.25.6</cactoos.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
         <jackson-databind>2.9.2</jackson-databind>
@@ -108,12 +108,7 @@
         <dependency>
             <groupId>org.cactoos</groupId>
             <artifactId>cactoos</artifactId>
-            <version>0.20.1</version>
-        </dependency>
-        <dependency>
-            <groupId>jca</groupId>
-            <artifactId>jca</artifactId>
-            <version>1.5</version>
+            <version>${cactoos.version}</version>
         </dependency>
     </dependencies>
 
@@ -189,7 +184,8 @@
                         <artifactId>qulice-maven-plugin</artifactId>
                         <version>${qulice.version}</version>
                         <configuration>
-                            <license>file:${basedir}/LICENSE.md</license>
+                            <license>file:${basedir}/LICENSE.txt</license>
+                            <lineLength>100</lineLength>
                             <excludes combine.children="append">
                                 <exclude>checkstyle:/src/site/resources/.*</exclude>
                                 <exclude>findbugs:.*</exclude>

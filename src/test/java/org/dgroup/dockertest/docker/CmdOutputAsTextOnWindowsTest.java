@@ -21,9 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.docker;
 
-import java.util.List;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.RunOnlyOnWindows;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
  * .
@@ -32,21 +37,18 @@ import java.util.List;
  * @version $Id$
  * @since 0.1.0
  */
-public final class Arg {
-
-    private final String name;
-    private final List<String> args;
-
-    public Arg(String name, List<String> args) {
-        this.name = name;
-        this.args = args;
-    }
-
-    public String value() {
-        return args.get(args.indexOf(name) + 1);
-    }
-
-    public boolean specified() {
-        return args.contains(name);
+@RunWith(RunOnlyOnWindows.class) // @todo #50min/DEV Add the same test for Linux OS
+public class CmdOutputAsTextOnWindowsTest {
+    @Test(timeout = 1000 * 3)
+    public void text() {
+        assertThat(
+                "Command `java -version` will have `1.8` version",
+                new CmdOutputAsText(
+                        new SystemProcess(
+                                new ListOf<>("cmd", "/c", "java", "-version")
+                        ).execute()
+                ).asText(),
+                startsWith("java version \"1.8")
+        );
     }
 }

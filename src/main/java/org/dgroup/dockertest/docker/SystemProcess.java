@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.docker;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * .
@@ -33,9 +34,10 @@ import java.io.IOException;
  * @since 0.1.0
  */
 public final class SystemProcess {
+
     private final ProcessBuilder process;
 
-    public SystemProcess(String... cmd) {
+    public SystemProcess(List<String> cmd) {
         this(new ProcessBuilder(cmd).redirectErrorStream(true));
     }
 

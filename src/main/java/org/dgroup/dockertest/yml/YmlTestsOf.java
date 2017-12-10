@@ -82,11 +82,11 @@ public final class YmlTestsOf implements Iterable<YmlTagTest> {
         tests.verifyExistence();
 
         return new Mapped<>(
+                YmlTagTest::new,
                 new Mapped<>(
-                        tests.list().iterator(),
-                        test -> (Map<String, Object>) test
-                ),
-                YmlTagTest::new
+                        test -> (Map<String, Object>) test,
+                        tests.list().iterator()
+                )
         );
     }
 }

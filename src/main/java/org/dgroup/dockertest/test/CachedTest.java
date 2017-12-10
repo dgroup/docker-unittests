@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
-
-import java.util.List;
+package org.dgroup.dockertest.test;
 
 /**
  * .
@@ -31,22 +29,20 @@ import java.util.List;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- */
-public final class Arg {
+ **/
+public final class CachedTest implements Test {
 
-    private final String name;
-    private final List<String> args;
+    private final Test test;
+    private TestingOutcome outcome;
 
-    public Arg(String name, List<String> args) {
-        this.name = name;
-        this.args = args;
+    public CachedTest(Test test) {
+        this.test = test;
     }
 
-    public String value() {
-        return args.get(args.indexOf(name) + 1);
-    }
-
-    public boolean specified() {
-        return args.contains(name);
+    @Override
+    public TestingOutcome execute() {
+        if (outcome == null)
+            outcome = test.execute();
+        return outcome;
     }
 }

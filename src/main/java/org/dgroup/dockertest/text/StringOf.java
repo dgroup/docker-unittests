@@ -42,7 +42,7 @@ public final class StringOf {
 
     public StringOf(List<YmlTagOutputPredicate> conditions, String delimiter) {
         this(
-                new Mapped<>(conditions, Object::toString),
+                new Mapped<>(Object::toString, conditions),
                 delimiter
         );
     }

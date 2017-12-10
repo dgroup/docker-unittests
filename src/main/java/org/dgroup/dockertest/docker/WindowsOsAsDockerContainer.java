@@ -21,15 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.docker;
+
+import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
 
 /**
- * Represents cmd output as text.
+ * Represents Windows OS as docker container for unit testing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- */
-public interface CmdOutput {
-    String text();
+ **/
+public final class WindowsOsAsDockerContainer implements DockerContainer {
+
+    private final List<String> commands;
+
+    public WindowsOsAsDockerContainer(final List<String> commands) {
+        this.commands = new Joined<>(
+                new ListOf<>("cmd", "/c"),
+                commands
+        );
+    }
+
+    @Override
+    public CmdOutput run() {
+        return new CmdOutputAsText(
+                new SystemProcess(commands).execute()
+        );
+    }
 }

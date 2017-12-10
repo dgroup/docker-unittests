@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import org.cactoos.io.InputOf;
-import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.docker.DefaultDockerContainer;
+import org.dgroup.dockertest.docker.DockerContainer;
+import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
+import org.dgroup.dockertest.yml.YmlTagTest;
 
 /**
  * .
@@ -37,22 +36,22 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultCmdOutput implements CmdOutput {
-    private final Process outcome;
+public final class DefaultTestBasedOnYml implements Test {
 
-    public DefaultCmdOutput(Process outcome) {
-        this.outcome = outcome;
+    private final YmlTagTest test;
+    private final DockerContainer container;
+
+    public DefaultTestBasedOnYml(Arg image, YmlTagTest test) {
+        this.test = test;
+        this.container = new DefaultDockerContainer(
+                new StatelessDockerContainerCommand(image.value(), test.dockerCmdAsArray())
+        );
     }
 
-    public String text() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(outcome.getInputStream()))) {
-            return new UncheckedText(
-                    new TextOf(
-                            new InputOf(in)
-                    )
-            ).asString();
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+    @Override
+    public TestingOutcome execute() {
+        return new TestingOutcomeByDefault(
+                test.assume(), test.cmd(), container.run().asText(), test.output()
+        );
     }
 }

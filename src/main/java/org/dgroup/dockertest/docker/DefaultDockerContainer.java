@@ -23,9 +23,6 @@
  */
 package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.cmd.CmdOutput;
-import org.dgroup.dockertest.cmd.DefaultCmdOutput;
-
 /**
  * .
  *
@@ -34,10 +31,11 @@ import org.dgroup.dockertest.cmd.DefaultCmdOutput;
  * @since 0.1.0
  */
 public final class DefaultDockerContainer implements DockerContainer {
+
     private final SystemProcess process;
 
-    public DefaultDockerContainer(String... args) {
-        this(new SystemProcess(args));
+    public DefaultDockerContainer(DockerContainerCommand cmd) {
+        this(new SystemProcess(cmd.args()));
     }
 
     public DefaultDockerContainer(SystemProcess process) {
@@ -46,6 +44,6 @@ public final class DefaultDockerContainer implements DockerContainer {
 
     @Override
     public CmdOutput run() {
-        return new DefaultCmdOutput(process.execute());
+        return new CmdOutputAsText(process.execute());
     }
 }

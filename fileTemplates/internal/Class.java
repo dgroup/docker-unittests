@@ -1,5 +1,3 @@
-#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
-#parse("File Header.java")
 /**
  * MIT License
  *
@@ -23,5 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+#parse("File Header.java")
 public final class ${NAME} {
 }

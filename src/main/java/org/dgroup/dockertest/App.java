@@ -23,12 +23,8 @@
  */
 package org.dgroup.dockertest;
 
-import java.util.List;
-import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.test.Test;
-import org.dgroup.dockertest.test.TestingOutcome;
-import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.test.Tests;
 
 /**
  * Represents the instance of application.
@@ -38,6 +34,10 @@ import org.dgroup.dockertest.test.output.Output;
  * @since 0.1.0
  */
 public final class App {
+
+    /**
+     * Application command-line arguments.
+     **/
     private final Args args;
 
     /**
@@ -54,21 +54,17 @@ public final class App {
      *
      * @param args Command-line arguments
      */
-    public static void main(String[] args) {
-        new App(new Args(args))
-                .start();
+    public static void main(final String[] args) {
+        new App(new Args(args)).start();
     }
 
     /**
-     * Run tests and display the results.
+     * Display test results.
      */
     public void start() {
-        List<String> testsMessages = new Mapped<>(
-                new Mapped<>(args.tests(), Test::execute),
-                TestingOutcome::message
-        );
-
-        for (Output output : args.outputs())
-            testsMessages.forEach(output::print);
+        final Tests tests = new Tests(this.args.tests(), this.args.outputs());
+        tests.execute();
+        tests.print();
+        tests.makeTheFinalDecision();
     }
 }

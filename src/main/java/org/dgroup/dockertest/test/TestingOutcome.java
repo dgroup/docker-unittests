@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.test;
 
 /**
- * .
+ * Represents single test result.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -32,6 +32,5 @@ package org.dgroup.dockertest.test;
  */
 public interface TestingOutcome {
     boolean successful();
-
     String message();
 }

@@ -30,33 +30,51 @@ import org.dgroup.dockertest.text.StringOf;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 
 /**
- * .
+ * Default implementation of single test result.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- */
+ **/
 public final class TestingOutcomeByDefault implements TestingOutcome {
-    private final String scenario;
-    private final String cmdoutput;
-    private final String cmd;
-    private final List<YmlTagOutputPredicate> expectedConditions;
 
-    public TestingOutcomeByDefault(String scenario, String cmd, String cmdoutput, List<YmlTagOutputPredicate> expectedConditions) {
+    /**
+     * Name of testing scenario.
+     * By default, exported from `assume` section (for each test defined in *.yml)
+     **/
+    private final String scenario;
+    /**
+     * Command for execution in docker container.
+     * By default, exported from `cmd` section (for each test defined in *.yml)
+     **/
+    private final String cmd;
+    /**
+     * Output from docker container.
+     **/
+    private final String output;
+    /**
+     * List of expected conditions, which should be applied to output.
+     * By default, exported from `output` section (for each test defined in *.yml)
+     **/
+    private final List<YmlTagOutputPredicate> expected;
+
+    /**
+     * Ctor.
+     **/
+    public TestingOutcomeByDefault(final String scenario, final String cmd,
+            final String output, final List<YmlTagOutputPredicate> expected) {
         this.scenario = scenario;
         this.cmd = cmd;
-        this.cmdoutput = cmdoutput;
-        this.expectedConditions = expectedConditions;
+        this.output = output;
+        this.expected = expected;
     }
 
-    @Override
     public boolean successful() {
         return new Filtered<>(
-                expectedConditions, t -> !t.test(cmdoutput)
+                t -> !t.test(output), expected
         ).isEmpty();
     }
 
-    @Override
     public String message() {
         return successful() ? scenarioPassed() : scenarioFailed();
     }
@@ -64,17 +82,17 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
     private String scenarioPassed() {
         return new PlainFormattedText(
                 "Passed scenario `%s`. Output for command `%s` is `%s`",
-                scenario, cmd, cmdoutput
+                scenario, cmd, output
         ).asString();
     }
 
     private String scenarioFailed() {
         return new PlainFormattedText(
-                "Failed scenario `%s`. Output for command `%s` should %s, however received `%s`",
+                "Failed scenario `%s`. Output for command `%s` should be `%s`, however received `%s`",
                 scenario,
                 cmd,
-                new StringOf(expectedConditions, ", "),
-                cmdoutput
+                new StringOf(expected, ", "),
+                output
         ).asString();
     }
 

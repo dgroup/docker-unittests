@@ -55,7 +55,7 @@ public final class YmlTagTest {
         return tag.map().get("cmd").toString();
     }
 
-    public String[] cmdAsArray() {
+    public String[] dockerCmdAsArray() {
         return cmd().split(" ");
     }
 

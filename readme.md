@@ -88,4 +88,21 @@ We, like users, receive the image and we are going to check what we've got.
 7. Settings > Editor > Сopyright > Formatting > Java
     - Select `Use custom formatting options`
     - Select `Separator before` with `Length` equal to 1
-                                             
+8. Settings > Editor > File and Code Templates > For current project > Files > Class
+    - Re-order text to the following
+   	  ```java
+         /**
+          * MIT License
+          *
+            ...
+          * SOFTWARE.
+          */
+          #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+          #parse("File Header.java")
+          public final class ${NAME} {
+          }
+       
+   	  ```
+   	  (empty line at the end is required).
+   	    
+                                         
