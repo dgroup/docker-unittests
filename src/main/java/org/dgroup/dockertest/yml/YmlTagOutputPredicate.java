@@ -33,7 +33,6 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class YmlTagOutputPredicate {
     private final String type;
     private final String expected;

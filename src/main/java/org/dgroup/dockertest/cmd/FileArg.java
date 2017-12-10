@@ -36,7 +36,6 @@ import org.cactoos.text.UncheckedText;
  * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @since 0.1.0
  */
-
 public final class FileArg {
     private static final String SRC_FILE_ARG = "-f";
     private final List<String> args;
@@ -46,7 +45,7 @@ public final class FileArg {
     }
 
     public File file() {
-        if (!args.contains(SRC_FILE_ARG))
+        if (!args.contains(SRC_FILE_ARG)) {
             throw new CmdArgNotFoundException(
                     new UncheckedText(
                             new FormattedText(
@@ -55,7 +54,7 @@ public final class FileArg {
                             )
                     ).asString()
             );
-
+        }
         return new File(
                 args.get(
                         args.indexOf(SRC_FILE_ARG) + 1

@@ -33,10 +33,9 @@ import static org.hamcrest.Matchers.equalTo;
  * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since 0.1.0
  */
-
 public class PlainFormattedTextWithRepeatableArgumentsTest {
     @Test
     public void asString() {

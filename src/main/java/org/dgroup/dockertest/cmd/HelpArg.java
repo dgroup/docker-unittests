@@ -30,6 +30,5 @@ package org.dgroup.dockertest.cmd;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class HelpArg {
 }

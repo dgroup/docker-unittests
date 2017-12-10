@@ -36,7 +36,6 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class TestingOutcomeByDefault implements TestingOutcome {
     private final String scenario;
     private final String cmdoutput;

@@ -75,7 +75,7 @@ We, like users, receive the image and we are going to check what we've got.
    - Press `Apply`, `OK`.  
 4. Settings > Editor > Code Style > Java > JavaDoc
    - Disable `Generate "<p>" on empty lines`
-5. Settings > Editor > Code Style > Java  
+5. Settings > Editor > Code Style > Java >Blank Lines
    - Set `In declarations` equal to 0 in section `Keep Maximum Blank Lines`
 6. Settings > Editor > Code Style > Java > Imports
    - Set the following order for `Import Layout` section

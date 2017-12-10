@@ -31,10 +31,9 @@ import static junit.framework.TestCase.assertTrue;
  * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since 0.1.0
  */
-
 public class StringOccurrencesTest {
     @Test
     public void equalTo() {

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 /**
  * Classes dedicated to testing procedure.
  *
@@ -29,5 +28,4 @@
  * @version $Id$
  * @since   0.1.0
  */
-
 package org.dgroup.dockertest.test;

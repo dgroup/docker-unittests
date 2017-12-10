@@ -26,8 +26,7 @@
  * Classes which simplify the work with text/string variables.
  *
  * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since   0.1.0
 */
-
 package org.dgroup.dockertest.text;

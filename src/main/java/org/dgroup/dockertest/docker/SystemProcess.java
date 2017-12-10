@@ -32,7 +32,6 @@ import java.io.IOException;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class SystemProcess {
     private final ProcessBuilder process;
 

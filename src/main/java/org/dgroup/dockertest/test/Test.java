@@ -30,7 +30,6 @@ package org.dgroup.dockertest.test;
  * @version $Id$
  * @since 0.1.0
  */
-
 public interface Test {
     TestingOutcome execute();
 }

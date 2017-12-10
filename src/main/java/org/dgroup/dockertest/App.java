@@ -37,7 +37,6 @@ import org.dgroup.dockertest.test.output.Output;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class App {
     private final Args args;
 
@@ -45,7 +44,7 @@ public final class App {
      * Ctor.
      *
      * @param args Command-line arguments
-     **/
+     */
     public App(final Args args) {
         this.args = args;
     }
@@ -54,7 +53,7 @@ public final class App {
      * Main method.
      *
      * @param args Command-line arguments
-     **/
+     */
     public static void main(String[] args) {
         new App(new Args(args))
                 .start();
@@ -62,7 +61,7 @@ public final class App {
 
     /**
      * Run tests and display the results.
-     **/
+     */
     public void start() {
         List<String> testsMessages = new Mapped<>(
                 new Mapped<>(args.tests(), Test::execute),

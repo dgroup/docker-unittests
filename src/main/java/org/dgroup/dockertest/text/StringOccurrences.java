@@ -30,7 +30,6 @@ package org.dgroup.dockertest.text;
  * @version $Id$
  * @since 0.1.0
 */
-
 public final class StringOccurrences {
     private final String origin;
     private final String searchStr;

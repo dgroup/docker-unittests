@@ -38,7 +38,6 @@ import org.dgroup.dockertest.cmd.FileArg;
  * @version $Id$
  * @since 0.1.0
  */
-
 public final class FileAsString {
     private final File file;
 

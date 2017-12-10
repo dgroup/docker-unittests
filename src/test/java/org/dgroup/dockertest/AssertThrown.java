@@ -30,10 +30,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since 0.1.0
  */
-
 public final class AssertThrown {
     public static void assertThrown(ThrowableAssert.ThrowingCallable operation, Exception exp) {
         assertThatThrownBy(operation)

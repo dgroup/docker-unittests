@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2006 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2017 Yurii Dubinka., All Rights Reserved.
  *
  * MIT License.
  *
@@ -32,20 +32,20 @@ import org.junit.runners.model.InitializationError;
  * Allows to run particular tests only on Linux system.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since 0.1.0
+ * @checkstyle LocalFinalVariableNameCheck line 9
  */
-
 public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
-    public RunOnlyOnUnix(Class klass) throws InitializationError {
+    public RunOnlyOnUnix(final Class klass) throws InitializationError {
         super(klass);
     }
 
     @Override
     public void run(RunNotifier notifier) {
-        String os = System.getProperty("os.name");
-        if (os.endsWith("nux") || os.endsWith("nix") || os.endsWith("aix"))
+        final String os = System.getProperty("os.name");
+        if (os.endsWith("nux") || os.endsWith("nix") || os.endsWith("aix")) {
             super.run(notifier);
+        }
     }
-
 }

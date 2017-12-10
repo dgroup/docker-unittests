@@ -33,7 +33,6 @@ import org.dgroup.dockertest.cmd.CmdOutput;
  * @version $Id$
  * @since 0.1.0
  */
-
 public interface DockerContainer {
     CmdOutput run();
 }
