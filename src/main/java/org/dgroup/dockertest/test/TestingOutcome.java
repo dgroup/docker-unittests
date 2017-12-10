@@ -31,6 +31,8 @@ package org.dgroup.dockertest.test;
  * @since 0.1.0
  */
 public interface TestingOutcome {
+
     boolean successful();
+
     String message();
 }

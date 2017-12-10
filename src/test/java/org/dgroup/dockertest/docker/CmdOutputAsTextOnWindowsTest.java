@@ -39,6 +39,7 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
  */
 @RunWith(RunOnlyOnWindows.class) // @todo #50min/DEV Add the same test for Linux OS
 public class CmdOutputAsTextOnWindowsTest {
+
     @Test(timeout = 1000 * 3)
     public void text() {
         assertThat(

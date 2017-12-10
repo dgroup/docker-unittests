@@ -36,6 +36,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  */
 public final class YmlTagOutput {
+
     private final List<Map<String, String>> tag;
 
     public YmlTagOutput(List<Map<String, String>> yml) {

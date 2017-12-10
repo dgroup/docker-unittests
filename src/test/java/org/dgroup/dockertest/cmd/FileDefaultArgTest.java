@@ -35,17 +35,18 @@ import static org.hamcrest.Matchers.equalTo;
  * @version $Id$
  * @since 0.1.0
  */
-public class FileArgTest {
+public class FileDefaultArgTest {
+
     @Test
     public void file() {
         assertThat(
-                "File content was readed to asString",
-                new FileArg(
-                        new ListOf<>(
-                                "-f", ".gitignore"
-                        )
-                ).file().getName(),
-                equalTo(".gitignore")
+            "File content was readed to asString",
+            new FileArg(
+                new ListOf<>(
+                    "-f", ".gitignore"
+                )
+            ).file().getName(),
+            equalTo(".gitignore")
         );
     }
 }

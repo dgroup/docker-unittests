@@ -31,4 +31,5 @@ package org.dgroup.dockertest.cmd;
  * @since 0.1.0
  */
 public final class OutputArg {
+
 }

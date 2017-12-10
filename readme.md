@@ -104,5 +104,7 @@ We, like users, receive the image and we are going to check what we've got.
        
    	  ```
    	  (empty line at the end is required).
-   	    
+9. Settings > Editor > Code Style > Java > Tabs and Indents
+    - Change `Continuation Indent` to 4
+    - Press `OK`
                                          

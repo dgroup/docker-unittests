@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest.cmd;
 
 import org.dgroup.dockertest.YmlResource;
@@ -38,18 +37,19 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
  * @since 0.1.0
  */
 public class ArgsTest {
+
     @Ignore // @todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
     @Test
-        public void test() {
-            assertThat(
+    public void test() {
+        assertThat(
                 new Args(
-                    "-f",
+                        "-f",
                         new YmlResource(
-                           "with-single-test.yml"
+                                "with-single-test.yml"
                         ).file().getAbsolutePath()
                 ).tests().iterator().next().execute().message(),
                 startsWith(
-                    "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
+                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
                 )
         );
     }

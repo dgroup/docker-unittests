@@ -1,7 +1,7 @@
 /**
- * Copyright (C) 2017 Yurii Dubinka., All Rights Reserved.
+ * MIT License
  *
- * MIT License.
+ * Copyright (c) 2017 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.dgroup.dockertest;
 
 import org.junit.runner.notification.RunNotifier;
@@ -33,10 +32,11 @@ import org.junit.runners.model.InitializationError;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
  * @checkstyle LocalFinalVariableNameCheck line 9
+ * @since 0.1.0
  */
 public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
+
     public RunOnlyOnUnix(final Class klass) throws InitializationError {
         super(klass);
     }

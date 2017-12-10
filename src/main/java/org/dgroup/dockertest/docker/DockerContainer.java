@@ -32,5 +32,6 @@ package org.dgroup.dockertest.docker;
  * @since 0.1.0
  */
 public interface DockerContainer {
+
     CmdOutput run();
 }

@@ -23,30 +23,49 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.List;
-
 /**
- * .
+ * Represents single command-line argument.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class Arg {
+public interface Arg {
 
-    private final String name;
-    private final List<String> args;
+    /**
+     * Fetch argument name.
+     *
+     * @return Argument name.
+     */
+    String name();
 
-    public Arg(String name, List<String> args) {
-        this.name = name;
-        this.args = args;
-    }
+    /**
+     * Fetch argument value from arguments list.
+     * The value should be specified after the name.
+     *
+     * @return Argument value.
+     */
+    String value();
 
-    public String value() {
-        return args.get(args.indexOf(name) + 1);
-    }
+    /**
+     * Verify existence of argument in the arguments specified by user.
+     *
+     * @return Existence of argument.
+     */
+    boolean specified();
 
-    public boolean specified() {
-        return args.contains(name);
+    /**
+     * Throw {@link CmdArgNotFoundException} in case if argument is absent.
+     */
+    default void assertThatArgumentWasSpecified() {
+        if (this.specified()) {
+            return;
+        }
+        throw new CmdArgNotFoundException(
+            String.format(
+                "Yml file with tests wasn't specified by '%s' flag.",
+                this.name()
+            )
+        );
     }
 }

@@ -31,5 +31,6 @@ package org.dgroup.dockertest;
  * @since 0.1.0
  */
 public interface UncheckedCallable<T> {
+
     T call();
 }

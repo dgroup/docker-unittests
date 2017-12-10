@@ -42,6 +42,7 @@ import org.yaml.snakeyaml.Yaml;
  * @since 0.1.0
  */
 public final class YmlTestsOf implements Iterable<YmlTagTest> {
+
     private final String testsAsText;
 
     public YmlTestsOf(File file) {

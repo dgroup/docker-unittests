@@ -26,8 +26,7 @@
  * Contain tests for operations related to yml parsing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @since 0.1.0
  * @version $Id$
+ * @since 0.1.0
  */
-
 package org.dgroup.dockertest.yml;

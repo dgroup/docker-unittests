@@ -34,6 +34,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  */
 public final class YmlTagOutputPredicate {
+
     private final String type;
     private final String expected;
     private final Predicate<String> predicate;
@@ -55,6 +56,6 @@ public final class YmlTagOutputPredicate {
     @Override
     public String toString() {
         return new PlainFormattedText("%s=`%s`", type, expected)
-                .asString();
+            .asString();
     }
 }

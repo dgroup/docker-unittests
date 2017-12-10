@@ -35,6 +35,7 @@ import java.util.Map;
  */
 @SuppressWarnings("PMD")
 public final class YmlTagTest {
+
     private final YmlTag tag;
 
     public YmlTagTest(Map<String, Object> yml) {

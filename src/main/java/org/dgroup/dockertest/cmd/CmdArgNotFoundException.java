@@ -31,6 +31,7 @@ package org.dgroup.dockertest.cmd;
  * @since 0.1.0
  */
 public class CmdArgNotFoundException extends RuntimeException {
+
     public CmdArgNotFoundException(String msg) {
         super(msg);
     }

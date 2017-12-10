@@ -25,8 +25,6 @@ package org.dgroup.dockertest.cmd;
 
 import java.io.File;
 import java.util.List;
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.UncheckedText;
 
 /**
  * Represents a commandline cmd for the file with tests.
@@ -36,29 +34,35 @@ import org.cactoos.text.UncheckedText;
  * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @since 0.1.0
  */
-public final class FileArg {
-    private static final String SRC_FILE_ARG = "-f";
-    private final List<String> args;
+public final class FileArg implements Arg {
+
+    private final Arg arg;
 
     public FileArg(List<String> args) {
-        this.args = args;
+        this(new DefaultArg("-f", args));
+    }
+
+    private FileArg(Arg arg) {
+        this.arg = arg;
     }
 
     public File file() {
-        if (!args.contains(SRC_FILE_ARG)) {
-            throw new CmdArgNotFoundException(
-                    new UncheckedText(
-                            new FormattedText(
-                                    "Can't detect the file with tests due to missing '%s' flag.",
-                                    SRC_FILE_ARG
-                            )
-                    ).asString()
-            );
-        }
-        return new File(
-                args.get(
-                        args.indexOf(SRC_FILE_ARG) + 1
-                )
-        );
+        this.arg.assertThatArgumentWasSpecified();
+        return new File(this.arg.value());
+    }
+
+    @Override
+    public String name() {
+        return this.arg.name();
+    }
+
+    @Override
+    public String value() {
+        return this.arg.value();
+    }
+
+    @Override
+    public boolean specified() {
+        return this.arg.specified();
     }
 }

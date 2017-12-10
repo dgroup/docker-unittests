@@ -37,6 +37,7 @@ import org.dgroup.dockertest.yml.YmlTestsOf;
 /**
  * Represents application command-line arguments.
  * See https://docs.oracle.com/javase/tutorial/essential/environment/cmdLineArgs.html for details.
+ *
  * @author Yurii Dubinka (yurii.dubinka@gmai.com)
  * @version $Id$
  * @since 0.1.0
@@ -51,15 +52,15 @@ public final class Args {
 
     public Iterable<Test> tests() {
         return new Mapped<>(
-                ymlTagTest -> new DefaultTestBasedOnYml(
-                        new Arg("-i", arguments),
-                        ymlTagTest
-                ),
-                new YmlTestsOf(
-                        new InputOf(
-                                new FileArg(arguments).file()
-                        )
+            ymlTagTest -> new DefaultTestBasedOnYml(
+                new DefaultArg("-i", arguments),
+                ymlTagTest
+            ),
+            new YmlTestsOf(
+                new InputOf(
+                    new FileArg(arguments).file()
                 )
+            )
         );
     }
 

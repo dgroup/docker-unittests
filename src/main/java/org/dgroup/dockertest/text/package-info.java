@@ -25,8 +25,8 @@
 /**
  * Classes which simplify the work with asText/string variables.
  *
- * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since   0.1.0
-*/
+ * @since 0.1.0
+ */
 package org.dgroup.dockertest.text;

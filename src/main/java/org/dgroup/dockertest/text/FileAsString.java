@@ -39,6 +39,7 @@ import org.dgroup.dockertest.cmd.FileArg;
  * @since 0.1.0
  */
 public final class FileAsString {
+
     private final File file;
 
     public FileAsString(List<String> cmdArgs) {
@@ -55,13 +56,13 @@ public final class FileAsString {
 
     public String content() {
         return new UncheckedText(
-                new TextOf(
-                        new BytesOf(
-                                new InputOf(
-                                        file
-                                )
-                        )
+            new TextOf(
+                new BytesOf(
+                    new InputOf(
+                        file
+                    )
                 )
+            )
         ).asString();
     }
 }

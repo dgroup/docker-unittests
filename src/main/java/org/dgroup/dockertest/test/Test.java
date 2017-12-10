@@ -31,5 +31,6 @@ package org.dgroup.dockertest.test;
  * @since 0.1.0
  */
 public interface Test {
+
     TestingOutcome execute();
 }

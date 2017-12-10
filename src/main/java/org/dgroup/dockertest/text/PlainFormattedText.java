@@ -35,6 +35,7 @@ import org.cactoos.text.UncheckedText;
  * @since 0.1.0
  */
 public final class PlainFormattedText {
+
     private final String pattern;
     private final Collection<Object> args;
 
@@ -50,11 +51,11 @@ public final class PlainFormattedText {
     public String asString() {
         if (new StringOccurrences(pattern, "%s").nonEqualTo(args.size()))
             throw new IllegalArgumentException(
-                    "Wrong amount of arguments(" + args.size() + ") for pattern '" + pattern + "'."
+                "Wrong amount of arguments(" + args.size() + ") for pattern '" + pattern + "'."
             );
 
         return new UncheckedText(new org.cactoos.text.FormattedText(pattern, args))
-                .asString();
+            .asString();
     }
 
     @Override

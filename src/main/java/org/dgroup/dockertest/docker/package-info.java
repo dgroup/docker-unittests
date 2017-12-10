@@ -26,8 +26,8 @@
  * Classes dedicated to interaction with docker containers,
  * through {@link java.lang.ProcessBuilder}.
  *
- * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since   0.1.0
+ * @since 0.1.0
  */
 package org.dgroup.dockertest.docker;

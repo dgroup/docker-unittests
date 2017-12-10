@@ -35,6 +35,7 @@ import org.cactoos.list.ListOf;
  * @since 0.1.0
  */
 public class FormattedTextWithRepeatableArguments {
+
     private final String pattern;
     private final Collection<Object> args;
 

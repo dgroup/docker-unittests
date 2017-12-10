@@ -28,7 +28,6 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-
 /**
  * .
  *
@@ -37,14 +36,15 @@ import static org.hamcrest.Matchers.equalTo;
  * @since 0.1.0
  */
 public class PlainFormattedTextWithRepeatableArgumentsTest {
+
     @Test
     public void asString() {
         assertThat(
-                new FormattedTextWithRepeatableArguments(
-                        "{0}{1}test{1}resources{1}testng.xml",
-                        "home", File.separator
-                ).asString(),
-                equalTo("home" + File.separator + "test" + File.separator + "resources" + File.separator + "testng.xml")
+            new FormattedTextWithRepeatableArguments(
+                "{0}{1}test{1}resources{1}testng.xml",
+                "home", File.separator
+            ).asString(),
+            equalTo("home" + File.separator + "test" + File.separator + "resources" + File.separator + "testng.xml")
         );
     }
 }

@@ -33,6 +33,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  */
 public final class IllegalYmlFormatException extends RuntimeException {
+
     public IllegalYmlFormatException(PlainFormattedText msg) {
         this(msg.toString());
     }

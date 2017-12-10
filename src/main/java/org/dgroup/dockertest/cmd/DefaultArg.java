@@ -21,30 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.cmd;
 
-import org.cactoos.scalar.Ternary;
+import java.util.List;
 
 /**
- * .
+ * Single command-line argument.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class UncheckedTernary<T> {
+public final class DefaultArg implements Arg {
 
-    private final Ternary<T> origin;
+    /**
+     * Command line argument name.
+     */
+    private final String name;
+    /**
+     * All command-line arguments specified by user.
+     */
+    private final List<String> args;
 
-    public UncheckedTernary(Ternary<T> origin) {
-        this.origin = origin;
+    /**
+     * Ctor.
+     *
+     * @param name Cmd argument name.
+     * @param args All cmd arguments.
+     */
+    public DefaultArg(final String name, final List<String> args) {
+        this.name = name;
+        this.args = args;
     }
 
-    public T value() {
-        try {
-            return origin.value();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public String value() {
+        return this.args.get(this.args.indexOf(this.name) + 1);
+    }
+
+    @Override
+    public boolean specified() {
+        return this.args.contains(this.name);
     }
 }

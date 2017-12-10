@@ -29,8 +29,9 @@ package org.dgroup.dockertest.text;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
-*/
+ */
 public final class StringOccurrences {
+
     private final String origin;
     private final String searchStr;
 

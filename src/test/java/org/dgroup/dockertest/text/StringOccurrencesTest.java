@@ -26,7 +26,6 @@ package org.dgroup.dockertest.text;
 import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 
-
 /**
  * .
  *
@@ -35,11 +34,12 @@ import static junit.framework.TestCase.assertTrue;
  * @since 0.1.0
  */
 public class StringOccurrencesTest {
+
     @Test
     public void equalTo() {
         assertTrue(
-                new StringOccurrences("Hey %s. My name is %s", "%s")
-                        .equalTo(2)
+            new StringOccurrences("Hey %s. My name is %s", "%s")
+                .equalTo(2)
         );
     }
 

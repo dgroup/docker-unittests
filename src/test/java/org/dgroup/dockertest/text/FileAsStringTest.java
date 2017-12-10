@@ -36,18 +36,19 @@ import static org.hamcrest.Matchers.containsString;
  * @since 0.1.0
  */
 public class FileAsStringTest {
+
     @Test
     public void content() {
         assertThat(
-                "File content was readed to asString",
-                new FileAsString(
-                        new ListOf<>(
-                                "-f", ".gitignore"
-                        )
-                ).content(),
-                containsString(
-                        "/.idea/"
+            "File content was readed to asString",
+            new FileAsString(
+                new ListOf<>(
+                    "-f", ".gitignore"
                 )
+            ).content(),
+            containsString(
+                "/.idea/"
+            )
         );
     }
 }

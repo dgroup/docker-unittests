@@ -35,6 +35,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 0.1.0
  */
 public final class YmlTag {
+
     private final Object tag;
     private final String name;
 
@@ -46,9 +47,9 @@ public final class YmlTag {
     public void verifyExistence() {
         if (tag == null)
             throw new IllegalYmlFormatException(
-                    new PlainFormattedText(
-                            "The `%s` tag is missing", name
-                    )
+                new PlainFormattedText(
+                    "The `%s` tag is missing", name
+                )
             );
     }
 

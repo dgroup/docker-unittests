@@ -35,6 +35,7 @@ import org.junit.runners.model.InitializationError;
  * @since 0.1.0
  */
 public class RunOnlyOnWindows extends BlockJUnit4ClassRunner {
+
     public RunOnlyOnWindows(Class klass) throws InitializationError {
         super(klass);
     }
@@ -45,6 +46,7 @@ public class RunOnlyOnWindows extends BlockJUnit4ClassRunner {
             super.run(notifier);
         }
     }
+
     public boolean windows() {
         return System.getProperty("os.name").startsWith("Windows");
     }
