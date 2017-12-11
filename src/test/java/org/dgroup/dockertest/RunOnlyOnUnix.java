@@ -32,17 +32,21 @@ import org.junit.runners.model.InitializationError;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @checkstyle LocalFinalVariableNameCheck line 9
  * @since 0.1.0
+ * @checkstyle LocalFinalVariableNameCheck line 14
  */
 public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
-
+    /**
+     * Comment.
+     * @param klass Need to realize this class..
+     * @throws InitializationError Checking for no initialization errors.
+     */
     public RunOnlyOnUnix(final Class klass) throws InitializationError {
         super(klass);
     }
 
     @Override
-    public void run(RunNotifier notifier) {
+    public void run(final RunNotifier notifier) {
         final String os = System.getProperty("os.name");
         if (os.endsWith("nux") || os.endsWith("nix") || os.endsWith("aix")) {
             super.run(notifier);

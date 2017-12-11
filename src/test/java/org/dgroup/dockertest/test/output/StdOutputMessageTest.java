@@ -44,7 +44,7 @@ public class StdOutputMessageTest {
 //                ),
 //                equalTo(
 //                        String.format(
-//                                "Fail \"java version is 1.8+\"%nER: 1.8.0_13%nAR: java version \"1.8.0_131\""
+//                                "Fail\"java version is 1.8+\"%nER:1.8.0_13%nAR: java version\"1.8.0_131\""
 //                        )
 //                )
 //        );

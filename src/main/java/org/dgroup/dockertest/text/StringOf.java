@@ -37,33 +37,52 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @since 0.1.0
  */
 public final class StringOf {
-
+    /**
+     * Property-values.
+     */
     private final Iterable<String> values;
+    /**
+     * Property-delimiter.
+     */
     private final CharSequence delimiter;
 
-    public StringOf(List<YmlTagOutputPredicate> conditions, String delimiter) {
-        this(
-                new Mapped<>(Object::toString, conditions),
-                delimiter
+    /**
+     *.
+     * @param conditions Is conditions
+     * @param delimiter Is delimiter
+     */
+    public StringOf(final List<YmlTagOutputPredicate> conditions, final String delimiter) {
+      this(
+           new Mapped<>(Object::toString, conditions),
+               delimiter
         );
     }
 
-    public StringOf(Iterable<String> values, String delimiter) {
+    /**
+     * String of.
+     * @param values Is values.
+     * @param delimiter Is delimiter
+     */
+    public StringOf(final Iterable<String> values, final String delimiter) {
         this.values = values;
         this.delimiter = delimiter;
     }
 
-    public StringOf(String[] cmd) {
+    /**
+     * String of.
+     * @param cmd It's a parametr there need for ..
+     */
+    public  StringOf(final String[] cmd) {
         this(new IterableOf<>(cmd), " ");
     }
 
     public String asString() {
-        return StreamEx.of(values.iterator())
-                .joining(delimiter == null ? "" : delimiter);
+        return StreamEx.of(this.values.iterator())
+            .joining(this.delimiter == null ? "" : this.delimiter);
     }
 
     @Override
     public String toString() {
-        return asString();
+        return this.asString();
     }
 }

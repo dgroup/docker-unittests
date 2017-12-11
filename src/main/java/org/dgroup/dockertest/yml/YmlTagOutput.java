@@ -29,14 +29,16 @@ import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * .
+ * Comment for class.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class YmlTagOutput {
-
+    /**
+     * @param tag
+     */
     private final List<Map<String, String>> tag;
 
     public YmlTagOutput(List<Map<String, String>> yml) {

@@ -5,7 +5,8 @@
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./LICENSE.txt)
 
 ### Testing of docker images
-The main concept is that all tests should use the image as is without any 'internal' go-related features.
+The main concept is that all tests should use the image as is without any 'internal' 
+go-related features.
 We, like users, receive the image and we are going to check what we've got.
 1. Define an *.yml file with tests
    ```yml

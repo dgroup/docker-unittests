@@ -38,16 +38,16 @@ public class ArgsTest {
     @Ignore // @todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
     @Test
     public void test() {
-//        assertThat(
-//                new Args(
-//                        "-f",
-//                        new YmlResource(
-//                                "with-single-test.yml"
-//                        ).file().getAbsolutePath()
-//                ).tests().iterator().next().execute().message(),
-//                startsWith(
-//                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
-//                )
-//        );
+     /*   assertThat(
+                new Args(
+                        "-f",
+                        new YmlResource(
+                                "with-single-test.yml"
+                        ).file().getAbsolutePath()
+                ).tests().iterator().next().execute().message(),
+                startsWith(
+                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
+                )
+       ); */
     }
 }
