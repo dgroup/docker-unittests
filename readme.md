@@ -37,12 +37,6 @@ We, like users, receive the image and we are going to check what we've got.
    `-f` yml file with tests
    
    `-i` docker image 
-   
-@todo #/DEV add https://codebeat.co badge as project moved to public state
-
-@todo #11 Implement qulice fixes for all *.java files
-
-@todo #12 Add cobertura/jacoco coverage badge once project moved to public 
 
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
@@ -133,3 +127,10 @@ We, like users, receive the image and we are going to check what we've got.
 2. Markdown
     - [Mastering Markdown](https://guides.github.com/features/mastering-markdown)
     - [Basic writing and formatting syntax](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+
+### TODO section
+@todo #/DEV add https://codebeat.co badge as project moved to public state
+
+@todo #11 Implement qulice fixes for all *.java files
+
+@todo #12 Add cobertura/jacoco coverage badge once project moved to public 
