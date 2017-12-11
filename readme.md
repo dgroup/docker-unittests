@@ -49,3 +49,4 @@ We, like users, receive the image and we are going to check what we've got.
  - @todo #11 Implement qulice fixes for all *.java files
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #13 Add https://codebeat.co badge once project moved to public
+ - @todo #14 Add http://i.jpeek.org badge after release to maven central
