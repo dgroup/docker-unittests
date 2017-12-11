@@ -21,52 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test.output;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Single command-line argument.
+ * Fake instance for unit testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultArg implements Arg {
+public class FakeOutput implements Output {
 
     /**
-     * Command line argument name.
+     * Collected output lines.
      */
-    private final String name;
-    /**
-     * All command-line arguments specified by user.
-     */
-    private final List<String> args;
+    private final List<String> output = new ArrayList<>();
+
+    @Override
+    public void print(String msg) {
+        this.output.add(msg);
+    }
+
+    @Override
+    public void finalDecision(String msg) {
+        this.print(msg);
+    }
 
     /**
-     * Ctor.
+     * All collected messages during testing procedure.
      *
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
+     * @return Test messages
      */
-    public DefaultArg(final String name, final List<String> args) {
-        this.name = name;
-        this.args = args;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public String value() {
-        return this.args.get(this.args.indexOf(this.name) + 1);
-    }
-
-    @Override
-    public boolean specified() {
-        return this.args.indexOf(this.name()) >= 0
-            && this.args.indexOf(this.name()) + 1 < this.args.size();
+    public List<String> lines() {
+        return this.output;
     }
 }

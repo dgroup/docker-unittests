@@ -24,6 +24,7 @@
 package org.dgroup.dockertest;
 
 import org.dgroup.dockertest.cmd.Args;
+import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
 
 /**
@@ -59,16 +60,17 @@ public final class App {
     }
 
     /**
-     * Display test results.
+     * Execute testing procedure.
      */
     public void start() {
-        final Tests tests = new Tests(
-            this.args.dockerImage(),
-            this.args.fileWithTests(),
-            this.args.availableOutputs()
-        );
-        tests.execute();
-        tests.print();
-        tests.makeTheFinalDecision();
+        try {
+            new Tests(
+                this.args.dockerImage(),
+                this.args.fileWithTests(),
+                this.args.availableOutputs()
+            ).print();
+        } catch (TestingFailedException ex) {
+            System.exit(-1);
+        }
     }
 }

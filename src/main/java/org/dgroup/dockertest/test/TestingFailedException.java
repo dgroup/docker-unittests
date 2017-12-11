@@ -21,33 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
-
-import org.junit.Ignore;
-import org.junit.Test;
+package org.dgroup.dockertest.test;
 
 /**
- * Comment.
+ * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public class ArgsTest {
+public class TestingFailedException extends RuntimeException {
 
-    @Ignore // @todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
-    @Test
-    public void test() {
-//        assertThat(
-//                new Args(
-//                        "-f",
-//                        new YmlResource(
-//                                "with-single-test.yml"
-//                        ).file().getAbsolutePath()
-//                ).tests().iterator().next().execute().message(),
-//                startsWith(
-//                        "Passed scenario `curl version is 7.xxx`. Output for command `curl --version` is"
-//                )
-//        );
-    }
 }

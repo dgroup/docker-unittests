@@ -26,7 +26,6 @@ package org.dgroup.dockertest.cmd;
 import java.util.List;
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
@@ -45,10 +44,6 @@ public final class Args {
      * Command-line arguments specified by user.
      */
     private final List<String> arguments;
-    /**
-     * List of available ways of printing tests results.
-     */
-    private final Iterable<Output> outputs;
 
     /**
      * Ctor.
@@ -57,7 +52,6 @@ public final class Args {
      */
     public Args(final String... arguments) {
         this.arguments = new ListOf<>(arguments);
-        this.outputs = new IterableOf<>(new StdOutput());
     }
 
     /**
@@ -81,14 +75,12 @@ public final class Args {
     }
 
     /**
-     * List of available outputs.
+     * Available printers for tests results.
      * By default {@link StdOutput} only.
      *
-     * @return List of available outputs
-     * @todo #7 Add xml output for tests results
-     * @todo #8 Add html output for tests results
+     * @return available outputs
      */
     public Iterable<Output> availableOutputs() {
-        return this.outputs;
+        return new OutputArg(this.arguments).outputs();
     }
 }

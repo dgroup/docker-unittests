@@ -43,9 +43,8 @@ public final class Tests {
 
     private final Iterable<Test> tests;
     private final Iterable<Output> outputs;
-    private List<TestingOutcome> outcomes;
 
-    public Tests(Arg image, final Input tests, final Iterable<Output> outputs) {
+    public Tests(final Arg image, final Input tests, final Iterable<Output> outputs) {
         this.tests = new Mapped<>(
             CachedTest::new,
             new Mapped<>(
@@ -59,25 +58,27 @@ public final class Tests {
         this.outputs = outputs;
     }
 
+    // @todo #18 Cleaning is required
     public void print() {
-        for (final Output output : outputs) {
-            for (TestingOutcome outcome : outcomes) {
-                output.print(outcome.message());
-            }
-        }
-    }
-
-    public void execute() {
-        this.outcomes = new ListOf<>(
+        final List<TestingOutcome> outcome = new ListOf<>(
             new Mapped<>(Test::execute, this.tests)
         );
-    }
-
-    public void makeTheFinalDecision() {
-        if (new Filtered<>(f -> f.message().startsWith("Failed scenario"), outcomes).size() > 0) {
+        for (final Output output : outputs) {
+            for (TestingOutcome out : outcome) {
+                output.print(out.message());
+            }
+        }
+        if (failed(outcome)) {
             outputs.forEach(o -> o.finalDecision("Testing failure."));
-            System.exit(-1);
+            throw new TestingFailedException();
         }
         outputs.forEach(o -> o.finalDecision("Testing successful."));
+    }
+
+    private boolean failed(List<TestingOutcome> outcomes) {
+        return new Filtered<>(
+            f -> f.message().startsWith("Failed scenario"),
+            outcomes
+        ).size() > 0;
     }
 }

@@ -23,50 +23,36 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.List;
+import org.cactoos.list.ListOf;
+import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
- * Single command-line argument.
- *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultArg implements Arg {
+public class DefaultArgTest {
 
-    /**
-     * Command line argument name.
-     */
-    private final String name;
-    /**
-     * All command-line arguments specified by user.
-     */
-    private final List<String> args;
-
-    /**
-     * Ctor.
-     *
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     */
-    public DefaultArg(final String name, final List<String> args) {
-        this.name = name;
-        this.args = args;
+    @Test
+    public void specified() {
+        assertThat(
+            new DefaultArg(
+                "-o", new ListOf<>("-o", "std")
+            ).specified(),
+            equalTo(true)
+        );
     }
 
-    @Override
-    public String name() {
-        return this.name;
+    @Test
+    public void notSpecified() {
+        assertThat(
+            new DefaultArg(
+                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
+            ).specified(),
+            equalTo(false)
+        );
     }
 
-    @Override
-    public String value() {
-        return this.args.get(this.args.indexOf(this.name) + 1);
-    }
-
-    @Override
-    public boolean specified() {
-        return this.args.indexOf(this.name()) >= 0
-            && this.args.indexOf(this.name()) + 1 < this.args.size();
-    }
 }

@@ -23,17 +23,16 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
+import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 /**
  * .
@@ -42,52 +41,27 @@ import org.dgroup.dockertest.test.output.XmlOutput;
  * @version $Id$
  * @since 0.1.0
  */
-public final class OutputArg implements Arg {
+public class OutputArgTest {
 
-    private final Arg origin;
-    private final Map<String, Output> outputs;
-    private final String delimiter;
-
-    public OutputArg(final List<String> arguments) {
-        this(new DefaultArg("-o", arguments), "\\|");
+    @Test
+    public void notSpecifiedOutput() {
+        assertThat(
+            new OutputArg(
+                new ListOf<>()
+            ).outputs().iterator().next(),
+            instanceOf(StdOutput.class)
+        );
     }
 
-    public OutputArg(final Arg origin, final String delimiter) {
-        this.origin = origin;
-        this.outputs = new HashMap<>();
-        this.outputs.put("xml", new XmlOutput());
-        this.outputs.put("html", new HtmlOutput());
-        this.outputs.put("std", new StdOutput());
-        this.delimiter = delimiter;
+    @Test
+    public void specifiedOutput() {
+        List<Output> outputs = new OutputArg(
+            new ListOf<>("-o", "xml|html")
+        ).outputs();
+
+        assertThat(outputs, hasSize(2));
+        assertThat(outputs.get(0), instanceOf(XmlOutput.class));
+        assertThat(outputs.get(1), instanceOf(HtmlOutput.class));
     }
 
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return this.origin.value();
-    }
-
-    @Override
-    public boolean specified() {
-        return this.origin.specified();
-    }
-
-    public List<Output> outputs() {
-        return this.specified() ?
-            new ListOf<>(
-                new Filtered<>(
-                    Objects::nonNull,
-                    new Mapped<>(
-                        this.outputs::get,
-                        new ListOf<>(
-                            this.value().split(this.delimiter)
-                        )
-                    )
-                )
-            ) : new ListOf<>(new StdOutput());
-    }
 }

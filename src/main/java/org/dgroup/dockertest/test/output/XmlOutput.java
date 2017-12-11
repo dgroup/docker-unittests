@@ -21,52 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
-
-import java.util.List;
+package org.dgroup.dockertest.test.output;
 
 /**
- * Single command-line argument.
+ * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultArg implements Arg {
+public class XmlOutput implements Output {
 
-    /**
-     * Command line argument name.
-     */
-    private final String name;
-    /**
-     * All command-line arguments specified by user.
-     */
-    private final List<String> args;
+    @Override
+    public void print(String msg) {
 
-    /**
-     * Ctor.
-     *
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     */
-    public DefaultArg(final String name, final List<String> args) {
-        this.name = name;
-        this.args = args;
     }
 
     @Override
-    public String name() {
-        return this.name;
-    }
+    public void finalDecision(String msg) {
 
-    @Override
-    public String value() {
-        return this.args.get(this.args.indexOf(this.name) + 1);
-    }
-
-    @Override
-    public boolean specified() {
-        return this.args.indexOf(this.name()) >= 0
-            && this.args.indexOf(this.name()) + 1 < this.args.size();
     }
 }

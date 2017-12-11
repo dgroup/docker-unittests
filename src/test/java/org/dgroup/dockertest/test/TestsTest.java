@@ -21,52 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test;
 
-import java.util.List;
+import org.cactoos.iterable.IterableOf;
+import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.cmd.Args;
+import org.dgroup.dockertest.cmd.NoImage;
+import org.dgroup.dockertest.test.output.FakeOutput;
+import org.junit.Ignore;
+import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
- * Single command-line argument.
+ * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultArg implements Arg {
+public class TestsTest {
 
-    /**
-     * Command line argument name.
-     */
-    private final String name;
-    /**
-     * All command-line arguments specified by user.
-     */
-    private final List<String> args;
-
-    /**
-     * Ctor.
-     *
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     */
-    public DefaultArg(final String name, final List<String> args) {
-        this.name = name;
-        this.args = args;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public String value() {
-        return this.args.get(this.args.indexOf(this.name) + 1);
-    }
-
-    @Override
-    public boolean specified() {
-        return this.args.indexOf(this.name()) >= 0
-            && this.args.indexOf(this.name()) + 1 < this.args.size();
+    @Ignore // @todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
+    @Test
+    public void singleTest() {
+        FakeOutput output = new FakeOutput();
+        new Tests(
+            new NoImage(),
+            new Args(
+                "-f",
+                new YmlResource(
+                    "with-single-test.yml"
+                ).path()
+            ).fileWithTests(),
+            new IterableOf<>(output)
+        ).print();
+        assertThat(
+            output.lines(), hasSize(2)
+        );
+        assertThat(
+            output.lines().get(0),
+            equalTo("")
+        );
+        assertThat(
+            output.lines().get(1),
+            equalTo("Testing successful.")
+        );
     }
 }
