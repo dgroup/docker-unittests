@@ -52,7 +52,7 @@ public final class DefaultTestBasedOnYml implements Test {
 
     @Override
     public TestingOutcome execute() {
-        return new TestingOutcomeByDefault(
+        return new DefaultTestingOutcome(
             this.test.assume(),
             this.test.cmd(),
             this.container.run().asText(),

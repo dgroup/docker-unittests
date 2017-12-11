@@ -36,7 +36,7 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @version $Id$
  * @since 0.1.0
  */
-public final class TestingOutcomeByDefault implements TestingOutcome {
+public final class DefaultTestingOutcome implements TestingOutcome {
 
     /**
      * Name of testing scenario.
@@ -61,7 +61,7 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
     /**
      * Ctor.
      */
-    public TestingOutcomeByDefault(final String scenario, final String cmd,
+    public DefaultTestingOutcome(final String scenario, final String cmd,
         final String output, final List<YmlTagOutputPredicate> expected) {
         this.scenario = scenario;
         this.cmd = cmd;

@@ -40,6 +40,8 @@ We, like users, receive the image and we are going to check what we've got.
    
 @todo #/DEV add https://codebeat.co badge as project moved to public state
 
+@todo #11 Implement qulice fixes for all *.java files
+
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
