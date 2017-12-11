@@ -30,7 +30,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

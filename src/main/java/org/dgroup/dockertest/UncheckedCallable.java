@@ -24,7 +24,7 @@
 package org.dgroup.dockertest;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

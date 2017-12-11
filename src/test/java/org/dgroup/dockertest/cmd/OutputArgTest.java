@@ -35,7 +35,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

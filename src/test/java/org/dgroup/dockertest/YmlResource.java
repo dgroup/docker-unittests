@@ -28,7 +28,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

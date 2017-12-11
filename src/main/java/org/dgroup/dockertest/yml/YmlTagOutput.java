@@ -37,41 +37,68 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  */
 public final class YmlTagOutput {
     /**
-     * @param tag
+     * Commnent.
+     * @param tag Comment for tag.
      */
     private final List<Map<String, String>> tag;
-
-    public YmlTagOutput(List<Map<String, String>> yml) {
+    /**
+     * Commnent.
+     * @param yml Comment for yml.
+     */
+    public YmlTagOutput(final List<Map<String, String>> yml) {
         this.tag = yml;
     }
-
+    // @todo #/DEV Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
     public List<YmlTagOutputPredicate> conditions() {
         return new Mapped<>(
                 conditions -> {
-                    String condition = conditions.keySet().iterator().next();
-                    String expectedText = conditions.values().iterator().next();
-
-                    // @todo #/DEV Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
-                    if ("contains".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("contains", expectedText, actual -> actual.contains(expectedText));
-
-                    if ("equal".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("equal", expectedText, actual -> actual.equals(expectedText));
-
-                    if ("startWith".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("startWith", expectedText, actual -> actual.startsWith(expectedText));
-
-                    if ("endWith".equalsIgnoreCase(condition))
-                        return new YmlTagOutputPredicate("endWith", expectedText, actual -> actual.endsWith(expectedText));
-
+                            final String condition = conditions.keySet().iterator().next();
+                            final String expectedtext = conditions.values().iterator().next();
+                        if ("contains".equalsIgnoreCase(condition)) {
+                            return new YmlTagOutputPredicate("contains", expectedtext, actual -> actual.contains(expectedtext));
+                        }
+                        if ("equal".equalsIgnoreCase(condition)) {
+                            return new YmlTagOutputPredicate("equal", expectedtext, actual -> actual.equals(expectedtext));
+                        }
+                        if ("startWith".equalsIgnoreCase(condition)) {
+                            return new YmlTagOutputPredicate("startWith", expectedtext, actual -> actual.startsWith(expectedtext));
+                        }
+                        if ("endWith".equalsIgnoreCase(condition)) {
+                             return new YmlTagOutputPredicate("endWith", expectedtext, actual -> actual.endsWith(expectedtext));
+                        }
                     throw new IllegalYmlFormatException(
                             new PlainFormattedText(
                                     "Tag `output` has unsupported condition: `%s`. Supported values `contains`, `equal`, `startWith`, `endWith`",
-                                    condition
-                            )
+                                condition
+                         )
                     );
                 },
-                tag
-        );
+                this.tag
+              );
     }
 }
+             /*    switch (conditions) {
+                        case "contains".equalsIgnoreCase(condition):
+                                 return new YmlTagOutputPredicate("contains", expectedtext, actual -> actual.contains(expectedtext));
+                             break;
+                        case "equal".equalsIgnoreCase(condition):
+                                return new YmlTagOutputPredicate("equal", expectedtext, actual -> actual.equals(expectedtext));
+                             break;
+                        case "startWith".equalsIgnoreCase(condition):
+                                return new YmlTagOutputPredicate("startWith", expectedtext, actual -> actual.startsWith(expectedtext));
+                            break;
+                        case "endWith".equalsIgnoreCase(condition):
+                                return new YmlTagOutputPredicate("endWith", expectedtext, actual -> actual.endsWith(expectedtext));
+                            break;
+                        default:
+                            throw new IllegalYmlFormatException(
+                                      new PlainFormattedText(
+                                            "Tag `output` has unsupported condition: `%s`. Supported values `contains`, `equal`, `startWith`, `endWith`",
+                                                 condition
+                              )
+                        );
+
+                    }
+              */
+
+

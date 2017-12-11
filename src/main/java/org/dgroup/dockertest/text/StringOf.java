@@ -47,7 +47,7 @@ public final class StringOf {
     private final CharSequence delimiter;
 
     /**
-     *.
+     * C.
      * @param conditions Is conditions
      * @param delimiter Is delimiter
      */

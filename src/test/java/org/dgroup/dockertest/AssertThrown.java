@@ -27,7 +27,7 @@ import org.assertj.core.api.ThrowableAssert;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

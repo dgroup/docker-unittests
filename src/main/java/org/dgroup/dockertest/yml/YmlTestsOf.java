@@ -35,21 +35,31 @@ import org.dgroup.dockertest.text.PlainFormattedText;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * .
+ * Comment here].
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class YmlTestsOf implements Iterable<YmlTagTest> {
+    /**
+     * Comment here}.
+     */
+    private final String testsastext;
 
-    private final String testsAsText;
-
-    public YmlTestsOf(File file) {
+    /**
+     * Comment here].
+     * @param file Need to {comment here}.
+     */
+    public YmlTestsOf(final File file) {
         this(new InputOf(file));
     }
 
-    public YmlTestsOf(Input src) {
+    /**
+     * Comment here].
+     * @param src Need to {comment here}
+     */
+    public YmlTestsOf(final Input src) {
         this(
                 new UncheckedText(
                         new TextOf(src)
@@ -57,13 +67,13 @@ public final class YmlTestsOf implements Iterable<YmlTagTest> {
         );
     }
 
-    public YmlTestsOf(String testsAsText) {
-        this.testsAsText = testsAsText;
+    public YmlTestsOf(String testsastext) {
+        this.testsastext = testsastext;
     }
 
     @Override
     public Iterator<YmlTagTest> iterator() {
-        Map<String, Object> ymlTree = new Yaml().load(testsAsText);
+        Map<String, Object> ymlTree = new Yaml().load(testsastext);
 
         YmlTag version = new YmlTag(
                 ymlTree.get("version"), "version"

@@ -33,12 +33,12 @@ import org.junit.runners.model.InitializationError;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle LocalFinalVariableNameCheck line 14
+ * @checkstyle LocalFinalVariableNameCheck line 8
  */
 public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
     /**
      * Comment.
-     * @param klass Need to realize this class..
+     * @param klass Need to realize this class.
      * @throws InitializationError Checking for no initialization errors.
      */
     public RunOnlyOnUnix(final Class klass) throws InitializationError {

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
