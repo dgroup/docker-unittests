@@ -21,35 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.cmd;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
- * OS dependent system process.
+ * Docker image is passed to application as command-line argument by user.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class SystemProcess {
+public final class DockerImageArg implements Arg {
 
-    private final ProcessBuilder process;
+    /**
+     * Argument with docker image.
+     */
+    private final Arg origin;
 
-    public SystemProcess(final List<String> cmd) {
-        this(new ProcessBuilder(cmd).redirectErrorStream(true));
+    /**
+     * Ctor.
+     *
+     * @param args Command-line arguments are passed to the app by the user.
+     */
+    public DockerImageArg(final List<String> args) {
+        this(new DefaultArg("-i", args));
     }
 
-    public SystemProcess(final ProcessBuilder process) {
-        this.process = process;
+    /**
+     * Ctor.
+     *
+     * @param origin Command-line argument with name of docker image.
+     */
+    private DockerImageArg(final Arg origin) {
+        this.origin = origin;
     }
 
-    public Process execute() {
-        try {
-            return this.process.start();
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    @Override
+    public String name() {
+        return this.origin.name();
+    }
+
+    @Override
+    public String value() {
+        return this.origin.value();
+    }
+
+    @Override
+    public boolean specified() {
+        return this.origin.specified();
     }
 }

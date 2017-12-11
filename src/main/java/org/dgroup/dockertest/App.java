@@ -62,7 +62,11 @@ public final class App {
      * Display test results.
      */
     public void start() {
-        final Tests tests = new Tests(this.args.tests(), this.args.outputs());
+        final Tests tests = new Tests(
+            this.args.dockerImage(),
+            this.args.fileWithTests(),
+            this.args.availableOutputs()
+        );
         tests.execute();
         tests.print();
         tests.makeTheFinalDecision();

@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.test;
 
 /**
- * Represents single unit execute with docker image.
+ * Represents single unit test for the docker image.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -32,5 +32,10 @@ package org.dgroup.dockertest.test;
  */
 public interface Test {
 
+    /**
+     * Execute single test.
+     *
+     * @return Testing results.
+     */
     TestingOutcome execute();
 }

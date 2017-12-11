@@ -23,8 +23,8 @@
  */
 
 /**
- * Classes dedicated for interaction command line arguments,
- * like file with tests, docker image, etc.
+ * Classes dedicated for interaction with command line arguments,
+ * like yml file with tests, docker image, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

@@ -27,42 +27,59 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Represents a commandline cmd for the file with tests.
+ * Represents a command line argument with the yml file with tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @todo #50m/DEV Rewrite class considering {@link Arg} entity
  * @since 0.1.0
  */
 public final class FileArg implements Arg {
 
-    private final Arg arg;
+    /**
+     * Contain yml file with tests.
+     */
+    private final Arg origin;
 
-    public FileArg(List<String> args) {
+    /**
+     * Ctor.
+     *
+     * @param args Command-line arguments are passed to the app by the user.
+     */
+    public FileArg(final List<String> args) {
         this(new DefaultArg("-f", args));
     }
 
-    private FileArg(Arg arg) {
-        this.arg = arg;
+    /**
+     * Ctor.
+     *
+     * @param origin Command-line argument with name of docker image.
+     */
+    private FileArg(final Arg origin) {
+        this.origin = origin;
     }
 
+    /**
+     * Passed to app by user with key "-f".
+     *
+     * @return Yml file with tests.
+     */
     public File file() {
-        this.arg.assertThatArgumentWasSpecified();
-        return new File(this.arg.value());
+        this.origin.assertThatArgumentWasSpecified();
+        return new File(this.origin.value());
     }
 
     @Override
     public String name() {
-        return this.arg.name();
+        return this.origin.name();
     }
 
     @Override
     public String value() {
-        return this.arg.value();
+        return this.origin.value();
     }
 
     @Override
     public boolean specified() {
-        return this.arg.specified();
+        return this.origin.specified();
     }
 }

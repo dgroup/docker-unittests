@@ -24,7 +24,8 @@
 package org.dgroup.dockertest.cmd;
 
 /**
- * .
+ * Thrown in case if command-line argument is required,
+ * but not found in the arguments specified by user.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -32,7 +33,12 @@ package org.dgroup.dockertest.cmd;
  */
 public class CmdArgNotFoundException extends RuntimeException {
 
-    public CmdArgNotFoundException(String msg) {
+    /**
+     * Ctor.
+     *
+     * @param msg Detailed description with missing argument.
+     */
+    public CmdArgNotFoundException(final String msg) {
         super(msg);
     }
 }

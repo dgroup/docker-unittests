@@ -21,35 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
- * OS dependent system process.
+ * Classes related to printing of testing results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class SystemProcess {
-
-    private final ProcessBuilder process;
-
-    public SystemProcess(final List<String> cmd) {
-        this(new ProcessBuilder(cmd).redirectErrorStream(true));
-    }
-
-    public SystemProcess(final ProcessBuilder process) {
-        this.process = process;
-    }
-
-    public Process execute() {
-        try {
-            return this.process.start();
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-}
+package org.dgroup.dockertest.test.output;

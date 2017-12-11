@@ -24,7 +24,6 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
-import java.util.List;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.TextOf;
@@ -42,15 +41,11 @@ public final class FileAsString {
 
     private final File file;
 
-    public FileAsString(List<String> cmdArgs) {
-        this(new FileArg(cmdArgs));
+    public FileAsString(final FileArg arg) {
+        this(arg.file());
     }
 
-    public FileAsString(FileArg fArg) {
-        this(fArg.file());
-    }
-
-    public FileAsString(File file) {
+    public FileAsString(final File file) {
         this.file = file;
     }
 

@@ -107,4 +107,16 @@ We, like users, receive the image and we are going to check what we've got.
 9. Settings > Editor > Code Style > Java > Tabs and Indents
     - Change `Continuation Indent` to 4
     - Press `OK`
+10. Settings > Editor > File and Code Templates > For current project > Includes > File Header
+    - Put the following text
+       ```java
+        /**
+    	 * .
+    	 * 
+    	 * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+    	 * @version $Id$
+    	 * @since   0.1.0
+    	 */
+       ```
+     - Change your name, email and lib version accordingly.
                                          

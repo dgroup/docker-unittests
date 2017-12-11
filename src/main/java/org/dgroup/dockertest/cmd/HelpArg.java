@@ -29,7 +29,22 @@ package org.dgroup.dockertest.cmd;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #10 Implement help command
  */
-public final class HelpArg {
+public final class HelpArg implements Arg {
 
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public String value() {
+        return null;
+    }
+
+    @Override
+    public boolean specified() {
+        return false;
+    }
 }

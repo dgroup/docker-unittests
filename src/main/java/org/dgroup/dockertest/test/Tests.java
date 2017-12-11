@@ -24,10 +24,13 @@
 package org.dgroup.dockertest.test;
 
 import java.util.List;
+import org.cactoos.Input;
 import org.cactoos.collection.Filtered;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.yml.YmlTestsOf;
 
 /**
  * .
@@ -42,8 +45,17 @@ public final class Tests {
     private final Iterable<Output> outputs;
     private List<TestingOutcome> outcomes;
 
-    public Tests(final Iterable<Test> tests, final Iterable<Output> outputs) {
-        this.tests = new Mapped<>(CachedTest::new, tests);
+    public Tests(Arg image, final Input tests, final Iterable<Output> outputs) {
+        this.tests = new Mapped<>(
+            CachedTest::new,
+            new Mapped<>(
+                ymlTagTest -> new DefaultTestBasedOnYml(
+                    image,
+                    ymlTagTest
+                ),
+                new YmlTestsOf(tests)
+            )
+        );
         this.outputs = outputs;
     }
 
@@ -57,7 +69,7 @@ public final class Tests {
 
     public void execute() {
         this.outcomes = new ListOf<>(
-                new Mapped<>(Test::execute, this.tests)
+            new Mapped<>(Test::execute, this.tests)
         );
     }
 

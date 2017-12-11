@@ -24,15 +24,12 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
+import org.cactoos.Input;
 import org.cactoos.io.InputOf;
 import org.cactoos.iterable.IterableOf;
-import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.test.DefaultTestBasedOnYml;
-import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
-import org.dgroup.dockertest.yml.YmlTestsOf;
 
 /**
  * Represents application command-line arguments.
@@ -44,27 +41,54 @@ import org.dgroup.dockertest.yml.YmlTestsOf;
  */
 public final class Args {
 
+    /**
+     * Command-line arguments specified by user.
+     */
     private final List<String> arguments;
+    /**
+     * List of available ways of printing tests results.
+     */
+    private final Iterable<Output> outputs;
 
-    public Args(String... arguments) {
+    /**
+     * Ctor.
+     *
+     * @param arguments Command-line arguments from user.
+     */
+    public Args(final String... arguments) {
         this.arguments = new ListOf<>(arguments);
+        this.outputs = new IterableOf<>(new StdOutput());
     }
 
-    public Iterable<Test> tests() {
-        return new Mapped<>(
-            ymlTagTest -> new DefaultTestBasedOnYml(
-                new DefaultArg("-i", arguments),
-                ymlTagTest
-            ),
-            new YmlTestsOf(
-                new InputOf(
-                    new FileArg(arguments).file()
-                )
-            )
+    /**
+     * Docker image is passed to application through {@link DockerImageArg}.
+     *
+     * @return Docker image name for testing.
+     */
+    public Arg dockerImage() {
+        return new DockerImageArg(this.arguments);
+    }
+
+    /**
+     * Yml file with tests is passed to application through {@link FileArg}.
+     *
+     * @return Yml file with tests
+     */
+    public Input fileWithTests() {
+        return new InputOf(
+            new FileArg(this.arguments).file()
         );
     }
 
-    public Iterable<Output> outputs() {
-        return new IterableOf<>(new StdOutput());
+    /**
+     * List of available outputs.
+     * By default {@link StdOutput} only.
+     *
+     * @return List of available outputs
+     * @todo #7 Add xml output for tests results
+     * @todo #8 Add html output for tests results
+     */
+    public Iterable<Output> availableOutputs() {
+        return this.outputs;
     }
 }

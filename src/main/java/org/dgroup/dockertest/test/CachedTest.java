@@ -29,20 +29,21 @@ package org.dgroup.dockertest.test;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
 public final class CachedTest implements Test {
 
-    private final Test test;
+    private final Test origin;
     private TestingOutcome outcome;
 
-    public CachedTest(Test test) {
-        this.test = test;
+    public CachedTest(Test origin) {
+        this.origin = origin;
     }
 
     @Override
     public TestingOutcome execute() {
-        if (outcome == null)
-            outcome = test.execute();
+        if (this.outcome == null) {
+            this.outcome = this.origin.execute();
+        }
         return outcome;
     }
 }

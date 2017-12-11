@@ -35,34 +35,34 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- **/
+ */
 public final class TestingOutcomeByDefault implements TestingOutcome {
 
     /**
      * Name of testing scenario.
      * By default, exported from `assume` section (for each test defined in *.yml)
-     **/
+     */
     private final String scenario;
     /**
      * Command for execution in docker container.
      * By default, exported from `cmd` section (for each test defined in *.yml)
-     **/
+     */
     private final String cmd;
     /**
      * Output from docker container.
-     **/
+     */
     private final String output;
     /**
      * List of expected conditions, which should be applied to output.
      * By default, exported from `output` section (for each test defined in *.yml)
-     **/
+     */
     private final List<YmlTagOutputPredicate> expected;
 
     /**
      * Ctor.
-     **/
+     */
     public TestingOutcomeByDefault(final String scenario, final String cmd,
-            final String output, final List<YmlTagOutputPredicate> expected) {
+        final String output, final List<YmlTagOutputPredicate> expected) {
         this.scenario = scenario;
         this.cmd = cmd;
         this.output = output;
@@ -71,28 +71,29 @@ public final class TestingOutcomeByDefault implements TestingOutcome {
 
     public boolean successful() {
         return new Filtered<>(
-                t -> !t.test(output), expected
+            t -> !t.test(this.output), this.expected
         ).isEmpty();
     }
 
     public String message() {
-        return successful() ? scenarioPassed() : scenarioFailed();
+        return this.successful() ? this.scenarioPassed() : this.scenarioFailed();
     }
 
     private String scenarioPassed() {
         return new PlainFormattedText(
-                "Passed scenario `%s`. Output for command `%s` is `%s`",
-                scenario, cmd, output
+            "Passed scenario `%s`. Output for command `%s` is `%s`",
+            this.scenario, this.cmd, this.output
         ).asString();
     }
 
     private String scenarioFailed() {
         return new PlainFormattedText(
-                "Failed scenario `%s`. Output for command `%s` should be `%s`, however received `%s`",
-                scenario,
-                cmd,
-                new StringOf(expected, ", "),
-                output
+            "Failed scenario `%s`. Output for command `%s` should be `%s`, " +
+                "however received `%s`",
+            this.scenario,
+            this.cmd,
+            new StringOf(this.expected, ", "),
+            this.output
         ).asString();
     }
 

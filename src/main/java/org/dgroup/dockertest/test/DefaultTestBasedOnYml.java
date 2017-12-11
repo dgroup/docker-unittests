@@ -41,17 +41,22 @@ public final class DefaultTestBasedOnYml implements Test {
     private final YmlTagTest test;
     private final DockerContainer container;
 
-    public DefaultTestBasedOnYml(Arg image, YmlTagTest test) {
+    public DefaultTestBasedOnYml(final Arg image, final YmlTagTest test) {
         this.test = test;
         this.container = new DefaultDockerContainer(
-                new StatelessDockerContainerCommand(image.value(), test.dockerCmdAsArray())
+            new StatelessDockerContainerCommand(
+                image.value(), test.dockerCmdAsArray()
+            )
         );
     }
 
     @Override
     public TestingOutcome execute() {
         return new TestingOutcomeByDefault(
-                test.assume(), test.cmd(), container.run().asText(), test.output()
+            this.test.assume(),
+            this.test.cmd(),
+            this.container.run().asText(),
+            this.test.output()
         );
     }
 }

@@ -40,15 +40,15 @@ public final class WindowsOsAsDockerContainer implements DockerContainer {
 
     public WindowsOsAsDockerContainer(final List<String> commands) {
         this.commands = new Joined<>(
-                new ListOf<>("cmd", "/c"),
-                commands
+            new ListOf<>("cmd", "/c"),
+            commands
         );
     }
 
     @Override
     public CmdOutput run() {
         return new CmdOutputAsText(
-                new SystemProcess(commands).execute()
+            new SystemProcess(this.commands).execute()
         );
     }
 }

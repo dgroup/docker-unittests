@@ -29,7 +29,22 @@ package org.dgroup.dockertest.cmd;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #9 Implement selecting output as std out(console), xml or html.
  */
-public final class OutputArg {
+public final class OutputArg implements Arg {
 
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public String value() {
+        return null;
+    }
+
+    @Override
+    public boolean specified() {
+        return false;
+    }
 }

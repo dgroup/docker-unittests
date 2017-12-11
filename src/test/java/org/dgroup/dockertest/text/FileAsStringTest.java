@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.cmd.FileArg;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -42,8 +43,10 @@ public class FileAsStringTest {
         assertThat(
             "File content was readed to asString",
             new FileAsString(
-                new ListOf<>(
-                    "-f", ".gitignore"
+                new FileArg(
+                    new ListOf<>(
+                        "-f", ".gitignore"
+                    )
                 )
             ).content(),
             containsString(
