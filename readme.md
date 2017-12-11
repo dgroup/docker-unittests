@@ -42,6 +42,8 @@ We, like users, receive the image and we are going to check what we've got.
 
 @todo #11 Implement qulice fixes for all *.java files
 
+@todo #12 Add cobertura/jacoco coverage badge once project moved to public 
+
 ### Contributing F.A.Q.
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
