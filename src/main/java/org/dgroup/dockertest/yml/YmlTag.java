@@ -62,6 +62,6 @@ public final class YmlTag {
     }
 
     public Map<Object, Object> map() {
-        return (Map<Object, Object>) tag;
+        return (Map<Object, Object>) this.tag;
     }
 }
