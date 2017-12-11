@@ -12,7 +12,7 @@
     * @author Yurii Dubinka (yurii.dubinka@gmai.com)
     * @version $Id$
     * @since 0.1.0
-    **/
+    */
    public final class Args {
    ...
    ```
@@ -27,7 +27,7 @@
          * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
          * @version $Id$
          * @since   0.1.0
-         **/
+         */
      ```
    - Specify your name and email
    - Press `Apply`, `OK`.  
@@ -77,3 +77,7 @@
     	 */
        ```
      - Change your name, email and lib version accordingly.
+11. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
+     - Copy [license](../LICENSE.txt) 
+     - Press `Apply` > `OK`
+       
