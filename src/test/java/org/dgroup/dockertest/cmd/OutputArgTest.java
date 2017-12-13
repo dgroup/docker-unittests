@@ -23,16 +23,14 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.HtmlOutput;
-import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 /**
  * Unit tests for class {@link OutputArg}.
@@ -41,29 +39,47 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class OutputArgTest {
 
     @Test
-    public void notSpecifiedOutput() {
-        assertThat(
+    public final void notSpecifiedOutput() {
+        MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>()
             ).outputs().iterator().next(),
-            instanceOf(StdOutput.class)
+            IsInstanceOf.instanceOf(StdOutput.class)
         );
     }
 
     @Test
-    public void specifiedOutput() {
-        List<Output> outputs = new OutputArg(
-            new ListOf<>("-o", "xml|html")
-        ).outputs();
+    public final void specifiedOutputSize() {
+        MatcherAssert.assertThat(
+            new OutputArg(
+                new ListOf<>("-o", "xml|html")
+            ).outputs(),
+            IsCollectionWithSize.hasSize(2)
+        );
+    }
 
-        assertThat(outputs, hasSize(2));
-        assertThat(outputs.get(0), instanceOf(XmlOutput.class));
-        assertThat(outputs.get(1), instanceOf(HtmlOutput.class));
+    @Test
+    public final void thatFirstOutputTypeIsXml() {
+        MatcherAssert.assertThat(
+            new OutputArg(
+                new ListOf<>("-o", "xml|html")
+            ).outputs().get(0),
+            IsInstanceOf.instanceOf(XmlOutput.class)
+        );
+    }
+
+    @Test
+    public final void thatSecondOutputTypeIsHtml() {
+        MatcherAssert.assertThat(
+            new OutputArg(
+                new ListOf<>("-o", "xml|html")
+            ).outputs().get(1),
+            IsInstanceOf.instanceOf(HtmlOutput.class)
+        );
     }
 
 }

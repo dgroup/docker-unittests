@@ -24,9 +24,9 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Unit tests for class {@link FormattedTextWithRepeatableArguments}.
@@ -35,18 +35,20 @@ import static org.hamcrest.Matchers.equalTo;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
  */
 public class FormattedTextWithRepeatableArgumentsTest {
 
     @Test
-    public void asString() {
-        assertThat(
+    public final void asString() {
+        MatcherAssert.assertThat(
             new FormattedTextWithRepeatableArguments(
                 "{0}{1}test{1}resources{1}testng.xml",
                 "home", File.separator
             ).asString(),
-            equalTo(
+            Matchers.equalTo(
                 "home" + File.separator + "test" +
                     File.separator + "resources" +
                     File.separator + "testng.xml"

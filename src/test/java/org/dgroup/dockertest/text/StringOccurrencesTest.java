@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.text;
 
+import junit.framework.TestCase;
 import org.junit.Test;
-import static junit.framework.TestCase.assertTrue;
 
 /**
  * Unit tests for {@link StringOccurrences}.
@@ -33,13 +33,12 @@ import static junit.framework.TestCase.assertTrue;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class StringOccurrencesTest {
 
     @Test
-    public void equalTo() {
-        assertTrue(
+    public final void equalTo() {
+        TestCase.assertTrue(
             new StringOccurrences("Hey %s. My name is %s", "%s")
                 .equalTo(2)
         );

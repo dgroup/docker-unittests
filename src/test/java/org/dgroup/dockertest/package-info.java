@@ -23,11 +23,10 @@
  */
 
 /**
- * Package with unit tests for docker container testing layer.
+ * Unit tests for package {@link org.dgroup.dockertest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-package org.dgroup.dockertest.test.output;
-
+package org.dgroup.dockertest;

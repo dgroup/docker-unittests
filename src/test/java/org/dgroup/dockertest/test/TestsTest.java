@@ -28,11 +28,11 @@ import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.NoImage;
 import org.dgroup.dockertest.test.output.FakeOutput;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
  * Unit tests for class {@link Tests}.
@@ -41,11 +41,10 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class TestsTest {
 
-    //@todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
+    // @todo #19 Create native OS containers or install docker to CI env.
     @Ignore
     @Test
     public final void singleTest() {
@@ -60,8 +59,14 @@ public class TestsTest {
             ).fileWithTests(),
             new IterableOf<>(output)
         ).print();
-        assertThat(output.lines(), hasSize(2));
-        assertThat(output.lines().get(0), equalTo(""));
-        assertThat(output.lines().get(1), equalTo("Testing successful."));
+        MatcherAssert.assertThat(
+            output.lines(), IsCollectionWithSize.hasSize(2)
+        );
+        MatcherAssert.assertThat(
+            output.lines().get(0), Matchers.equalTo("")
+        );
+        MatcherAssert.assertThat(
+            output.lines().get(1), Matchers.equalTo("Testing successful.")
+        );
     }
 }

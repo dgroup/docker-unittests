@@ -24,9 +24,9 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Unit tests for class {@link FileArg}.
@@ -35,20 +35,19 @@ import static org.hamcrest.Matchers.equalTo;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class FileArgTest {
 
     @Test
-    public void file() {
-        assertThat(
-            "File content was readed to asString",
+    public final void fileContentWasReadedAsString() {
+        MatcherAssert.assertThat(
             new FileArg(
                 new ListOf<>(
                     "-f", ".gitignore"
                 )
             ).file().getName(),
-            equalTo(".gitignore")
+            Matchers.equalTo(".gitignore")
         );
     }
+
 }

@@ -24,9 +24,9 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Unit tests for class {@link DefaultArg}.
@@ -35,27 +35,26 @@ import static org.hamcrest.Matchers.equalTo;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class DefaultArgTest {
 
     @Test
-    public void specified() {
-        assertThat(
+    public final void specified() {
+        MatcherAssert.assertThat(
             new DefaultArg(
                 "-o", new ListOf<>("-o", "std")
             ).specified(),
-            equalTo(true)
+            Matchers.equalTo(true)
         );
     }
 
     @Test
-    public void notSpecified() {
-        assertThat(
+    public final void notSpecified() {
+        MatcherAssert.assertThat(
             new DefaultArg(
                 "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
             ).specified(),
-            equalTo(false)
+            Matchers.equalTo(false)
         );
     }
 

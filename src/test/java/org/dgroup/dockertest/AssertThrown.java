@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest;
 
-import org.assertj.core.api.ThrowableAssert;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
 /**
  * Simplify unit testing of exception throwing.
@@ -36,14 +36,22 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public final class AssertThrown {
 
     /**
+     * Ctor.
+     */
+    private AssertThrown() {
+        // No instances required
+    }
+
+    /**
      * Verify that exception was thrown during particular operation.
      *
      * @param operation Particular operation where exception is required.
-     * @param exp       Exception details which expected to be thrown.
+     * @param exception Details which expected to be thrown.
      */
-    public static void assertThrown(ThrowableAssert.ThrowingCallable operation, Exception exp) {
-        assertThatThrownBy(operation)
-            .isInstanceOf(exp.getClass())
-            .hasMessage(exp.getMessage());
+    public static void assertThrown(final ThrowingCallable operation,
+        final Exception exception) {
+        Assertions.assertThatThrownBy(operation)
+            .isInstanceOf(exception.getClass())
+            .hasMessage(exception.getMessage());
     }
 }

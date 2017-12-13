@@ -25,9 +25,9 @@ package org.dgroup.dockertest.text;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.cmd.FileArg;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 
 /**
  * Unit tests for class {@link FileAsString}.
@@ -36,13 +36,12 @@ import static org.hamcrest.Matchers.containsString;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class FileAsStringTest {
 
     @Test
-    public void content() {
-        assertThat(
+    public final void content() {
+        MatcherAssert.assertThat(
             "File content was readed to asString",
             new FileAsString(
                 new FileArg(
@@ -51,9 +50,7 @@ public class FileAsStringTest {
                     )
                 )
             ).content(),
-            containsString(
-                "/.idea/"
-            )
+            Matchers.containsString("/.idea/")
         );
     }
 }

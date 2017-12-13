@@ -28,7 +28,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
 /**
- * Allows to run particular tests only on Linux system.
+ * Allows to run particular tests only on Unix system.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -48,8 +48,10 @@ public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
 
     @Override
     public void run(final RunNotifier notifier) {
-        final String osName = System.getProperty("os.name");
-        if (osName.endsWith("nux") || osName.endsWith("nix") || osName.endsWith("aix")) {
+        final String system = System.getProperty("os.name");
+        if (system.endsWith("nux")
+            || system.endsWith("nix")
+            || system.endsWith("aix")) {
             super.run(notifier);
         }
     }

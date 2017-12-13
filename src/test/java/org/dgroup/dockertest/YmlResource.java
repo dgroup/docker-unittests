@@ -37,7 +37,7 @@ import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
 public final class YmlResource {
 
     /**
-     * Path to yml file
+     * Path to yml file.
      */
     private final FormattedTextWithRepeatableArguments path;
 
