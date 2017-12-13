@@ -29,16 +29,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * C.
+ * Comment here.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public class FileDefaultArgTest {
-
+    /**
+     * Compare file arguments.
+     */
     @Test
-    public void file() {
+    public final void file() {
         assertThat(
             "File content was readed to asString",
             new FileArg(

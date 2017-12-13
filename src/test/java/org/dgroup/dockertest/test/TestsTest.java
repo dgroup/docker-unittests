@@ -35,31 +35,31 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
- * C.
+ * Class need to verification of tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public class TestsTest {
-    @Ignore
-    //@todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
-    @Test
     /**
-     * Comment here.
-     */
+    * Method run yml test for docker image.
+    */
+    @Ignore
+    //@todo #/DEV OS or Env dependent test.Create native containers or install docker to CI env
+    @Test
     public final void singleTest() {
-       final FakeOutput output = new FakeOutput();
+        final FakeOutput output = new FakeOutput();
         new Tests(
-            new NoImage(),
-            new Args(
-                "-f",
-                new YmlResource(
-                    "with-single-test.yml"
-                ).path()
-            ).fileWithTests(),
-            new IterableOf<>(output)
-        ).print();
+        new NoImage(),
+        new Args(
+            "-f",
+        new YmlResource(
+        "with-single-test.yml"
+        ).path()
+        ).fileWithTests(),
+        new IterableOf<>(output)
+            ).print();
         assertThat(
             output.lines(), hasSize(2)
         );

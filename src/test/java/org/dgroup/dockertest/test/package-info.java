@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests for classes...
+ * Package....
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

@@ -35,9 +35,11 @@ import static org.hamcrest.Matchers.equalTo;
  * @since 0.1.0
  */
 public class DefaultArgTest {
-
+    /**
+     * Comment here.
+     */
     @Test
-    public void specified() {
+    public final void specified() {
         assertThat(
             new DefaultArg(
                 "-o", new ListOf<>("-o", "std")
@@ -46,8 +48,11 @@ public class DefaultArgTest {
         );
     }
 
+    /**
+     * Comment here.
+     */
     @Test
-    public void notSpecified() {
+    public final void notSpecified() {
         assertThat(
             new DefaultArg(
                 "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")

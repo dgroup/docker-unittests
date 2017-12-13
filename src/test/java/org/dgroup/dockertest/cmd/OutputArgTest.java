@@ -42,9 +42,11 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
  * @since 0.1.0
  */
 public class OutputArgTest {
-
+    /**
+     * Compare output and stdoutput arguments.
+     */
     @Test
-    public void notSpecifiedOutput() {
+    public final void notSpecifiedOutput() {
         assertThat(
             new OutputArg(
                 new ListOf<>()
@@ -53,15 +55,16 @@ public class OutputArgTest {
         );
     }
 
+    /**
+     * Comment here.
+     */
     @Test
-    public void specifiedOutput() {
-        List<Output> outputs = new OutputArg(
+    public final void specifiedOutput() {
+        final List<Output> outputs = new OutputArg(
             new ListOf<>("-o", "xml|html")
         ).outputs();
-
         assertThat(outputs, hasSize(2));
         assertThat(outputs.get(0), instanceOf(XmlOutput.class));
         assertThat(outputs.get(1), instanceOf(HtmlOutput.class));
     }
-
 }

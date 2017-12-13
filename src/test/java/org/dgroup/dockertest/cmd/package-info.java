@@ -23,7 +23,8 @@
  */
 
 /**
- * Package with unit tests for classes related to operations with parsing of command line arguments.
+ * Package with unit tests for classes related to operations.
+ * with parsing of command line arguments.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
