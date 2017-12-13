@@ -21,42 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.test;
+package org.dgroup.dockertest.yml.tag;
 
-import org.dgroup.dockertest.cmd.Arg;
-import org.dgroup.dockertest.docker.DefaultDockerContainer;
-import org.dgroup.dockertest.docker.DockerContainer;
-import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import java.util.Map;
+import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * .
+ * Represents yml tag {@code /version}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultTestBasedOnYml implements Test {
+public class YmlTagVersion {
 
-    private final YmlTagTest test;
-    private final DockerContainer container;
+    /**
+     * Single yml tag as object.
+     */
+    private final YmlTag tag;
 
-    public DefaultTestBasedOnYml(final Arg image, final YmlTagTest test) {
-        this.test = test;
-        this.container = new DefaultDockerContainer(
-            new StatelessDockerContainerCommand(
-                image.value(), test.dockerCmdAsArray()
-            )
-        );
+    /**
+     * Ctor.
+     *
+     * @param tree Yml object tree loaded from *.yml file with tests.
+     */
+    public YmlTagVersion(final Map<String, Object> tree) {
+        this.tag = new YmlTag(tree, "version");
     }
 
-    @Override
-    public TestingOutcome execute() {
-        return new DefaultTestingOutcome(
-            this.test.assume(),
-            this.test.cmd(),
-            this.container.run().asText(),
-            this.test.output()
-        );
+    /**
+     * Allows to verify version of *.yml file.
+     * For now only version `1` is supported.
+     */
+    public final void verify() {
+        this.tag.verifyExistence();
+        if (!"1".equals(this.tag.asString())) {
+            throw new IllegalArgumentException(
+                new PlainFormattedText(
+                    "Unsupported version: %s",
+                    this.tag.asString()
+                ).asString()
+            );
+        }
     }
+
 }

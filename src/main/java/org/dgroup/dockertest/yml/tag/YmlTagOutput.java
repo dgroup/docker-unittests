@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.yml;
+package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents yml tag {@code /tests/test/output}.
@@ -52,7 +53,12 @@ public final class YmlTagOutput {
         this.tag = yml;
     }
 
-    // @todo #18 Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
+    /**
+     * Yml tag {@code /tests/test/output} may have several values.
+     *
+     * @return All specified values for tag {@code output}
+     * @todo #18 Implement masked contains like "Protocols:*http*https*ldap"
+     */
     public List<YmlTagOutputPredicate> conditions() {
         return new Mapped<>(
             conditions -> {
@@ -60,29 +66,31 @@ public final class YmlTagOutput {
                 final String expected = conditions.values().iterator().next();
                 if ("contains".equalsIgnoreCase(condition)) {
                     return new YmlTagOutputPredicate(
-                        "contains", expected, actual -> actual.contains(expected)
+                        "contains", expected,
+                        actual -> actual.contains(expected)
                     );
                 }
                 if ("equal".equalsIgnoreCase(condition)) {
                     return new YmlTagOutputPredicate(
-                        "equal", expected, actual -> actual.equals(expected)
+                        "equal", expected,
+                        actual -> actual.equals(expected)
                     );
                 }
                 if ("startWith".equalsIgnoreCase(condition)) {
                     return new YmlTagOutputPredicate(
-                        "startWith", expected, actual -> actual.startsWith(expected)
+                        "startWith", expected,
+                        actual -> actual.startsWith(expected)
                     );
                 }
                 if ("endWith".equalsIgnoreCase(condition)) {
                     return new YmlTagOutputPredicate(
-                        "endWith", expected, actual -> actual.endsWith(expected)
+                        "endWith", expected,
+                        actual -> actual.endsWith(expected)
                     );
                 }
                 throw new IllegalYmlFormatException(
                     new PlainFormattedText(
-                        "Tag `output` has unsupported condition: `%s`. " +
-                            "Supported values are " +
-                            "`contains`, `equal`, `startWith`, `endWith`.",
+                        "Tag `output` has unsupported condition: `%s`.",
                         condition
                     )
                 );

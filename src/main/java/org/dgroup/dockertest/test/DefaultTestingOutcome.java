@@ -27,7 +27,7 @@ import java.util.List;
 import org.cactoos.collection.Filtered;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.text.StringOf;
-import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
  * Default implementation of single test result.

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.yml;
+package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
@@ -48,10 +48,8 @@ public final class YmlTagTest {
      *
      * @param yml Tag transformed to object.
      */
-    public YmlTagTest(Map<String, Object> yml) {
-        this(
-            new YmlTag(yml.get("test"), "test")
-        );
+    public YmlTagTest(final Map<String, Object> yml) {
+        this(new YmlTag(yml, "test"));
     }
 
     /**
@@ -59,7 +57,7 @@ public final class YmlTagTest {
      *
      * @param tag Yml tag transformed to object.
      */
-    private YmlTagTest(YmlTag tag) {
+    private YmlTagTest(final YmlTag tag) {
         this.tag = tag;
     }
 

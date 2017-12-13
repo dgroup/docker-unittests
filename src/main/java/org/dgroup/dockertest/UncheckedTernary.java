@@ -26,25 +26,39 @@ package org.dgroup.dockertest;
 import org.cactoos.scalar.Ternary;
 
 /**
- * .
+ * Ternary operation which didn't throw exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 0.1.0
  */
 public final class UncheckedTernary<T> {
 
+    /**
+     * Ternary operation.
+     */
     private final Ternary<T> origin;
 
-    public UncheckedTernary(Ternary<T> origin) {
+    /**
+     * Ctor.
+     *
+     * @param origin Ternary operation.
+     */
+    public UncheckedTernary(final Ternary<T> origin) {
         this.origin = origin;
     }
 
+    /**
+     * Receive the result value based on ternary condition.
+     * @return Value.
+     * @checkstyle IllegalCatchCheck (10 lines)
+     */
     public T value() {
         try {
-            return origin.value();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
+            return this.origin.value();
+        } catch (final Exception ex) {
+            throw new IllegalStateException(ex);
         }
     }
 }

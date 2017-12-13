@@ -30,10 +30,10 @@ import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.yml.YmlTestsOf;
+import org.dgroup.dockertest.yml.YmlTests;
 
 /**
- * Class .
+ * Allows to execute tests and print results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -52,7 +52,7 @@ public final class Tests {
                     image,
                     ymlTagTest
                 ),
-                new YmlTestsOf(tests)
+                new YmlTests(tests)
             )
         );
         this.outputs = outputs;

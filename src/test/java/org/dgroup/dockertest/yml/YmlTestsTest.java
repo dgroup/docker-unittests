@@ -32,7 +32,7 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTestsOf}.
+ * Unit tests for class {@link YmlTests}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -44,12 +44,12 @@ import org.junit.Test;
  * @checkstyle RegexpSinglelineCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public class YmlTestsOfTest {
+public class YmlTestsTest {
 
     @Test
     public final void tagVersionIsMissing() {
         AssertThrown.assertThrown(
-            () -> new YmlTestsOf(
+            () -> new YmlTests(
                 new YmlResource("with-missing-version-tag.yml").file()
             ).iterator(),
             new IllegalYmlFormatException("The `version` tag is missing")
@@ -61,7 +61,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tests from file `with-3-simple-tests.yml` loaded as Iterable",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ),
@@ -74,7 +74,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/assume` equal to `\"node version is 8.5.1\"`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).assume(),
@@ -87,7 +87,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/cmd` is equal to `\"node -v\"`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).cmd(),
@@ -100,7 +100,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output(),
@@ -113,7 +113,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(0).type(),
@@ -127,7 +127,7 @@ public class YmlTestsOfTest {
             "Tag `tests/test[2]/output` has 1st statement `contains`" +
                 " and expected value is `v8.5.0`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(0).test("v8.5.0"),
@@ -140,7 +140,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startWith`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(1).type(),
@@ -154,7 +154,7 @@ public class YmlTestsOfTest {
             "Tag `tests/test[2]/output` has 2nd statement `startWith`" +
                 " and expected value is `v8.`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(1).test("v8."),
@@ -167,7 +167,7 @@ public class YmlTestsOfTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endWith`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(2).type(),
@@ -181,7 +181,7 @@ public class YmlTestsOfTest {
             "Tag `tests/test[2]/output` has 3rd statement `endWith`" +
                 " and expected value is `.5.0`",
             new ListOf<>(
-                new YmlTestsOf(
+                new YmlTests(
                     new YmlResource("with-3-simple-tests.yml")
                         .file()
                 )

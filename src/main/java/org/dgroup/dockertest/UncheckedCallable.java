@@ -28,6 +28,7 @@ package org.dgroup.dockertest;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 0.1.0
  */
 public interface UncheckedCallable<T> {

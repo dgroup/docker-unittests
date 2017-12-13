@@ -28,10 +28,11 @@ import java.util.Iterator;
 import java.util.Map;
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
-import org.cactoos.iterator.Mapped;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.YmlTagTests;
+import org.dgroup.dockertest.yml.tag.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -41,7 +42,7 @@ import org.yaml.snakeyaml.Yaml;
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTestsOf implements Iterable<YmlTagTest> {
+public final class YmlTests implements Iterable<YmlTagTest> {
 
     /**
      * All tags defined in yml file with tests.
@@ -53,7 +54,7 @@ public final class YmlTestsOf implements Iterable<YmlTagTest> {
      *
      * @param file Yml file with tests.
      */
-    public YmlTestsOf(final File file) {
+    public YmlTests(final File file) {
         this(new InputOf(file));
     }
 
@@ -62,7 +63,7 @@ public final class YmlTestsOf implements Iterable<YmlTagTest> {
      *
      * @param src Yml file with tests.
      */
-    public YmlTestsOf(final Input src) {
+    public YmlTests(final Input src) {
         this(
             new UncheckedText(
                 new TextOf(src)
@@ -75,37 +76,16 @@ public final class YmlTestsOf implements Iterable<YmlTagTest> {
      *
      * @param yml Tags defined in file with tests as string.
      */
-    public YmlTestsOf(String yml) {
+    public YmlTests(final String yml) {
         this.yml = yml;
     }
 
     @Override
     public Iterator<YmlTagTest> iterator() {
-        Map<String, Object> ymlTree = new Yaml().load(yml);
-
-        YmlTag version = new YmlTag(
-            ymlTree.get("version"), "version"
-        );
-        version.verifyExistence();
-        if (!"1".equals(version.asString()))
-            throw new IllegalArgumentException(
-                new PlainFormattedText(
-                    "Unsupported version: %s",
-                    version.asString()
-                ).asString()
-            );
-
-        YmlTag tests = new YmlTag(
-            ymlTree.get("tests"), "tests"
-        );
-        tests.verifyExistence();
-
-        return new Mapped<>(
-            YmlTagTest::new,
-            new Mapped<>(
-                test -> (Map<String, Object>) test,
-                tests.list().iterator()
-            )
-        );
+        final Map<String, Object> tree = new Yaml().load(this.yml);
+        final YmlTagVersion version = new YmlTagVersion(tree);
+        version.verify();
+        return new YmlTagTests(tree)
+            .iterator();
     }
 }

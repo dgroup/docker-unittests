@@ -26,7 +26,7 @@ package org.dgroup.dockertest.yml;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * .
+ * Notify that *.yml file has a wrong structure.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -34,11 +34,21 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  */
 public final class IllegalYmlFormatException extends RuntimeException {
 
-    public IllegalYmlFormatException(PlainFormattedText msg) {
+    /**
+     * Ctor.
+     *
+     * @param msg Describes what exactly tag is wrong.
+     */
+    public IllegalYmlFormatException(final PlainFormattedText msg) {
         this(msg.toString());
     }
 
-    public IllegalYmlFormatException(String msg) {
+    /**
+     * Ctor.
+     *
+     * @param msg Describes what exactly tag is wrong.
+     */
+    public IllegalYmlFormatException(final String msg) {
         super(msg);
     }
 }

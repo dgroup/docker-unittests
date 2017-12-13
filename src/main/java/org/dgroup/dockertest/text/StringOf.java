@@ -27,7 +27,7 @@ import java.util.List;
 import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
  * Represents different objects like arrays, iterables, etc as string.

@@ -8,10 +8,8 @@
 The main concept is that all tests should use the image as is without any 'internal' 
 go-related features.
 We, like users, receive the image and we are going to check what we've got.
-1. Define an *.yml file with tests
+1. Define an [*.yml file](./.guides/image-tests.yml) with tests
    ```yml
-   # image-tests.yml
-   
    version: 1
    
    tests:

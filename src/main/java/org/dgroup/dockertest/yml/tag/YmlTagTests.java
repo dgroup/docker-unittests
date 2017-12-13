@@ -21,47 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.yml;
+package org.dgroup.dockertest.yml.tag;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.cactoos.iterator.Mapped;
 
 /**
- * .
+ * Represents yml tag {@code /tests}.
+ * Tag can contain list of {@link YmlTagTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTag {
+public class YmlTagTests implements Iterable<YmlTagTest> {
 
-    private final Object tag;
-    private final String name;
+    /**
+     * Single yml tag as object.
+     */
+    private final YmlTag tag;
 
-    public YmlTag(Object tag, String name) {
-        this.tag = tag;
-        this.name = name;
+    /**
+     * Ctor.
+     *
+     * @param tree Yml object tree loaded from *.yml file with tests.
+     */
+    public YmlTagTests(final Map<String, Object> tree) {
+        this.tag = new YmlTag(tree, "tests");
     }
 
-    public void verifyExistence() {
-        if (tag == null)
-            throw new IllegalYmlFormatException(
-                new PlainFormattedText(
-                    "The `%s` tag is missing", name
-                )
-            );
+    @Override
+    public final Iterator<YmlTagTest> iterator() {
+        this.tag.verifyExistence();
+        return new Mapped<>(
+            YmlTagTest::new,
+            new Mapped<>(
+                test -> (Map<String, Object>) test,
+                this.tag.list().iterator()
+            )
+        );
     }
 
-    public String asString() {
-        return tag == null ? "" : tag.toString();
-    }
-
-    public List<Object> list() {
-        return (List<Object>) tag;
-    }
-
-    public Map<Object, Object> map() {
-        return (Map<Object, Object>) this.tag;
-    }
 }
