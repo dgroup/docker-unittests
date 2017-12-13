@@ -33,7 +33,7 @@ import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.yml.YmlTestsOf;
 
 /**
- * .
+ * Class .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
