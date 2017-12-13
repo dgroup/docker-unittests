@@ -77,28 +77,3 @@ public final class YmlTagOutput {
               );
     }
 }
-             /*    switch (conditions) {
-                        case "contains".equalsIgnoreCase(condition):
-                                 return new YmlTagOutputPredicate("contains", expectedtext, actual -> actual.contains(expectedtext));
-                             break;
-                        case "equal".equalsIgnoreCase(condition):
-                                return new YmlTagOutputPredicate("equal", expectedtext, actual -> actual.equals(expectedtext));
-                             break;
-                        case "startWith".equalsIgnoreCase(condition):
-                                return new YmlTagOutputPredicate("startWith", expectedtext, actual -> actual.startsWith(expectedtext));
-                            break;
-                        case "endWith".equalsIgnoreCase(condition):
-                                return new YmlTagOutputPredicate("endWith", expectedtext, actual -> actual.endsWith(expectedtext));
-                            break;
-                        default:
-                            throw new IllegalYmlFormatException(
-                                      new PlainFormattedText(
-                                            "Tag `output` has unsupported condition: `%s`. Supported values `contains`, `equal`, `startWith`, `endWith`",
-                                                 condition
-                              )
-                        );
-
-                    }
-              */
-
-

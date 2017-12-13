@@ -21,35 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest;
-
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.InitializationError;
 
 /**
- * Allows to run particular tests only on Linux system.
+ * Tests for classes...
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle LocalFinalVariableNameCheck line 9
  */
-public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
-    /**
-     * Comment.
-     * @param klass Need to realize this class.
-     * @throws InitializationError Checking for no initialization errors.
-     */
-    public RunOnlyOnUnix(final Class klass) throws InitializationError {
-        super(klass);
-    }
-
-    @Override
-    public void run(final RunNotifier notifier) {
-        final String os = System.getProperty("os.name");
-        if (os.endsWith("nux") || os.endsWith("nix") || os.endsWith("aix")) {
-            super.run(notifier);
-        }
-    }
-}
+package org.dgroup.dockertest.test;

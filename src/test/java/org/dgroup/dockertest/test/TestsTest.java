@@ -35,14 +35,15 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
- *C .
+ * C.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public class TestsTest {
-    @Ignore // @todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
+    @Ignore
+    //@todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
     @Test
     /**
      * Comment here.
