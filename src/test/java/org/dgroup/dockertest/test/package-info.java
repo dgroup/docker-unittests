@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests for classes...
+ * Unit-tests for classes dedicated to docker image testing procedure.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

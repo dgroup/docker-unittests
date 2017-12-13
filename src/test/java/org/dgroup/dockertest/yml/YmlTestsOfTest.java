@@ -32,11 +32,14 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
- * C.
+ * Unit tests for class {@link YmlTestsOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version 0.1.0
+ * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class YmlTestsOfTest {
@@ -54,7 +57,7 @@ public class YmlTestsOfTest {
     @Test
     public void iterator() {
         assertThat(
-            "Tests from file `with-3-simple-tests.yml` were loaded as Iterable<YmlTest>",
+            "Tests from file `with-3-simple-tests.yml` loaded as Iterable",
             new ListOf<>(
                 new YmlTestsOf(
                     new YmlResource("with-3-simple-tests.yml").file()
@@ -67,7 +70,7 @@ public class YmlTestsOfTest {
     @Test
     public void assume() {
         assertThat(
-            "Tag `tests/test[2]/assume` is equal to `\"node version is 8.5.1\"`",
+            "Tag `tests/test[2]/assume` equal to `\"node version is 8.5.1\"`",
             new ListOf<>(
                 new YmlTestsOf(
                     new YmlResource("with-3-simple-tests.yml").file()
@@ -116,7 +119,8 @@ public class YmlTestsOfTest {
         );
 
         assertThat(
-            "Tag `tests/test[2]/output` has 1st statement `contains` and expected value is `v8.5.0`",
+            "Tag `tests/test[2]/output` has 1st statement `contains`" +
+                " and expected value is `v8.5.0`",
             new ListOf<>(
                 new YmlTestsOf(
                     new YmlResource("with-3-simple-tests.yml").file()
@@ -139,7 +143,8 @@ public class YmlTestsOfTest {
         );
 
         assertThat(
-            "Tag `tests/test[2]/output` has 2nd statement `startWith` and expected value is `v8.`",
+            "Tag `tests/test[2]/output` has 2nd statement `startWith`" +
+                " and expected value is `v8.`",
             new ListOf<>(
                 new YmlTestsOf(
                     new YmlResource("with-3-simple-tests.yml").file()
@@ -162,7 +167,8 @@ public class YmlTestsOfTest {
         );
 
         assertThat(
-            "Tag `tests/test[2]/output` has 3rd statement `endWith` and expected value is `.5.0`",
+            "Tag `tests/test[2]/output` has 3rd statement `endWith`" +
+                " and expected value is `.5.0`",
             new ListOf<>(
                 new YmlTestsOf(
                     new YmlResource("with-3-simple-tests.yml")

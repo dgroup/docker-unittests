@@ -21,32 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.text;
 
-import org.cactoos.list.ListOf;
+import java.io.File;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * C.
+ * Unit tests for class {@link FormattedTextWithRepeatableArguments}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
-public class FileDefaultArgTest {
+public class FormattedTextWithRepeatableArgumentsTest {
 
     @Test
-    public void file() {
+    public void asString() {
         assertThat(
-            "File content was readed to asString",
-            new FileArg(
-                new ListOf<>(
-                    "-f", ".gitignore"
-                )
-            ).file().getName(),
-            equalTo(".gitignore")
+            new FormattedTextWithRepeatableArguments(
+                "{0}{1}test{1}resources{1}testng.xml",
+                "home", File.separator
+            ).asString(),
+            equalTo(
+                "home" + File.separator + "test" +
+                    File.separator + "resources" +
+                    File.separator + "testng.xml"
+            )
         );
     }
 }

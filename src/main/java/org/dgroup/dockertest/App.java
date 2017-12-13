@@ -69,7 +69,7 @@ public final class App {
                 this.args.fileWithTests(),
                 this.args.availableOutputs()
             ).print();
-        } catch (TestingFailedException ex) {
+        } catch (final TestingFailedException ex) {
             System.exit(-1);
         }
     }

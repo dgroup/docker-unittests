@@ -30,7 +30,7 @@ import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
 
 /**
- * .
+ * Represents different objects like arrays, iterables, etc as string.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -38,18 +38,28 @@ import org.dgroup.dockertest.yml.YmlTagOutputPredicate;
  */
 public final class StringOf {
     /**
-     * Property-values.
+     * All string values for joining.
      */
     private final Iterable<String> values;
     /**
-     * Property-delimiter.
+     * Delimiter for joining procedure.
      */
     private final CharSequence delimiter;
 
     /**
-     * C.
-     * @param conditions Is conditions
-     * @param delimiter Is delimiter
+     * Ctor.
+     *
+     * @param values For joining procedure.
+     */
+    public StringOf(final String[] values) {
+        this(new IterableOf<>(values), " ");
+    }
+
+    /**
+     * Transform collection of {@link YmlTagOutputPredicate} to string.
+     *
+     * @param conditions Values for joining.
+     * @param delimiter Delimiter for joining.
      */
     public StringOf(final List<YmlTagOutputPredicate> conditions, final String delimiter) {
       this(
@@ -59,7 +69,8 @@ public final class StringOf {
     }
 
     /**
-     * String of.
+     * Ctor.
+     *
      * @param values Is values.
      * @param delimiter Is delimiter
      */
@@ -69,13 +80,9 @@ public final class StringOf {
     }
 
     /**
-     * String of.
-     * @param cmd It's a parametr there need for ..
+     * Transform array/collection/etc to string.
+     * @return New joined string in accordance with {@code this.delimiter }
      */
-    public  StringOf(final String[] cmd) {
-        this(new IterableOf<>(cmd), " ");
-    }
-
     public String asString() {
         return StreamEx.of(this.values.iterator())
             .joining(this.delimiter == null ? "" : this.delimiter);

@@ -35,69 +35,77 @@ import org.dgroup.dockertest.text.PlainFormattedText;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Comment here].
+ * Transform *.yml file with tests to collection of {@link YmlTagTest }.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class YmlTestsOf implements Iterable<YmlTagTest> {
-    /**
-     * Comment here}.
-     */
-    private final String testsastext;
 
     /**
-     * Comment here].
-     * @param file Need to {comment here}.
+     * All tags defined in yml file with tests.
+     */
+    private final String yml;
+
+    /**
+     * Ctor.
+     *
+     * @param file Yml file with tests.
      */
     public YmlTestsOf(final File file) {
         this(new InputOf(file));
     }
 
     /**
-     * Comment here].
-     * @param src Need to {comment here}
+     * Ctor.
+     *
+     * @param src Yml file with tests.
      */
     public YmlTestsOf(final Input src) {
         this(
-                new UncheckedText(
-                        new TextOf(src)
-                ).asString()
+            new UncheckedText(
+                new TextOf(src)
+            ).asString()
         );
     }
 
-    public YmlTestsOf(String testsastext) {
-        this.testsastext = testsastext;
+    /**
+     * Ctor.
+     *
+     * @param yml Tags defined in file with tests as string.
+     */
+    public YmlTestsOf(String yml) {
+        this.yml = yml;
     }
 
     @Override
     public Iterator<YmlTagTest> iterator() {
-        Map<String, Object> ymlTree = new Yaml().load(testsastext);
+        Map<String, Object> ymlTree = new Yaml().load(yml);
 
         YmlTag version = new YmlTag(
-                ymlTree.get("version"), "version"
+            ymlTree.get("version"), "version"
         );
         version.verifyExistence();
         if (!"1".equals(version.asString()))
             throw new IllegalArgumentException(
-                    new PlainFormattedText(
-                            "Unsupported version: %s",
-                            version.asString()
-                    ).asString()
+                new PlainFormattedText(
+                    "Unsupported version: %s",
+                    version.asString()
+                ).asString()
             );
 
         YmlTag tests = new YmlTag(
-                ymlTree.get("tests"), "tests"
+            ymlTree.get("tests"), "tests"
         );
         tests.verifyExistence();
 
         return new Mapped<>(
-                YmlTagTest::new,
-                new Mapped<>(
-                        test -> (Map<String, Object>) test,
-                        tests.list().iterator()
-                )
+            YmlTagTest::new,
+            new Mapped<>(
+                test -> (Map<String, Object>) test,
+                tests.list().iterator()
+            )
         );
     }
 }

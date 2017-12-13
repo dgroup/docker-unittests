@@ -30,11 +30,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 /**
- * C.
+ * Unit tests for class {@link FileAsString}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class FileAsStringTest {
 

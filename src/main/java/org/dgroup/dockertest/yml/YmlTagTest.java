@@ -25,9 +25,11 @@ package org.dgroup.dockertest.yml;
 
 import java.util.List;
 import java.util.Map;
+import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * C.
+ * Represents yml tag {@code /tests/test}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -36,43 +38,78 @@ import java.util.Map;
 @SuppressWarnings("PMD")
 public final class YmlTagTest {
 
+    /**
+     * Yml tag transformed to object.
+     */
     private final YmlTag tag;
 
+    /**
+     * Ctor.
+     *
+     * @param yml Tag transformed to object.
+     */
     public YmlTagTest(Map<String, Object> yml) {
         this(
-                new YmlTag(yml.get("test"), "test")
+            new YmlTag(yml.get("test"), "test")
         );
     }
 
+    /**
+     * Ctor.
+     *
+     * @param tag Yml tag transformed to object.
+     */
     private YmlTagTest(YmlTag tag) {
         this.tag = tag;
     }
 
+    /**
+     * Yml tag {@code /tests/test/assume}.
+     *
+     * @return Value for tag {@code assume}
+     */
     public String assume() {
-        return tag.map().get("assume").toString();
+        return this.tag.map().get("assume").toString();
     }
 
+    /**
+     * Yml tag {@code /tests/test/cmd}.
+     *
+     * @return Value for tag {@code cmd}
+     */
     public String cmd() {
-        return tag.map().get("cmd").toString();
+        return this.tag.map().get("cmd").toString();
     }
 
+    /**
+     * Yml tag {@code /tests/test/cmd}.
+     * For example "java -version" became new String[]{"java", "-version"}.
+     *
+     * @return Slitted command by spaces.
+     */
     public String[] dockerCmdAsArray() {
-        return cmd().split(" ");
+        return this.cmd().split(" ");
     }
 
+    /**
+     * Yml tag {@code /tests/test/output} may have several values.
+     *
+     * @return All specified values for tag {@code output}
+     */
     public List<YmlTagOutputPredicate> output() {
         return new YmlTagOutput(
-                (List<Map<String, String>>) tag.map().get("output")
+            (List<Map<String, String>>) this.tag.map().get("output")
         ).conditions();
     }
 
     @Override
     public String toString() {
-        return "YmlTagTest{" +
-                "tag=" + tag +
-                ", assume='" + assume() + '\'' +
-                ", cmd='" + cmd() + '\'' +
-                ", output=" + output().size() +
-                '}';
+        return new PlainFormattedText(
+            "tag `%s`, assume `%s`, cmd `%s`, output `%s`",
+            this.tag,
+            this.assume(),
+            this.cmd(),
+            this.output().size()
+        ).asString();
     }
 }

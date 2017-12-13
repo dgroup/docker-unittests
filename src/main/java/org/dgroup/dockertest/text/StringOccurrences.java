@@ -45,8 +45,7 @@ public final class StringOccurrences {
     }
 
     public boolean equalTo(int occurrences) {
-        int lastIndex = 0;
-        int count = 0;
+        int lastIndex = 0, count = 0;
         while (lastIndex != -1) {
             lastIndex = origin.indexOf(searchStr, lastIndex);
             if (lastIndex != -1) {

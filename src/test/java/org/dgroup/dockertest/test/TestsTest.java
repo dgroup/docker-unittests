@@ -35,21 +35,21 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
- * C.
+ * Unit tests for class {@link Tests}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class TestsTest {
-    @Ignore
+
     //@todo #/DEV OS or Env dependent test. Create native containers or install docker to CI env
+    @Ignore
     @Test
-    /**
-     * Comment here.
-     */
     public final void singleTest() {
-       final FakeOutput output = new FakeOutput();
+        final FakeOutput output = new FakeOutput();
         new Tests(
             new NoImage(),
             new Args(
@@ -60,16 +60,8 @@ public class TestsTest {
             ).fileWithTests(),
             new IterableOf<>(output)
         ).print();
-        assertThat(
-            output.lines(), hasSize(2)
-        );
-        assertThat(
-            output.lines().get(0),
-            equalTo("")
-        );
-        assertThat(
-            output.lines().get(1),
-            equalTo("Testing successful.")
-        );
+        assertThat(output.lines(), hasSize(2));
+        assertThat(output.lines().get(0), equalTo(""));
+        assertThat(output.lines().get(1), equalTo("Testing successful."));
     }
 }

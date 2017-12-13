@@ -27,7 +27,7 @@ import org.assertj.core.api.ThrowableAssert;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * C.
+ * Simplify unit testing of exception throwing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -35,6 +35,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 public final class AssertThrown {
 
+    /**
+     * Verify that exception was thrown during particular operation.
+     *
+     * @param operation Particular operation where exception is required.
+     * @param exp       Exception details which expected to be thrown.
+     */
     public static void assertThrown(ThrowableAssert.ThrowingCallable operation, Exception exp) {
         assertThatThrownBy(operation)
             .isInstanceOf(exp.getClass())

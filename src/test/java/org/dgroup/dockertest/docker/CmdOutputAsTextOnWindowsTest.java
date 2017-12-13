@@ -31,11 +31,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
- * C.
+ * Unit tests for class {@link CmdOutputAsText} on Windows OS.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 @RunWith(RunOnlyOnWindows.class) // @todo #50min/DEV Add the same test for Linux OS
 public class CmdOutputAsTextOnWindowsTest {
@@ -43,13 +45,13 @@ public class CmdOutputAsTextOnWindowsTest {
     @Test(timeout = 1000 * 3)
     public void text() {
         assertThat(
-                "Command `java -version` will have `1.8` version",
-                new CmdOutputAsText(
-                        new SystemProcess(
-                                new ListOf<>("cmd", "/c", "java", "-version")
-                        ).execute()
-                ).asText(),
-                startsWith("java version \"1.8")
+            "Command `java -version` will have `1.8` version",
+            new CmdOutputAsText(
+                new SystemProcess(
+                    new ListOf<>("cmd", "/c", "java", "-version")
+                ).execute()
+            ).asText(),
+            startsWith("java version \"1.8")
         );
     }
 }

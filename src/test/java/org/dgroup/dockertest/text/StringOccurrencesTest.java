@@ -27,11 +27,13 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 
 /**
- * C.
+ * Unit tests for {@link StringOccurrences}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidStaticImportCheck (500 lines)
  */
 public class StringOccurrencesTest {
 
@@ -42,5 +44,4 @@ public class StringOccurrencesTest {
                 .equalTo(2)
         );
     }
-
 }

@@ -24,7 +24,7 @@
 package org.dgroup.dockertest;
 
 /**
- * C.
+ * Represents a callable which didn't throw the exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

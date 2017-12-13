@@ -24,11 +24,11 @@
 package org.dgroup.dockertest;
 
 import java.io.File;
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
 
 /**
- * C.
+ * Represents an yml resource available in `src/test/resources/yml/test` dir.
+ * Allows to simplify the access to testing resources during unit testing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -36,25 +36,49 @@ import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
  */
 public final class YmlResource {
 
+    /**
+     * Path to yml file
+     */
     private final FormattedTextWithRepeatableArguments path;
 
-    public YmlResource(String name) {
-        this("src{0}test{0}resources{0}yml{0}tests{0}{1}", File.separator, name);
+    /**
+     * Ctor.
+     *
+     * @param name Yml file with tests.
+     */
+    public YmlResource(final String name) {
+        this(
+            new FormattedTextWithRepeatableArguments(
+                "src{0}test{0}resources{0}yml{0}tests{0}{1}",
+                File.separator, name
+            )
+        );
     }
 
-    private YmlResource(String pattern, Object... args) {
-        this(new FormattedTextWithRepeatableArguments(pattern, new ListOf<>(args)));
-    }
-
-    private YmlResource(FormattedTextWithRepeatableArguments path) {
+    /**
+     * Ctor.
+     *
+     * @param path Yml file with tests.
+     */
+    private YmlResource(final FormattedTextWithRepeatableArguments path) {
         this.path = path;
     }
 
+    /**
+     * File with tests.
+     *
+     * @return Yml file with tests.
+     */
     public File file() {
-        return new File(path());
+        return new File(this.path());
     }
 
+    /**
+     * Path to *.yml file with tests.
+     *
+     * @return Path to file.
+     */
     public String path() {
-        return path.asString();
+        return this.path.asString();
     }
 }

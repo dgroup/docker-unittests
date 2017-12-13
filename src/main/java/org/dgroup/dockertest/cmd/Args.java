@@ -78,7 +78,7 @@ public final class Args {
      * Available printers for tests results.
      * By default {@link StdOutput} only.
      *
-     * @return available outputs
+     * @return Available outputs
      */
     public Iterable<Output> availableOutputs() {
         return new OutputArg(this.arguments).outputs();

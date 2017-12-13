@@ -29,51 +29,65 @@ import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * Comment for class.
+ * Represents yml tag {@code /tests/test/output}.
+ * Tag can contain list of predicates contains, equals, startWith, endWith.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class YmlTagOutput {
+
     /**
-     * Commnent.
-     * @param tag Comment for tag.
+     * Yml string parsed as map.
      */
     private final List<Map<String, String>> tag;
+
     /**
-     * Commnent.
-     * @param yml Comment for yml.
+     * Ctor.
+     *
+     * @param yml YML string parsed as map.
      */
     public YmlTagOutput(final List<Map<String, String>> yml) {
         this.tag = yml;
     }
-    // @todo #/DEV Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
+
+    // @todo #18 Implement masked contains like contains: "Protocols:*http*https*ldap*pop3"
     public List<YmlTagOutputPredicate> conditions() {
         return new Mapped<>(
-                conditions -> {
-                            final String condition = conditions.keySet().iterator().next();
-                            final String expectedtext = conditions.values().iterator().next();
-                        if ("contains".equalsIgnoreCase(condition)) {
-                            return new YmlTagOutputPredicate("contains", expectedtext, actual -> actual.contains(expectedtext));
-                        }
-                        if ("equal".equalsIgnoreCase(condition)) {
-                            return new YmlTagOutputPredicate("equal", expectedtext, actual -> actual.equals(expectedtext));
-                        }
-                        if ("startWith".equalsIgnoreCase(condition)) {
-                            return new YmlTagOutputPredicate("startWith", expectedtext, actual -> actual.startsWith(expectedtext));
-                        }
-                        if ("endWith".equalsIgnoreCase(condition)) {
-                             return new YmlTagOutputPredicate("endWith", expectedtext, actual -> actual.endsWith(expectedtext));
-                        }
-                    throw new IllegalYmlFormatException(
-                            new PlainFormattedText(
-                                    "Tag `output` has unsupported condition: `%s`. Supported values `contains`, `equal`, `startWith`, `endWith`",
-                                condition
-                         )
+            conditions -> {
+                final String condition = conditions.keySet().iterator().next();
+                final String expected = conditions.values().iterator().next();
+                if ("contains".equalsIgnoreCase(condition)) {
+                    return new YmlTagOutputPredicate(
+                        "contains", expected, actual -> actual.contains(expected)
                     );
-                },
-                this.tag
-              );
+                }
+                if ("equal".equalsIgnoreCase(condition)) {
+                    return new YmlTagOutputPredicate(
+                        "equal", expected, actual -> actual.equals(expected)
+                    );
+                }
+                if ("startWith".equalsIgnoreCase(condition)) {
+                    return new YmlTagOutputPredicate(
+                        "startWith", expected, actual -> actual.startsWith(expected)
+                    );
+                }
+                if ("endWith".equalsIgnoreCase(condition)) {
+                    return new YmlTagOutputPredicate(
+                        "endWith", expected, actual -> actual.endsWith(expected)
+                    );
+                }
+                throw new IllegalYmlFormatException(
+                    new PlainFormattedText(
+                        "Tag `output` has unsupported condition: `%s`. " +
+                            "Supported values are " +
+                            "`contains`, `equal`, `startWith`, `endWith`.",
+                        condition
+                    )
+                );
+            },
+            this.tag
+        );
     }
 }
