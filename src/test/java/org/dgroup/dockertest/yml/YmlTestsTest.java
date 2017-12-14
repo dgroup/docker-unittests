@@ -1,25 +1,25 @@
 /**
- * MIT License
+ *  MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ *  Copyright (c) 2017 Yurii Dubinka
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ *  The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
  */
 package org.dgroup.dockertest.yml;
 
@@ -44,10 +44,10 @@ import org.junit.Test;
  * @checkstyle RegexpSinglelineCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public class YmlTestsTest {
+public final class YmlTestsTest {
 
     @Test
-    public final void tagVersionIsMissing() {
+    public void tagVersionIsMissing() {
         AssertThrown.assertThrown(
             () -> new YmlTests(
                 new YmlResource("with-missing-version-tag.yml").file()
@@ -57,7 +57,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void iterator() {
+    public void iterator() {
         MatcherAssert.assertThat(
             "Tests from file `with-3-simple-tests.yml` loaded as Iterable",
             new ListOf<>(
@@ -70,7 +70,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagAssume() {
+    public void tagAssume() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/assume` equal to `\"node version is 8.5.1\"`",
             new ListOf<>(
@@ -83,7 +83,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagCmd() {
+    public void tagCmd() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/cmd` is equal to `\"node -v\"`",
             new ListOf<>(
@@ -96,7 +96,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputHasNecessaryStatements() {
+    public void tagOutputHasNecessaryStatements() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
             new ListOf<>(
@@ -109,7 +109,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputContains() {
+    public void tagOutputContains() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`",
             new ListOf<>(
@@ -122,7 +122,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputContainsHasExpectedValue() {
+    public void tagOutputContainsHasExpectedValue() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`" +
                 " and expected value is `v8.5.0`",
@@ -136,7 +136,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputStartWith() {
+    public void tagOutputStartWith() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startWith`",
             new ListOf<>(
@@ -149,7 +149,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputStartWithHasExpectedValue() {
+    public void tagOutputStartWithHasExpectedValue() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startWith`" +
                 " and expected value is `v8.`",
@@ -163,7 +163,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputEndWith() {
+    public void tagOutputEndWith() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endWith`",
             new ListOf<>(
@@ -176,7 +176,7 @@ public class YmlTestsTest {
     }
 
     @Test
-    public final void tagOutputEndWithHasExpectedValue() {
+    public void tagOutputEndWithHasExpectedValue() {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endWith`" +
                 " and expected value is `.5.0`",
