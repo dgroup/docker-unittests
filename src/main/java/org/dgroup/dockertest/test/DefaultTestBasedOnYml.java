@@ -51,8 +51,8 @@ public final class DefaultTestBasedOnYml implements Test {
     }
 
     @Override
-    public TestingOutcome execute() {
-        return new DefaultTestingOutcome(
+    public TestOutcome execute() {
+        return new DefaultTestOutcome(
             this.test.assume(),
             this.test.cmd(),
             this.container.run().asText(),

@@ -28,7 +28,8 @@ import java.util.Collection;
 import org.cactoos.list.ListOf;
 
 /**
- * .
+ * Represents formatted text with repeatable arguments.
+ * Allows to simplify parameters amount.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -36,23 +37,46 @@ import org.cactoos.list.ListOf;
  */
 public class FormattedTextWithRepeatableArguments {
 
+    /**
+     * String pattern for formatting.
+     */
     private final String pattern;
+    /**
+     * Arguments, which should be used for patern.
+     */
     private final Collection<Object> args;
 
-    public FormattedTextWithRepeatableArguments(String pattern, Object... args) {
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public FormattedTextWithRepeatableArguments(final String pattern,
+        final Object... args) {
         this(pattern, new ListOf<>(args));
     }
 
-    public FormattedTextWithRepeatableArguments(String pattern, Collection<Object> args) {
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public FormattedTextWithRepeatableArguments(final String pattern,
+        final Collection<Object> args) {
         this.pattern = pattern;
         this.args = args;
     }
 
-    public String asString() {
-        return MessageFormat.format(pattern, args.toArray());
+    /**
+     * Transform the pattern with arguments to string.
+     * @return Formatted text.
+     */
+    public final String asString() {
+        return MessageFormat.format(this.pattern, this.args.toArray());
     }
 
-    public String toString() {
-        return asString();
+    @Override
+    public final String toString() {
+        return this.asString();
     }
 }

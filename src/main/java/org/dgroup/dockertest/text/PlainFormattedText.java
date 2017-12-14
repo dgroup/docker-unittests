@@ -25,42 +25,66 @@ package org.dgroup.dockertest.text;
 
 import java.util.Collection;
 import org.cactoos.list.ListOf;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 
 /**
- * Comment.
+ * Represents a formatted text.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class PlainFormattedText {
-    /** Свойство - паттерн */
+
+    /**
+     * String pattern for formatting.
+     */
     private final String pattern;
-    /** Свойство - аргументы */
+    /**
+     * Arguments, which should be used for patern.
+     */
     private final Collection<Object> args;
 
-    public PlainFormattedText(String pattern, Object... args) {
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public PlainFormattedText(final String pattern, final Object... args) {
         this(pattern, new ListOf<>(args));
     }
 
-    public PlainFormattedText(String pattern, Collection<Object> args) {
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public PlainFormattedText(final String pattern,
+        final Collection<Object> args) {
         this.pattern = pattern;
         this.args = args;
     }
 
+    /**
+     * Transform the pattern with arguments to string.
+     * @return Formatted text.
+     */
     public String asString() {
-        if (new StringOccurrences(pattern, "%s").nonEqualTo(args.size()))
+        if (new StringOccurrences(this.pattern, "%s").nonEqualTo(this.args.size())) {
             throw new IllegalArgumentException(
-                    "Wrong amount of arguments(" + args.size() + ") for pattern '" + pattern + "'."
+                String.format(
+                    "Wrong amount of arguments(%s) for pattern '%s'.",
+                    this.args.size(), this.pattern
+                )
             );
-
-        return new UncheckedText(new org.cactoos.text.FormattedText(pattern, args))
-                .asString();
+        }
+        return new UncheckedText(new FormattedText(this.pattern, this.args))
+            .asString();
     }
 
     @Override
     public String toString() {
-        return asString();
+        return this.asString();
     }
 }

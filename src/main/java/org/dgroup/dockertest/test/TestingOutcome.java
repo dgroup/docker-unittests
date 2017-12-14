@@ -10,29 +10,58 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
+ * The above copyright notice and this permission notice shall be included 
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
 package org.dgroup.dockertest.test;
 
+import java.util.Iterator;
+import org.cactoos.collection.Filtered;
+import org.dgroup.dockertest.test.output.Output;
+
 /**
- * Represents single test result.
+ * .
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface TestingOutcome {
+public class TestingOutcome implements Iterable<TestOutcome> {
 
-    boolean successful();
+    private final Iterable<TestOutcome> outcome;
 
-    String message();
+    public TestingOutcome(final Iterable<TestOutcome> outcome) {
+        this.outcome = outcome;
+    }
+
+    @Override
+    public Iterator<TestOutcome> iterator() {
+        return this.outcome.iterator();
+    }
+
+    public void print(final Output output) {
+        for (TestOutcome out : this) {
+            output.print(out.message());
+        }
+        if (this.failed()) {
+            output.finalDecision("Testing failure.");
+            throw new TestingFailedException();
+        }
+        output.finalDecision("Testing successful.");
+    }
+
+    private boolean failed() {
+        return new Filtered<>(
+            f -> f.message().startsWith("Failed scenario"),
+            this.outcome
+        ).size() > 0;
+    }
 }

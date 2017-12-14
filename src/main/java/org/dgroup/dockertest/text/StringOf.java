@@ -27,6 +27,8 @@ import java.util.List;
 import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
+import org.cactoos.scalar.Ternary;
+import org.dgroup.dockertest.UncheckedTernary;
 import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
@@ -37,6 +39,7 @@ import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
  * @since 0.1.0
  */
 public final class StringOf {
+
     /**
      * All string values for joining.
      */
@@ -61,10 +64,11 @@ public final class StringOf {
      * @param conditions Values for joining.
      * @param delimiter Delimiter for joining.
      */
-    public StringOf(final List<YmlTagOutputPredicate> conditions, final String delimiter) {
-      this(
-           new Mapped<>(Object::toString, conditions),
-               delimiter
+    public StringOf(final List<YmlTagOutputPredicate> conditions,
+        final String delimiter) {
+        this(
+            new Mapped<>(Object::toString, conditions),
+            delimiter
         );
     }
 
@@ -85,7 +89,15 @@ public final class StringOf {
      */
     public String asString() {
         return StreamEx.of(this.values.iterator())
-            .joining(this.delimiter == null ? "" : this.delimiter);
+            .joining(
+                new UncheckedTernary<>(
+                    new Ternary<>(
+                        this.delimiter == null,
+                        "",
+                        this.delimiter
+                    )
+                ).value()
+            );
     }
 
     @Override

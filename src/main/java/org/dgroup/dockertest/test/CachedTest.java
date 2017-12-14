@@ -33,14 +33,14 @@ package org.dgroup.dockertest.test;
 public final class CachedTest implements Test {
 
     private final Test origin;
-    private TestingOutcome outcome;
+    private TestOutcome outcome;
 
     public CachedTest(Test origin) {
         this.origin = origin;
     }
 
     @Override
-    public TestingOutcome execute() {
+    public TestOutcome execute() {
         if (this.outcome == null) {
             this.outcome = this.origin.execute();
         }

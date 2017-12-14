@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.text;
 
 /**
- * .
+ * Represents occurrences in string.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -32,25 +32,46 @@ package org.dgroup.dockertest.text;
  */
 public final class StringOccurrences {
 
+    /**
+     * Original string.
+     */
     private final String origin;
-    private final String searchStr;
+    /**
+     * String which we want to find.
+     */
+    private final String search;
 
-    public StringOccurrences(String origin, String search) {
+    /**
+     * Ctor.
+     * @param origin Base string.
+     * @param search Search string.
+     */
+    public StringOccurrences(final String origin, final String search) {
         this.origin = origin;
-        this.searchStr = search;
+        this.search = search;
     }
 
-    public boolean nonEqualTo(int occurrences) {
-        return !equalTo(occurrences);
+    /**
+     * Compare the occurrences with.
+     * @param occurrences Amount {@code this.search} in {@code this.base}.
+     * @return True in case amount mismatch.
+     */
+    public boolean nonEqualTo(final int occurrences) {
+        return !this.equalTo(occurrences);
     }
 
-    public boolean equalTo(int occurrences) {
-        int lastIndex = 0, count = 0;
-        while (lastIndex != -1) {
-            lastIndex = origin.indexOf(searchStr, lastIndex);
-            if (lastIndex != -1) {
+    /**
+     * Compare the occurrences with.
+     * @param occurrences Amount {@code this.search} in {@code this.base}.
+     * @return True in case equal amount.
+     */
+    public boolean equalTo(final int occurrences) {
+        int last = 0, count = 0;
+        while (last != -1) {
+            last = this.origin.indexOf(this.search, last);
+            if (last != -1) {
                 count++;
-                lastIndex += searchStr.length();
+                last += this.search.length();
             }
         }
         return count == occurrences;

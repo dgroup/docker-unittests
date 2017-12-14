@@ -33,5 +33,10 @@ package org.dgroup.dockertest;
  */
 public interface UncheckedCallable<T> {
 
+    /**
+     * Represents a callable function.
+     * @return Callable value.
+     */
     T call();
+
 }

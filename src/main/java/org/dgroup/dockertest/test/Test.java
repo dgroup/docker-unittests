@@ -37,5 +37,5 @@ public interface Test {
      *
      * @return Testing results.
      */
-    TestingOutcome execute();
+    TestOutcome execute();
 }

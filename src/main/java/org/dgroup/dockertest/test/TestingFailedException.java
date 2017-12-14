@@ -24,12 +24,11 @@
 package org.dgroup.dockertest.test;
 
 /**
- * .
+ * Notify the application that testing is failed.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public class TestingFailedException extends RuntimeException {
-
 }

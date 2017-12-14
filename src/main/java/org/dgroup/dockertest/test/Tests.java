@@ -23,11 +23,8 @@
  */
 package org.dgroup.dockertest.test;
 
-import java.util.List;
 import org.cactoos.Input;
-import org.cactoos.collection.Filtered;
 import org.cactoos.iterable.Mapped;
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.yml.YmlTests;
@@ -41,9 +38,21 @@ import org.dgroup.dockertest.yml.YmlTests;
  **/
 public final class Tests {
 
+    /**
+     * Tests to be executed.
+     */
     private final Iterable<Test> tests;
+    /**
+     * Available outputs for printing results.
+     */
     private final Iterable<Output> outputs;
 
+    /**
+     * Ctor.
+     * @param image Command-line argument with docker image.
+     * @param tests Tests to be executed.
+     * @param outputs Available outputs for printing results.
+     */
     public Tests(final Arg image, final Input tests, final Iterable<Output> outputs) {
         this.tests = new Mapped<>(
             CachedTest::new,
@@ -60,25 +69,12 @@ public final class Tests {
 
     // @todo #18 Cleaning is required
     public void print() {
-        final List<TestingOutcome> outcome = new ListOf<>(
+        final TestingOutcome outcome = new TestingOutcome(
             new Mapped<>(Test::execute, this.tests)
         );
-        for (final Output output : outputs) {
-            for (TestingOutcome out : outcome) {
-                output.print(out.message());
-            }
+        for (final Output output : this.outputs) {
+            outcome.print(output);
         }
-        if (failed(outcome)) {
-            outputs.forEach(o -> o.finalDecision("Testing failure."));
-            throw new TestingFailedException();
-        }
-        outputs.forEach(o -> o.finalDecision("Testing successful."));
     }
 
-    private boolean failed(List<TestingOutcome> outcomes) {
-        return new Filtered<>(
-            f -> f.message().startsWith("Failed scenario"),
-            outcomes
-        ).size() > 0;
-    }
 }

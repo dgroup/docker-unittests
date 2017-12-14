@@ -21,36 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.dgroup.dockertest.text;
-
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.cmd.FileArg;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package org.dgroup.dockertest.test;
 
 /**
- * Unit tests for class {@link FileAsString}.
+ * Represents single test result.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public class FileAsStringTest {
+public interface TestOutcome {
 
-    @Test
-    public final void content() {
-        MatcherAssert.assertThat(
-            "File content was readed to asString",
-            new FileAsString(
-                new FileArg(
-                    new ListOf<>(
-                        "-f", ".gitignore"
-                    )
-                )
-            ).content(),
-            Matchers.containsString("/.idea/")
-        );
-    }
+    boolean successful();
+
+    String message();
 }
