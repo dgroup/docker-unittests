@@ -80,7 +80,11 @@
 11. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../LICENSE.txt) 
      - Press `Apply` > `OK`
-12. Settings > Editor > Code Style > Java > Code Generation 
+12. Settings > Editor > Copyright > 
+     - Press `+`
+     - Select `default` copyright profile
+     - Press `Apply` > `OK`
+13. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"
      - Select option "Make generated parameters final"
        

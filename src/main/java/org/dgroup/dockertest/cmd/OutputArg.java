@@ -4,11 +4,11 @@
  * Copyright (c) 2017 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is  furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
@@ -17,9 +17,9 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+ * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.dgroup.dockertest.cmd;
 
@@ -30,6 +30,7 @@ import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.UncheckedTernary;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
@@ -42,7 +43,7 @@ import org.dgroup.dockertest.test.output.XmlOutput;
  * @version $Id$
  * @since 0.1.0
  */
-public final class OutputArg implements Arg {
+public final class OutputArg {
 
     private final Arg origin;
     private final Map<String, Output> outputs;
@@ -61,33 +62,24 @@ public final class OutputArg implements Arg {
         this.delimiter = delimiter;
     }
 
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return this.origin.value();
-    }
-
-    @Override
-    public boolean specified() {
-        return this.origin.specified();
-    }
 
     public List<Output> outputs() {
-        return this.specified() ?
-            new ListOf<>(
+        return new UncheckedTernary<List<Output>>(
+            this.origin.specified(),
+            () -> new ListOf<>(
                 new Filtered<>(
                     Objects::nonNull,
                     new Mapped<>(
                         this.outputs::get,
                         new ListOf<>(
-                            this.value().split(this.delimiter)
+                            this.origin.value().split(this.delimiter)
                         )
                     )
                 )
-            ) : new ListOf<>(new StdOutput());
+            ),
+            () -> new ListOf<>(
+                new StdOutput()
+            )
+        ).value();
     }
 }
