@@ -64,6 +64,8 @@ public final class StringOccurrences {
      * Compare the occurrences with.
      * @param occurrences Amount {@code this.search} in {@code this.base}.
      * @return True in case equal amount.
+     * @todo #22 Refactor the method below in object-oriented approach
+     * @checkstyle IllegalTokenCheck (lines 10)
      */
     public boolean equalTo(final int occurrences) {
         int last = 0;

@@ -12,14 +12,14 @@ tests:
       cmd:    "node -v"
       output:
         - contains:   "v8.5.0"
-        - startWith:  "v8."
-        - endWith:    ".5.0"
+        - startsWith:  "v8."
+        - endsWith:    ".5.0"
         - contains:   ".0"
 
   - test:
       assume: "curl version is 7.51.0"
       cmd:    "curl --version"
       output:
-        - startWith:  "curl 7."
+        - starstWith:  "curl 7."
         - contains:   "Protocols: "
         - contains:   "Features: "

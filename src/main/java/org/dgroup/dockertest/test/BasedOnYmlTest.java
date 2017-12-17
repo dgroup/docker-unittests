@@ -30,7 +30,7 @@ import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
- * .
+ * Represents YML based implementation for single test.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -38,9 +38,20 @@ import org.dgroup.dockertest.yml.tag.YmlTagTest;
  */
 public final class BasedOnYmlTest implements Test {
 
+    /**
+     * YML tag with testing details.
+     */
     private final YmlTagTest test;
+    /**
+     * Docker container where we need to execute the test.
+     */
     private final DockerContainer container;
 
+    /**
+     * Ctor.
+     * @param image Docker image which can be used for container creation.
+     * @param test Single test to be executed in docker container.
+     */
     public BasedOnYmlTest(final Arg image, final YmlTagTest test) {
         this.test = test;
         this.container = new DefaultDockerContainer(

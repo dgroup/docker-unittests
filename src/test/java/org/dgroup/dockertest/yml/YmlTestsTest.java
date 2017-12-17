@@ -136,22 +136,22 @@ public final class YmlTestsTest {
     }
 
     @Test
-    public void tagOutputStartWith() {
+    public void tagOutputStartsWith() {
         MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 2nd statement `startWith`",
+            "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
             new ListOf<>(
                 new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(1).type(),
-            IsEqual.equalTo("startWith")
+            IsEqual.equalTo("startsWith")
         );
     }
 
     @Test
-    public void tagOutputStartWithHasExpectedValue() {
+    public void tagOutputStartsWithHasExpectedValue() {
         MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 2nd statement `startWith`" +
+            "Tag `tests/test[2]/output` has 2nd statement `startsWith`" +
                 " and expected value is `v8.`",
             new ListOf<>(
                 new YmlTests(
@@ -163,22 +163,22 @@ public final class YmlTestsTest {
     }
 
     @Test
-    public void tagOutputEndWith() {
+    public void tagOutputEndsWith() {
         MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 3rd statement `endWith`",
+            "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
             new ListOf<>(
                 new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
             ).get(1).output().get(2).type(),
-            IsEqual.equalTo("endWith")
+            IsEqual.equalTo("endsWith")
         );
     }
 
     @Test
-    public void tagOutputEndWithHasExpectedValue() {
+    public void tagOutputEndsWithHasExpectedValue() {
         MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 3rd statement `endWith`" +
+            "Tag `tests/test[2]/output` has 3rd statement `endsWith`" +
                 " and expected value is `.5.0`",
             new ListOf<>(
                 new YmlTests(

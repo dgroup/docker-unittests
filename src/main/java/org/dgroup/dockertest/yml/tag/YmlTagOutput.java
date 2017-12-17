@@ -25,13 +25,14 @@ package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
+import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.text.PlainFormattedText;
-import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 
 /**
  * Represents yml tag {@code /tests/test/output}.
- * Tag can contain list of predicates contains, equals, startWith, endWith.
+ * Tag can contain list of predicates contains, equals, startsWith, endsWith.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -43,14 +44,45 @@ public final class YmlTagOutput {
      * Yml string parsed as map.
      */
     private final List<Map<String, String>> tag;
+    /**
+     * Supported conditions.
+     */
+    private final Map
+        <String, UncheckedBiFunc<String, String, Boolean>> supported;
 
     /**
      * Ctor.
-     *
      * @param yml YML string parsed as map.
      */
     public YmlTagOutput(final List<Map<String, String>> yml) {
+        this(
+            yml,
+            new MapOf<>(
+                new MapEntry<>(
+                    "contains", new UncheckedBiFunc<>(String::contains)
+                ),
+                new MapEntry<>(
+                    "equal", new UncheckedBiFunc<>(String::equalsIgnoreCase)
+                ),
+                new MapEntry<>(
+                    "startsWith", new UncheckedBiFunc<>(String::startsWith)
+                ),
+                new MapEntry<>(
+                    "endsWith", new UncheckedBiFunc<>(String::endsWith)
+                )
+            )
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param yml YML string parsed as map.
+     * @param supported Conditions available in *.yml file with tests.
+     */
+    public YmlTagOutput(final List<Map<String, String>> yml,
+        final Map<String, UncheckedBiFunc<String, String, Boolean>> supported) {
         this.tag = yml;
+        this.supported = supported;
     }
 
     /**
@@ -63,39 +95,14 @@ public final class YmlTagOutput {
         return new Mapped<>(
             conditions -> {
                 final String condition = conditions.keySet().iterator().next();
-                final String expected = conditions.values().iterator().next();
-                if ("contains".equalsIgnoreCase(condition)) {
-                    return new YmlTagOutputPredicate(
-                        "contains", expected,
-                        actual -> actual.contains(expected)
-                    );
-                }
-                if ("equal".equalsIgnoreCase(condition)) {
-                    return new YmlTagOutputPredicate(
-                        "equal", expected,
-                        actual -> actual.equals(expected)
-                    );
-                }
-                if ("startWith".equalsIgnoreCase(condition)) {
-                    return new YmlTagOutputPredicate(
-                        "startWith", expected,
-                        actual -> actual.startsWith(expected)
-                    );
-                }
-                if ("endWith".equalsIgnoreCase(condition)) {
-                    return new YmlTagOutputPredicate(
-                        "endWith", expected,
-                        actual -> actual.endsWith(expected)
-                    );
-                }
-                throw new IllegalYmlFormatException(
-                    new PlainFormattedText(
-                        "Tag `output` has unsupported condition: `%s`.",
-                        condition
-                    )
+                return new YmlTagOutputPredicate(
+                    condition,
+                    conditions.values().iterator().next(),
+                    this.supported.get(condition)
                 );
             },
             this.tag
         );
     }
+
 }

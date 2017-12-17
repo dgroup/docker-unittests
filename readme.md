@@ -24,7 +24,7 @@ We, like users, receive the image and we are going to check what we've got.
          assume: "curl version is 7.xxx"
          cmd:    "curl --version"
          output:
-           - startWith: "curl 7."
+           - startsWith: "curl 7."
            - contains:  "Protocols: "
            - contains:  "ldap ldaps pop3"
            - contains:  "Features: "

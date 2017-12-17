@@ -23,12 +23,12 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import java.util.function.Predicate;
+import org.cactoos.func.UncheckedBiFunc;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
  * Represents yml tag
- * {@code /tests/test/output/contains|equal|startWith|endWith}.
+ * {@code /tests/test/output/contains|equal|startsWith|endsWith}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -37,7 +37,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
 public final class YmlTagOutputPredicate {
 
     /**
-     * Compare type: contains, equals, startWith, endWith.
+     * Compare type: contains, equals, startsWith, endsWith.
      */
     private final String type;
     /**
@@ -47,16 +47,16 @@ public final class YmlTagOutputPredicate {
     /**
      * Condition which should satisfy the actual value.
      */
-    private final Predicate<String> predicate;
+    private final UncheckedBiFunc<String, String, Boolean> predicate;
 
     /**
      * Ctor.
-     * @param type Comparing type like contains, equal, startWith, endWith.
+     * @param type Comparing type like contains, equal, startsWiths, endsWith.
      * @param expected Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
     public YmlTagOutputPredicate(final String type, final String expected,
-        final Predicate<String> predicate) {
+        final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
         this.expected = expected;
         this.predicate = predicate;
@@ -64,7 +64,7 @@ public final class YmlTagOutputPredicate {
 
     /**
      * Comparing type.
-     * @return Available types like contains, equal, startWith, endWith.
+     * @return Available types like contains, equal, startsWith, endsWith.
      */
     public String type() {
         return this.type;
@@ -76,7 +76,7 @@ public final class YmlTagOutputPredicate {
      * @return True in case if expected value is equal to actual value.
      */
     public boolean test(final String actual) {
-        return this.predicate.test(actual);
+        return this.predicate.apply(this.expected, actual);
     }
 
     @Override

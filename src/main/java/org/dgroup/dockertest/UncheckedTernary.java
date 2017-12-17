@@ -46,7 +46,8 @@ public final class UncheckedTernary<T> {
      * @param cons The consequent
      * @param alter The alternative
      */
-    public UncheckedTernary(final boolean cnd, final UncheckedCallable<T> cons, final UncheckedCallable<T> alter) {
+    public UncheckedTernary(final boolean cnd, final UncheckedCallable<T> cons,
+        final UncheckedCallable<T> alter) {
         this(new Ternary<>(cnd, cons, alter));
     }
 
