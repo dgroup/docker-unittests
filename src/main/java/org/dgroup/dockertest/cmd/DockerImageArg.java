@@ -68,7 +68,7 @@ public final class DockerImageArg implements Arg {
     }
 
     @Override
-    public boolean specified() {
-        return this.origin.specified();
+    public boolean specifiedByUser() {
+        return this.origin.specifiedByUser();
     }
 }

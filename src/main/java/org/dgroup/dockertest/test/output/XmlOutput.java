@@ -24,11 +24,14 @@
 package org.dgroup.dockertest.test.output;
 
 /**
- * .
+ * Print testing results to xml file.
+ * The *.xml file with output will be placed to current directory.
+ * Also directory can be exported from {@code -reports_home} cmd argument.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #23:4h Print testing output to xml file.
  */
 public final class XmlOutput implements Output {
 

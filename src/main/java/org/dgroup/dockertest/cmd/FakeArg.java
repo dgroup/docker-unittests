@@ -24,26 +24,26 @@
 package org.dgroup.dockertest.cmd;
 
 /**
- * .
+ * Non-null implementation of {@link Arg}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class NoImage implements Arg {
+public final class FakeArg implements Arg {
 
     @Override
     public String name() {
-        return null;
+        return "";
     }
 
     @Override
     public String value() {
-        return null;
+        return "";
     }
 
     @Override
-    public boolean specified() {
+    public boolean specifiedByUser() {
         return false;
     }
 }

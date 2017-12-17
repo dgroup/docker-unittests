@@ -23,63 +23,90 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.UncheckedTernary;
-import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
-import org.dgroup.dockertest.test.output.XmlOutput;
+import org.dgroup.dockertest.test.output.SupportedOutputs;
 
 /**
- * .
+ * Represents a command line argument (@code -o} for output format.
+ * Available formats are standard out, html, xml.
  *
+ * For example {@code -o std|xml|html} will print testing results
+ * to standard output, xml and html file.
+ *
+ * If case if argument is absent then standard output will be used.
+
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 public final class OutputArg {
 
-    private final Arg origin;
-    private final Map<String, Output> outputs;
+    /**
+     * Command line argument specified by user.
+     */
+    private final Arg output;
+    /**
+     * Delimiter for splitting value specified by user.
+     */
     private final String delimiter;
+    /**
+     * Supported output formats.
+     */
+    private final SupportedOutputs outputs;
 
+    /**
+     * Ctor.
+     * @param arguments Command-line arguments from user.
+     */
     public OutputArg(final List<String> arguments) {
-        this(new DefaultArg("-o", arguments), "\\|");
+        this(
+            new DefaultArg("-o", arguments),
+            "\\|",
+            new SupportedOutputs()
+        );
     }
 
-    public OutputArg(final Arg origin, final String delimiter) {
-        this.origin = origin;
-        this.outputs = new HashMap<>();
-        this.outputs.put("xml", new XmlOutput());
-        this.outputs.put("html", new HtmlOutput());
-        this.outputs.put("std", new StdOutput());
+    /**
+     * Ctor.
+     * @param output Command line argument specified by user.
+     * @param delimiter For splitting value specified by user.
+     * @param outputs Supported output formats.
+     */
+    public OutputArg(final Arg output, final String delimiter,
+        final SupportedOutputs outputs) {
+        this.output = output;
         this.delimiter = delimiter;
+        this.outputs = outputs;
     }
 
-
+    /**
+     * Outputs which should be used for printing of tests results.
+     * @return Standard output or specified by user outputs.
+     *  See {@link SupportedOutputs} for details.
+     */
     public List<Output> outputs() {
         return new UncheckedTernary<List<Output>>(
-            this.origin.specified(),
+            this.output.specifiedByUser(),
             () -> new ListOf<>(
                 new Filtered<>(
                     Objects::nonNull,
                     new Mapped<>(
-                        this.outputs::get,
+                        this.outputs::find,
                         new ListOf<>(
-                            this.origin.value().split(this.delimiter)
+                            this.output.value().split(this.delimiter)
                         )
                     )
                 )
             ),
-            () -> new ListOf<>(
-                new StdOutput()
-            )
+            () -> new ListOf<>(new StdOutput())
         ).value();
     }
+
 }

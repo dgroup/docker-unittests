@@ -21,65 +21,65 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test.output;
 
-import java.io.File;
 import java.util.List;
+import java.util.Map;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Represents supported output formats for printing test results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class FileArg implements Arg {
+public final class SupportedOutputs {
 
     /**
-     * Contain yml file with tests.
+     * Supported formats.
      */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     *
-     * @param args Command-line arguments are passed to the app by the user.
-     */
-    public FileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
+    private final Map<String, Output> out;
 
     /**
      * Ctor.
-     *
-     * @param origin Command-line argument with name of docker image.
      */
-    private FileArg(final Arg origin) {
-        this.origin = origin;
+    public SupportedOutputs() {
+        this(
+            new MapOf<>(
+                new MapEntry<>("xml", new XmlOutput()),
+                new MapEntry<>("html", new HtmlOutput()),
+                new MapEntry<>("std", new StdOutput())
+            )
+        );
     }
 
     /**
-     * Passed to app by user with key "-f".
-     *
-     * @return Yml file with tests.
+     * Ctor.
+     * @param out Supported output formats like standard output, xml, html.
      */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
+    public SupportedOutputs(final Map<String, Output> out) {
+        this.out = out;
     }
 
-    @Override
-    public String name() {
-        return this.origin.name();
+    /**
+     * Gives output type by format id.
+     * @param type Format id
+     * @return Output. In case if not found {@link SilentOutput} will be return
+     *  (did nothing).
+     */
+    public Output find(final String type) {
+        return this.out.get(type);
     }
 
-    @Override
-    public String value() {
-        return this.origin.value();
+    /**
+     * Checking that output formats specified by user are supported.
+     * @param specified By user output formats.
+     * @return True in any of specified by user output formats is supported.
+     */
+    public boolean supports(final List<String> specified) {
+        return this.out.keySet().stream().anyMatch(specified::contains);
     }
 
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
-    }
 }

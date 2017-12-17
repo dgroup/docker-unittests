@@ -54,9 +54,11 @@ public final class CmdOutputAsText implements CmdOutput {
 
     @Override
     public String asText() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(
-            this.outcome.getInputStream()
-        ))) {
+        try (BufferedReader in = new BufferedReader(
+            new InputStreamReader(
+                this.outcome.getInputStream()
+            ))
+        ) {
             return new UncheckedText(
                 new TextOf(
                     new InputOf(in)

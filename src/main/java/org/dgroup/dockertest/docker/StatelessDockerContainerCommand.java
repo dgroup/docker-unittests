@@ -46,11 +46,8 @@ public final class StatelessDockerContainerCommand
 
     /**
      * Ctor.
-     *
      * @param image Docker image for testing.
-     * @param cmd   Contains commands which should be executed
-     *               inside of container, thus "java -version"
-     *               will be split to "java", "-version".
+     * @param cmd Command to be executed inside of docker container.
      */
     public StatelessDockerContainerCommand(final String image,
         final String[] cmd) {

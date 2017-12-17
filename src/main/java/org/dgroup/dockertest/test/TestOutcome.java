@@ -32,7 +32,15 @@ package org.dgroup.dockertest.test;
  */
 public interface TestOutcome {
 
+    /**
+     * Single test result.
+     * @return Status of single test result.
+     */
     boolean successful();
 
+    /**
+     * Single test result message.
+     * @return Details regarding to expected and actual output.
+     */
     String message();
 }

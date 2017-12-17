@@ -21,51 +21,23 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
-
-import org.dgroup.dockertest.cmd.Arg;
-import org.dgroup.dockertest.docker.DefaultDockerContainer;
-import org.dgroup.dockertest.docker.DockerContainer;
-import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+package org.dgroup.dockertest.test.output;
 
 /**
- * Represents YML based implementation for single test.
+ * Non-null implementation of {@link Output}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class BasedOnYmlTest implements Test {
+public final class SilentOutput implements Output {
 
-    /**
-     * YML tag with testing details.
-     */
-    private final YmlTagTest test;
-    /**
-     * Docker container where we need to execute the test.
-     */
-    private final DockerContainer container;
-
-    /**
-     * Ctor.
-     * @param image Docker image which can be used for container creation.
-     * @param test Single test to be executed in docker container.
-     */
-    public BasedOnYmlTest(final Arg image, final YmlTagTest test) {
-        this.test = test;
-        this.container = new DefaultDockerContainer(
-            new StatelessDockerContainerCommand(
-                image.value(), test.dockerCmdAsArray()
-            )
-        );
+    @Override
+    public void print(final String msg) {
     }
 
     @Override
-    public TestOutcome execute() {
-        return new SingleTestOutcome(
-            this.test,
-            this.container.run().asText()
-        );
+    public void finalDecision(final String msg) {
     }
+
 }

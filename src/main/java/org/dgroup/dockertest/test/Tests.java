@@ -68,7 +68,11 @@ public final class Tests {
         this.outputs = outputs;
     }
 
-    // @todo #18 Cleaning is required
+    /**
+     * Print tests results to selected outputs.
+     * In case if nothing was selected
+     * {@link org.dgroup.dockertest.test.output.StdOutput} will be used.
+     */
     public void print() {
         final TestingOutcome outcome = new TestingOutcome(
             new Mapped<>(Test::execute, this.tests)

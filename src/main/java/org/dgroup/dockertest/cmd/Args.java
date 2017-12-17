@@ -47,7 +47,6 @@ public final class Args {
 
     /**
      * Ctor.
-     *
      * @param arguments Command-line arguments from user.
      */
     public Args(final String... arguments) {

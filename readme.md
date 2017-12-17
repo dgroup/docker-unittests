@@ -46,10 +46,10 @@ We, like users, receive the image and we are going to check what we've got.
                                          
 
 ### TODO
- - @todo #11 Implement qulice fixes for all *.java files
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #13 Add https://codebeat.co badge once project moved to public
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #15 Add https://sonarcloud.io badge once project moved to public
  - @todo #16 Add https://codecov.io badge once project moved to public
  - @todo #17 Add http://www.javadoc.io badge once project moved to public
+ - @todo #25 PMD fixes (26 left)

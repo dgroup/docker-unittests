@@ -21,39 +21,58 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test.output;
 
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import org.cactoos.list.ListOf;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link DefaultArg}.
+ * Unit tests for class {@link SupportedOutputs}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
+ * @checkstyle JavadocMethodCheck (200 lines)
+ * @checkstyle JavadocVariableCheck (200 lines)
  */
-public class DefaultArgTest {
+@RunWith(DataProviderRunner.class)
+public final class SupportedOutputsTest {
+
+    private final SupportedOutputs outputs = new SupportedOutputs(
+        new MapOf<>(
+            new MapEntry<>("xml", new XmlOutput()),
+            new MapEntry<>("html", new HtmlOutput()),
+            new MapEntry<>("std", new StdOutput())
+        )
+    );
 
     @Test
-    public final void specified() {
+    public void xmlAndHtmlTypesAreSupported() {
         MatcherAssert.assertThat(
-            new DefaultArg(
-                "-o", new ListOf<>("-o", "std")
-            ).specifiedByUser(),
+            this.outputs.supports(new ListOf<>("html", "xml")),
             Matchers.equalTo(true)
         );
     }
 
     @Test
-    public final void notSpecified() {
+    public void onlyXmlTypeIsSupported() {
         MatcherAssert.assertThat(
-            new DefaultArg(
-                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
-            ).specifiedByUser(),
+            this.outputs.supports(new ListOf<>("csv", "xml")),
+            Matchers.equalTo(true)
+        );
+    }
+
+    @Test
+    public void csvAsOutputTypeIsNotSupported() {
+        MatcherAssert.assertThat(
+            this.outputs.supports(new ListOf<>("csv")),
             Matchers.equalTo(false)
         );
     }

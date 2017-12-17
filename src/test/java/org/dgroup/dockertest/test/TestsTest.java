@@ -26,7 +26,7 @@ package org.dgroup.dockertest.test;
 import org.cactoos.iterable.IterableOf;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.NoImage;
+import org.dgroup.dockertest.cmd.FakeArg;
 import org.dgroup.dockertest.test.output.FakeOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,7 +50,7 @@ public class TestsTest {
     public final void singleTest() {
         final FakeOutput output = new FakeOutput();
         new Tests(
-            new NoImage(),
+            new FakeArg(),
             new Args(
                 "-f",
                 new YmlResource(

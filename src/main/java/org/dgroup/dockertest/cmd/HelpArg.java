@@ -24,27 +24,15 @@
 package org.dgroup.dockertest.cmd;
 
 /**
- * .
+ * Print help information
+ * to {@link org.dgroup.dockertest.test.output.StdOutput}
+ * in case {@code -help, --help} or no-arguments specified.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @todo #10 Implement help command
+ * @todo #10:2h Implement help command
  */
-public final class HelpArg implements Arg {
+public final class HelpArg {
 
-    @Override
-    public String name() {
-        return null;
-    }
-
-    @Override
-    public String value() {
-        return null;
-    }
-
-    @Override
-    public boolean specified() {
-        return false;
-    }
 }

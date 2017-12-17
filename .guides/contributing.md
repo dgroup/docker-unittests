@@ -87,4 +87,6 @@
 13. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"
      - Select option "Make generated parameters final"
-       
+14. Settings > Editor > Code Style > Java > Spaces
+     - Select `Array initializer braces`
+     - Press `Apply` > `OK`

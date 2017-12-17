@@ -54,6 +54,13 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
         return this.outcome.iterator();
     }
 
+    /**
+     * Print testing results to the selected output.
+     * In case if nothing was selected
+     * {@link org.dgroup.dockertest.test.output.StdOutput} will be used.
+     *
+     * @param output Available output for printing.
+     */
     public void print(final Output output) {
         for (final TestOutcome out : this) {
             output.print(out.message());
@@ -65,6 +72,10 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
         output.finalDecision("Testing successful.");
     }
 
+    /**
+     * Checking all tests outcome for failed scenario's.
+     * @return True in failed scenario's found.
+     */
     private boolean failed() {
         return new Filtered<>(
             f -> f.message().startsWith("Failed scenario"),

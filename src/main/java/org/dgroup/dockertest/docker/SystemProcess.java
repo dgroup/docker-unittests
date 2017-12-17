@@ -35,16 +35,31 @@ import java.util.List;
  */
 public final class SystemProcess {
 
+    /**
+     * OS dependent system process instance.
+     */
     private final ProcessBuilder process;
 
+    /**
+     * Ctor.
+     * @param cmd Arguments for OS dependent system process.
+     */
     public SystemProcess(final List<String> cmd) {
         this(new ProcessBuilder(cmd).redirectErrorStream(true));
     }
 
+    /**
+     * Ctor.
+     * @param process Instance of OS dependent system process.
+     */
     public SystemProcess(final ProcessBuilder process) {
         this.process = process;
     }
 
+    /**
+     * Execute one command.
+     * @return Instance of started OS dependent system process.
+     */
     public Process execute() {
         try {
             return this.process.start();

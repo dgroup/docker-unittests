@@ -52,13 +52,13 @@ public interface Arg {
      *
      * @return Existence of argument.
      */
-    boolean specified();
+    boolean specifiedByUser();
 
     /**
      * Throw {@link CmdArgNotFoundException} in case if argument is absent.
      */
     default void assertThatArgumentWasSpecified() {
-        if (this.specified()) {
+        if (this.specifiedByUser()) {
             return;
         }
         throw new CmdArgNotFoundException(

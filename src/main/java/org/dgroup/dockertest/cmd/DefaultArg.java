@@ -65,7 +65,7 @@ public final class DefaultArg implements Arg {
     }
 
     @Override
-    public boolean specified() {
+    public boolean specifiedByUser() {
         return this.args.indexOf(this.name()) >= 0
             && this.args.indexOf(this.name()) + 1 < this.args.size();
     }

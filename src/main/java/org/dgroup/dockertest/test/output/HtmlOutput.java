@@ -24,11 +24,14 @@
 package org.dgroup.dockertest.test.output;
 
 /**
- * .
+ * Print testing results to html file.
+ * The *.html file with output will be placed to current directory.
+ * Also directory can be exported from {@code -reports_home} cmd argument.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #24:4h Print testing output to html file.
  */
 public final class HtmlOutput implements Output {
 

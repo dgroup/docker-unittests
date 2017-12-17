@@ -23,11 +23,11 @@
  */
 package org.dgroup.dockertest.test;
 
-import java.util.List;
 import org.cactoos.collection.Filtered;
+import org.dgroup.dockertest.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.text.StringOf;
-import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
  * Default implementation of single test result.
@@ -39,64 +39,55 @@ import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 public final class SingleTestOutcome implements TestOutcome {
 
     /**
-     * Name of testing scenario.
-     * By default, exported from `assume` section
-     * (for each test defined in *.yml).
+     * Detail regarding executed test.
      */
-    private final String scenario;
-    /**
-     * Command for execution in docker container.
-     * By default, exported from `cmd` section
-     * (for each test defined in *.yml).
-     */
-    private final String cmd;
+    private final YmlTagTest test;
     /**
      * Output from docker container.
      */
     private final String output;
-    /**
-     * List of expected conditions, which should be applied to output.
-     * By default, exported from `output` section (
-     * for each test defined in *.yml).
-     */
-    private final List<YmlTagOutputPredicate> expected;
 
     /**
      * Ctor.
+     * @param test Details regarding test which was executed.
+     * @param output Output from docker container.
      */
-    public SingleTestOutcome(final String scenario, final String cmd,
-        final String output, final List<YmlTagOutputPredicate> expected) {
-        this.scenario = scenario;
-        this.cmd = cmd;
+    public SingleTestOutcome(final YmlTagTest test, final String output) {
+        this.test = test;
         this.output = output;
-        this.expected = expected;
     }
 
+    /**
+     * Status of testing scenario.
+     * @return True in case of absent failed scenarios.
+     */
     public boolean successful() {
         return new Filtered<>(
-            t -> !t.test(this.output), this.expected
+            t -> !t.test(this.output), this.test.output()
         ).isEmpty();
     }
 
+    /**
+     * Testing scenario details.
+     * @return Scenario details like passed/failed, docker cmd, output.
+     */
     public String message() {
-        return this.successful() ? this.scenarioPassed() : this.scenarioFailed();
-    }
-
-    private String scenarioPassed() {
-        return new PlainFormattedText(
-            "Passed scenario `%s` (cmd=`%s`). Output is `%s`",
-            this.scenario, this.cmd, this.output
-        ).asString();
-    }
-
-    private String scenarioFailed() {
-        return new PlainFormattedText(
-            "Failed scenario `%s` (cmd=`%s`). Got `%s` instead of `%s`",
-            this.scenario,
-            this.cmd,
-            new StringOf(this.expected, ", "),
-            this.output
-        ).asString();
+        return new UncheckedTernary<>(
+            this.successful(),
+            () -> new PlainFormattedText(
+                "Passed scenario `%s` (cmd=`%s`). Output is `%s`",
+                this.test.assume(),
+                this.test.cmd(),
+                this.output
+            ).asString(),
+            () -> new PlainFormattedText(
+                "Failed scenario `%s` (cmd=`%s`). `%s` didn't match to `%s`",
+                this.test.assume(),
+                this.test.cmd(),
+                this.output,
+                new StringOf(this.test.output(), ", ")
+            ).asString()
+        ).value();
     }
 
 }

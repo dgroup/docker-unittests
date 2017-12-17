@@ -45,7 +45,6 @@ public final class YmlTagTest {
 
     /**
      * Ctor.
-     *
      * @param yml Tag transformed to object.
      */
     public YmlTagTest(final Map<String, Object> yml) {
@@ -54,7 +53,6 @@ public final class YmlTagTest {
 
     /**
      * Ctor.
-     *
      * @param tag Yml tag transformed to object.
      */
     private YmlTagTest(final YmlTag tag) {
@@ -62,35 +60,43 @@ public final class YmlTagTest {
     }
 
     /**
-     * Yml tag {@code /tests/test/assume}.
+     * Name of testing scenario.
+     * Exported from `assume` section {@code /tests/test/assume} for each test
+     * defined in *.yml file.
      *
-     * @return Value for tag {@code assume}
+     * @return Value for tag {@code /tests/test/assume}
      */
     public String assume() {
         return this.tag.map().get("assume").toString();
     }
 
     /**
-     * Yml tag {@code /tests/test/cmd}.
+     * Command for execution in docker container.
+     * Exported from `cmd` section {@code /tests/test/cmd} for each test
+     * defined in *.yml file.
      *
-     * @return Value for tag {@code cmd}
+     * @return Value for tag {@code /tests/test/cmd}
      */
     public String cmd() {
         return this.tag.map().get("cmd").toString();
     }
 
     /**
-     * Yml tag {@code /tests/test/cmd}.
-     * For example "java -version" became new String[]{"java", "-version"}.
+     * Command for execution in docker container as array.
+     * Exported from `cmd` section {@code /tests/test/cmd} for each test
+     * defined in *.yml file.
      *
-     * @return Slitted command by spaces.
+     * @return Slitted docker command by spaces.
+     *  For example "java -version" became new String[]{"java", "-version"}.
      */
     public String[] dockerCmdAsArray() {
         return this.cmd().split(" ");
     }
 
     /**
-     * Yml tag {@code /tests/test/output} may have several values.
+     * List of expected conditions, which should be applied to output.
+     * Exported from `output` section {@code /tests/test/output} for each test
+     * defined in *.yml file. Tag may have several values.
      *
      * @return All specified values for tag {@code output}
      */
