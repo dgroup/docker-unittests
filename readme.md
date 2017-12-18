@@ -52,4 +52,3 @@ We, like users, receive the image and we are going to check what we've got.
  - @todo #15 Add https://sonarcloud.io badge once project moved to public
  - @todo #16 Add https://codecov.io badge once project moved to public
  - @todo #17 Add http://www.javadoc.io badge once project moved to public
- - @todo #25 PMD fixes (26 left)

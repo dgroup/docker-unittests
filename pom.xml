@@ -61,25 +61,25 @@
             <groupId>org.cactoos</groupId>
             <artifactId>cactoos</artifactId>
             <version>${cactoos.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>${jansi.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>one.util</groupId>
             <artifactId>streamex</artifactId>
             <version>${streamex.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -170,6 +170,10 @@
                             <excludes combine.children="append">
                                 <exclude>checkstyle:/src/site/resources/.*</exclude>
                                 <exclude>findbugs:.*</exclude>
+                                <exclude>dependencies:org.cactoos:cactoos</exclude>
+                                <exclude>dependencies:org.fusesource.jansi:jansi</exclude>
+                                <exclude>dependencies:one.util:streamex</exclude>
+                                <exclude>dependencies:org.yaml:snakeyaml</exclude>
                             </excludes>
                         </configuration>
                         <executions>
