@@ -3,11 +3,11 @@
 #
 dependencies:
   override:
-    - mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline -Pqulice
+    - mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline -Pqulice -X
 
 test:
   override:
-    - mvn test -Pqulice
+    - mvn test -Pqulice -X
 
 notify:
   webhooks:

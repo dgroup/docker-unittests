@@ -193,7 +193,9 @@
                         <version>${jacoco.version}</version>
                         <configuration>
                             <output>file</output>
-                            <excludes>**/*Exception.java</excludes>
+                            <excludes>
+                                <exclude>**/*Exception.java</exclude>
+                            </excludes>
                         </configuration>
                         <executions>
                             <execution>
