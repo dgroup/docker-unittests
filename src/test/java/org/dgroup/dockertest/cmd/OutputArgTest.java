@@ -48,7 +48,7 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>()
-            ).outputs().iterator().next(),
+            ).availableOutputs().iterator().next(),
             IsInstanceOf.instanceOf(StdOutput.class)
         );
     }
@@ -58,7 +58,7 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>("-o", "xml|html")
-            ).outputs(),
+            ).availableOutputs(),
             IsCollectionWithSize.hasSize(2)
         );
     }
@@ -68,7 +68,7 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>("-o", "xml|html")
-            ).outputs().get(0),
+            ).availableOutputs().get(0),
             IsInstanceOf.instanceOf(XmlOutput.class)
         );
     }
@@ -78,7 +78,7 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>("-o", "xml|html")
-            ).outputs().get(1),
+            ).availableOutputs().get(1),
             IsInstanceOf.instanceOf(HtmlOutput.class)
         );
     }

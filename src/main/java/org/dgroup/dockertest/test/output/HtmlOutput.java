@@ -37,10 +37,12 @@ public final class HtmlOutput implements Output {
 
     @Override
     public void print(final String msg) {
+        throw new UnsupportedOperationException("#print()");
     }
 
     @Override
     public void finalDecision(final String msg) {
+        throw new UnsupportedOperationException("#finalDecision()");
     }
 
 }

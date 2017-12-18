@@ -41,7 +41,7 @@ public final class Tests {
     /**
      * Tests to be executed.
      */
-    private final Iterable<Test> tests;
+    private final Iterable<Test> origin;
     /**
      * Available outputs for printing results.
      */
@@ -55,7 +55,7 @@ public final class Tests {
      */
     public Tests(final Arg image, final Input tests,
         final Iterable<Output> outputs) {
-        this.tests = new Mapped<>(
+        this.origin = new Mapped<>(
             CachedTest::new,
             new Mapped<>(
                 ymlTagTest -> new BasedOnYmlTest(
@@ -75,7 +75,7 @@ public final class Tests {
      */
     public void print() {
         final TestingOutcome outcome = new TestingOutcome(
-            new Mapped<>(Test::execute, this.tests)
+            new Mapped<>(Test::execute, this.origin)
         );
         for (final Output output : this.outputs) {
             outcome.print(output);

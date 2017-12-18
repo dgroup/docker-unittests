@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import java.io.PrintStream;
+
 /**
  * Print testing results to standard output.
  *
@@ -32,10 +34,30 @@ package org.dgroup.dockertest.test.output;
  */
 public final class StdOutput implements Output {
 
+    /**
+     * Standard output.
+     */
+    private final PrintStream out;
+
+    /**
+     * Ctor.
+     */
+    public StdOutput() {
+        this(System.out);
+    }
+
+    /**
+     * Ctor.
+     * @param out Instance for print procedure.
+     */
+    public StdOutput(final PrintStream out) {
+        this.out = out;
+    }
+
     // @todo #9 Use jansi for colored std output
     @Override
     public void print(final String msg) {
-        System.out.println(msg);
+        this.out.println(msg);
     }
 
     @Override

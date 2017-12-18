@@ -91,7 +91,7 @@ public final class OutputArg {
      * @return Standard output or specified by user outputs.
      *  See {@link SupportedOutputs} for details.
      */
-    public List<Output> outputs() {
+    public List<Output> availableOutputs() {
         return new UncheckedTernary<List<Output>>(
             this.output.specifiedByUser(),
             () -> new ListOf<>(

@@ -37,6 +37,7 @@ public final class DefaultArg implements Arg {
     /**
      * Command line argument name.
      */
+    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
     private final String name;
     /**
      * All command-line arguments specified by user.

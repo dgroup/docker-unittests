@@ -79,7 +79,7 @@ public final class Args {
      *
      * @return Available outputs
      */
-    public Iterable<Output> availableOutputs() {
-        return new OutputArg(this.arguments).outputs();
+    public Iterable<Output> outputs() {
+        return new OutputArg(this.arguments).availableOutputs();
     }
 }

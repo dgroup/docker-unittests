@@ -116,7 +116,7 @@ public final class YmlTestsTest {
                 new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
-            ).get(1).output().get(0).type(),
+            ).get(1).output().get(0).comparingType(),
             IsEqual.equalTo("contains")
         );
     }
@@ -143,7 +143,7 @@ public final class YmlTestsTest {
                 new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
-            ).get(1).output().get(1).type(),
+            ).get(1).output().get(1).comparingType(),
             IsEqual.equalTo("startsWith")
         );
     }
@@ -170,7 +170,7 @@ public final class YmlTestsTest {
                 new YmlTests(
                     new YmlResource("with-3-simple-tests.yml").file()
                 )
-            ).get(1).output().get(2).type(),
+            ).get(1).output().get(2).comparingType(),
             IsEqual.equalTo("endsWith")
         );
     }

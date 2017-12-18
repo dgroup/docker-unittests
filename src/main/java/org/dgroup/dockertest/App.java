@@ -67,7 +67,7 @@ public final class App {
             new Tests(
                 this.args.dockerImage(),
                 this.args.fileWithTests(),
-                this.args.availableOutputs()
+                this.args.outputs()
             ).print();
         } catch (final TestingFailedException ex) {
             System.exit(-1);

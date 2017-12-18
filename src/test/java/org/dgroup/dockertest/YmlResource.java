@@ -39,7 +39,7 @@ public final class YmlResource {
     /**
      * Path to yml file.
      */
-    private final FormattedTextWithRepeatableArguments path;
+    private final FormattedTextWithRepeatableArguments location;
 
     /**
      * Ctor.
@@ -58,10 +58,10 @@ public final class YmlResource {
     /**
      * Ctor.
      *
-     * @param path Yml file with tests.
+     * @param location Yml file with tests.
      */
-    private YmlResource(final FormattedTextWithRepeatableArguments path) {
-        this.path = path;
+    private YmlResource(final FormattedTextWithRepeatableArguments location) {
+        this.location = location;
     }
 
     /**
@@ -79,6 +79,6 @@ public final class YmlResource {
      * @return Path to file.
      */
     public String path() {
-        return this.path.asString();
+        return this.location.asString();
     }
 }

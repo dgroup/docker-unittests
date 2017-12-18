@@ -64,9 +64,9 @@ public final class YmlTagOutputPredicate {
 
     /**
      * Comparing type.
-     * @return Available types like contains, equal, startsWith, endsWith.
+     * @return Available types are contains, equal, startsWith, endsWith.
      */
-    public String type() {
+    public String comparingType() {
         return this.type;
     }
 
