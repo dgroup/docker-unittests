@@ -2,3 +2,4 @@
 --verbose
 --exclude coverage/**/*
 --exclude assets/**/*
+--exclude .guides/*
