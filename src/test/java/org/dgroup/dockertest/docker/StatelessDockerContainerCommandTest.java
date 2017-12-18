@@ -21,54 +21,32 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.docker;
 
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsCollectionContaining;
+import org.junit.Test;
 
 /**
- * Docker image is passed to application as command-line argument by user.
+ * Unit-tests for class {@link StatelessDockerContainerCommand}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class DockerImageArg implements Arg {
+public final class StatelessDockerContainerCommandTest {
 
-    /**
-     * Argument with docker image.
-     */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     *
-     * @param args Command-line arguments are passed to the app by the user.
-     */
-    public DockerImageArg(final List<String> args) {
-        this(new DefaultArg("-i", args));
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param origin Command-line argument with name of docker image.
-     */
-    private DockerImageArg(final Arg origin) {
-        this.origin = origin;
-    }
-
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return this.origin.value();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    public void args() {
+        MatcherAssert.assertThat(
+            new StatelessDockerContainerCommand(
+                "java", "-version"
+            ).args(),
+            IsCollectionContaining.hasItems(
+                "docker", "run", "--rm", "java", "-version"
+            )
+        );
     }
 }

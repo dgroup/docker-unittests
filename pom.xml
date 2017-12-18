@@ -193,6 +193,7 @@
                         <version>${jacoco.version}</version>
                         <configuration>
                             <output>file</output>
+                            <excludes>**/*Exception.java</excludes>
                         </configuration>
                         <executions>
                             <execution>
@@ -216,27 +217,27 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.61</minimum>
+                                                    <minimum>0.45</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.67</minimum>
+                                                    <minimum>0.50</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.69</minimum>
+                                                    <minimum>0.35</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.57</minimum>
+                                                    <minimum>0.45</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>METHOD</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.57</minimum>
+                                                    <minimum>0.50</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>CLASS</counter>

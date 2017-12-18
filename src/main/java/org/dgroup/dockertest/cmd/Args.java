@@ -37,6 +37,7 @@ import org.dgroup.dockertest.test.output.StdOutput;
  * @author Yurii Dubinka (yurii.dubinka@gmai.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #25 Unit-tests for class required.
  */
 public final class Args {
 
@@ -54,12 +55,12 @@ public final class Args {
     }
 
     /**
-     * Docker image is passed to application through {@link DockerImageArg}.
+     * Docker image is passed to application by user.
      * @return Docker image name for testing.
      * @todo #21 Load docker image before running the tests.
      */
     public Arg dockerImage() {
-        return new DockerImageArg(this.arguments);
+        return new DefaultArg("-i", this.arguments);
     }
 
     /**
