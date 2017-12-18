@@ -225,12 +225,12 @@
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>0.45</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.35</minimum>
+                                                    <minimum>0.30</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
@@ -240,12 +240,12 @@
                                                 <limit>
                                                     <counter>METHOD</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>0.45</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>15</maximum>
+                                                    <maximum>20</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>
