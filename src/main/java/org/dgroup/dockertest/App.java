@@ -52,16 +52,16 @@ public final class App {
 
     /**
      * Main method.
-     *
-     * @param args Command-line arguments
+     * @param args Command-line arguments.
      */
-    public static void main(final String[] args) {
+    public static void main(final String... args) {
         new App(new Args(args)).start();
     }
 
     /**
      * Execute testing procedure.
      */
+    @SuppressWarnings("PMD.DoNotCallSystemExit")
     public void start() {
         try {
             new Tests(

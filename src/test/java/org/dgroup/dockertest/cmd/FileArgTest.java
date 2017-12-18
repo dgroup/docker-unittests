@@ -39,6 +39,7 @@ import org.junit.Test;
 public final class FileArgTest {
 
     @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public void fileContentWasReadedAsString() {
         MatcherAssert.assertThat(
             new FileArg(

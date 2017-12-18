@@ -64,6 +64,7 @@ public final class UncheckedTernary<T> {
      * @return Value.
      * @checkstyle IllegalCatchCheck (10 lines)
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public T value() {
         try {
             return this.origin.value().call();

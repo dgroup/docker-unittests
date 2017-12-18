@@ -66,8 +66,7 @@ public final class SupportedOutputs {
     /**
      * Gives output type by format id.
      * @param type Format id
-     * @return Output. In case if not found {@link SilentOutput} will be return
-     *  (did nothing).
+     * @return Output.
      */
     public Output find(final String type) {
         return this.out.get(type);

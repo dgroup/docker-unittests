@@ -43,6 +43,7 @@ import org.junit.runner.RunWith;
  * @checkstyle JavadocVariableCheck (200 lines)
  */
 @RunWith(DataProviderRunner.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class SupportedOutputsTest {
 
     private final SupportedOutputs outputs = new SupportedOutputs(

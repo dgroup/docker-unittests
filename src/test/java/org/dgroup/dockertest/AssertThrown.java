@@ -48,6 +48,7 @@ public final class AssertThrown {
      * @param operation Particular operation where exception is required.
      * @param exception Details which expected to be thrown.
      */
+    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     public static void assertThrown(final ThrowingCallable operation,
         final Exception exception) {
         Assertions.assertThatThrownBy(operation)

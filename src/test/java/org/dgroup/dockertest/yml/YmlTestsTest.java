@@ -43,7 +43,7 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class YmlTestsTest {
 
     @Test

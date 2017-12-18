@@ -50,7 +50,7 @@ public final class StatelessDockerContainerCommand
      * @param cmd Command to be executed inside of docker container.
      */
     public StatelessDockerContainerCommand(final String image,
-        final String[] cmd) {
+        final String... cmd) {
         this.cmd = new Joined<>(
             new ListOf<>("docker", "run", "--rm", image),
             new ListOf<>(cmd)

@@ -53,7 +53,7 @@ public final class StringOf {
      *
      * @param values For joining procedure.
      */
-    public StringOf(final String[] values) {
+    public StringOf(final String... values) {
         this(new IterableOf<>(values), " ");
     }
 

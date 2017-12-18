@@ -39,6 +39,7 @@ import org.junit.Test;
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class FormattedTextWithRepeatableArgumentsTest {
 
     @Test

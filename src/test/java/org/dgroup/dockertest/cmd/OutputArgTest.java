@@ -40,6 +40,7 @@ import org.junit.Test;
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class OutputArgTest {
 
     @Test
