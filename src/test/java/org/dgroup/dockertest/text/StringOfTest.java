@@ -21,29 +21,35 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.text;
+
+import org.cactoos.iterable.IterableOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Non-null implementation of {@link Arg}.
+ * Unit tests for class {@link StringOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class FakeArg implements Arg {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class StringOfTest {
 
-    @Override
-    public String name() {
-        return "";
+    @Test
+    public void asString() {
+        MatcherAssert.assertThat(
+            new StringOf(
+                new IterableOf<>("one", "two", "three"),
+                ","
+            ).asString(),
+            Matchers.equalTo(
+                "one,two,three"
+            )
+        );
     }
 
-    @Override
-    public String value() {
-        return "";
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return false;
-    }
 }

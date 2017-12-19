@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import org.cactoos.iterable.ItemAt;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.StdOutput;
@@ -48,7 +49,7 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>()
-            ).availableOutputs().iterator().next(),
+            ).iterator().next(),
             IsInstanceOf.instanceOf(StdOutput.class)
         );
     }
@@ -56,9 +57,11 @@ public final class OutputArgTest {
     @Test
     public void specifiedOutputSize() {
         MatcherAssert.assertThat(
-            new OutputArg(
-                new ListOf<>("-o", "xml|html")
-            ).availableOutputs(),
+            new ListOf<>(
+                new OutputArg(
+                    new ListOf<>("-o", "xml|html")
+                )
+            ),
             IsCollectionWithSize.hasSize(2)
         );
     }
@@ -68,17 +71,20 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>("-o", "xml|html")
-            ).availableOutputs().get(0),
+            ).iterator().next(),
             IsInstanceOf.instanceOf(XmlOutput.class)
         );
     }
 
     @Test
-    public void thatSecondOutputTypeIsHtml() {
+    public void thatSecondOutputTypeIsHtml() throws Exception {
         MatcherAssert.assertThat(
-            new OutputArg(
-                new ListOf<>("-o", "xml|html")
-            ).availableOutputs().get(1),
+            new ItemAt<>(
+                1,
+                new OutputArg(
+                    new ListOf<>("-o", "xml|html")
+                )
+            ).value(),
             IsInstanceOf.instanceOf(HtmlOutput.class)
         );
     }

@@ -21,65 +21,22 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
-
-import java.io.File;
-import java.util.List;
-import org.dgroup.dockertest.text.FileAsString;
+package org.dgroup.dockertest.scalar;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Represents a callable which didn't throw the exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 0.1.0
  */
-public final class FileArg implements Arg {
+public interface UncheckedCallable<T> {
 
     /**
-     * Contain yml file with tests.
+     * Represents a callable function.
+     * @return Callable value.
      */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
-     */
-    public FileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
-
-    /**
-     * Ctor.
-     * @param origin Yml file with tests specified by user from command line.
-     */
-    private FileArg(final Arg origin) {
-        this.origin = origin;
-    }
-
-    /**
-     * Passed to app by user with key "-f".
-     * @return Yml file with tests.
-     */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
-    }
-
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return new FileAsString(this.file())
-            .content();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
-    }
+    T call();
 
 }

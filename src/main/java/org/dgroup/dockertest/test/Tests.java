@@ -23,9 +23,7 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.cactoos.Input;
 import org.cactoos.iterable.Mapped;
-import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.yml.YmlTests;
 
@@ -50,10 +48,10 @@ public final class Tests {
     /**
      * Ctor.
      * @param image Command-line argument with docker image.
-     * @param tests Tests to be executed.
+     * @param yml String with tests to be executed.
      * @param outputs Available outputs for printing results.
      */
-    public Tests(final Arg image, final Input tests,
+    public Tests(final String image, final String yml,
         final Iterable<Output> outputs) {
         this.origin = new Mapped<>(
             CachedTest::new,
@@ -62,7 +60,7 @@ public final class Tests {
                     image,
                     ymlTagTest
                 ),
-                new YmlTests(tests)
+                new YmlTests(yml)
             )
         );
         this.outputs = outputs;

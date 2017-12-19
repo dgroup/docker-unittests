@@ -21,65 +21,48 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.text;
 
 import java.io.File;
-import java.util.List;
-import org.dgroup.dockertest.text.FileAsString;
+import org.cactoos.io.BytesOf;
+import org.cactoos.io.InputOf;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Read file to string.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class FileArg implements Arg {
+public final class FileAsString {
 
     /**
-     * Contain yml file with tests.
+     * File to read.
      */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
-     */
-    public FileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
+    private final File file;
 
     /**
      * Ctor.
-     * @param origin Yml file with tests specified by user from command line.
+     * @param file For reading.
      */
-    private FileArg(final Arg origin) {
-        this.origin = origin;
+    public FileAsString(final File file) {
+        this.file = file;
     }
 
     /**
-     * Passed to app by user with key "-f".
-     * @return Yml file with tests.
+     * File content.
+     * @return File content as string.
      */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
-    }
-
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return new FileAsString(this.file())
-            .content();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    public String content() {
+        return new UncheckedText(
+            new TextOf(
+                new BytesOf(
+                    new InputOf(this.file)
+                )
+            )
+        ).asString();
     }
 
 }

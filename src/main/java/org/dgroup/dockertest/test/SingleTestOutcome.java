@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.test;
 
 import org.cactoos.collection.Filtered;
-import org.dgroup.dockertest.UncheckedTernary;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.text.StringOf;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;

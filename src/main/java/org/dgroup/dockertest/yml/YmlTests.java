@@ -23,13 +23,8 @@
  */
 package org.dgroup.dockertest.yml;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
-import org.cactoos.Input;
-import org.cactoos.io.InputOf;
-import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 import org.dgroup.dockertest.yml.tag.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.YmlTagVersion;
@@ -51,29 +46,6 @@ public final class YmlTests implements Iterable<YmlTagTest> {
 
     /**
      * Ctor.
-     *
-     * @param file Yml file with tests.
-     */
-    public YmlTests(final File file) {
-        this(new InputOf(file));
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param src Yml file with tests.
-     */
-    public YmlTests(final Input src) {
-        this(
-            new UncheckedText(
-                new TextOf(src)
-            ).asString()
-        );
-    }
-
-    /**
-     * Ctor.
-     *
      * @param yml Tags defined in file with tests as string.
      */
     public YmlTests(final String yml) {

@@ -23,17 +23,25 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import org.cactoos.collection.Filtered;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 
 /**
  * Represents supported output formats for printing test results.
+ * Factory-like class.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class SupportedOutputs {
 
@@ -64,12 +72,23 @@ public final class SupportedOutputs {
     }
 
     /**
-     * Gives output type by format id.
-     * @param type Format id
-     * @return Output.
+     * Gives all outputs for specified by user from command-line.
+     * @param types Specified command-line arguments from user.
+     * @return Outputs.
      */
-    public Output find(final String type) {
-        return this.out.get(type);
+    public Iterator<Output> availableFor(final List<String> types) {
+        return new UncheckedTernary<List<Output>>(
+            this.supports(types),
+            () -> new ListOf<>(
+                new Filtered<>(
+                    Objects::nonNull,
+                    new Mapped<>(
+                        this.out::get, types
+                    )
+                )
+            ),
+            () -> new ListOf<>(new StdOutput())
+        ).value().iterator();
     }
 
     /**

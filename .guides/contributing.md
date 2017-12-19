@@ -66,17 +66,16 @@
     - Change `Continuation Indent` to 4
     - Press `OK`
 10. Settings > Editor > File and Code Templates > For current project > Includes > File Header
-    - Put the following text
+    - Put the following text (change name, email and version accordingly)
        ```java
         /**
-    	 * .
-    	 * 
-    	 * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
-    	 * @version $Id$
-    	 * @since   0.1.0
-    	 */
+         * .
+         * 
+         * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+         * @version $Id$
+         * @since   0.1.0
+         */
        ```
-     - Change your name, email and lib version accordingly.
 11. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../LICENSE.txt) 
      - Press `Apply` > `OK`
@@ -89,4 +88,19 @@
      - Select option "Make generated parameters final"
 14. Settings > Editor > Code Style > Java > Spaces
      - Select `Array initializer braces`
+     - Press `Apply` > `OK`
+15. Settings > File and Code Templates > Includes
+     - Press `+`, name = `Unit-test File Header`, extension = `java`
+     - Add text like below (change name, email and version accordingly)
+        ```java
+         /**
+          * Unit tests for class {@link }.
+          * 
+          * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
+          * @version $Id$
+          * @since   0.1.0
+          * @checkstyle JavadocMethodCheck (500 lines)
+          */
+    	  @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+        ```
      - Press `Apply` > `OK`

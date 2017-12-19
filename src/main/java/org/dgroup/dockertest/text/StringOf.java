@@ -27,7 +27,7 @@ import java.util.List;
 import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.UncheckedTernary;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
@@ -50,7 +50,6 @@ public final class StringOf {
 
     /**
      * Ctor.
-     *
      * @param values For joining procedure.
      */
     public StringOf(final String... values) {
@@ -58,22 +57,7 @@ public final class StringOf {
     }
 
     /**
-     * Transform collection of {@link YmlTagOutputPredicate} to string.
-     *
-     * @param conditions Values for joining.
-     * @param delimiter Delimiter for joining.
-     */
-    public StringOf(final List<YmlTagOutputPredicate> conditions,
-        final String delimiter) {
-        this(
-            new Mapped<>(Object::toString, conditions),
-            delimiter
-        );
-    }
-
-    /**
      * Ctor.
-     *
      * @param values Is values.
      * @param delimiter Is delimiter
      */
@@ -83,6 +67,19 @@ public final class StringOf {
             delimiter == null,
             () -> "",
             () -> delimiter
+        );
+    }
+
+    /**
+     * Transform collection of {@link YmlTagOutputPredicate} to string.
+     * @param conditions Values for joining.
+     * @param delimiter Delimiter for joining.
+     */
+    public StringOf(final List<YmlTagOutputPredicate> conditions,
+        final String delimiter) {
+        this(
+            new Mapped<>(Object::toString, conditions),
+            delimiter
         );
     }
 
@@ -99,4 +96,5 @@ public final class StringOf {
     public String toString() {
         return this.asString();
     }
+
 }

@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.test.output;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.cactoos.iterator.LengthOf;
 import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
@@ -75,6 +76,42 @@ public final class SupportedOutputsTest {
         MatcherAssert.assertThat(
             this.outputs.supports(new ListOf<>("csv")),
             Matchers.equalTo(false)
+        );
+    }
+
+    @Test
+    public void thatXmlOutputTypeWasFound() {
+        MatcherAssert.assertThat(
+            this.outputs.availableFor(new ListOf<>("xml")).next(),
+            Matchers.instanceOf(XmlOutput.class)
+        );
+    }
+
+    @Test
+    public void thatOnlyXmlOutputTypeWasFound() {
+        MatcherAssert.assertThat(
+            new LengthOf(
+                this.outputs.availableFor(new ListOf<>("xml"))
+            ).value(),
+            Matchers.equalTo(1)
+        );
+    }
+
+    @Test
+    public void thatStdoutWasFoundAsDefaultOutput() {
+        MatcherAssert.assertThat(
+            this.outputs.availableFor(new ListOf<>("csv")).next(),
+            Matchers.instanceOf(StdOutput.class)
+        );
+    }
+
+    @Test
+    public void thatOnlyStdoutWasFoundAsDefaultOutput() {
+        MatcherAssert.assertThat(
+            new LengthOf(
+                this.outputs.availableFor(new ListOf<>("csv"))
+            ).value(),
+            Matchers.equalTo(1)
         );
     }
 

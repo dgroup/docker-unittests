@@ -21,55 +21,53 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.cmd;
 
-import org.cactoos.scalar.Ternary;
+import java.util.List;
 
 /**
- * Ternary operation which didn't throw exception.
+ * Represents a command line argument with name the docker image.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 0.1.0
  */
-public final class UncheckedTernary<T> {
+public final class DockerImageArg implements Arg {
 
     /**
-     * Ternary operation.
+     * Command line argument specified by user.
      */
-    private final Ternary<UncheckedCallable<T>> origin;
+    private final Arg origin;
 
     /**
      * Ctor.
-     * @param cnd The condition
-     * @param cons The consequent
-     * @param alter The alternative
+     * @param args Command-line arguments are passed to the app by the user.
      */
-    public UncheckedTernary(final boolean cnd, final UncheckedCallable<T> cons,
-        final UncheckedCallable<T> alter) {
-        this(new Ternary<>(cnd, cons, alter));
+    public DockerImageArg(final List<String> args) {
+        this(new DefaultArg("-i", args));
     }
 
     /**
      * Ctor.
-     * @param origin Ternary operation.
+     * @param arg Command-line arguments are passed to the app by the user.
      */
-    public UncheckedTernary(final Ternary<UncheckedCallable<T>> origin) {
-        this.origin = origin;
+    private DockerImageArg(final Arg arg) {
+        this.origin = arg;
     }
 
-    /**
-     * Receive the result value based on ternary condition.
-     * @return Value.
-     * @checkstyle IllegalCatchCheck (10 lines)
-     */
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public T value() {
-        try {
-            return this.origin.value().call();
-        } catch (final Exception ex) {
-            throw new IllegalStateException(ex);
-        }
+    @Override
+    public String name() {
+        return this.origin.name();
+    }
+
+    // @todo #26 Do the `docker pull` for image before testing.
+    @Override
+    public String value() {
+        return this.origin.value();
+    }
+
+    @Override
+    public boolean specifiedByUser() {
+        return this.origin.specifiedByUser();
     }
 }

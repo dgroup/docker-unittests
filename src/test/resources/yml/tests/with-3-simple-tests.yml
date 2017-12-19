@@ -12,8 +12,8 @@ tests:
       cmd:    "node -v"
       output:
         - contains:   "v8.5.0"
-        - startsWith:  "v8."
-        - endsWith:    ".5.0"
+        - startsWith: "v8."
+        - endsWith:   ".5.0"
         - contains:   ".0"
 
   - test:

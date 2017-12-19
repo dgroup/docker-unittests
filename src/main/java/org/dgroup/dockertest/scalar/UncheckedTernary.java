@@ -21,22 +21,53 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.scalar;
+
+import org.cactoos.Scalar;
+import org.cactoos.scalar.Ternary;
 
 /**
- * Represents a callable which didn't throw the exception.
+ * Ternary operation which didn't throw exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @param <T> Type of item.
  * @since 0.1.0
  */
-public interface UncheckedCallable<T> {
+public final class UncheckedTernary<T> implements Scalar<T> {
 
     /**
-     * Represents a callable function.
-     * @return Callable value.
+     * Ternary operation.
      */
-    T call();
+    private final Ternary<UncheckedCallable<T>> origin;
 
+    /**
+     * Ctor.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
+     */
+    public UncheckedTernary(final boolean cnd, final UncheckedCallable<T> cons,
+        final UncheckedCallable<T> alter) {
+        this(new Ternary<>(cnd, cons, alter));
+    }
+
+    /**
+     * Ctor.
+     * @param origin Ternary operation.
+     */
+    public UncheckedTernary(final Ternary<UncheckedCallable<T>> origin) {
+        this.origin = origin;
+    }
+
+    // @checkstyle IllegalCatchCheck (10 lines)
+    @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public T value() {
+        try {
+            return this.origin.value().call();
+        } catch (final Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
 }

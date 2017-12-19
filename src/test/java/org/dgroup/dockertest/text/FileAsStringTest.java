@@ -21,57 +21,39 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.text;
 
-import org.cactoos.list.ListOf;
+import java.io.File;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link DefaultArg}.
+ * Unit tests for class {@link FileAsString}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public class DefaultArgTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class FileAsStringTest {
 
     @Test
-    public final void specified() {
+    public void fileContentWasReadedAsString() {
         MatcherAssert.assertThat(
-            new DefaultArg(
-                "-o", new ListOf<>("-o", "std")
-            ).specifiedByUser(),
-            Matchers.equalTo(true)
+            new FileAsString(
+                new File(
+                    new FormattedTextWithRepeatableArguments(
+                        "src{0}test{0}resources{0}txt{0}tests{0}simple.txt",
+                        File.separator
+                    ).asString()
+                )
+            ).content(),
+            Matchers.equalTo(
+                "test:\nassume: \"curl version is 7.xxx\"\ncmd"
+            )
         );
     }
-
-    @Test
-    public final void notSpecified() {
-        MatcherAssert.assertThat(
-            new DefaultArg(
-                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
-            ).specifiedByUser(),
-            Matchers.equalTo(false)
-        );
-    }
-
-//    @Test
-//    public final void thatArgumentWasSpecified() {
-//        AssertThrown.assertThrown(
-//            () ->
-//                new DefaultArg(
-//                    "-o",
-//                    new ListOf<>(
-//                        "-f", "single-test.yml", "-i", "alpine:jdk9"
-//                    )
-//                ).assertThatArgumentWasSpecified(),
-//            new CmdArgNotFoundException(
-//                "Yml file with tests wasn't specified by '-o' flag."
-//            )
-//        );
-//    }
 
 }

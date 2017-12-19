@@ -21,34 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
-
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
 
 /**
- * Unit tests for class {@link FileArg}.
+ * Scalars.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class FileArgTest {
-
-    @Test
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public void fileWasFound() {
-        MatcherAssert.assertThat(
-            new FileArg(
-                new ListOf<>(
-                    "-f", ".gitignore"
-                )
-            ).file().getName(),
-            Matchers.equalTo(".gitignore")
-        );
-    }
-
-}
+package org.dgroup.dockertest.scalar;

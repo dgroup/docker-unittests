@@ -23,7 +23,11 @@
  */
 package org.dgroup.dockertest;
 
-import org.dgroup.dockertest.cmd.Args;
+import java.util.List;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.cmd.DockerImageArg;
+import org.dgroup.dockertest.cmd.FileArg;
+import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
 
@@ -39,14 +43,13 @@ public final class App {
     /**
      * Application command-line arguments.
      **/
-    private final Args args;
+    private final List<String> args;
 
     /**
      * Ctor.
-     *
      * @param args Command-line arguments
      */
-    public App(final Args args) {
+    public App(final List<String> args) {
         this.args = args;
     }
 
@@ -55,7 +58,8 @@ public final class App {
      * @param args Command-line arguments.
      */
     public static void main(final String... args) {
-        new App(new Args(args)).start();
+        new App(new ListOf<>(args))
+            .start();
     }
 
     /**
@@ -65,9 +69,9 @@ public final class App {
     public void start() {
         try {
             new Tests(
-                this.args.dockerImage(),
-                this.args.fileWithTests(),
-                this.args.outputs()
+                new DockerImageArg(this.args).value(),
+                new FileArg(this.args).value(),
+                new OutputArg(this.args)
             ).print();
         } catch (final TestingFailedException ex) {
             System.exit(-1);

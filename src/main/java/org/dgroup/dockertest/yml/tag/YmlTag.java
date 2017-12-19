@@ -25,7 +25,7 @@ package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
-import org.dgroup.dockertest.UncheckedTernary;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 

@@ -195,7 +195,8 @@
                         <configuration>
                             <output>file</output>
                             <excludes>
-                                <exclude>**/*Exception.java</exclude>
+                                <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
+                                <exclude>org/dgroup/dockertest/**/Fake*.*</exclude>
                             </excludes>
                         </configuration>
                         <executions>
@@ -220,22 +221,22 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.45</minimum>
+                                                    <minimum>0.55</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.45</minimum>
+                                                    <minimum>0.55</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.30</minimum>
+                                                    <minimum>0.40</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.45</minimum>
+                                                    <minimum>0.50</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>METHOD</counter>
@@ -245,7 +246,7 @@
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>20</maximum>
+                                                    <maximum>15</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>

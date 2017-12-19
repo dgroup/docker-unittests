@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.docker.DefaultDockerContainer;
 import org.dgroup.dockertest.docker.DockerContainer;
 import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
@@ -52,11 +51,11 @@ public final class BasedOnYmlTest implements Test {
      * @param image Docker image which can be used for container creation.
      * @param test Single test to be executed in docker container.
      */
-    public BasedOnYmlTest(final Arg image, final YmlTagTest test) {
+    public BasedOnYmlTest(final String image, final YmlTagTest test) {
         this.test = test;
         this.container = new DefaultDockerContainer(
             new StatelessDockerContainerCommand(
-                image.value(), test.dockerCmdAsArray()
+                image, test.dockerCmdAsArray()
             )
         );
     }

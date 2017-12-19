@@ -21,65 +21,54 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.scalar;
 
-import java.io.File;
-import java.util.List;
-import org.dgroup.dockertest.text.FileAsString;
+import org.cactoos.Scalar;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Ternary operation with cached result.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 0.1.0
  */
-public final class FileArg implements Arg {
+public final class CachedTernary<T> implements Scalar<T> {
 
     /**
-     * Contain yml file with tests.
+     * Ternary operation.
      */
-    private final Arg origin;
-
+    private final UncheckedTernary<T> ternary;
     /**
-     * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
+     * Cached ternary value.
      */
-    public FileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
+    private T cached;
 
     /**
      * Ctor.
-     * @param origin Yml file with tests specified by user from command line.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
      */
-    private FileArg(final Arg origin) {
-        this.origin = origin;
+    public CachedTernary(final boolean cnd, final UncheckedCallable<T> cons,
+        final UncheckedCallable<T> alter) {
+        this(new UncheckedTernary<>(cnd, cons, alter));
     }
 
     /**
-     * Passed to app by user with key "-f".
-     * @return Yml file with tests.
+     * Ctor.
+     * @param ternary Ternary operation.
      */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
+    public CachedTernary(final UncheckedTernary<T> ternary) {
+        this.ternary = ternary;
     }
 
     @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return new FileAsString(this.file())
-            .content();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    public T value() {
+        if (this.cached == null) {
+            this.cached = this.ternary.value();
+        }
+        return this.cached;
     }
 
 }

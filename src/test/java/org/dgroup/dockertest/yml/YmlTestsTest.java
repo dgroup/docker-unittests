@@ -50,7 +50,7 @@ public final class YmlTestsTest {
     public void tagVersionIsMissing() {
         AssertThrown.assertThrown(
             () -> new YmlTests(
-                new YmlResource("with-missing-version-tag.yml").file()
+                new YmlResource("with-missing-version-tag.yml").asString()
             ).iterator(),
             new IllegalYmlFormatException("The `version` tag is missing")
         );
@@ -62,7 +62,7 @@ public final class YmlTestsTest {
             "Tests from file `with-3-simple-tests.yml` loaded as Iterable",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ),
             IsCollectionWithSize.hasSize(3)
@@ -75,7 +75,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/assume` equal to `\"node version is 8.5.1\"`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).assume(),
             IsEqual.equalTo("node version is 8.5.1")
@@ -88,7 +88,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/cmd` is equal to `\"node -v\"`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).cmd(),
             IsEqual.equalTo("node -v")
@@ -101,7 +101,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/output` has 4 statements",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output(),
             IsCollectionWithSize.hasSize(4)
@@ -114,7 +114,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/output` has 1st statement `contains`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(0).comparingType(),
             IsEqual.equalTo("contains")
@@ -128,7 +128,7 @@ public final class YmlTestsTest {
                 " and expected value is `v8.5.0`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(0).test("v8.5.0"),
             IsEqual.equalTo(true)
@@ -141,7 +141,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(1).comparingType(),
             IsEqual.equalTo("startsWith")
@@ -155,7 +155,7 @@ public final class YmlTestsTest {
                 " and expected value is `v8.`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(1).test("v8."),
             IsEqual.equalTo(true)
@@ -168,7 +168,7 @@ public final class YmlTestsTest {
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml").file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(2).comparingType(),
             IsEqual.equalTo("endsWith")
@@ -182,8 +182,7 @@ public final class YmlTestsTest {
                 " and expected value is `.5.0`",
             new ListOf<>(
                 new YmlTests(
-                    new YmlResource("with-3-simple-tests.yml")
-                        .file()
+                    new YmlResource("with-3-simple-tests.yml").asString()
                 )
             ).get(1).output().get(2).test(".5.0"),
             IsEqual.equalTo(true)
