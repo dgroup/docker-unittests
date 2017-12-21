@@ -14,7 +14,5 @@ tests:
       cmd:    "curl --version"
       output:
         - startsWith: "curl 7."
-        - contains:  "Protocols: "
-        - contains:  "ldap ldaps pop3"
-        - contains:  "Features: "
-        - contains:  "AsynchDNS IDN IPv6 Largefile GSS-API"
+        - matches:    "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"
+        - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"

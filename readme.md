@@ -25,10 +25,8 @@ We, like users, receive the image and we are going to check what we've got.
          cmd:    "curl --version"
          output:
            - startsWith: "curl 7."
-           - contains:  "Protocols: "
-           - contains:  "ldap ldaps pop3"
-           - contains:  "Features: "
-           - contains:  "AsynchDNS IDN IPv6 Largefile GSS-API"
+           - matches:    "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"
+           - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
    ```
 2. Run tests for image 
    ```bash

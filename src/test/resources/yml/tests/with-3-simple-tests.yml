@@ -20,6 +20,6 @@ tests:
       assume: "curl version is 7.51.0"
       cmd:    "curl --version"
       output:
-        - starstWith:  "curl 7."
+        - starstWith: "curl 7."
         - contains:   "Protocols: "
-        - contains:   "Features: "
+        - matches:    "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"

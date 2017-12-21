@@ -69,6 +69,12 @@ public final class YmlTagOutput {
                 ),
                 new MapEntry<>(
                     "endsWith", new UncheckedBiFunc<>(String::endsWith)
+                ),
+                new MapEntry<>(
+                    "matches",
+                    new UncheckedBiFunc<>(
+                        (expected, actual) -> actual.matches(expected)
+                    )
                 )
             )
         );
@@ -89,7 +95,6 @@ public final class YmlTagOutput {
      * Yml tag {@code /tests/test/output} may have several values.
      *
      * @return All specified values for tag {@code output}
-     * @todo #18 Implement masked contains like "Protocols:*http*https*ldap"
      */
     public List<YmlTagOutputPredicate> conditions() {
         return new Mapped<>(
