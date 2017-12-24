@@ -26,7 +26,8 @@ package org.dgroup.dockertest.test;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
-import org.dgroup.dockertest.cmd.FileArg;
+import org.dgroup.dockertest.cmd.FakeArg;
+import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.output.FakeOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,15 +51,15 @@ public class TestsTest {
     public final void singleTest() {
         final FakeOutput output = new FakeOutput();
         new Tests(
-            "",
-            new FileArg(
+            new FakeArg(),
+            new YmlFileArg(
                 new ListOf<>(
                     "-f",
                     new YmlResource(
                         "with-single-test.yml"
                     ).path()
                 )
-            ).value(),
+            ),
             new IterableOf<>(output)
         ).print();
         MatcherAssert.assertThat(

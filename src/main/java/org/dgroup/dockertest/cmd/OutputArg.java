@@ -32,8 +32,8 @@ import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.SupportedOutputs;
 
 /**
- * Represents a command line argument (@code -o} for output format.
- * Available formats are standard out, html, xml.
+ * Represents a command line argument {@code -o} for output format.
+ * Available formats are standard out, html and xml.
  *
  * For example {@code -o std|xml|html} will print testing results
  * to standard output, xml and html file.
@@ -57,14 +57,10 @@ public final class OutputArg implements Iterable<Output> {
 
     /**
      * Ctor.
-     * @param arguments Command-line arguments from user.
+     * @param args Command-line arguments from user.
      */
-    public OutputArg(final List<String> arguments) {
-        this(
-            new DefaultArg("-o", arguments),
-            "\\|",
-            new SupportedOutputs()
-        );
+    public OutputArg(final List<String> args) {
+        this(new DefaultArg("-o", args), "\\|", new SupportedOutputs());
     }
 
     /**

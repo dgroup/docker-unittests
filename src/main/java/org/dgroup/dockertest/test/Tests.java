@@ -24,8 +24,9 @@
 package org.dgroup.dockertest.test;
 
 import org.cactoos.iterable.Mapped;
+import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.yml.YmlTests;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
  * Allows to execute tests and print results.
@@ -48,19 +49,16 @@ public final class Tests {
     /**
      * Ctor.
      * @param image Command-line argument with docker image.
-     * @param yml String with tests to be executed.
+     * @param tests Yml tags with tests to be executed.
      * @param outputs Available outputs for printing results.
      */
-    public Tests(final String image, final String yml,
+    public Tests(final Arg image, final Iterable<YmlTagTest> tests,
         final Iterable<Output> outputs) {
         this.origin = new Mapped<>(
             CachedTest::new,
             new Mapped<>(
-                ymlTagTest -> new BasedOnYmlTest(
-                    image,
-                    ymlTagTest
-                ),
-                new YmlTests(yml)
+                ymlTagTest -> new BasedOnYmlTest(image, ymlTagTest),
+                tests
             )
         );
         this.outputs = outputs;
@@ -70,6 +68,9 @@ public final class Tests {
      * Print tests results to selected outputs.
      * In case if nothing was selected
      * {@link org.dgroup.dockertest.test.output.StdOutput} will be used.
+     *
+     * @todo #2:8h All tests should be executed concurrently
+     *  and support thread-pool configuration from command line.
      */
     public void print() {
         final TestingOutcome outcome = new TestingOutcome(

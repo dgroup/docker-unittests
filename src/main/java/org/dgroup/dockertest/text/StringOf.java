@@ -28,7 +28,7 @@ import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
-import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents different objects like arrays, iterables, etc as string.

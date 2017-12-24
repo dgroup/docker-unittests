@@ -23,63 +23,32 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.io.File;
-import java.util.List;
-import org.dgroup.dockertest.text.FileAsString;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Unit tests for class {@link YmlFileArg}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class FileArg implements Arg {
+public final class YmlFileArgTest {
 
-    /**
-     * Contain yml file with tests.
-     */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
-     */
-    public FileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
-
-    /**
-     * Ctor.
-     * @param origin Yml file with tests specified by user from command line.
-     */
-    private FileArg(final Arg origin) {
-        this.origin = origin;
-    }
-
-    /**
-     * Passed to app by user with key "-f".
-     * @return Yml file with tests.
-     */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
-    }
-
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        return new FileAsString(this.file())
-            .content();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    public void fileWasFound() {
+        MatcherAssert.assertThat(
+            new YmlFileArg(
+                new ListOf<>(
+                    "-f", ".gitignore"
+                )
+            ).file().getName(),
+            Matchers.equalTo(".gitignore")
+        );
     }
 
 }

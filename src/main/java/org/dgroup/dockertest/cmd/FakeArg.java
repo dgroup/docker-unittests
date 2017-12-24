@@ -23,32 +23,62 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 /**
- * Unit tests for class {@link FileArg}.
+ * Fake implementation of {@link Arg} for unit testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class FileArgTest {
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+public final class FakeArg implements Arg {
 
-    @Test
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public void fileWasFound() {
-        MatcherAssert.assertThat(
-            new FileArg(
-                new ListOf<>(
-                    "-f", ".gitignore"
-                )
-            ).file().getName(),
-            Matchers.equalTo(".gitignore")
-        );
+    /**
+     * Cmd argument name.
+     */
+    private final String name;
+    /**
+     * Cmd argument name.
+     */
+    private final String value;
+    /**
+     * Flag, that user specified this argument in cmd (or not).
+     */
+    private final Boolean specified;
+
+    /**
+     * Ctor.
+     */
+    public FakeArg() {
+        this("", "", false);
+    }
+
+    /**
+     * Ctor.
+     * @param name Cmd argument name.
+     * @param value Cmd argument value.
+     * @param specified Flag, that user specified this argument in cmd (or not).
+     */
+    public FakeArg(final String name, final String value,
+        final Boolean specified) {
+        this.name = name;
+        this.value = value;
+        this.specified = specified;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public String value() {
+        return this.value;
+    }
+
+    @Override
+    public boolean specifiedByUser() {
+        return this.specified;
     }
 
 }

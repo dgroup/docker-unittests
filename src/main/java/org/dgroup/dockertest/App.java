@@ -26,8 +26,8 @@ package org.dgroup.dockertest;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.cmd.DockerImageArg;
-import org.dgroup.dockertest.cmd.FileArg;
 import org.dgroup.dockertest.cmd.OutputArg;
+import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
 
@@ -69,8 +69,8 @@ public final class App {
     public void start() {
         try {
             new Tests(
-                new DockerImageArg(this.args).value(),
-                new FileArg(this.args).value(),
+                new DockerImageArg(this.args),
+                new YmlFileArg(this.args),
                 new OutputArg(this.args)
             ).print();
         } catch (final TestingFailedException ex) {
