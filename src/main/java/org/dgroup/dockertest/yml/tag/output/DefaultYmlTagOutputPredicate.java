@@ -21,20 +21,22 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.yml.tag.output;
 
 import org.cactoos.func.UncheckedBiFunc;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
+ * Default implementation of {@link YmlTagOutputPredicate}.
  * Represents yml tag
- * {@code /tests/test/output/contains|equal|startsWith|endsWith}.
+ * {@code /tests/test/output/contains|equal|startsWith|endsWith|matches}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTagOutputPredicate {
+public final class DefaultYmlTagOutputPredicate
+    implements YmlTagOutputPredicate {
 
     /**
      * Compare type: contains, equals, startsWith, endsWith.
@@ -55,28 +57,22 @@ public final class YmlTagOutputPredicate {
      * @param expected Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public YmlTagOutputPredicate(final String type, final String expected,
+    public DefaultYmlTagOutputPredicate(final String type,
+        final String expected,
         final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
         this.expected = expected;
         this.predicate = predicate;
     }
 
-    /**
-     * Comparing type.
-     * @return Available types are contains, equal, startsWith, endsWith.
-     */
+    @Override
     public String comparingType() {
         return this.type;
     }
 
-    /**
-     * Compare expected value with actual.
-     * @param actual Output received from docker container.
-     * @return True in case if expected value is equal to actual value.
-     */
+    @Override
     public boolean test(final String actual) {
-        return this.predicate.apply(this.expected, actual);
+        return this.predicate.apply(actual, this.expected);
     }
 
     @Override
@@ -84,4 +80,5 @@ public final class YmlTagOutputPredicate {
         return new PlainFormattedText("%s=`%s`", this.type, this.expected)
             .asString();
     }
+
 }

@@ -42,8 +42,8 @@
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.3.0.603</sonar.version>
         <!-- Dependencies -->
-        <slf4j-api.version>1.7.25</slf4j-api.version>
-        <logback-classic.version>1.2.3</logback-classic.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
         <streamex.version>0.6.5</streamex.version>
         <cactoos.version>0.25.6</cactoos.version>
         <snakeyaml.version>1.19</snakeyaml.version>
@@ -80,6 +80,22 @@
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -169,12 +185,14 @@
                             <lineLength>100</lineLength>
                             <excludes combine.children="append">
                                 <exclude>checkstyle:/src/site/resources/.*</exclude>
-                                <exclude>findbugs:.*</exclude>
+                                <exclude>xml:/src/main/resources/logback.xml</exclude>
                                 <exclude>dependencies:org.cactoos:cactoos</exclude>
                                 <exclude>dependencies:org.fusesource.jansi:jansi</exclude>
                                 <exclude>dependencies:one.util:streamex</exclude>
                                 <exclude>dependencies:org.yaml:snakeyaml</exclude>
                                 <exclude>dependencies:org.hamcrest</exclude>
+                                <exclude>dependencies:org.slf4j</exclude>
+                                <exclude>dependencies:ch.qos.logback</exclude>
                             </excludes>
                         </configuration>
                         <executions>
@@ -197,6 +215,7 @@
                             <excludes>
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/Fake*.*</exclude>
+                                <exclude>org/dgroup/dockertest/**/Logged*.*</exclude>
                             </excludes>
                         </configuration>
                         <executions>

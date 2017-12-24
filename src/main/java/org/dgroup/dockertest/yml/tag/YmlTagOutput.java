@@ -29,6 +29,8 @@ import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
+import org.dgroup.dockertest.yml.tag.output.DefaultYmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents yml tag {@code /tests/test/output}.
@@ -71,10 +73,7 @@ public final class YmlTagOutput {
                     "endsWith", new UncheckedBiFunc<>(String::endsWith)
                 ),
                 new MapEntry<>(
-                    "matches",
-                    new UncheckedBiFunc<>(
-                        (expected, actual) -> actual.matches(expected)
-                    )
+                    "matches", new UncheckedBiFunc<>(String::matches)
                 )
             )
         );
@@ -100,7 +99,7 @@ public final class YmlTagOutput {
         return new Mapped<>(
             conditions -> {
                 final String condition = conditions.keySet().iterator().next();
-                return new YmlTagOutputPredicate(
+                return new DefaultYmlTagOutputPredicate(
                     condition,
                     conditions.values().iterator().next(),
                     this.supported.get(condition)

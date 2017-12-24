@@ -44,11 +44,28 @@ public final class YmlTagOutputTest {
 
     @Test
     public void matchesRegexpSmoke() {
-        final String version = "curl 7.35.0 (x86_64-pc-linux-gnu) libcurl/7.35.0 OpenSSL/1.0.1f zlib/1.2.8 libidn/1.28 librtmp/2.3\n" +
-            "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp smtp smtps telnet tftp\n" +
-            "Features: AsynchDNS GSS-Negotiate IDN IPv6 Largefile NTLM NTLM_WB SSL libz TLS-SRP\n";
+        final String version =
+            "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 librtmp/2.3\n" +
+            "Release-Date: 2017-11-29\n" +
+            "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp \n" +
+            "Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL \n";
         MatcherAssert.assertThat(
-            version.matches("^\\W+|.*\nProtocols.+ftps.+https.+telnet.*\n.*\n$"),
+            version.matches("^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"),
+            Matchers.equalTo(true)
+        );
+    }
+
+    @Test
+    public void smokeContains() {
+        final String version = "openjdk version \"9.0.1\"\n" +
+            "OpenJDK Runtime Environment (build 9.0.1+11-Debian-1)\n" +
+            "OpenJDK 64-Bit Server VM (build 9.0.1+11-Debian-1, mixed mode)\n";
+        MatcherAssert.assertThat(
+            version.contains("openjdk version \"9.0.1\""),
+            Matchers.equalTo(true)
+        );
+        MatcherAssert.assertThat(
+            version.contains("build 9.0.1+11-Debian"),
             Matchers.equalTo(true)
         );
     }
