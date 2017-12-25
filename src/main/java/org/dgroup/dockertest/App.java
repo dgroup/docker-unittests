@@ -30,6 +30,7 @@ import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
+import org.dgroup.dockertest.test.output.StdOutput;
 
 /**
  * Represents the instance of application.
@@ -65,16 +66,27 @@ public final class App {
     /**
      * Execute testing procedure.
      */
-    @SuppressWarnings("PMD.DoNotCallSystemExit")
     public void start() {
         try {
+            new StdOutput().print(
+                new Logo("0.1.0").asString()
+            );
             new Tests(
                 new DockerImageArg(this.args),
                 new YmlFileArg(this.args),
                 new OutputArg(this.args)
             ).print();
         } catch (final TestingFailedException ex) {
-            System.exit(-1);
+            this.shutdownWith(-1);
         }
+    }
+
+    /**
+     * Shutdown application with error code.
+     * The error code is required when the app is invoked from shell scripts.
+     * @param code Exit code
+     */
+    private void shutdownWith(final int code) {
+        Runtime.getRuntime().exit(code);
     }
 }

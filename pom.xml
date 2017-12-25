@@ -38,9 +38,11 @@
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
+        <!-- Code quality -->
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.3.0.603</sonar.version>
+        <findbugs.version>3.0.1</findbugs.version>
         <!-- Dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -49,11 +51,12 @@
         <snakeyaml.version>1.19</snakeyaml.version>
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
         <jackson-databind>2.9.2</jackson-databind>
+        <jansi.version>1.16</jansi.version>
+        <!-- Unit testing -->
         <hamcrest-all.version>1.3</hamcrest-all.version>
         <assertj-core.version>3.8.0</assertj-core.version>
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
-        <jansi.version>1.16</jansi.version>
     </properties>
 
     <dependencies>
@@ -121,6 +124,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>findbugs</artifactId>
+            <version>${findbugs.version}</version>
         </dependency>
     </dependencies>
 

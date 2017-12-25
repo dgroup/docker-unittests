@@ -52,11 +52,14 @@ public final class CmdOutputAsText implements CmdOutput {
         this.outcome = outcome;
     }
 
+    // @todo #4 Add cmd flag which allows user to select encoding
+    //   for *.yml file with tests.
     @Override
     public String asText() {
         try (BufferedReader in = new BufferedReader(
             new InputStreamReader(
-                this.outcome.getInputStream()
+                this.outcome.getInputStream(),
+                "UTF-8"
             ))
         ) {
             return new UncheckedText(
