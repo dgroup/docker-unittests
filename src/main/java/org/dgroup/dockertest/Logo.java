@@ -50,14 +50,13 @@ public final class Logo {
     /**
      * App version and docker logo as string.
      * @return Logo.
-     * @checkstyle OperatorWrapCheck (15 lines)
-     * @checkstyle RegexpSinglelineCheck (15 lines)
-     * @checkstyle StringLiteralsConcatenationCheck (15 lines)
      * @todo #5 Use jansi in order to make picture colored.
+     * @checkstyle OperatorWrapCheck (50 lines)
+     * @checkstyle RegexpSinglelineCheck (50 lines)
+     * @checkstyle StringLiteralsConcatenationCheck (50 lines)
      */
     public String asString() {
-        return new PlainFormattedText(
-            "\n" +
+        return new PlainFormattedText("\n" +
             "    Docker testing tool (v%s)\n" +
             "                      ##         .            \n" +
             "                ## ## ##        ==            \n" +
@@ -66,10 +65,9 @@ public final class Logo {
             "    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
             "         \\______ o          __/            \n" +
             "          \\    \\        __/             \n" +
-            "           \\____\\______/   \n" +
-            "\n",
+            "           \\____\\______/   \n\n",
             this.version
         ).asString();
     }
 
- }
+}

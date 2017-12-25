@@ -84,9 +84,12 @@ public final class App {
     /**
      * Shutdown application with error code.
      * The error code is required when the app is invoked from shell scripts.
-     * @param code Exit code
+     * @param code Exit code.
+     * @checkstyle NonStaticMethodCheck (10 lines)
      */
+    @SuppressWarnings("PMD.DoNotCallSystemExit")
     private void shutdownWith(final int code) {
         Runtime.getRuntime().exit(code);
     }
+
 }
