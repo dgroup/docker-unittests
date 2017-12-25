@@ -53,7 +53,7 @@ public final class CmdOutputAsText implements CmdOutput {
     }
 
     // @todo #4 Add cmd flag which allows user to select encoding
-    //   for *.yml file with tests.
+    //  for *.yml file with tests.
     @Override
     public String asText() {
         try (BufferedReader in = new BufferedReader(
