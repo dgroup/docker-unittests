@@ -38,12 +38,15 @@ We, like users, receive the image and we are going to check what we've got.
 
 
 ### F.A.Q.
+ - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
  - [Contributing guide](./.guides/contributing.md)  
  - [Github](./.guides/github.md)
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
-                                         
-
-### TODO
+                                    
+### TODOs for release 0.1.0
+ - Make project public once [11](https://github.com/dgroup/docker-unittests/issues/11) and [42](https://github.com/dgroup/docker-unittests/issues/42) done. 
+ - @todo #6 update section "Testing..." with output details for passed and failed case.
+    Also add example of usage from shell script (with bash `set -e` option).
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #13 Add https://codebeat.co badge once project moved to public
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
