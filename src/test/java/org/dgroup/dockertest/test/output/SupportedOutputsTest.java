@@ -56,30 +56,6 @@ public final class SupportedOutputsTest {
     );
 
     @Test
-    public void xmlAndHtmlTypesAreSupported() {
-        MatcherAssert.assertThat(
-            this.outputs.supports(new ListOf<>("html", "xml")),
-            Matchers.equalTo(true)
-        );
-    }
-
-    @Test
-    public void onlyXmlTypeIsSupported() {
-        MatcherAssert.assertThat(
-            this.outputs.supports(new ListOf<>("csv", "xml")),
-            Matchers.equalTo(true)
-        );
-    }
-
-    @Test
-    public void csvAsOutputTypeIsNotSupported() {
-        MatcherAssert.assertThat(
-            this.outputs.supports(new ListOf<>("csv")),
-            Matchers.equalTo(false)
-        );
-    }
-
-    @Test
     public void thatXmlOutputTypeWasFound() {
         MatcherAssert.assertThat(
             this.outputs.availableFor(new ListOf<>("xml")).next(),

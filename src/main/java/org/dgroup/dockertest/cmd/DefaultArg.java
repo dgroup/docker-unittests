@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 
 /**
  * Single command-line argument.
@@ -62,7 +63,12 @@ public final class DefaultArg implements Arg {
 
     @Override
     public String value() {
-        return this.args.get(this.args.indexOf(this.name) + 1);
+        final String value = this.args.get(this.args.indexOf(this.name) + 1);
+        return new UncheckedTernary<>(
+            value == null,
+            () -> "",
+            () -> value
+        ).value();
     }
 
     @Override

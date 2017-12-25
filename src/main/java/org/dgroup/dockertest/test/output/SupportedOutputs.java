@@ -26,8 +26,6 @@ package org.dgroup.dockertest.test.output;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
@@ -78,26 +76,10 @@ public final class SupportedOutputs {
      */
     public Iterator<Output> availableFor(final List<String> types) {
         return new UncheckedTernary<List<Output>>(
-            this.supports(types),
-            () -> new ListOf<>(
-                new Filtered<>(
-                    Objects::nonNull,
-                    new Mapped<>(
-                        this.out::get, types
-                    )
-                )
-            ),
+            !types.isEmpty() && this.out.keySet().containsAll(types),
+            () -> new Mapped<>(this.out::get, types),
             () -> new ListOf<>(new StdOutput())
         ).value().iterator();
-    }
-
-    /**
-     * Checking that output formats specified by user are supported.
-     * @param specified By user output formats.
-     * @return True in any of specified by user output formats is supported.
-     */
-    public boolean supports(final List<String> specified) {
-        return this.out.keySet().stream().anyMatch(specified::contains);
     }
 
 }
