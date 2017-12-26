@@ -44,4 +44,10 @@ public interface Output {
      * @param msg Expected single test result.
      */
     void finalDecision(String msg);
+
+    /**
+     * Print amount of testing scenarios.
+     * @param amount Of scenarios.
+     */
+    void scenariosFound(int amount);
 }

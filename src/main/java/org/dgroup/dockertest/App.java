@@ -30,6 +30,7 @@ import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
+import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 
 /**
@@ -43,15 +44,31 @@ public final class App {
 
     /**
      * Application command-line arguments.
-     **/
+     */
     private final List<String> args;
+    /**
+     * Default output.
+     */
+    private final Output out;
 
     /**
      * Ctor.
-     * @param args Command-line arguments
+     * @param args Command-line arguments.
      */
-    public App(final List<String> args) {
+    public App(final String... args) {
+        this(new ListOf<>(args), new StdOutput());
+    }
+
+    /**
+     * Ctor.
+     * @param args Command-line arguments.
+     * @param out Default output.
+     * @todo #11 Add new command line argument `-silent`
+     *  which allows to disable std output.
+     */
+    public App(final List<String> args, final Output out) {
         this.args = args;
+        this.out = out;
     }
 
     /**
@@ -59,8 +76,7 @@ public final class App {
      * @param args Command-line arguments.
      */
     public static void main(final String... args) {
-        new App(new ListOf<>(args))
-            .start();
+        new App(args).start();
     }
 
     /**
@@ -68,7 +84,7 @@ public final class App {
      */
     public void start() {
         try {
-            new StdOutput().print(
+            this.out.print(
                 new Logo("0.1.0").asString()
             );
             new Tests(

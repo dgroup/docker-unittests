@@ -23,7 +23,9 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.cactoos.iterable.Mapped;
+import java.util.List;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
@@ -40,11 +42,11 @@ public final class Tests {
     /**
      * Tests to be executed.
      */
-    private final Iterable<Test> origin;
+    private final List<Test> scope;
     /**
      * Available outputs for printing results.
      */
-    private final Iterable<Output> outputs;
+    private final List<Output> outputs;
 
     /**
      * Ctor.
@@ -54,31 +56,42 @@ public final class Tests {
      */
     public Tests(final Arg image, final Iterable<YmlTagTest> tests,
         final Iterable<Output> outputs) {
-        this.origin = new Mapped<>(
-            CachedTest::new,
+        this(
             new Mapped<>(
-                ymlTagTest -> new BasedOnYmlTest(image, ymlTagTest),
-                tests
-            )
+                CachedTest::new,
+                new Mapped<>(
+                    ymlTagTest -> new BasedOnYmlTest(image, ymlTagTest),
+                    tests
+                )
+            ),
+            new ListOf<>(outputs)
         );
+    }
+
+    /**
+     * Ctor.
+     * @param scope Tests to be executed.
+     * @param outputs Available outputs for printing results.
+     */
+    public Tests(final List<Test> scope, final List<Output> outputs) {
+        this.scope = scope;
         this.outputs = outputs;
     }
 
     /**
      * Print tests results to selected outputs.
-     * In case if nothing was selected
-     * {@link org.dgroup.dockertest.test.output.StdOutput} will be used.
      *
      * @todo #2:8h All tests should be executed concurrently
      *  and support thread-pool configuration from command line.
      */
     public void print() {
-        final TestingOutcome outcome = new TestingOutcome(
-            new Mapped<>(Test::execute, this.origin)
+        this.outputs.forEach(
+            o -> o.scenariosFound(this.scope.size())
         );
-        for (final Output output : this.outputs) {
-            outcome.print(output);
-        }
+        final TestingOutcome outcome = new TestingOutcome(
+            new Mapped<>(Test::execute, this.scope)
+        );
+        this.outputs.forEach(outcome::print);
     }
 
 }

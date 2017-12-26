@@ -50,6 +50,11 @@ public final class FakeOutput implements Output {
         this.print(msg);
     }
 
+    @Override
+    public void scenariosFound(final int amount) {
+        this.print(String.valueOf(amount));
+    }
+
     /**
      * All collected messages during testing procedure.
      *

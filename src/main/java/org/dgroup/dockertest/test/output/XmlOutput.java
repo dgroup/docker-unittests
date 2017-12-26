@@ -45,4 +45,9 @@ public final class XmlOutput implements Output {
         throw new UnsupportedOperationException("#finalDecision()");
     }
 
+    @Override
+    public void scenariosFound(final int amount) {
+        throw new UnsupportedOperationException("#scenariosFound()");
+    }
+
 }
