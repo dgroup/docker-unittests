@@ -70,7 +70,7 @@ public final class StdOutput implements Output {
     public void scenariosFound(final int amount) {
         this.print(
             new PlainFormattedText(
-                "Found scenarios: %s", amount
+                "Found scenarios: %s.", amount
             ).asString()
         );
     }
