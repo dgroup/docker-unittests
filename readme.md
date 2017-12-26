@@ -8,6 +8,9 @@
 The main concept is that all tests should use the image as is without any 'internal' 
 go-related features.
 We, like users, receive the image and we are going to check what we've got.
+
+The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. Feel free to give any suggestions regarding another ways\languages.
+
 1. Define an [*.yml file](./.guides/image-tests.yml) with tests
    ```yml
    version: 1
@@ -47,6 +50,7 @@ We, like users, receive the image and we are going to check what we've got.
  - Make project public once [11](https://github.com/dgroup/docker-unittests/issues/11) and [42](https://github.com/dgroup/docker-unittests/issues/42) done. 
  - @todo #6 update section "Testing..." with output details for passed and failed case.
     Also add example of usage from shell script (with bash `set -e` option).
+ - @todo #8 Fall tolerance: test the tool with corrupted *.yml files  
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #13 Add https://codebeat.co badge once project moved to public
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
