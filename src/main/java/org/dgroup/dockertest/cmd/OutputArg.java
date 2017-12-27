@@ -23,7 +23,11 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
@@ -49,7 +53,6 @@ import org.dgroup.dockertest.test.output.XmlOutput;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
- * @checkstyle AvoidStarImportCheck (50 lines)
  */
 public final class OutputArg implements Iterable<Output> {
 

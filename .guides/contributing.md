@@ -33,7 +33,7 @@
    - Press `Apply`, `OK`.  
 4. Settings > Editor > Code Style > Java > JavaDoc
    - Disable `Generate "<p>" on empty lines`
-5. Settings > Editor > Code Style > Java >Blank Lines
+5. Settings > Editor > Code Style > Java > Blank Lines
    - Set `In declarations` equal to 0 in section `Keep Maximum Blank Lines`
 6. Settings > Editor > Code Style > Java > Imports
    - Set the following order for `Import Layout` section
@@ -43,6 +43,8 @@
      import all other imports
      import static all other imports
      ```
+   - Change `Class count to use import with '*'` to 20
+   - Change `Names count to use static import with '*'` to 20
 7. Settings > Editor > Сopyright > Formatting > Java
     - Select `Use custom formatting options`
     - Select `Separator before` with `Length` equal to 1
