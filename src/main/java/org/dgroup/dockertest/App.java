@@ -84,9 +84,7 @@ public final class App {
      */
     public void start() {
         try {
-            this.out.print(
-                new Logo("0.1.0").asString()
-            );
+            this.out.print(new Logo("0.1.0"));
             new Tests(
                 new DockerImageArg(this.args),
                 new YmlFileArg(this.args),

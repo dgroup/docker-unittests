@@ -25,6 +25,7 @@ package org.dgroup.dockertest.test.output;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.dgroup.dockertest.Logo;
 
 /**
  * Fake instance for unit testing purposes.
@@ -43,6 +44,11 @@ public final class FakeOutput implements Output {
     @Override
     public void print(final String msg) {
         this.output.add(msg);
+    }
+
+    @Override
+    public void print(final Logo logo) {
+        this.output.add(logo.asString());
     }
 
     @Override

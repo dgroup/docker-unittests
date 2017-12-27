@@ -70,4 +70,11 @@ public final class Logo {
         ).asString();
     }
 
+    /**
+     * Give app version.
+     * @return Version.
+     */
+    public String appVersion() {
+        return this.version;
+    }
 }

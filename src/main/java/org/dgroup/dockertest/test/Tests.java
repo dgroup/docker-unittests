@@ -52,10 +52,10 @@ public final class Tests {
      * Ctor.
      * @param image Command-line argument with docker image.
      * @param tests Yml tags with tests to be executed.
-     * @param outputs Available outputs for printing results.
+     * @param out Available outputs for printing results.
      */
     public Tests(final Arg image, final Iterable<YmlTagTest> tests,
-        final Iterable<Output> outputs) {
+        final Iterable<Output> out) {
         this(
             new Mapped<>(
                 CachedTest::new,
@@ -64,7 +64,7 @@ public final class Tests {
                     tests
                 )
             ),
-            new ListOf<>(outputs)
+            new ListOf<>(out)
         );
     }
 

@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import org.dgroup.dockertest.Logo;
+
 /**
  * Represent an output where we can print the testing results
  * (std out, xml, html, etc).
@@ -46,8 +48,15 @@ public interface Output {
     void finalDecision(String msg);
 
     /**
+     * Print app logo.
+     * @param logo Logo.
+     */
+    void print(Logo logo);
+
+    /**
      * Print amount of testing scenarios.
      * @param amount Of scenarios.
      */
     void scenariosFound(int amount);
+
 }
