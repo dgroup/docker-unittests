@@ -30,7 +30,7 @@ package org.dgroup.dockertest.docker;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @todo Rename to DockerProcess as it's more clear name.
+ * @todo #48 Rename to DockerProcess as it's more clear description.
  */
 public interface DockerContainer {
 
