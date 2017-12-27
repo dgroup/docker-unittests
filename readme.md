@@ -31,6 +31,8 @@ The project has been started in Java as POC, however, I'm thinking about porting
            - startsWith: "curl 7."
            - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
            - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
+     #     - endsWith:
+     #     - equals: 
    ```
 2. Run tests for image 
    ```bash
