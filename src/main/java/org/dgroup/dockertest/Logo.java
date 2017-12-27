@@ -66,7 +66,7 @@ public final class Logo {
             "         \\______ o          __/            \n" +
             "          \\    \\        __/             \n" +
             "           \\____\\______/   \n",
-            this.version
+            this.appVersion()
         ).asString();
     }
 
