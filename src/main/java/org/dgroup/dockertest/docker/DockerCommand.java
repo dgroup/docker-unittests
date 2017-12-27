@@ -26,13 +26,13 @@ package org.dgroup.dockertest.docker;
 import java.util.List;
 
 /**
- * Represents a command for docker container.
+ * Represents a command for docker tool.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface DockerContainerCommand {
+public interface DockerCommand {
 
     /**
      * It may create a new container or reuse existing.

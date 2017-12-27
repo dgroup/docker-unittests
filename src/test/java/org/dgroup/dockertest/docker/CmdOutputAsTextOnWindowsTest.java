@@ -38,13 +38,12 @@ import org.junit.runner.RunWith;
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
- * @todo #20:50min Add the same test for Linux OS
  */
 @RunWith(RunOnlyOnWindows.class)
-public class CmdOutputAsTextOnWindowsTest {
+public final class CmdOutputAsTextOnWindowsTest {
 
     @Test(timeout = 1000 * 3)
-    public final void text() {
+    public void text() {
         MatcherAssert.assertThat(
             "Command `java -version` will have `1.8` version",
             new CmdOutputAsText(

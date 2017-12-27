@@ -24,13 +24,13 @@
 package org.dgroup.dockertest.docker;
 
 /**
- * Represents an instance of docker container.
+ * Represents an instance of docker process on Unix-related systems.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultDockerContainer implements DockerContainer {
+public final class DockerProcessOnUnix implements DockerProcess {
 
     /**
      * System process associated with docker container.
@@ -41,7 +41,7 @@ public final class DefaultDockerContainer implements DockerContainer {
      * Ctor.
      * @param cmd Docker container command.
      */
-    public DefaultDockerContainer(final DockerContainerCommand cmd) {
+    public DockerProcessOnUnix(final DockerCommand cmd) {
         this(new SystemProcess(cmd.args()));
     }
 
@@ -49,7 +49,7 @@ public final class DefaultDockerContainer implements DockerContainer {
      * Ctor.
      * @param process System process associated with docker container.
      */
-    public DefaultDockerContainer(final SystemProcess process) {
+    public DockerProcessOnUnix(final SystemProcess process) {
         this.process = process;
     }
 

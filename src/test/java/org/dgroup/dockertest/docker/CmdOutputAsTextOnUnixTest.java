@@ -23,39 +23,35 @@
  */
 package org.dgroup.dockertest.docker;
 
-import java.util.List;
-import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.RunOnlyOnUnix;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * Represents Windows OS as docker container for unit testing.
+ * Unit tests for class {@link CmdOutputAsText} on Unix OS.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class WindowsOsAsDockerContainer implements DockerContainer {
+@RunWith(RunOnlyOnUnix.class)
+public final class CmdOutputAsTextOnUnixTest {
 
-    /**
-     * Commands for docker container.
-     */
-    private final List<String> commands;
-
-    /**
-     * Ctor.
-     * @param commands Command for docker container.
-     */
-    public WindowsOsAsDockerContainer(final List<String> commands) {
-        this.commands = new Joined<>(
-            new ListOf<>("cmd", "/c"),
-            commands
-        );
-    }
-
-    @Override
-    public CmdOutput run() {
-        return new CmdOutputAsText(
-            new SystemProcess(this.commands).execute()
+    @Test(timeout = 1000 * 3)
+    public void text() {
+        MatcherAssert.assertThat(
+            "Command `java -version` is `1.8`.",
+            new CmdOutputAsText(
+                new SystemProcess(
+                    new ListOf<>("java", "-version")
+                ).execute()
+            ).asText(),
+            Matchers.containsString("1.8")
         );
     }
 }

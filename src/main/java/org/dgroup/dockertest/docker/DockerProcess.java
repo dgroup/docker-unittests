@@ -24,15 +24,15 @@
 package org.dgroup.dockertest.docker;
 
 /**
- * Represents single docker container.
- * Container will be removed after cmd execution.
+ * Represents single docker process.
+ * It might be creation of new container, pull command, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  * @todo #48 Rename to DockerProcess as it's more clear description.
  */
-public interface DockerContainer {
+public interface DockerProcess {
 
     /**
      * Execute command inside of docker container.

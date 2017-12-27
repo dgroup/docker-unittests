@@ -37,7 +37,7 @@ import org.cactoos.list.ListOf;
  * @since 0.1.0
  */
 public final class StatelessDockerContainerCommand
-    implements DockerContainerCommand {
+    implements DockerCommand {
 
     /**
      * Docker container commands.

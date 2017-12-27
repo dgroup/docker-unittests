@@ -24,8 +24,8 @@
 package org.dgroup.dockertest.test;
 
 import org.dgroup.dockertest.cmd.Arg;
-import org.dgroup.dockertest.docker.DefaultDockerContainer;
-import org.dgroup.dockertest.docker.DockerContainer;
+import org.dgroup.dockertest.docker.DockerProcess;
+import org.dgroup.dockertest.docker.DockerProcessOnUnix;
 import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
@@ -45,7 +45,7 @@ public final class BasedOnYmlTest implements Test {
     /**
      * Docker container where we need to execute the test.
      */
-    private final DockerContainer container;
+    private final DockerProcess container;
 
     /**
      * Ctor.
@@ -55,7 +55,7 @@ public final class BasedOnYmlTest implements Test {
     public BasedOnYmlTest(final Arg image, final YmlTagTest test) {
         this(
             test,
-            new DefaultDockerContainer(
+            new DockerProcessOnUnix(
                 new StatelessDockerContainerCommand(
                     image.value(), test.dockerCmdAsArray()
                 )
@@ -69,7 +69,7 @@ public final class BasedOnYmlTest implements Test {
      * @param container Docker container where test be executed.
      */
     public BasedOnYmlTest(final YmlTagTest test,
-        final DockerContainer container) {
+        final DockerProcess container) {
         this.test = test;
         this.container = container;
     }
