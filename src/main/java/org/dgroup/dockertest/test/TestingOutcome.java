@@ -25,6 +25,7 @@ package org.dgroup.dockertest.test;
 
 import java.util.Iterator;
 import org.cactoos.collection.Filtered;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.output.Output;
 
 /**
@@ -65,11 +66,19 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
         for (final TestOutcome out : this) {
             output.print(out.message());
         }
-        if (this.failed()) {
-            output.finalDecision("Testing failure.");
-            throw new TestingFailedException();
-        }
-        output.finalDecision("Testing successful.");
+        new UncheckedTernary<>(
+            this.failed(),
+            () -> {
+                output.print("Testing failure.");
+                output.flush();
+                throw new TestingFailedException();
+            },
+            () -> {
+                output.print("Testing successful.");
+                output.flush();
+                return true;
+            }
+        ).value();
     }
 
     /**

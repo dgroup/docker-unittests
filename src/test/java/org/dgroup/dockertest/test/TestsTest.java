@@ -23,10 +23,10 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.FakeArg;
+import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.output.FakeOutput;
 import org.hamcrest.MatcherAssert;
@@ -60,7 +60,7 @@ public class TestsTest {
                     ).path()
                 )
             ),
-            new IterableOf<>(output)
+            new OutputArg(new ListOf<>())
         ).print();
         MatcherAssert.assertThat(
             output.lines(), IsCollectionWithSize.hasSize(2)

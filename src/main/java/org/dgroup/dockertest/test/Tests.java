@@ -24,10 +24,12 @@
 package org.dgroup.dockertest.test;
 
 import java.util.List;
-import org.cactoos.list.ListOf;
+import java.util.Set;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
@@ -36,6 +38,7 @@ import org.dgroup.dockertest.yml.tag.YmlTagTest;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class Tests {
 
@@ -46,17 +49,26 @@ public final class Tests {
     /**
      * Available outputs for printing results.
      */
-    private final List<Output> outputs;
+    private final Set<Output> outputs;
+    /**
+     * Docker image for testing.
+     */
+    private final Arg image;
+    /**
+     * Standard output for application progress.
+     */
+    private final Output std;
 
     /**
      * Ctor.
-     * @param image Command-line argument with docker image.
+     * @param image Docker image for testing.
      * @param tests Yml tags with tests to be executed.
      * @param out Available outputs for printing results.
      */
     public Tests(final Arg image, final Iterable<YmlTagTest> tests,
-        final Iterable<Output> out) {
+        final OutputArg out) {
         this(
+            image,
             new Mapped<>(
                 CachedTest::new,
                 new Mapped<>(
@@ -64,18 +76,25 @@ public final class Tests {
                     tests
                 )
             ),
-            new ListOf<>(out)
+            out.asSet(),
+            out.std()
         );
     }
 
     /**
      * Ctor.
+     * @param image Docker image for testing.
      * @param scope Tests to be executed.
-     * @param outputs Available outputs for printing results.
+     * @param out Available outputs for printing results.
+     * @param std Standard output for application progress.
+     * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public Tests(final List<Test> scope, final List<Output> outputs) {
+    public Tests(final Arg image, final List<Test> scope,
+        final Set<Output> out, final Output std) {
+        this.image = image;
         this.scope = scope;
-        this.outputs = outputs;
+        this.outputs = out;
+        this.std = std;
     }
 
     /**
@@ -85,8 +104,10 @@ public final class Tests {
      *  and support thread-pool configuration from command line.
      */
     public void print() {
-        this.outputs.forEach(
-            o -> o.scenariosFound(this.scope.size())
+        this.std.print(
+            new PlainFormattedText(
+                "Found scenarios: %s.", this.scope.size()
+            ).asString()
         );
         final TestingOutcome outcome = new TestingOutcome(
             new Mapped<>(Test::execute, this.scope)

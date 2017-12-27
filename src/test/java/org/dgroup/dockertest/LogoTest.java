@@ -40,7 +40,7 @@ public final class LogoTest {
     @Test
     public void asString() {
         new StdOutput().print(
-            new Logo("0.1.0")
+            new Logo("0.1.0").asString()
         );
     }
 

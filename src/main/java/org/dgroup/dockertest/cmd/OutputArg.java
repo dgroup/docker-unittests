@@ -23,13 +23,18 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.dgroup.dockertest.scalar.CachedTernary;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.test.output.SupportedOutputs;
+import org.dgroup.dockertest.test.output.StdOutput;
+import org.dgroup.dockertest.test.output.XmlOutput;
 
 /**
  * Represents a command line argument {@code -o} for output format.
@@ -43,13 +48,15 @@ import org.dgroup.dockertest.test.output.SupportedOutputs;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
+ * @checkstyle AvoidStarImportCheck (50 lines)
  */
 public final class OutputArg implements Iterable<Output> {
 
     /**
      * Supported output formats.
      */
-    private final SupportedOutputs outputs;
+    private final Map<String, Output> out;
     /**
      * Output formats specified by user from command line.
      */
@@ -60,30 +67,62 @@ public final class OutputArg implements Iterable<Output> {
      * @param args Command-line arguments from user.
      */
     public OutputArg(final List<String> args) {
-        this(new DefaultArg("-o", args), "\\|", new SupportedOutputs());
+        this(
+            new DefaultArg("-o", args),
+            "\\|",
+            new MapOf<>(
+                new MapEntry<>("xml", new XmlOutput()),
+                new MapEntry<>("html", new HtmlOutput()),
+                new MapEntry<>("std", new StdOutput())
+            )
+        );
     }
 
     /**
      * Ctor.
      * @param output Command line argument specified by user.
      * @param delimiter For splitting value specified by user.
-     * @param outputs Supported output formats.
+     * @param out Supported output formats.
      */
     public OutputArg(final Arg output, final String delimiter,
-        final SupportedOutputs outputs) {
-        this.outputs = outputs;
+        final Map<String, Output> out) {
+        this.out = out;
         this.specified = new CachedTernary<>(
-            new UncheckedTernary<List<String>>(
-                output.specifiedByUser(),
-                () -> new ListOf<>(output.value().split(delimiter)),
-                ListOf::new
-            )
+            output.specifiedByUser(),
+            () -> new ListOf<>(output.value().split(delimiter)),
+            ListOf::new
         );
     }
 
     @Override
     public Iterator<Output> iterator() {
-        return this.outputs.availableFor(this.specified.value());
+        return new UncheckedTernary<List<Output>>(
+            !this.specified.value().isEmpty()
+                && this.out.keySet().containsAll(this.specified.value()),
+            () -> new Mapped<>(this.out::get, this.specified.value()),
+            () -> new ListOf<>(new StdOutput())
+        ).value().iterator();
+    }
+
+    /**
+     * Standard output for printing app progress.
+     * @return Output.
+     */
+    public Output std() {
+        return this.out.get("std");
+    }
+
+    /**
+     * Give all outputs specified by user as a set.
+     * @return Selected outputs by user or default {@link StdOutput}.
+     */
+    public Set<Output> asSet() {
+        return new HashSet<>(
+            new Joined<>(
+                new ListOf<>(this.std()),
+                new ListOf<>(this.iterator())
+            )
+        );
     }
 
 }

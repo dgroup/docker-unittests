@@ -23,8 +23,6 @@
  */
 package org.dgroup.dockertest.test.output;
 
-import org.dgroup.dockertest.Logo;
-
 /**
  * Print testing results to html file.
  * The *.html file with output will be placed to current directory.
@@ -43,18 +41,8 @@ public final class HtmlOutput implements Output {
     }
 
     @Override
-    public void print(final Logo logo) {
-        throw new UnsupportedOperationException("#print(Logo)");
-    }
-
-    @Override
-    public void finalDecision(final String msg) {
-        throw new UnsupportedOperationException("#finalDecision()");
-    }
-
-    @Override
-    public void scenariosFound(final int amount) {
-        throw new UnsupportedOperationException("#scenariosFound()");
+    public void flush() {
+        throw new UnsupportedOperationException("#flush()");
     }
 
 }

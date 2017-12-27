@@ -24,8 +24,6 @@
 package org.dgroup.dockertest.test.output;
 
 import java.io.PrintStream;
-import org.dgroup.dockertest.Logo;
-import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
  * Print testing results to standard output.
@@ -60,25 +58,6 @@ public final class StdOutput implements Output {
     @Override
     public void print(final String msg) {
         this.out.println(String.format("    %s", msg));
-    }
-
-    @Override
-    public void finalDecision(final String msg) {
-        this.print(msg);
-    }
-
-    @Override
-    public void print(final Logo logo) {
-        this.print(logo.asString());
-    }
-
-    @Override
-    public void scenariosFound(final int amount) {
-        this.print(
-            new PlainFormattedText(
-                "Found scenarios: %s.", amount
-            ).asString()
-        );
     }
 
 }

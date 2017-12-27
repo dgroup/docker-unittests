@@ -47,7 +47,7 @@ public final class App {
      */
     private final List<String> args;
     /**
-     * Default output.
+     * Default output for application progress.
      */
     private final Output std;
 
@@ -62,8 +62,8 @@ public final class App {
     /**
      * Ctor.
      * @param args Command-line arguments.
-     * @param std Default output.
-     * @todo #48 Refactoring is required for {@link StdOutput} and
+     * @param std Default output for application progress.
+     * @todo #49 Refactoring is required for {@link StdOutput} and
      *  {@link Output}. The {@link Output} interface has too many
      *  responsibilities due to growing of cases related to app progress
      *  notifications. Initially, {@link Output} was designed for test results
@@ -88,7 +88,9 @@ public final class App {
      */
     public void start() {
         try {
-            this.std.print(new Logo("0.1.0"));
+            this.std.print(
+                new Logo("0.1.0").asString()
+            );
             new Tests(
                 new DockerImageArg(this.args),
                 new YmlFileArg(this.args),
