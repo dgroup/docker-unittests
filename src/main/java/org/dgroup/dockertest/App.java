@@ -49,7 +49,7 @@ public final class App {
     /**
      * Default output.
      */
-    private final Output out;
+    private final Output std;
 
     /**
      * Ctor.
@@ -62,13 +62,17 @@ public final class App {
     /**
      * Ctor.
      * @param args Command-line arguments.
-     * @param out Default output.
-     * @todo #11 Add new command line argument `-silent`
-     *  which allows to disable std output.
+     * @param std Default output.
+     * @todo #48 Refactoring is required for {@link StdOutput} and
+     *  {@link Output}. The {@link Output} interface has too many
+     *  responsibilities due to growing of cases related to app progress
+     *  notifications. Initially, {@link Output} was designed for test results
+     *  reporting only, not for app notifications like scenarios found,
+     *  image is downloading, etc.
      */
-    public App(final List<String> args, final Output out) {
+    public App(final List<String> args, final Output std) {
         this.args = args;
-        this.out = out;
+        this.std = std;
     }
 
     /**
@@ -84,7 +88,7 @@ public final class App {
      */
     public void start() {
         try {
-            this.out.print(new Logo("0.1.0"));
+            this.std.print(new Logo("0.1.0"));
             new Tests(
                 new DockerImageArg(this.args),
                 new YmlFileArg(this.args),
