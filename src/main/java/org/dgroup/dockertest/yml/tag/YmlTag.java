@@ -53,7 +53,10 @@ public final class YmlTag {
      * @param tag Yml tag name.
      */
     public YmlTag(final Map<String, Object> tree, final String tag) {
-        this(tree.get(tag), tag);
+        this(
+            tree.get(tag),
+            tag
+        );
     }
 
     /**
@@ -75,7 +78,7 @@ public final class YmlTag {
         if (this.tag == null) {
             throw new IllegalYmlFileFormatException(
                 new PlainFormattedText(
-                    "The `%s` tag is missing", this.name
+                    "`%s` tag is missing or has incorrect structure", this.name
                 )
             );
         }

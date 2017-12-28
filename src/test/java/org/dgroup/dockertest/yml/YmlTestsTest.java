@@ -56,7 +56,7 @@ public final class YmlTestsTest {
             () -> new YmlTests(
                 new YmlResource("with-missing-version-tag.yml").asString()
             ).iterator(),
-            new IllegalYmlFileFormatException("The `version` tag is missing")
+            new IllegalYmlFileFormatException("`version` tag is missing or has incorrect structure")
         );
     }
 
@@ -180,12 +180,22 @@ public final class YmlTestsTest {
     @Test
     public void tagTestsIsMissing() {
         AssertThrown.assertThrown(
-            () -> this.loadTests("with-missing-tests-tag.yml"),
+            () -> this.loadTests("tag-tests-is-missing.yml"),
             new IllegalYmlFileFormatException(
                 "mapping values are not allowed here\n" +
                     " in 'string', line 3, column 9:\n" +
                     "      - test:\n" +
                     "            ^\n"
+            )
+        );
+    }
+
+    @Test
+    public void tagTestsHasNoChildren() {
+        AssertThrown.assertThrown(
+            () -> this.loadTests("tag-tests-has-no-children.yml"),
+            new IllegalYmlFileFormatException(
+                "`tests` tag is missing or has incorrect structure"
             )
         );
     }
