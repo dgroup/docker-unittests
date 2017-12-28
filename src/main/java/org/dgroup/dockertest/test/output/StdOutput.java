@@ -69,7 +69,7 @@ public final class StdOutput implements Output {
     // @todo #9 Use jansi for colored std output
     @Override
     public void print(final String msg) {
-        this.out.printf("%s%s\n", this.indent, msg);
+        this.out.printf("%s%s%n", this.indent, msg);
     }
 
     /**
