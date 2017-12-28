@@ -36,10 +36,10 @@ import org.junit.Test;
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class YmlFileArgTest {
 
     @Test
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public void fileWasFound() {
         MatcherAssert.assertThat(
             new YmlFileArg(
@@ -47,6 +47,18 @@ public final class YmlFileArgTest {
                     "-f", ".gitignore"
                 )
             ).file().getName(),
+            Matchers.equalTo(".gitignore")
+        );
+    }
+
+    @Test
+    public void fileNameWasExportedFromCmdArguments() {
+        MatcherAssert.assertThat(
+            new YmlFileArg(
+                new ListOf<>(
+                    "-f", ".gitignore"
+                )
+            ).name(),
             Matchers.equalTo(".gitignore")
         );
     }

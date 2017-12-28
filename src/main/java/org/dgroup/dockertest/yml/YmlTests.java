@@ -24,11 +24,14 @@
 package org.dgroup.dockertest.yml;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 import org.dgroup.dockertest.yml.tag.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
  * Transform *.yml file with tests to collection of {@link YmlTagTest }.
@@ -52,12 +55,33 @@ public final class YmlTests implements Iterable<YmlTagTest> {
         this.yml = yml;
     }
 
+    /**
+     * Parsed yml tests as list.
+     * @return Yml tests.
+     */
+    public List<YmlTagTest> asList() {
+        return new ListOf<>(this.iterator());
+    }
+
     @Override
     public Iterator<YmlTagTest> iterator() {
-        final Map<String, Object> tree = new Yaml().load(this.yml);
+        final Map<String, Object> tree = this.loadYmlTree();
         final YmlTagVersion version = new YmlTagVersion(tree);
         version.verify();
         return new YmlTagTests(tree)
             .iterator();
     }
+
+    /**
+     * Load string with tests as yml tree.
+     * @return Tree.
+     */
+    private Map<String, Object> loadYmlTree() {
+        try {
+            return new Yaml().load(this.yml);
+        } catch (final ScannerException ex) {
+            throw new IllegalYmlFileFormatException(ex.getMessage(), ex);
+        }
+    }
+
 }

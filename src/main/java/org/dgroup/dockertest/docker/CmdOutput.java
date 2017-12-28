@@ -42,10 +42,10 @@ public interface CmdOutput {
     String asText();
 
     /**
-     * Represent cmd output spited by lines.
+     * Represent cmd output splitted by lines.
      * @return Cmd output as list.
      */
-    default List<String> asList() {
+    default List<String> byLines() {
         return new ListOf<>(
             this.asText().split("\n")
         );

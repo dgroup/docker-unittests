@@ -45,6 +45,10 @@ import org.dgroup.dockertest.yml.tag.YmlTagTest;
 public final class Tests {
 
     /**
+     * Docker image for testing.
+     */
+    private final String image;
+    /**
      * Tests to be executed.
      */
     private final List<Test> scope;
@@ -52,10 +56,6 @@ public final class Tests {
      * Available outputs for printing results.
      */
     private final Set<Output> outputs;
-    /**
-     * Docker image for testing.
-     */
-    private final Arg image;
     /**
      * Standard output for application progress.
      */
@@ -70,7 +70,7 @@ public final class Tests {
     public Tests(final Arg image, final Iterable<YmlTagTest> tests,
         final OutputArg out) {
         this(
-            image,
+            image.value(),
             new Mapped<>(
                 CachedTest::new,
                 new Mapped<>(
@@ -91,7 +91,7 @@ public final class Tests {
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public Tests(final Arg image, final List<Test> scope,
+    public Tests(final String image, final List<Test> scope,
         final Set<Output> out, final StdOutput std) {
         this.image = image;
         this.scope = scope;
@@ -108,10 +108,10 @@ public final class Tests {
      */
     public void print() {
         this.std.print("Found scenarios: %s.\n", this.scope.size());
-        new DockerProcessOnUnix(
-            new Pull(this.image.value())
-        ).run().asList().forEach(this.std::print);
-        this.std.newline();
+        this.std.print(
+            new DockerProcessOnUnix(new Pull(this.image)).run()
+                .byLines()
+        );
         final TestingOutcome outcome = new TestingOutcome(
             new Mapped<>(Test::execute, this.scope)
         );

@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.yml;
 
+import java.util.List;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
@@ -32,14 +34,14 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @version $Id$
  * @since 0.1.0
  */
-public final class IllegalYmlFormatException extends RuntimeException {
+public final class IllegalYmlFileFormatException extends RuntimeException {
 
     /**
      * Ctor.
      *
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFormatException(final PlainFormattedText msg) {
+    public IllegalYmlFileFormatException(final PlainFormattedText msg) {
         this(msg.toString());
     }
 
@@ -48,7 +50,25 @@ public final class IllegalYmlFormatException extends RuntimeException {
      *
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFormatException(final String msg) {
+    public IllegalYmlFileFormatException(final String msg) {
         super(msg);
+    }
+
+    /**
+     * Ctor.
+     * @param msg Describes what exactly tag is wrong.
+     * @param cause Original cause.
+     */
+    public IllegalYmlFileFormatException(final String msg,
+        final Throwable cause) {
+        super(msg, cause);
+    }
+
+    /**
+     * Split message about wrong format to list of lines.
+     * @return Messages.
+     */
+    public List<String> detailsSplittedByLines() {
+        return new ListOf<>(this.getMessage().split("\n"));
     }
 }

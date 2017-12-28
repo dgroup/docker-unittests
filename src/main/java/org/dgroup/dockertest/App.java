@@ -30,8 +30,8 @@ import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
-import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Represents the instance of application.
@@ -49,7 +49,7 @@ public final class App {
     /**
      * Default output for application progress.
      */
-    private final Output std;
+    private final StdOutput std;
 
     /**
      * Ctor.
@@ -64,7 +64,7 @@ public final class App {
      * @param args Command-line arguments.
      * @param std Default output for application progress.
      */
-    public App(final List<String> args, final Output std) {
+    public App(final List<String> args, final StdOutput std) {
         this.args = args;
         this.std = std;
     }
@@ -79,11 +79,12 @@ public final class App {
 
     /**
      * Execute testing procedure.
+     * @checkstyle MagicNumberCheck (30 lines)
      */
     public void start() {
         try {
             this.std.print(
-                new Logo("0.1.0").asString()
+                new Logo("0.1.0").byLines()
             );
             new Tests(
                 new DockerImageArg(this.args),
@@ -92,6 +93,9 @@ public final class App {
             ).print();
         } catch (final TestingFailedException ex) {
             this.shutdownWith(-1);
+        } catch (final IllegalYmlFileFormatException ex) {
+            this.std.print(new YmlFileArg(this.args).name(), ex);
+            this.shutdownWith(-2);
         }
     }
 

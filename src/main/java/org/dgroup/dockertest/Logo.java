@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest;
 
+import java.util.List;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
@@ -57,17 +59,27 @@ public final class Logo {
      */
     public String asString() {
         return new PlainFormattedText("\n" +
-            "    Docker testing tool (v%s)\n" +
-            "                      ##         .            \n" +
-            "                ## ## ##        ==            \n" +
-            "             ## ## ## ##       ===            \n" +
-            "         /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
-            "    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
-            "         \\______ o          __/            \n" +
-            "          \\    \\        __/             \n" +
-            "           \\____\\______/   \n",
+            "Docker testing tool (v%s)\n" +
+            "                  ##         .            \n" +
+            "            ## ## ##        ==            \n" +
+            "         ## ## ## ##       ===            \n" +
+            "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
+            "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
+            "     \\______ o          __/            \n" +
+            "      \\    \\        __/             \n" +
+            "       \\____\\______/   \n",
             this.appVersion()
         ).asString();
+    }
+
+    /**
+     * App logo splited by lines.
+     * @return Lines.
+     */
+    public List<String> byLines() {
+        return new ListOf<>(
+            this.asString().split("\n")
+        );
     }
 
     /**

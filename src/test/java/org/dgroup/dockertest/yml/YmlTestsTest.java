@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.yml;
 
-import org.cactoos.list.ListOf;
+import java.util.List;
 import org.dgroup.dockertest.AssertThrown;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
@@ -56,7 +56,7 @@ public final class YmlTestsTest {
             () -> new YmlTests(
                 new YmlResource("with-missing-version-tag.yml").asString()
             ).iterator(),
-            new IllegalYmlFormatException("The `version` tag is missing")
+            new IllegalYmlFileFormatException("The `version` tag is missing")
         );
     }
 
@@ -177,11 +177,22 @@ public final class YmlTestsTest {
         );
     }
 
-    private ListOf<YmlTagTest> loadTests(final String file) {
-        return new ListOf<>(
-            new YmlTests(
-                new YmlResource(file).asString()
+    @Test
+    public void tagTestsIsMissing() {
+        AssertThrown.assertThrown(
+            () -> this.loadTests("with-missing-tests-tag.yml"),
+            new IllegalYmlFileFormatException(
+                "mapping values are not allowed here\n" +
+                    " in 'string', line 3, column 9:\n" +
+                    "      - test:\n" +
+                    "            ^\n"
             )
         );
+    }
+
+    private List<YmlTagTest> loadTests(final String file) {
+        return new YmlTests(
+            new YmlResource(file).asString()
+        ).asList();
     }
 }

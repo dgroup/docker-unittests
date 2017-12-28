@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
-import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Represents single yml tag in *.yml file with tests.
@@ -68,11 +68,12 @@ public final class YmlTag {
 
     /**
      * Check that tag is exists in *.yml file with tests.
-     * @throws IllegalYmlFormatException in case if *.yml file has missing tag.
+     * @throws IllegalYmlFileFormatException in case if *.yml file
+     *  has missing tag.
      */
     public void verifyExistence() {
         if (this.tag == null) {
-            throw new IllegalYmlFormatException(
+            throw new IllegalYmlFileFormatException(
                 new PlainFormattedText(
                     "The `%s` tag is missing", this.name
                 )

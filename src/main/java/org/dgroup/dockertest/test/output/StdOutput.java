@@ -24,7 +24,12 @@
 package org.dgroup.dockertest.test.output;
 
 import java.io.PrintStream;
+import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Print testing results to standard output.
@@ -36,6 +41,10 @@ import org.dgroup.dockertest.text.PlainFormattedText;
 public final class StdOutput implements Output {
 
     /**
+     * Standard indent from left side of screen.
+     */
+    private final String indent;
+    /**
      * Standard output.
      */
     private final PrintStream out;
@@ -44,21 +53,23 @@ public final class StdOutput implements Output {
      * Ctor.
      */
     public StdOutput() {
-        this(System.out);
+        this(System.out, "    ");
     }
 
     /**
      * Ctor.
      * @param out Instance for print procedure.
+     * @param indent Default indent from left side of screen.
      */
-    public StdOutput(final PrintStream out) {
+    public StdOutput(final PrintStream out, final String indent) {
         this.out = out;
+        this.indent = indent;
     }
 
     // @todo #9 Use jansi for colored std output
     @Override
     public void print(final String msg) {
-        this.out.println(String.format("    %s", msg));
+        this.out.printf("%s%s\n", this.indent, msg);
     }
 
     /**
@@ -71,9 +82,32 @@ public final class StdOutput implements Output {
     }
 
     /**
-     * Print new line.
+     * Print format details in case corrupted yml file.
+     * @param file Name of corrupted yml file.
+     * @param exp Exception received during parsing yml tree.
      */
-    public void newline() {
+    public void print(final String file,
+        final IllegalYmlFileFormatException exp) {
+        this.print(
+            new Joined<>(
+                new ListOf<>(
+                    String.format("YML file `%s` has wrong format:", file)
+                ),
+                new Mapped<>(
+                    l -> String.format("%s%s", this.indent, l),
+                    exp.detailsSplittedByLines()
+                )
+            )
+        );
+    }
+
+    /**
+     * Print multiple lines.
+     * @param messages Print in new line each element.
+     */
+    public void print(final List<String> messages) {
+        messages.forEach(this::print);
         this.out.println();
     }
+
 }

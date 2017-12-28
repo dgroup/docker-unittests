@@ -38,9 +38,9 @@ import org.junit.Test;
 public final class LogoTest {
 
     @Test
-    public void asString() {
+    public void byLines() {
         new StdOutput().print(
-            new Logo("0.1.0").asString()
+            new Logo("0.1.0").byLines()
         );
     }
 

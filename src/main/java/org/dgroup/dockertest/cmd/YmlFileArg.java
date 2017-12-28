@@ -71,7 +71,7 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
 
     @Override
     public String name() {
-        return this.origin.name();
+        return this.origin.value();
     }
 
     @Override
