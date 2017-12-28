@@ -63,12 +63,6 @@ public final class App {
      * Ctor.
      * @param args Command-line arguments.
      * @param std Default output for application progress.
-     * @todo #49 Refactoring is required for {@link StdOutput} and
-     *  {@link Output}. The {@link Output} interface has too many
-     *  responsibilities due to growing of cases related to app progress
-     *  notifications. Initially, {@link Output} was designed for test results
-     *  reporting only, not for app notifications like scenarios found,
-     *  image is downloading, etc.
      */
     public App(final List<String> args, final Output std) {
         this.args = args;
