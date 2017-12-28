@@ -9,7 +9,8 @@ The main concept is that all tests should use the image as is without any 'inter
 go-related features.
 We, like users, receive the image and we are going to check what we've got.
 
-The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. Feel free to give any suggestions regarding another ways\languages.
+The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. 
+Kindly ask you to raise the issue in case of any suggestions regarding another ways\languages.
 
 1. Define an [*.yml file](./.guides/image-tests.yml) with tests.
    For now only `UTF-8` is supported, user-specific encoding will be implemented in scope of [#41](https://github.com/dgroup/docker-unittests/issues/41).
