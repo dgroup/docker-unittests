@@ -54,7 +54,6 @@ public final class YmlTagVersion {
      * For now only version `1` is supported.
      */
     public void verify() {
-        this.tag.verifyExistence();
         if (!"1".equals(this.tag.asString())) {
             throw new IllegalArgumentException(
                 new PlainFormattedText(

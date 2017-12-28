@@ -38,7 +38,16 @@ public final class IllegalYmlFileFormatException extends RuntimeException {
 
     /**
      * Ctor.
-     *
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public IllegalYmlFileFormatException(final String pattern,
+        final Object... args) {
+        this(new PlainFormattedText(pattern, args));
+    }
+
+    /**
+     * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
     public IllegalYmlFileFormatException(final PlainFormattedText msg) {
@@ -47,7 +56,6 @@ public final class IllegalYmlFileFormatException extends RuntimeException {
 
     /**
      * Ctor.
-     *
      * @param msg Describes what exactly tag is wrong.
      */
     public IllegalYmlFileFormatException(final String msg) {

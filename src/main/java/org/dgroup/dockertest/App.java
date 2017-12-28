@@ -28,6 +28,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.cmd.DockerImageArg;
 import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
+import org.dgroup.dockertest.test.NonDefinedTestingScopeException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
 import org.dgroup.dockertest.test.output.StdOutput;
@@ -96,6 +97,8 @@ public final class App {
         } catch (final IllegalYmlFileFormatException ex) {
             this.std.print(new YmlFileArg(this.args).name(), ex);
             this.shutdownWith(-2);
+        } catch (final NonDefinedTestingScopeException ex) {
+            this.std.print("0 testing scenarios found.");
         }
     }
 

@@ -107,7 +107,10 @@ public final class Tests {
      * @todo #51 Print timing for `docker pull` command.
      */
     public void print() {
-        this.std.print("Found scenarios: %s.\n", this.scope.size());
+        if (this.scope.isEmpty()) {
+            throw new NonDefinedTestingScopeException();
+        }
+        this.std.print("Found scenarios: %s.%n", this.scope.size());
         this.std.print(
             new DockerProcessOnUnix(new Pull(this.image)).run()
                 .byLines()

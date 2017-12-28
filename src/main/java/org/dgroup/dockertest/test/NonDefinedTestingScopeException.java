@@ -21,44 +21,15 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
-
-import java.util.Iterator;
-import java.util.Map;
-import org.cactoos.iterator.Mapped;
+package org.dgroup.dockertest.test;
 
 /**
- * Represents yml tag {@code /tests}.
- * Tag can contain list of {@link YmlTagTest}.
+ * Exception which shows that there is no defined test for testing scope.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTagTests implements Iterable<YmlTagTest> {
-
-    /**
-     * Single yml tag as object.
-     */
-    private final YmlTag tag;
-
-    /**
-     * Ctor.
-     * @param tree Yml object tree loaded from *.yml file with tests.
-     */
-    public YmlTagTests(final Map<String, Object> tree) {
-        this.tag = new YmlTag(tree, "tests");
-    }
-
-    @Override
-    public Iterator<YmlTagTest> iterator() {
-        return new Mapped<>(
-            YmlTagTest::new,
-            new Mapped<>(
-                test -> (Map<String, Object>) test,
-                this.tag.list().iterator()
-            )
-        );
-    }
+public final class NonDefinedTestingScopeException extends RuntimeException {
 
 }

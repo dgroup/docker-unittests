@@ -23,10 +23,13 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import org.cactoos.collection.Filtered;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
-import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -39,9 +42,9 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 public final class YmlTag {
 
     /**
-     * Single yml tag as object.
+     * YML tree with tags.
      */
-    private final Object tag;
+    private final Map<String, Object> yml;
     /**
      * Tag name.
      */
@@ -49,39 +52,12 @@ public final class YmlTag {
 
     /**
      * Ctor.
-     * @param tree Yml tree loaded from *.yml file with tests.
+     * @param yml Yml tree loaded from *.yml file with tests.
      * @param tag Yml tag name.
      */
-    public YmlTag(final Map<String, Object> tree, final String tag) {
-        this(
-            tree.get(tag),
-            tag
-        );
-    }
-
-    /**
-     * Ctor.
-     * @param yml Yml tree loaded from *.yml file with tests.
-     * @param name Yml tag name.
-     */
-    public YmlTag(final Object yml, final String name) {
-        this.tag = yml;
-        this.name = name;
-    }
-
-    /**
-     * Check that tag is exists in *.yml file with tests.
-     * @throws IllegalYmlFileFormatException in case if *.yml file
-     *  has missing tag.
-     */
-    public void verifyExistence() {
-        if (this.tag == null) {
-            throw new IllegalYmlFileFormatException(
-                new PlainFormattedText(
-                    "`%s` tag is missing or has incorrect structure", this.name
-                )
-            );
-        }
+    public YmlTag(final Map<String, Object> yml, final String tag) {
+        this.yml = yml;
+        this.name = tag;
     }
 
     /**
@@ -90,9 +66,9 @@ public final class YmlTag {
      */
     public String asString() {
         return new UncheckedTernary<>(
-            this.tag == null,
+            this.value() == null,
             () -> "",
-            () -> this.tag.toString()
+            () -> this.value().toString()
         ).value();
     }
 
@@ -100,16 +76,40 @@ public final class YmlTag {
      * Represent tag value as list.
      * @return List.
      */
+    @SuppressWarnings("unchecked")
     public List<Object> list() {
-        return (List<Object>) this.tag;
+        final List<Object> values = (List<Object>) this.value();
+        return new UncheckedTernary<List<Object>>(
+            values == null || new Filtered<>(Objects::nonNull, values)
+                .isEmpty(),
+            ListOf::new,
+            () -> values
+        ).value();
     }
 
     /**
      * Represent tag value as map.
      * @return Map.
      */
+    @SuppressWarnings("unchecked")
     public Map<Object, Object> map() {
-        return (Map<Object, Object>) this.tag;
+        final Map<Object, Object> value = (Map<Object, Object>) this.value();
+        return new UncheckedTernary<>(
+            value == null, HashMap::new, () -> value
+        ).value();
+    }
+
+    /**
+     * YML tag value.
+     * @return Tag value.
+     */
+    private Object value() {
+        if (this.yml == null || this.yml.get(this.name) == null) {
+            throw new IllegalYmlFileFormatException(
+                "`%s` tag is missing or has incorrect structure", this.name
+            );
+        }
+        return this.yml.get(this.name);
     }
 
 }

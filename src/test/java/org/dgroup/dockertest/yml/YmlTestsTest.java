@@ -29,6 +29,7 @@ import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.collection.IsEmptyCollection;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
@@ -191,12 +192,21 @@ public final class YmlTestsTest {
     }
 
     @Test
-    public void tagTestsHasNoChildren() {
+    public void tagTestsHasNoDefinedChildren() {
         AssertThrown.assertThrown(
             () -> this.loadTests("tag-tests-has-no-children.yml"),
             new IllegalYmlFileFormatException(
                 "`tests` tag is missing or has incorrect structure"
             )
+        );
+    }
+
+    @Test
+    public void tagTestsHasOneWronglyDefinedChild() {
+        MatcherAssert.assertThat(
+            "Tag `tests` has 0 children",
+            this.loadTests("tag-tests-has-one-wrong-child.yml"),
+            IsEmptyCollection.empty()
         );
     }
 
