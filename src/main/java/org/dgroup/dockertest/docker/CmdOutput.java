@@ -23,6 +23,9 @@
  */
 package org.dgroup.dockertest.docker;
 
+import java.util.List;
+import org.cactoos.list.ListOf;
+
 /**
  * Represents docker command output.
  *
@@ -37,4 +40,14 @@ public interface CmdOutput {
      * @return Cmd output as string.
      */
     String asText();
+
+    /**
+     * Represent cmd output spited by lines.
+     * @return Cmd output as list.
+     */
+    default List<String> asList() {
+        return new ListOf<>(
+            this.asText().split("\n")
+        );
+    }
 }

@@ -21,13 +21,33 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package org.dgroup.dockertest.docker;
+
+import org.dgroup.dockertest.docker.command.StatelessDockerContainer;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsCollectionContaining;
+import org.junit.Test;
 
 /**
- * Package with unit tests for docker container testing layer.
+ * Unit-tests for class {@link StatelessDockerContainer}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-package org.dgroup.dockertest.test.output;
+public final class StatelessDockerContainerTest {
 
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    public void args() {
+        MatcherAssert.assertThat(
+            new StatelessDockerContainer(
+                "java", "-version"
+            ).args(),
+            IsCollectionContaining.hasItems(
+                "docker", "run", "--rm", "java", "-version"
+            )
+        );
+    }
+}

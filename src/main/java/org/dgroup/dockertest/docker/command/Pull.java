@@ -21,48 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.command;
 
 import java.util.List;
-import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.docker.DockerCommand;
+import org.dgroup.dockertest.scalar.UncheckedCallable;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
 
 /**
- * Represents a command for stateless docker container.
- * Container will be removed automatically by docker after execution of command.
- * See `docker --rm` options for details.
+ * Represents a {@code docker pull} command which allows to download image
+ * from remote docker repository.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class StatelessDockerContainerCommand
-    implements DockerCommand {
+public final class Pull implements DockerCommand {
 
     /**
-     * Docker container commands.
+     * Docker pull command.
      */
-    private final List<String> cmd;
+    private final String image;
 
     /**
      * Ctor.
-     * @param image Docker image for testing.
-     * @param cmd Command to be executed inside of docker container.
+     * @param image Docker image specified by user.
      */
-    public StatelessDockerContainerCommand(final String image,
-        final String... cmd) {
-        this.cmd = new Joined<>(
-            new ListOf<>("docker", "run", "--rm", image),
-            new ListOf<>(cmd)
-        );
+    public Pull(final String image) {
+        this.image = image;
     }
 
-    /**
-     * Docker container arguments.
-     * @return Container arguments.
-     */
+    @Override
     public List<String> args() {
-        return this.cmd;
+        return new UncheckedTernary<>(
+            this.image == null,
+            (UncheckedCallable<List<String>>) () -> {
+                throw new IllegalArgumentException("Image wasn't specified.");
+            },
+            () -> new ListOf<>("docker", "pull", this.image)
+        ).value();
     }
 
 }
+

@@ -28,8 +28,10 @@ import java.util.Set;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.cmd.OutputArg;
+import org.dgroup.dockertest.docker.DockerProcessOnUnix;
+import org.dgroup.dockertest.docker.command.Pull;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
@@ -57,7 +59,7 @@ public final class Tests {
     /**
      * Standard output for application progress.
      */
-    private final Output std;
+    private final StdOutput std;
 
     /**
      * Ctor.
@@ -90,7 +92,7 @@ public final class Tests {
      * @checkstyle ParameterNumberCheck (10 lines)
      */
     public Tests(final Arg image, final List<Test> scope,
-        final Set<Output> out, final Output std) {
+        final Set<Output> out, final StdOutput std) {
         this.image = image;
         this.scope = scope;
         this.outputs = out;
@@ -104,11 +106,11 @@ public final class Tests {
      *  and support thread-pool configuration from command line.
      */
     public void print() {
-        this.std.print(
-            new PlainFormattedText(
-                "Found scenarios: %s.", this.scope.size()
-            ).asString()
-        );
+        this.std.print("Found scenarios: %s.\n", this.scope.size());
+        new DockerProcessOnUnix(
+            new Pull(this.image.value())
+        ).run().asList().forEach(this.std::print);
+        this.std.newline();
         final TestingOutcome outcome = new TestingOutcome(
             new Mapped<>(Test::execute, this.scope)
         );

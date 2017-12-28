@@ -21,32 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsCollectionContaining;
-import org.junit.Test;
 
 /**
- * Unit-tests for class {@link StatelessDockerContainerCommand}.
+ * Contains native docker commands like {@code docker info}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class StatelessDockerContainerCommandTest {
-
-    @Test
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public void args() {
-        MatcherAssert.assertThat(
-            new StatelessDockerContainerCommand(
-                "java", "-version"
-            ).args(),
-            IsCollectionContaining.hasItems(
-                "docker", "run", "--rm", "java", "-version"
-            )
-        );
-    }
-}
+package org.dgroup.dockertest.docker.command;

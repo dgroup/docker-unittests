@@ -21,59 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.output;
+package org.dgroup.dockertest.docker.command;
 
-import java.io.PrintStream;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.docker.DockerCommand;
 
 /**
- * Print testing results to standard output.
+ * Represents a command for stateless docker container.
+ * Container will be removed automatically by docker after execution of command.
+ * See `docker --rm` options for details.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class StdOutput implements Output {
+public final class StatelessDockerContainer implements DockerCommand {
 
     /**
-     * Standard output.
+     * Docker container commands.
      */
-    private final PrintStream out;
-
-    /**
-     * Ctor.
-     */
-    public StdOutput() {
-        this(System.out);
-    }
+    private final List<String> cmd;
 
     /**
      * Ctor.
-     * @param out Instance for print procedure.
+     * @param image Docker image for testing.
+     * @param cmd Command to be executed inside of docker container.
      */
-    public StdOutput(final PrintStream out) {
-        this.out = out;
-    }
-
-    // @todo #9 Use jansi for colored std output
-    @Override
-    public void print(final String msg) {
-        this.out.println(String.format("    %s", msg));
+    public StatelessDockerContainer(final String image, final String... cmd) {
+        this.cmd = new Joined<>(
+            new ListOf<>("docker", "run", "--rm", image),
+            new ListOf<>(cmd)
+        );
     }
 
     /**
-     * Print message.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * Docker container arguments.
+     * @return Container arguments.
      */
-    public void print(final String pattern, final Object... args) {
-        this.print(new PlainFormattedText(pattern, args).asString());
+    public List<String> args() {
+        return this.cmd;
     }
 
-    /**
-     * Print new line.
-     */
-    public void newline() {
-        this.out.println();
-    }
 }

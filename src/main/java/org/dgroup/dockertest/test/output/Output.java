@@ -42,6 +42,8 @@ public interface Output {
     /**
      * Flush all changes to the disk.
      */
+    @SuppressWarnings("PMD.UncommentedEmptyMethodBody")
     default void flush() {
     }
+
 }

@@ -26,7 +26,7 @@ package org.dgroup.dockertest.test;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.docker.DockerProcess;
 import org.dgroup.dockertest.docker.DockerProcessOnUnix;
-import org.dgroup.dockertest.docker.StatelessDockerContainerCommand;
+import org.dgroup.dockertest.docker.command.StatelessDockerContainer;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
@@ -56,7 +56,7 @@ public final class BasedOnYmlTest implements Test {
         this(
             test,
             new DockerProcessOnUnix(
-                new StatelessDockerContainerCommand(
+                new StatelessDockerContainer(
                     image.value(), test.dockerCmdAsArray()
                 )
             )

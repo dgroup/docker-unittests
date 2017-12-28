@@ -75,8 +75,7 @@ public final class OutputArg implements Iterable<Output> {
             "\\|",
             new MapOf<>(
                 new MapEntry<>("xml", new XmlOutput()),
-                new MapEntry<>("html", new HtmlOutput()),
-                new MapEntry<>("std", new StdOutput())
+                new MapEntry<>("html", new HtmlOutput())
             )
         );
     }
@@ -110,9 +109,10 @@ public final class OutputArg implements Iterable<Output> {
     /**
      * Standard output for printing app progress.
      * @return Output.
+     * @checkstyle NonStaticMethodCheck (5 lines)
      */
-    public Output std() {
-        return this.out.get("std");
+    public StdOutput std() {
+        return new StdOutput();
     }
 
     /**
