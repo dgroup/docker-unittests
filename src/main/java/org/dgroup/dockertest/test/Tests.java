@@ -104,6 +104,7 @@ public final class Tests {
      *
      * @todo #2:8h All tests should be executed concurrently
      *  and support thread-pool configuration from command line.
+     * @todo #51 Print timing for `docker pull` command.
      */
     public void print() {
         this.std.print("Found scenarios: %s.\n", this.scope.size());
