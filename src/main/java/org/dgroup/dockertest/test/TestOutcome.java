@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test;
 
+import java.util.List;
+
 /**
  * Represents single test result.
  *
@@ -42,5 +44,5 @@ public interface TestOutcome {
      * Single test result message.
      * @return Details regarding to expected and actual output.
      */
-    String message();
+    List<String> message();
 }

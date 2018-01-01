@@ -77,6 +77,11 @@ public final class LoggedYmlTagOutputPredicate
     }
 
     @Override
+    public String expectedValue() {
+        return this.origin.expectedValue();
+    }
+
+    @Override
     public boolean test(final String actual) {
         this.log.debug("Got `{}`.", actual);
         final boolean status = this.origin.test(actual);

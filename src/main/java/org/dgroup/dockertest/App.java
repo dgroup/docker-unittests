@@ -44,9 +44,13 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 public final class App {
 
     /**
-     * Application command-line arguments.
+     * App command-line arguments from user.
      */
     private final List<String> args;
+    /**
+     * Tests to be executed.
+     */
+    private final Tests tests;
     /**
      * Default output for application progress.
      */
@@ -56,17 +60,28 @@ public final class App {
      * Ctor.
      * @param args Command-line arguments.
      */
-    public App(final String... args) {
-        this(new ListOf<>(args), new StdOutput());
+    public App(final List<String> args) {
+        this(
+            args,
+            new Tests(
+                new DockerImageArg(args),
+                new YmlFileArg(args),
+                new OutputArg(args)
+            ),
+            new OutputArg(args).std()
+        );
     }
 
     /**
      * Ctor.
      * @param args Command-line arguments.
+     * @param tests Tests to be executed.
      * @param std Default output for application progress.
+     * @checkstyle LineLengthCheck (5 lines)
      */
-    public App(final List<String> args, final StdOutput std) {
+    public App(final List<String> args, final Tests tests, final StdOutput std) {
         this.args = args;
+        this.tests = tests;
         this.std = std;
     }
 
@@ -75,7 +90,8 @@ public final class App {
      * @param args Command-line arguments.
      */
     public static void main(final String... args) {
-        new App(args).start();
+        new App(new ListOf<>(args))
+            .start();
     }
 
     /**
@@ -84,14 +100,8 @@ public final class App {
      */
     public void start() {
         try {
-            this.std.print(
-                new Logo("0.1.0").byLines()
-            );
-            new Tests(
-                new DockerImageArg(this.args),
-                new YmlFileArg(this.args),
-                new OutputArg(this.args)
-            ).print();
+            this.std.print(new Logo("0.1.0"));
+            this.tests.execute();
         } catch (final TestingFailedException ex) {
             this.shutdownWith(-1);
         } catch (final IllegalYmlFileFormatException ex) {
@@ -104,7 +114,9 @@ public final class App {
 
     /**
      * Shutdown application with error code.
-     * The error code is required when the app is invoked from shell scripts.
+     * The error code is required when the app is invoked from shell scripts:
+     *  - {@code 1} testing failed;
+     *  - {@code 2} yml file has unsupported/incorrect format.
      * @param code Exit code.
      * @checkstyle NonStaticMethodCheck (10 lines)
      */

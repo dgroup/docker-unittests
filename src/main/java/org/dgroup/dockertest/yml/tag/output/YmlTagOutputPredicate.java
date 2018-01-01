@@ -40,6 +40,13 @@ public interface YmlTagOutputPredicate {
     String comparingType();
 
     /**
+     * Expected value by test.
+     * @return Value expected by test. For example, in case of `matches` tag
+     *  the method return regexp statement.
+     */
+    String expectedValue();
+
+    /**
      * Compare expected value with actual.
      * @param actual Output received from docker container.
      * @return True in case if expected value is equal to actual value.

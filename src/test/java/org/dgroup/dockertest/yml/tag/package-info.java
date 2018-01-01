@@ -23,7 +23,7 @@
  */
 
 /**
- * Unit tests.
+ * Unit tests for layer related to manipulation with yml tags.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

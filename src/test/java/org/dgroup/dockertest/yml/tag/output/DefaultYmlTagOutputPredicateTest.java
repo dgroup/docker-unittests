@@ -21,32 +21,48 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.yml.tag.output;
 
-import org.dgroup.dockertest.test.output.StdOutput;
+import org.cactoos.func.UncheckedBiFunc;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link Logo}.
+ * Unit tests for class {@link DefaultYmlTagOutputPredicate}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class LogoTest {
+public final class DefaultYmlTagOutputPredicateTest {
 
     @Test
-    public void byLines() {
-        final Logo logo = new Logo("0.1.0");
-        new StdOutput().print(logo);
+    public void asString() {
         MatcherAssert.assertThat(
-            logo.byLines(),
-            Matchers.hasSize(11)
+            new ListOf<>(
+                new DefaultYmlTagOutputPredicate(
+                    "startsWith", "curl 7.",
+                    new UncheckedBiFunc<>(String::startsWith)
+                ).asYmlString(),
+                new DefaultYmlTagOutputPredicate(
+                    "equals", "curl 7.57.0",
+                    new UncheckedBiFunc<>(String::equals)
+                ).asYmlString(),
+                new DefaultYmlTagOutputPredicate(
+                    "contains", "7.57",
+                    new UncheckedBiFunc<>(String::contains)
+                ).asYmlString()
+            ),
+            Matchers.hasItems(
+                "startsWith: \"curl 7.\"",
+                "equals:     \"curl 7.57.0\"",
+                "contains:   \"7.57\""
+            )
         );
     }
 

@@ -24,6 +24,8 @@
 package org.dgroup.dockertest.yml.tag.output;
 
 import org.cactoos.func.UncheckedBiFunc;
+import org.cactoos.text.RepeatedText;
+import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
@@ -71,14 +73,46 @@ public final class DefaultYmlTagOutputPredicate
     }
 
     @Override
+    public String expectedValue() {
+        return this.expected;
+    }
+
+    @Override
     public boolean test(final String actual) {
         return this.predicate.apply(actual, this.expected);
     }
 
     @Override
     public String toString() {
-        return new PlainFormattedText("%s=`%s`", this.type, this.expected)
-            .asString();
+        return this.asYmlString();
+    }
+
+    /**
+     * Gives predicate details as YML string.
+     * @return Predicate details.
+     * @checkstyle StringLiteralsConcatenationCheck (10 lines)
+     */
+    public String asYmlString() {
+        return new PlainFormattedText(
+            "%s:%s\"%s\"",
+            this.comparingType(),
+            new UncheckedText(
+                new RepeatedText(
+                    " ", this.differenceInLengthComparingTo("startsWith") + 1
+                )
+            ).asString(),
+            this.expectedValue()
+        ).asString();
+    }
+
+    /**
+     * Amount of spaces between predicate name and value based on
+     *  longest predicate.
+     * @param longest Predicate name.
+     * @return Difference in spaces
+     */
+    private int differenceInLengthComparingTo(final String longest) {
+        return longest.length() - this.comparingType().length();
     }
 
 }

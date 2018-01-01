@@ -25,9 +25,13 @@ package org.dgroup.dockertest.test.output;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.test.TestOutcome;
+import org.dgroup.dockertest.test.TestingOutcome;
 
 /**
- * Fake instance for unit testing purposes.
+ * Fake instance of {@link Output} for unit testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -41,18 +45,16 @@ public final class FakeOutput implements Output {
     private final List<String> output = new ArrayList<>(10);
 
     @Override
-    public void print(final String msg) {
-        this.output.add(msg);
-    }
-
-    @Override
-    public void flush() {
-        this.output.add("flush");
+    public void print(final TestingOutcome outcome) {
+        this.output.addAll(
+            new Joined<>(
+                new Mapped<>(TestOutcome::message, outcome)
+            )
+        );
     }
 
     /**
      * All collected messages during testing procedure.
-     *
      * @return Test messages.
      */
     public List<String> lines() {

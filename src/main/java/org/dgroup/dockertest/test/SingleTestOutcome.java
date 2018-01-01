@@ -23,11 +23,17 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.cactoos.collection.Filtered;
+import java.util.Collections;
+import java.util.List;
+import org.cactoos.iterable.Filtered;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
+import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
-import org.dgroup.dockertest.text.StringOf;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
  * Default implementation of single test result.
@@ -46,6 +52,10 @@ public final class SingleTestOutcome implements TestOutcome {
      * Output from docker container.
      */
     private final String output;
+    /**
+     * Failed scenarios.
+     */
+    private final List<YmlTagOutputPredicate> failed;
 
     /**
      * Ctor.
@@ -55,6 +65,12 @@ public final class SingleTestOutcome implements TestOutcome {
     public SingleTestOutcome(final YmlTagTest test, final String output) {
         this.test = test;
         this.output = output;
+        this.failed = new StickyList<>(
+            new Filtered<>(
+                t -> !t.test(this.output),
+                this.test.output()
+            )
+        );
     }
 
     /**
@@ -62,32 +78,61 @@ public final class SingleTestOutcome implements TestOutcome {
      * @return True in case of absent failed scenarios.
      */
     public boolean successful() {
-        return new Filtered<>(
-            t -> !t.test(this.output), this.test.output()
-        ).isEmpty();
+        return this.failed.isEmpty();
     }
 
     /**
      * Testing scenario details.
      * @return Scenario details like passed/failed, docker cmd, output.
      */
-    public String message() {
+    public List<String> message() {
         return new UncheckedTernary<>(
-            this.successful(),
-            () -> new PlainFormattedText(
-                "Passed scenario `%s` (cmd=`%s`). Output is `%s`",
-                this.test.assume(),
-                this.test.cmd(),
-                this.output
-            ).asString(),
-            () -> new PlainFormattedText(
-                "Failed scenario `%s` (cmd=`%s`). `%s` didn't match to `%s`",
-                this.test.assume(),
-                this.test.cmd(),
-                this.output,
-                new StringOf(this.test.output(), ", ")
-            ).asString()
+            this.successful(), this::messagePassed, this::messageFailed
         ).value();
+    }
+
+    /**
+     * Return success test report for single test.
+     * @return Test report for single test.
+     */
+    private List<String> messagePassed() {
+        return Collections.singletonList(
+            new PlainFormattedText(
+                "> %s PASSED",
+                this.test.assume()
+            ).asString()
+        );
+    }
+
+    /**
+     * Return failed test report for single test.
+     * @return Test report for single test.
+     */
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    private List<String> messageFailed() {
+        return new Joined<>(
+            new ListOf<>(
+                new PlainFormattedText(
+                    "> %s FAILED", this.test.assume()
+                ).asString(),
+                new PlainFormattedText(
+                    "  command: \"%s\"", this.test.cmd()
+                ).asString(),
+                new PlainFormattedText(
+                    "  output:  \"%s\"", this.output
+                ).asString(),
+                "  expected output:"
+            ),
+            new Mapped<>(
+                o -> new PlainFormattedText("    - %s", o).asString(),
+                this.test.output()
+            ),
+            new ListOf<>("  mismatch:"),
+            new Mapped<>(
+                o -> new PlainFormattedText("    - %s", o).asString(),
+                this.failed
+            )
+        );
     }
 
 }

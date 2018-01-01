@@ -26,13 +26,14 @@ package org.dgroup.dockertest.test;
 import java.util.List;
 import java.util.Set;
 import org.cactoos.list.Mapped;
+import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.docker.DockerProcessOnUnix;
 import org.dgroup.dockertest.docker.command.Pull;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
  * Allows to execute tests and print results.
@@ -106,19 +107,23 @@ public final class Tests {
      *  and support thread-pool configuration from command line.
      * @todo #51 Print timing for `docker pull` command.
      */
-    public void print() {
+    public void execute() {
         if (this.scope.isEmpty()) {
             throw new NonDefinedTestingScopeException();
         }
         this.std.print("Found scenarios: %s.%n", this.scope.size());
+        this.std.print("Verify image...");
         this.std.print(
-            new DockerProcessOnUnix(new Pull(this.image)).run()
-                .byLines()
+            new DockerProcessOnUnix(
+                new Pull(this.image)
+            ).run()
         );
-        final TestingOutcome outcome = new TestingOutcome(
-            new Mapped<>(Test::execute, this.scope)
-        );
-        this.outputs.forEach(outcome::print);
+        new TestingOutcome(
+            new StickyList<>(
+                new Mapped<>(Test::execute, this.scope)
+            ),
+            this.outputs
+        ).print();
     }
 
 }

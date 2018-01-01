@@ -30,6 +30,8 @@ package org.dgroup.dockertest.cmd;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #52 Make all exceptions non-runtime and avoid using
+ *  runtime exceptions in future.
  */
 public final class CmdArgNotFoundException extends RuntimeException {
 

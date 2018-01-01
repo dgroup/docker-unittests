@@ -24,8 +24,11 @@
 package org.dgroup.dockertest.test;
 
 import java.util.Iterator;
-import org.cactoos.collection.Filtered;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import java.util.Set;
+import org.cactoos.Proc;
+import org.cactoos.scalar.And;
+import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.test.output.Output;
 
 /**
@@ -38,16 +41,50 @@ import org.dgroup.dockertest.test.output.Output;
 public final class TestingOutcome implements Iterable<TestOutcome> {
 
     /**
-     * Testing outcome.
+     * Multiple tests results.
      */
     private final Iterable<TestOutcome> outcome;
+    /**
+     * Testing status.
+     */
+    private final UncheckedScalar<Boolean> passed;
+    /**
+     * Outputs for printing results.
+     */
+    private final Set<Output> outputs;
 
     /**
-     * Testing outcome.
+     * Ctor.
      * @param outcome Collection of single test results.
+     * @param outputs Available outputs for printing tests results.
      */
-    public TestingOutcome(final Iterable<TestOutcome> outcome) {
+    public TestingOutcome(final Iterable<TestOutcome> outcome,
+        final Set<Output> outputs) {
+        this(
+            outcome,
+            new UncheckedScalar<>(
+                new StickyScalar<>(
+                    new And(
+                        TestOutcome::successful,
+                        outcome
+                    )
+                )
+            ),
+            outputs
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param outcome Collection of single test results.
+     * @param passed Status of the testing.
+     * @param outputs Available outputs for printing tests results.
+     */
+    public TestingOutcome(final Iterable<TestOutcome> outcome,
+        final UncheckedScalar<Boolean> passed, final Set<Output> outputs) {
         this.outcome = outcome;
+        this.passed = passed;
+        this.outputs = outputs;
     }
 
     @Override
@@ -56,40 +93,22 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
     }
 
     /**
-     * Print testing results to the selected output.
-     * In case if nothing was selected
-     * {@link org.dgroup.dockertest.test.output.StdOutput} will be used.
-     *
-     * @param output Available output for printing.
+     * Checking all tests outcome for passed scenario's.
+     * @return True in passed scenario's found.
      */
-    public void print(final Output output) {
-        for (final TestOutcome out : this) {
-            output.print(out.message());
-        }
-        new UncheckedTernary<>(
-            this.failed(),
-            () -> {
-                output.print("Testing failure.");
-                output.flush();
-                throw new TestingFailedException();
-            },
-            () -> {
-                output.print("Testing successful.");
-                output.flush();
-                return true;
-            }
-        ).value();
+    public boolean successfull() {
+        return this.passed.value();
     }
 
     /**
-     * Checking all tests outcome for failed scenario's.
-     * @return True in failed scenario's found.
+     * Print testing outcome to specified outputs.
      */
-    private boolean failed() {
-        return new Filtered<>(
-            f -> f.message().startsWith("Failed scenario"),
-            this.outcome
-        ).size() > 0;
+    public void print() {
+        new UncheckedScalar<>(
+            new And(
+                (Proc<Output>) out -> out.print(this),
+                this.outputs
+            )
+        ).value();
     }
-
 }

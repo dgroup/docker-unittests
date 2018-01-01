@@ -67,13 +67,13 @@ public final class Logo {
             "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
             "     \\______ o          __/            \n" +
             "      \\    \\        __/             \n" +
-            "       \\____\\______/   \n",
+            "       \\____\\______/   \n \n",
             this.appVersion()
         ).asString();
     }
 
     /**
-     * App logo splited by lines.
+     * App logo splitted by lines.
      * @return Lines.
      */
     public List<String> byLines() {

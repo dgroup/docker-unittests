@@ -27,7 +27,7 @@ import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.docker.DockerProcess;
 import org.dgroup.dockertest.docker.DockerProcessOnUnix;
 import org.dgroup.dockertest.docker.command.StatelessDockerContainer;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
  * Represents YML based implementation for single test.

@@ -61,7 +61,7 @@ public class TestsTest {
                 )
             ),
             new OutputArg(new ListOf<>())
-        ).print();
+        ).execute();
         MatcherAssert.assertThat(
             output.lines(), IsCollectionWithSize.hasSize(2)
         );

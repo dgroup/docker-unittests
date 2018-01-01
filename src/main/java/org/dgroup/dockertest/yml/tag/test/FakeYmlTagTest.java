@@ -21,73 +21,64 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.yml.tag.test;
 
-import java.io.File;
-import java.util.Iterator;
 import java.util.List;
-import org.dgroup.dockertest.text.FileAsString;
-import org.dgroup.dockertest.yml.YmlTests;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
- * Represents a command line argument with the yml file with tests.
+ * Fake instance of {@link YmlTagTest} for unit testing purposes..
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
+public final class FakeYmlTagTest implements YmlTagTest {
 
     /**
-     * Contain yml file with tests.
+     * Name of testing scenario.
      */
-    private final Arg origin;
+    private final String scenario;
+    /**
+     * Command for execution in docker container.
+     */
+    private final String command;
+    /**
+     * List of expected conditions to be applied to the container output.
+     */
+    private final List<YmlTagOutputPredicate> predicates;
 
     /**
      * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
+     * @param scenario Name of testing scenario.
+     * @param cmd Command for execution in docker container.
+     * @param predicates List of expected conditions to be applied
+     *  to the container output.
      */
-    public YmlFileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
-    }
-
-    /**
-     * Ctor.
-     * @param origin Yml file with tests passed to app by user with key "-f".
-     */
-    private YmlFileArg(final Arg origin) {
-        this.origin = origin;
-    }
-
-    /**
-     * Passed to app by user with key "-f".
-     * @return Yml file with tests.
-     */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
-        return new File(this.origin.value());
+    public FakeYmlTagTest(final String scenario, final String cmd,
+        final List<YmlTagOutputPredicate> predicates) {
+        this.scenario = scenario;
+        this.command = cmd;
+        this.predicates = predicates;
     }
 
     @Override
-    public String name() {
-        return this.origin.value();
+    public String assume() {
+        return this.scenario;
     }
 
     @Override
-    public String value() {
-        return new FileAsString(this.file())
-            .content();
+    public String cmd() {
+        return this.command;
     }
 
     @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    public String[] dockerCmdAsArray() {
+        return this.command.split(" ");
     }
 
     @Override
-    public Iterator<YmlTagTest> iterator() {
-        return new YmlTests(this.value())
-            .iterator();
+    public List<YmlTagOutputPredicate> output() {
+        return this.predicates;
     }
 }

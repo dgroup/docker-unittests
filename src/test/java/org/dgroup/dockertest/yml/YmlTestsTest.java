@@ -26,7 +26,7 @@ package org.dgroup.dockertest.yml;
 import java.util.List;
 import org.dgroup.dockertest.AssertThrown;
 import org.dgroup.dockertest.YmlResource;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.collection.IsEmptyCollection;

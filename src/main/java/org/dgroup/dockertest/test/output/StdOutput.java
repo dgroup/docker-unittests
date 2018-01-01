@@ -25,9 +25,17 @@ package org.dgroup.dockertest.test.output;
 
 import java.io.PrintStream;
 import java.util.List;
+import org.cactoos.Proc;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.cactoos.scalar.And;
+import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.Logo;
+import org.dgroup.dockertest.docker.CmdOutput;
+import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.test.TestOutcome;
+import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
@@ -66,10 +74,42 @@ public final class StdOutput implements Output {
         this.indent = indent;
     }
 
-    // @todo #9 Use jansi for colored std output
     @Override
+    public void print(final TestingOutcome outcome) {
+        this.printTestingStatus(
+            new UncheckedScalar<>(
+                new And(
+                    (Proc<TestOutcome>) test -> this.print(test.message()),
+                    outcome
+                )
+            ).value() && outcome.successfull()
+        );
+    }
+
+    /**
+     * Print text to single line.
+     * @param msg Text to print
+     * @todo #9 Use jansi for colored std output
+     */
     public void print(final String msg) {
         this.out.printf("%s%s%n", this.indent, msg);
+    }
+
+    /**
+     * Print docker command output to standard out.
+     * @param output From docker container.
+     */
+    public void print(final CmdOutput output) {
+        this.print(output.byLines());
+        this.out.println();
+    }
+
+    /**
+     * Print app logo to standard output.
+     * @param logo App logo.
+     */
+    public void print(final Logo logo) {
+        this.print(logo.byLines());
     }
 
     /**
@@ -102,12 +142,25 @@ public final class StdOutput implements Output {
     }
 
     /**
-     * Print multiple lines.
-     * @param messages Print in new line each element.
+     * Print testing status based on status.
+     * @param status Of testing.
      */
-    public void print(final List<String> messages) {
-        messages.forEach(this::print);
+    private void printTestingStatus(final boolean status) {
         this.out.println();
+        this.print(
+            new UncheckedTernary<>(
+                status,
+                "Testing successful.",
+                "Testing failed."
+            ).value()
+        );
     }
 
+    /**
+     * Print all messages separately, each on new line.
+     * @param messages For separately printing.
+     */
+    private void print(final List<String> messages) {
+        messages.forEach(this::print);
+    }
 }

@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import org.dgroup.dockertest.test.TestingOutcome;
+
 /**
  * Represent an output where we can print the testing results
  * (std out, xml, html, etc).
@@ -33,17 +35,11 @@ package org.dgroup.dockertest.test.output;
  */
 public interface Output {
 
-    /**
-     * Print single test result.
-     * @param msg Expected single test result.
-     */
-    void print(String msg);
+    // @todo #54 Print
 
     /**
-     * Flush all changes to the disk.
+     * Print testing outcome.
+     * @param outcome Of testing.
      */
-    @SuppressWarnings("PMD.UncommentedEmptyMethodBody")
-    default void flush() {
-    }
-
+    void print(final TestingOutcome outcome);
 }

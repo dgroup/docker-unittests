@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import org.dgroup.dockertest.test.TestingOutcome;
+
 /**
  * Print testing results to xml file.
  * The *.xml file with output will be placed to current directory.
@@ -36,13 +38,7 @@ package org.dgroup.dockertest.test.output;
 public final class XmlOutput implements Output {
 
     @Override
-    public void print(final String msg) {
+    public void print(final TestingOutcome outcome) {
         throw new UnsupportedOperationException("#print()");
     }
-
-    @Override
-    public void flush() {
-        throw new UnsupportedOperationException("#flush()");
-    }
-
 }

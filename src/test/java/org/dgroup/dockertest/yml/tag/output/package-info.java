@@ -21,25 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.output;
-
-import org.dgroup.dockertest.test.TestingOutcome;
 
 /**
- * Print testing results to html file.
- * The *.html file with output will be placed to current directory.
- * Also directory can be exported from {@code -reports_home} cmd argument.
+ * Unit tests for layer related to manipulation with yml tag `output`.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @todo #24:4h Print testing output to html file.
  */
-public final class HtmlOutput implements Output {
-
-    @Override
-    public void print(final TestingOutcome outcome) {
-        throw new UnsupportedOperationException("#print()");
-    }
-
-}
+package org.dgroup.dockertest.yml.tag.output;

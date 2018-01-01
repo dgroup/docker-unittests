@@ -26,10 +26,12 @@ package org.dgroup.dockertest.yml.tag;
 import java.util.Iterator;
 import java.util.Map;
 import org.cactoos.iterator.Mapped;
+import org.dgroup.dockertest.yml.tag.test.DefaultYmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
  * Represents yml tag {@code /tests}.
- * Tag can contain list of {@link YmlTagTest}.
+ * Tag can contain list of {@link DefaultYmlTagTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -53,7 +55,7 @@ public final class YmlTagTests implements Iterable<YmlTagTest> {
     @Override
     public Iterator<YmlTagTest> iterator() {
         return new Mapped<>(
-            YmlTagTest::new,
+            DefaultYmlTagTest::new,
             new Mapped<>(
                 test -> (Map<String, Object>) test,
                 this.tag.list().iterator()

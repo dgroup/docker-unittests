@@ -54,6 +54,16 @@ public final class UncheckedTernary<T> implements Scalar<T> {
 
     /**
      * Ctor.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
+     */
+    public UncheckedTernary(final boolean cnd, final T cons, final T alter) {
+        this(new Ternary<>(cnd, () -> cons, () -> alter));
+    }
+
+    /**
+     * Ctor.
      * @param origin Ternary operation.
      */
     public UncheckedTernary(final Ternary<UncheckedCallable<T>> origin) {

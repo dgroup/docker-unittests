@@ -21,11 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.yml.tag.test;
 
 import java.util.List;
 import java.util.Map;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.tag.YmlTag;
+import org.dgroup.dockertest.yml.tag.YmlTagOutput;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
@@ -37,7 +39,7 @@ import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
  * @since 0.1.0
  */
 @SuppressWarnings("PMD")
-public final class YmlTagTest {
+public final class DefaultYmlTagTest implements YmlTagTest {
 
     /**
      * Yml tag transformed to object.
@@ -48,7 +50,7 @@ public final class YmlTagTest {
      * Ctor.
      * @param yml Tag transformed to object.
      */
-    public YmlTagTest(final Map<String, Object> yml) {
+    public DefaultYmlTagTest(final Map<String, Object> yml) {
         this(new YmlTag(yml, "test"));
     }
 
@@ -56,51 +58,26 @@ public final class YmlTagTest {
      * Ctor.
      * @param tag Yml tag transformed to object.
      */
-    private YmlTagTest(final YmlTag tag) {
+    private DefaultYmlTagTest(final YmlTag tag) {
         this.tag = tag;
     }
 
-    /**
-     * Name of testing scenario.
-     * Exported from `assume` section {@code /tests/test/assume} for each test
-     * defined in *.yml file.
-     *
-     * @return Value for tag {@code /tests/test/assume}
-     */
+    @Override
     public String assume() {
         return this.tag.map().get("assume").toString();
     }
 
-    /**
-     * Command for execution in docker container.
-     * Exported from `cmd` section {@code /tests/test/cmd} for each test
-     * defined in *.yml file.
-     *
-     * @return Value for tag {@code /tests/test/cmd}
-     */
+    @Override
     public String cmd() {
         return this.tag.map().get("cmd").toString();
     }
 
-    /**
-     * Command for execution in docker container as array.
-     * Exported from `cmd` section {@code /tests/test/cmd} for each test
-     * defined in *.yml file.
-     *
-     * @return Slitted docker command by spaces.
-     *  For example "java -version" became new String[]{"java", "-version"}.
-     */
+    @Override
     public String[] dockerCmdAsArray() {
         return this.cmd().split(" ");
     }
 
-    /**
-     * List of expected conditions, which should be applied to output.
-     * Exported from `output` section {@code /tests/test/output} for each test
-     * defined in *.yml file. Tag may have several values.
-     *
-     * @return All specified values for tag {@code output}
-     */
+    @Override
     public List<YmlTagOutputPredicate> output() {
         return new YmlTagOutput(
             (List<Map<String, String>>) this.tag.map().get("output")

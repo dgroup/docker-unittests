@@ -27,14 +27,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.yml.tag.YmlTagTest;
 import org.dgroup.dockertest.yml.tag.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.YmlTagVersion;
+import org.dgroup.dockertest.yml.tag.test.DefaultYmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
- * Transform *.yml file with tests to collection of {@link YmlTagTest }.
+ * Transform *.yml file with tests to collection of {@link DefaultYmlTagTest }.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
