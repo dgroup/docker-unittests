@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.YmlTagOutput;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutput;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**

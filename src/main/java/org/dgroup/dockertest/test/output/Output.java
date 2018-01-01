@@ -40,4 +40,5 @@ public interface Output {
      * @param outcome Of testing.
      */
     void print(final TestingOutcome outcome);
+
 }

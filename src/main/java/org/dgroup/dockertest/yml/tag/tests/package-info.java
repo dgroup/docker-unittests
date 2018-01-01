@@ -23,10 +23,10 @@
  */
 
 /**
- * Classes related to yml tag `/tests/test/output`.
+ * Classes related to yml tag `/tests`.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-package org.dgroup.dockertest.yml.tag.output;
+package org.dgroup.dockertest.yml.tag.tests;

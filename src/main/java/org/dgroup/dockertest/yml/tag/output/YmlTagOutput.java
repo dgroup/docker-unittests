@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.yml.tag.output;
 
 import java.util.List;
 import java.util.Map;
@@ -29,8 +29,6 @@ import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.dgroup.dockertest.yml.tag.output.DefaultYmlTagOutputPredicate;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents yml tag {@code /tests/test/output}.

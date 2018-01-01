@@ -21,12 +21,48 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package org.dgroup.dockertest.yml.tag.version;
+
+import java.util.Map;
+import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.tag.YmlTag;
 
 /**
- * Classes related to yml tag `/tests/test/output`.
+ * Represents yml tag {@code /version}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-package org.dgroup.dockertest.yml.tag.output;
+public final class YmlTagVersion {
+
+    /**
+     * Single yml tag as object.
+     */
+    private final YmlTag tag;
+
+    /**
+     * Ctor.
+     *
+     * @param tree Yml object tree loaded from *.yml file with tests.
+     */
+    public YmlTagVersion(final Map<String, Object> tree) {
+        this.tag = new YmlTag(tree, "version");
+    }
+
+    /**
+     * Allows to verify version of *.yml file.
+     * For now only version `1` is supported.
+     */
+    public void verify() {
+        if (!"1".equals(this.tag.asString())) {
+            throw new IllegalArgumentException(
+                new PlainFormattedText(
+                    "Unsupported version: %s",
+                    this.tag.asString()
+                ).asString()
+            );
+        }
+    }
+
+}

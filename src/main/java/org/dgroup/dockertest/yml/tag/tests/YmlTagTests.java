@@ -21,11 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.yml.tag.tests;
 
 import java.util.Iterator;
 import java.util.Map;
 import org.cactoos.iterator.Mapped;
+import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.test.DefaultYmlTagTest;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 

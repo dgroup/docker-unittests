@@ -23,7 +23,7 @@
  */
 
 /**
- * Classes related to yml tag `test`.
+ * Classes related to yml tag `/tests/test`.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

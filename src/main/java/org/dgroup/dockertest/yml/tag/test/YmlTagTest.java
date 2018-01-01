@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.yml.tag.test;
 
 import java.util.List;
-import org.dgroup.dockertest.yml.tag.YmlTagOutput;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutput;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**

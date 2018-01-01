@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

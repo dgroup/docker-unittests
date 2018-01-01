@@ -33,12 +33,11 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
- * Represents single yml tag in *.yml file with tests.
+ * Represents single yml tag in *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @todo #56:20min Create each package for each yml tag.
  */
 public final class YmlTag {
 
