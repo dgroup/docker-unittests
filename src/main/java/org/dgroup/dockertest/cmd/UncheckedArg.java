@@ -54,7 +54,7 @@ public final class UncheckedArg implements Arg {
      * @param args All cmd arguments.
      */
     public UncheckedArg(final String name, final List<String> args) {
-        this(new DefaultArg(name, args));
+        this(new SingleArg(name, args));
     }
 
     @Override

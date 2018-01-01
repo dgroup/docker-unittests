@@ -29,19 +29,19 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link DefaultArg}.
+ * Unit tests for class {@link SingleArg}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public class DefaultArgTest {
+public class SingleArgTest {
 
     @Test
     public final void specified() {
         MatcherAssert.assertThat(
-            new DefaultArg(
+            new SingleArg(
                 "-o", new ListOf<>("-o", "std")
             ).specifiedByUser(),
             Matchers.equalTo(true)
@@ -51,7 +51,7 @@ public class DefaultArgTest {
     @Test
     public final void notSpecified() {
         MatcherAssert.assertThat(
-            new DefaultArg(
+            new SingleArg(
                 "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
             ).specifiedByUser(),
             Matchers.equalTo(false)

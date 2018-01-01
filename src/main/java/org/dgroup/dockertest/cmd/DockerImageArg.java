@@ -44,7 +44,7 @@ public final class DockerImageArg implements Arg {
      * @param args Command-line arguments are passed to the app by the user.
      */
     public DockerImageArg(final List<String> args) {
-        this(new DefaultArg("-i", args, "Docker image wasn't specified."));
+        this(new SingleArg("-i", args, "Docker image wasn't specified."));
     }
 
     /**

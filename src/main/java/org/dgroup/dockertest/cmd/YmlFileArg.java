@@ -51,7 +51,7 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
      */
     public YmlFileArg(final List<String> args) {
         this(
-            new DefaultArg(
+            new SingleArg(
                 "-f", args, "YML file with tests wasn't specified."
             )
         );
