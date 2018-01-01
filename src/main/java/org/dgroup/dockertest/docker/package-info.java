@@ -29,5 +29,6 @@
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #59 Refactoring: split the package to more specific packages.
  */
 package org.dgroup.dockertest.docker;
