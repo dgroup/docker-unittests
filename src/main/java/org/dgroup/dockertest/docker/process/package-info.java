@@ -21,33 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import java.util.List;
-import org.cactoos.list.ListOf;
 
 /**
- * Represents docker command output.
+ * Contains invocations of docker processes like {@code docker pull}, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface CmdOutput {
-
-    /**
-     * Represent cmd output as string.
-     * @return Cmd output as string.
-     */
-    String asText();
-
-    /**
-     * Represent cmd output splitted by lines.
-     * @return Cmd output as list.
-     */
-    default List<String> byLines() {
-        return new ListOf<>(
-            this.asText().split("\n")
-        );
-    }
-}
+package org.dgroup.dockertest.docker.process;

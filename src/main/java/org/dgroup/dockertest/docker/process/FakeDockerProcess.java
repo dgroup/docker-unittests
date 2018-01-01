@@ -21,43 +21,35 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.process;
 
-import java.util.List;
+import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
- * Represents an instance of docker process on Unix-related systems.
+ * Fake implementation of {@link DockerProcess} for unit testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DockerProcessOnUnix implements DockerProcess {
+public final class FakeDockerProcess implements DockerProcess {
 
     /**
-     * System process associated with docker container.
+     * Output from docker container.
      */
-    private final SystemProcess process;
-
-    /**
-     * Ctor.
-     * @param cmd Docker container command.
-     */
-    public DockerProcessOnUnix(final List<String> cmd) {
-        this(new SystemProcess(cmd));
-    }
+    private final CmdOutput output;
 
     /**
      * Ctor.
-     * @param process System process associated with docker container.
+     * @param output From docker container.
      */
-    public DockerProcessOnUnix(final SystemProcess process) {
-        this.process = process;
+    public FakeDockerProcess(final CmdOutput output) {
+        this.output = output;
     }
 
     @Override
     public CmdOutput execute() {
-        return new CmdOutputAsText(this.process.execute());
+        return this.output;
     }
 
 }

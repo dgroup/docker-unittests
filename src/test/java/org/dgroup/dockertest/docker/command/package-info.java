@@ -21,22 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
 
 /**
- * Represents single docker process.
- * It might be creation of new container, pull command, etc.
+ * Unit tests for package {@link org.dgroup.dockertest.docker.command}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface DockerProcess {
-
-    /**
-     * Execute command inside of docker container.
-     * @return Docker command output.
-     * @throws DockerRuntimeException in case runtime exception on docker side.
-     */
-    CmdOutput execute() throws DockerRuntimeException;
-}
+package org.dgroup.dockertest.docker.command;

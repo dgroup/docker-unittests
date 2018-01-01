@@ -21,37 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.RunOnlyOnUnix;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link CmdOutputAsText} on Unix OS.
+ * Contains outputs for docker processes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
-@RunWith(RunOnlyOnUnix.class)
-public final class CmdOutputAsTextOnUnixTest {
-
-    @Test(timeout = 1000 * 3)
-    public void text() {
-        MatcherAssert.assertThat(
-            "Command `java -version` is `1.8`.",
-            new CmdOutputAsText(
-                new SystemProcess(
-                    new ListOf<>("java", "-version")
-                ).execute()
-            ).asText(),
-            Matchers.containsString("1.8")
-        );
-    }
-}
+package org.dgroup.dockertest.docker.output;

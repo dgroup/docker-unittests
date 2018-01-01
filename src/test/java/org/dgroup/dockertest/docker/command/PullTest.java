@@ -21,55 +21,41 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.command;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import org.cactoos.io.InputOf;
-import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
+import org.dgroup.dockertest.docker.DockerImageNotFoundException;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.output.FakeCmdOutput;
+import org.dgroup.dockertest.docker.process.FakeDockerProcess;
+import org.dgroup.dockertest.docker.process.Pull;
+import org.junit.Test;
 
 /**
- * Represent command output for command from docker container.
+ * Unit tests for class {@link Pull}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
  */
-public final class CmdOutputAsText implements CmdOutput {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class PullTest {
 
-    /**
-     * System process output associated with docker container.
-     */
-    private final Process outcome;
-
-    /**
-     * Ctor.
-     * @param outcome System process output associated with docker container.
-     */
-    public CmdOutputAsText(final Process outcome) {
-        this.outcome = outcome;
-    }
-
-    // @todo #4 Add cmd flag which allows user to select encoding
-    //  for *.yml file with tests.
-    @Override
-    public String asText() {
-        try (BufferedReader in = new BufferedReader(
-            new InputStreamReader(
-                this.outcome.getInputStream(),
-                "UTF-8"
-            ))
-        ) {
-            return new UncheckedText(
-                new TextOf(
-                    new InputOf(in)
+    @Test(expected = DockerImageNotFoundException.class)
+    public void imageNotFound() throws DockerRuntimeException {
+        new Pull(
+            "openjdk:9999999",
+            new FakeDockerProcess(
+                new FakeCmdOutput(
+                    "Error response from daemon: pull access denied for openjdk:9999999, " +
+                        "repository does not exist or may require 'docker login'\n"
                 )
-            ).asString();
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+            )
+        ).execute();
     }
 
 }

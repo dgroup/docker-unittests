@@ -21,23 +21,25 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.process;
 
-import java.util.List;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
- * Represents a command for docker tool.
+ * Represents single docker process.
+ * It might be creation of new container, pull command, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface DockerCommand {
+public interface DockerProcess {
 
     /**
-     * It may create a new container or reuse existing.
-     * @return Docker command for execution.
+     * Execute command inside of docker container.
+     * @return Docker command output.
+     * @throws DockerRuntimeException in case runtime exception on docker side.
      */
-    List<String> args();
-
+    CmdOutput execute() throws DockerRuntimeException;
 }

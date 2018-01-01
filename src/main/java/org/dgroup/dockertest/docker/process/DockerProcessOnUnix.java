@@ -21,13 +21,46 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package org.dgroup.dockertest.docker.process;
+
+import java.util.List;
+import org.dgroup.dockertest.docker.SystemProcess;
+import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.docker.output.TextCmdOutput;
 
 /**
- * Classes dedicated to interaction with docker containers,
- * through {@link java.lang.ProcessBuilder}.
+ * Represents an instance of docker process on Unix-related systems.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-package org.dgroup.dockertest.docker;
+public final class DockerProcessOnUnix implements DockerProcess {
+
+    /**
+     * System process associated with docker container.
+     */
+    private final SystemProcess process;
+
+    /**
+     * Ctor.
+     * @param cmd Docker container command.
+     */
+    public DockerProcessOnUnix(final List<String> cmd) {
+        this(new SystemProcess(cmd));
+    }
+
+    /**
+     * Ctor.
+     * @param process System process associated with docker container.
+     */
+    public DockerProcessOnUnix(final SystemProcess process) {
+        this.process = process;
+    }
+
+    @Override
+    public CmdOutput execute() {
+        return new TextCmdOutput(this.process.execute());
+    }
+
+}

@@ -21,14 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.command;
+package org.dgroup.dockertest.docker.process;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.CmdOutput;
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
-import org.dgroup.dockertest.docker.DockerProcess;
-import org.dgroup.dockertest.docker.DockerProcessOnUnix;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
  * Represents the {@code docker pull} operation which allows to download image

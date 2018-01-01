@@ -31,7 +31,7 @@ import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
-import org.dgroup.dockertest.docker.command.Pull;
+import org.dgroup.dockertest.docker.process.Pull;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;

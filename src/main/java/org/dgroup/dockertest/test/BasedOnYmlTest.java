@@ -25,9 +25,9 @@ package org.dgroup.dockertest.test;
 
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.DockerProcess;
-import org.dgroup.dockertest.docker.DockerProcessOnUnix;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.process.DockerProcess;
+import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**

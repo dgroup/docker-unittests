@@ -21,38 +21,55 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.output;
 
-import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import org.cactoos.io.InputOf;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 
 /**
- * Raise when docker tool can't find an image.
- * Mostly because of wrong image name specified by user.
+ * Represent command output for command from docker container.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DockerImageNotFoundException extends DockerRuntimeException {
+public final class TextCmdOutput implements CmdOutput {
+
+    /**
+     * System process output associated with docker container.
+     */
+    private final Process outcome;
 
     /**
      * Ctor.
-     * @param image Docker image name.
-     * @checkstyle LineLengthCheck (20 lines)
-     * @checkstyle OperatorWrapCheck (20 lines)
-     * @checkstyle RegexpSinglelineCheck (20 lines)
-     * @checkstyle StringLiteralsConcatenationCheck (20 lines)
+     * @param outcome System process output associated with docker container.
      */
-    public DockerImageNotFoundException(final String image) {
-        super(
-            new FormattedTextWithRepeatableArguments(
-                "Unable to pull image \"{0}\" from the remote repository. Possible reasons:\n" +
-                    " - incorrect name (you may verify by shell command \"docker pull {0}\");\n" +
-                    " - the remote repository doesn't exist or network\\firewall connectivity issue;\n" +
-                    " - pull operation may require 'docker login'.\n",
-                image
-            ).asString()
-        );
+    public TextCmdOutput(final Process outcome) {
+        this.outcome = outcome;
+    }
+
+    // @todo #4 Add cmd flag which allows user to select encoding
+    //  for *.yml file with tests.
+    @Override
+    public String asText() {
+        try (BufferedReader in = new BufferedReader(
+            new InputStreamReader(
+                this.outcome.getInputStream(),
+                "UTF-8"
+            ))
+        ) {
+            return new UncheckedText(
+                new TextOf(
+                    new InputOf(in)
+                )
+            ).asString();
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
 }

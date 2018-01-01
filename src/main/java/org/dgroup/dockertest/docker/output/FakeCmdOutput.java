@@ -21,13 +21,33 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package org.dgroup.dockertest.docker.output;
 
 /**
- * Classes dedicated to interaction with docker containers,
- * through {@link java.lang.ProcessBuilder}.
+ * Fake implementation of {@link CmdOutput} for unit testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-package org.dgroup.dockertest.docker;
+public final class FakeCmdOutput implements CmdOutput {
+
+    /**
+     * Output from docker process.
+     */
+    private final String output;
+
+    /**
+     * Ctor.
+     * @param output Docker process output.
+     */
+    public FakeCmdOutput(final String output) {
+        this.output = output;
+    }
+
+    @Override
+    public String asText() {
+        return this.output;
+    }
+
+}

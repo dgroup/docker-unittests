@@ -21,37 +21,33 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.docker.output;
 
+import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.RunOnlyOnWindows;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.StringStartsWith;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link CmdOutputAsText} on Windows OS.
+ * Represents docker command output.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
-@RunWith(RunOnlyOnWindows.class)
-public final class CmdOutputAsTextOnWindowsTest {
+public interface CmdOutput {
 
-    @Test(timeout = 1000 * 3)
-    public void text() {
-        MatcherAssert.assertThat(
-            "Command `java -version` will have `1.8` version",
-            new CmdOutputAsText(
-                new SystemProcess(
-                    new ListOf<>("cmd", "/c", "java", "-version")
-                ).execute()
-            ).asText(),
-            StringStartsWith.startsWith("java version \"1.8")
+    /**
+     * Represent cmd output as string.
+     * @return Cmd output as string.
+     */
+    String asText();
+
+    /**
+     * Represent cmd output splitted by lines.
+     * @return Cmd output as list.
+     */
+    default List<String> byLines() {
+        return new ListOf<>(
+            this.asText().split("\n")
         );
     }
 }
