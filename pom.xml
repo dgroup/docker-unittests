@@ -41,13 +41,13 @@
         <!-- Code quality -->
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
-        <sonar.version>3.3.0.603</sonar.version>
+        <sonar.version>3.4.0.905</sonar.version>
         <findbugs.version>3.0.1</findbugs.version>
         <!-- Dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <streamex.version>0.6.5</streamex.version>
-        <cactoos.version>0.25.6</cactoos.version>
+        <streamex.version>0.6.6</streamex.version>
+        <cactoos.version>0.27</cactoos.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
         <jackson-databind>2.9.2</jackson-databind>

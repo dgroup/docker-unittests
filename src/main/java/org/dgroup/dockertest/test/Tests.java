@@ -106,6 +106,7 @@ public final class Tests {
      * @todo #2:8h All tests should be executed concurrently
      *  and support thread-pool configuration from command line.
      * @todo #51 Print timing for `docker pull` command.
+     * @todo #56 Notify user properly in case if image is absent.
      */
     public void execute() {
         if (this.scope.isEmpty()) {

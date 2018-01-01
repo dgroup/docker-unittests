@@ -60,7 +60,6 @@ public final class DockerImageArg implements Arg {
         return this.origin.name();
     }
 
-    // @todo #26 Do the `docker pull` for image before testing.
     @Override
     public String value() {
         return this.origin.value();
