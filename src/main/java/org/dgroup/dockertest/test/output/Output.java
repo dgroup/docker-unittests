@@ -35,8 +35,6 @@ import org.dgroup.dockertest.test.TestingOutcome;
  */
 public interface Output {
 
-    // @todo #54 Print
-
     /**
      * Print testing outcome.
      * @param outcome Of testing.

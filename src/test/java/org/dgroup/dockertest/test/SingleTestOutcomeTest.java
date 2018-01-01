@@ -45,7 +45,6 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class SingleTestOutcomeTest {
 
-    // @todo #53 Add validation that collection has only 1 item.
     @Test
     public void passedMsg() {
         MatcherAssert.assertThat(
