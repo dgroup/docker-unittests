@@ -40,25 +40,13 @@ import org.junit.Test;
 public final class YmlFileArgTest {
 
     @Test
-    public void fileWasFound() {
+    public void fileWasFound() throws CmdArgNotFoundException {
         MatcherAssert.assertThat(
             new YmlFileArg(
                 new ListOf<>(
                     "-f", ".gitignore"
                 )
             ).file().getName(),
-            Matchers.equalTo(".gitignore")
-        );
-    }
-
-    @Test
-    public void fileNameWasExportedFromCmdArguments() {
-        MatcherAssert.assertThat(
-            new YmlFileArg(
-                new ListOf<>(
-                    "-f", ".gitignore"
-                )
-            ).name(),
             Matchers.equalTo(".gitignore")
         );
     }

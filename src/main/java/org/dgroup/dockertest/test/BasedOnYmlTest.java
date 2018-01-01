@@ -23,10 +23,11 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.dgroup.dockertest.cmd.Arg;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerProcess;
 import org.dgroup.dockertest.docker.DockerProcessOnUnix;
-import org.dgroup.dockertest.docker.command.StatelessDockerContainer;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
@@ -45,19 +46,20 @@ public final class BasedOnYmlTest implements Test {
     /**
      * Docker container where we need to execute the test.
      */
-    private final DockerProcess container;
+    private final DockerProcess process;
 
     /**
      * Ctor.
      * @param image Docker image which can be used for container creation.
      * @param test Single test to be executed in docker container.
      */
-    public BasedOnYmlTest(final Arg image, final YmlTagTest test) {
+    public BasedOnYmlTest(final String image, final YmlTagTest test) {
         this(
             test,
             new DockerProcessOnUnix(
-                new StatelessDockerContainer(
-                    image.value(), test.dockerCmdAsArray()
+                new Joined<>(
+                    new ListOf<>("docker", "run", "--rm", image),
+                    new ListOf<>(test.dockerCmdAsArray())
                 )
             )
         );
@@ -66,19 +68,18 @@ public final class BasedOnYmlTest implements Test {
     /**
      * Ctor.
      * @param test Yml test to be executed.
-     * @param container Docker container where test be executed.
+     * @param process Docker container where test be executed.
      */
-    public BasedOnYmlTest(final YmlTagTest test,
-        final DockerProcess container) {
+    public BasedOnYmlTest(final YmlTagTest test, final DockerProcess process) {
         this.test = test;
-        this.container = container;
+        this.process = process;
     }
 
     @Override
-    public TestOutcome execute() {
+    public TestOutcome execute() throws DockerRuntimeException {
         return new SingleTestOutcome(
             this.test,
-            this.container.run().asText()
+            this.process.execute().asText()
         );
     }
 }

@@ -25,13 +25,14 @@ package org.dgroup.dockertest.test;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.cmd.FakeArg;
 import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.test.output.FakeOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -48,7 +49,8 @@ public class TestsTest {
     // @todo #19 Create native OS containers or install docker to CI env.
     @Ignore
     @Test
-    public final void singleTest() {
+    public final void singleTest() throws CmdArgNotFoundException,
+        DockerRuntimeException, TestingFailedException {
         final FakeOutput output = new FakeOutput();
         new Tests(
             new FakeArg(),
@@ -63,13 +65,8 @@ public class TestsTest {
             new OutputArg(new ListOf<>())
         ).execute();
         MatcherAssert.assertThat(
-            output.lines(), IsCollectionWithSize.hasSize(2)
-        );
-        MatcherAssert.assertThat(
-            output.lines().get(0), Matchers.equalTo("")
-        );
-        MatcherAssert.assertThat(
-            output.lines().get(1), Matchers.equalTo("Testing successful.")
+            output.lines(),
+            Matchers.hasItem("> curl version is 7.xxx PASSED")
         );
     }
 }

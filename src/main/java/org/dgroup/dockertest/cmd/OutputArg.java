@@ -31,9 +31,9 @@ import java.util.Set;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.cactoos.list.StickyList;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.dgroup.dockertest.scalar.CachedTernary;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
@@ -63,7 +63,7 @@ public final class OutputArg implements Iterable<Output> {
     /**
      * Output formats specified by user from command line.
      */
-    private final CachedTernary<List<String>> specified;
+    private final List<String> specified;
 
     /**
      * Ctor.
@@ -71,7 +71,7 @@ public final class OutputArg implements Iterable<Output> {
      */
     public OutputArg(final List<String> args) {
         this(
-            new DefaultArg("-o", args),
+            new UncheckedArg("-o", args),
             "\\|",
             new MapOf<>(
                 new MapEntry<>("xml", new XmlOutput()),
@@ -86,22 +86,22 @@ public final class OutputArg implements Iterable<Output> {
      * @param delimiter For splitting value specified by user.
      * @param out Supported output formats.
      */
-    public OutputArg(final Arg output, final String delimiter,
+    public OutputArg(final UncheckedArg output, final String delimiter,
         final Map<String, Output> out) {
         this.out = out;
-        this.specified = new CachedTernary<>(
+        this.specified = new UncheckedTernary<List<String>>(
             output.specifiedByUser(),
-            () -> new ListOf<>(output.value().split(delimiter)),
+            () -> new StickyList<>(output.value().split(delimiter)),
             ListOf::new
-        );
+        ).value();
     }
 
     @Override
     public Iterator<Output> iterator() {
         return new UncheckedTernary<List<Output>>(
-            !this.specified.value().isEmpty()
-                && this.out.keySet().containsAll(this.specified.value()),
-            () -> new Mapped<>(this.out::get, this.specified.value()),
+            !this.specified.isEmpty()
+                && this.out.keySet().containsAll(this.specified),
+            () -> new Mapped<>(this.out::get, this.specified),
             () -> new ListOf<>(new StdOutput())
         ).value().iterator();
     }

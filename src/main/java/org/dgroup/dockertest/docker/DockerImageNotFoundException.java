@@ -23,31 +23,36 @@
  */
 package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.docker.command.StatelessDockerContainer;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsCollectionContaining;
-import org.junit.Test;
+import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
 
 /**
- * Unit-tests for class {@link StatelessDockerContainer}.
+ * Raise when docker tool can't find an image.
+ * Mostly because of wrong image name specified by user.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class StatelessDockerContainerTest {
+public final class DockerImageNotFoundException extends DockerRuntimeException {
 
-    @Test
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public void args() {
-        MatcherAssert.assertThat(
-            new StatelessDockerContainer(
-                "java", "-version"
-            ).args(),
-            IsCollectionContaining.hasItems(
-                "docker", "run", "--rm", "java", "-version"
-            )
+    /**
+     * Ctor.
+     * @param image Docker image name.
+     * @checkstyle LineLengthCheck (20 lines)
+     * @checkstyle OperatorWrapCheck (20 lines)
+     * @checkstyle RegexpSinglelineCheck (20 lines)
+     * @checkstyle StringLiteralsConcatenationCheck (20 lines)
+     */
+    public DockerImageNotFoundException(final String image) {
+        super(
+            new FormattedTextWithRepeatableArguments(
+                "Unable to pull image \'{0}\' from the remote repository. Possible reasons:\n" +
+                    " - incorrect name (you may verify by shell command \'docker pull {0}\');\n" +
+                    " - the remote repository doesn't exist or network\\firewall connectivity issue;\n" +
+                    " - pull operation may require 'docker login'.\n",
+                image
+            ).asString()
         );
     }
+
 }

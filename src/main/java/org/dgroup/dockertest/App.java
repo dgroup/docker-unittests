@@ -25,9 +25,11 @@ package org.dgroup.dockertest;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.cmd.DockerImageArg;
 import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.cmd.YmlFileArg;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.test.NonDefinedTestingScopeException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
@@ -100,7 +102,7 @@ public final class App {
      */
     public void start() {
         try {
-            this.std.print(new Logo("0.1.0"));
+            this.std.print(new Logo("1.0.0"));
             this.tests.execute();
         } catch (final TestingFailedException ex) {
             this.shutdownWith(-1);
@@ -108,15 +110,23 @@ public final class App {
             this.std.print(new YmlFileArg(this.args).name(), ex);
             this.shutdownWith(-2);
         } catch (final NonDefinedTestingScopeException ex) {
-            this.std.print("0 testing scenarios found.");
+            this.std.print(ex);
+        } catch (final CmdArgNotFoundException ex) {
+            this.std.print(ex);
+            this.shutdownWith(-3);
+        } catch (final DockerRuntimeException ex) {
+            this.std.print(ex);
+            this.shutdownWith(-4);
         }
     }
 
     /**
      * Shutdown application with error code.
      * The error code is required when the app is invoked from shell scripts:
-     *  - {@code 1} testing failed;
-     *  - {@code 2} yml file has unsupported/incorrect format.
+     *  - {@code -1} testing failed;
+     *  - {@code -2} yml file has unsupported/incorrect format;
+     *  - {@code -3} required cmd arguments wasn't specified;
+     *  - {@code -4} runtime exception happens on docker side.
      * @param code Exit code.
      * @checkstyle NonStaticMethodCheck (10 lines)
      */

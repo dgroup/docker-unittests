@@ -44,8 +44,10 @@ public interface Arg {
      * The value should be specified after the name.
      *
      * @return Argument value.
+     * @throws CmdArgNotFoundException in case if argument
+     *  wasn't specified by user.
      */
-    String value();
+    String value() throws CmdArgNotFoundException;
 
     /**
      * Verify existence of argument in the arguments specified by user.
@@ -54,18 +56,4 @@ public interface Arg {
      */
     boolean specifiedByUser();
 
-    /**
-     * Throw {@link CmdArgNotFoundException} in case if argument is absent.
-     */
-    default void assertThatArgumentWasSpecified() {
-        if (this.specifiedByUser()) {
-            return;
-        }
-        throw new CmdArgNotFoundException(
-            String.format(
-                "Yml file with tests wasn't specified by '%s' flag.",
-                this.name()
-            )
-        );
-    }
 }

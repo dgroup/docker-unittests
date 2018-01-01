@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test;
 
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
+
 /**
  * Exception which shows that there is no defined test for testing scope.
  *
@@ -30,6 +32,15 @@ package org.dgroup.dockertest.test;
  * @version $Id$
  * @since 0.1.0
  */
-public final class NonDefinedTestingScopeException extends RuntimeException {
+public final class NonDefinedTestingScopeException
+    extends CmdArgNotFoundException {
+
+    /**
+     * Ctor.
+     * @param msg Detailed description with missing argument.
+     */
+    public NonDefinedTestingScopeException(final String msg) {
+        super(msg);
+    }
 
 }

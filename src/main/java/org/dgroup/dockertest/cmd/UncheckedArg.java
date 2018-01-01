@@ -21,47 +21,60 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.command;
+package org.dgroup.dockertest.cmd;
 
 import java.util.List;
-import org.cactoos.list.Joined;
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.DockerCommand;
 
 /**
- * Represents a command for stateless docker container.
- * Container will be removed automatically by docker after execution of command.
- * See `docker --rm` options for details.
+ * Command-line argument that doesn't throw checked
+ *  {@link CmdArgNotFoundException}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class StatelessDockerContainer implements DockerCommand {
+public final class UncheckedArg implements Arg {
 
     /**
-     * Docker container commands.
+     * Command line argument.
      */
-    private final List<String> cmd;
+    private final Arg origin;
 
     /**
      * Ctor.
-     * @param image Docker image for testing.
-     * @param cmd Command to be executed inside of docker container.
+     * @param origin Command line argument.
      */
-    public StatelessDockerContainer(final String image, final String... cmd) {
-        this.cmd = new Joined<>(
-            new ListOf<>("docker", "run", "--rm", image),
-            new ListOf<>(cmd)
-        );
+    public UncheckedArg(final Arg origin) {
+        this.origin = origin;
     }
 
     /**
-     * Docker container arguments.
-     * @return Container arguments.
+     * Ctor.
+     * @param name Cmd argument name.
+     * @param args All cmd arguments.
      */
-    public List<String> args() {
-        return this.cmd;
+    public UncheckedArg(final String name, final List<String> args) {
+        this(new DefaultArg(name, args));
     }
 
+    @Override
+    public String name() {
+        return this.origin.name();
+    }
+
+    // @checkstyle ReturnCountCheck (10 lines)
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    @Override
+    public String value() {
+        try {
+            return this.origin.value();
+        } catch (final CmdArgNotFoundException exp) {
+            return "";
+        }
+    }
+
+    @Override
+    public boolean specifiedByUser() {
+        return this.origin.specifiedByUser();
+    }
 }

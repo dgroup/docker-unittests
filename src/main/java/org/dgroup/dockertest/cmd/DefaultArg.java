@@ -24,10 +24,10 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
- * Single command-line argument.
+ * Default implementation for single command-line argument.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -36,7 +36,7 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
 public final class DefaultArg implements Arg {
 
     /**
-     * Command line argument name.
+     * Command-line argument name.
      */
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
     private final String name;
@@ -44,16 +44,37 @@ public final class DefaultArg implements Arg {
      * All command-line arguments specified by user.
      */
     private final List<String> args;
+    /**
+     * Error message in case when command-line argument is missing
+     *  or wasn't specified by user.
+     */
+    private final String absent;
 
     /**
      * Ctor.
-     *
      * @param name Cmd argument name.
      * @param args All cmd arguments.
      */
     public DefaultArg(final String name, final List<String> args) {
+        this(
+            name, args, new PlainFormattedText(
+                "Argument `%s` wasn't specified", name
+            ).asString()
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param name Cmd argument name.
+     * @param args All cmd arguments.
+     * @param absent Error message in case when command-line argument
+     *  is missing or wasn't specified by user.
+     */
+    public DefaultArg(final String name, final List<String> args,
+        final String absent) {
         this.name = name;
         this.args = args;
+        this.absent = absent;
     }
 
     @Override
@@ -62,13 +83,12 @@ public final class DefaultArg implements Arg {
     }
 
     @Override
-    public String value() {
+    public String value() throws CmdArgNotFoundException {
         final String value = this.args.get(this.args.indexOf(this.name) + 1);
-        return new UncheckedTernary<>(
-            value == null,
-            () -> "",
-            () -> value
-        ).value();
+        if (value == null) {
+            throw new CmdArgNotFoundException(this.absent);
+        }
+        return value;
     }
 
     @Override

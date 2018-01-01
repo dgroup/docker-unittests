@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.dgroup.dockertest.text.FileAsString;
@@ -49,7 +50,11 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
      * @param args Command-line arguments are passed to the app by the user.
      */
     public YmlFileArg(final List<String> args) {
-        this(new DefaultArg("-f", args));
+        this(
+            new DefaultArg(
+                "-f", args, "YML file with tests wasn't specified."
+            )
+        );
     }
 
     /**
@@ -61,21 +66,22 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
     }
 
     /**
-     * Passed to app by user with key "-f".
+     * The filename should be specified by the user with key "-f".
      * @return Yml file with tests.
+     * @throws CmdArgNotFoundException in case if filename
+     *  wasn't specified by user.
      */
-    public File file() {
-        this.origin.assertThatArgumentWasSpecified();
+    public File file() throws CmdArgNotFoundException {
         return new File(this.origin.value());
     }
 
     @Override
     public String name() {
-        return this.origin.value();
+        return this.origin.name();
     }
 
     @Override
-    public String value() {
+    public String value() throws CmdArgNotFoundException {
         return new FileAsString(this.file())
             .content();
     }
@@ -85,9 +91,14 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
         return this.origin.specifiedByUser();
     }
 
+    // @checkstyle ReturnCountCheck (10 lines)
     @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
     public Iterator<YmlTagTest> iterator() {
-        return new YmlTests(this.value())
-            .iterator();
+        try {
+            return new YmlTests(this.value()).iterator();
+        } catch (final CmdArgNotFoundException exp) {
+            return Collections.emptyIterator();
+        }
     }
 }

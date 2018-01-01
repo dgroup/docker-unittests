@@ -37,6 +37,7 @@ public interface DockerProcess {
     /**
      * Execute command inside of docker container.
      * @return Docker command output.
+     * @throws DockerRuntimeException in case runtime exception on docker side.
      */
-    CmdOutput run();
+    CmdOutput execute() throws DockerRuntimeException;
 }

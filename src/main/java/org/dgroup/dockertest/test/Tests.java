@@ -28,8 +28,9 @@ import java.util.Set;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.cmd.OutputArg;
-import org.dgroup.dockertest.docker.DockerProcessOnUnix;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.docker.command.Pull;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
@@ -48,11 +49,11 @@ public final class Tests {
     /**
      * Docker image for testing.
      */
-    private final String image;
+    private final Arg image;
     /**
      * Tests to be executed.
      */
-    private final List<Test> scope;
+    private final List<YmlTagTest> scope;
     /**
      * Available outputs for printing results.
      */
@@ -65,23 +66,12 @@ public final class Tests {
     /**
      * Ctor.
      * @param image Docker image for testing.
-     * @param tests Yml tags with tests to be executed.
+     * @param scope Yml tests to be executed.
      * @param out Available outputs for printing results.
      */
-    public Tests(final Arg image, final Iterable<YmlTagTest> tests,
+    public Tests(final Arg image, final Iterable<YmlTagTest> scope,
         final OutputArg out) {
-        this(
-            image.value(),
-            new Mapped<>(
-                CachedTest::new,
-                new Mapped<>(
-                    ymlTagTest -> new BasedOnYmlTest(image, ymlTagTest),
-                    tests
-                )
-            ),
-            out.asSet(),
-            out.std()
-        );
+        this(image, new StickyList<>(scope), out.asSet(), out.std());
     }
 
     /**
@@ -92,7 +82,7 @@ public final class Tests {
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public Tests(final String image, final List<Test> scope,
+    public Tests(final Arg image, final List<YmlTagTest> scope,
         final Set<Output> out, final StdOutput std) {
         this.image = image;
         this.scope = scope;
@@ -103,28 +93,45 @@ public final class Tests {
     /**
      * Print tests results to selected outputs.
      *
+     * @throws CmdArgNotFoundException in case required command-line argument
+     *  wasn't specified by user.
+     * @throws DockerRuntimeException in case runtime exception on docker side.
+     * @throws TestingFailedException in case failed tests.
      * @todo #2:8h All tests should be executed concurrently
      *  and support thread-pool configuration from command line.
      * @todo #51 Print timing for `docker pull` command.
-     * @todo #56 Notify user properly in case if image is absent.
      */
-    public void execute() {
+    public void execute() throws CmdArgNotFoundException,
+        DockerRuntimeException, TestingFailedException {
         if (this.scope.isEmpty()) {
-            throw new NonDefinedTestingScopeException();
+            throw new NonDefinedTestingScopeException(
+                "0 testing scenarios found."
+            );
         }
         this.std.print("Found scenarios: %s.%n", this.scope.size());
         this.std.print("Verify image...");
         this.std.print(
-            new DockerProcessOnUnix(
-                new Pull(this.image)
-            ).run()
+            new Pull(this.image.value())
+                .execute()
         );
-        new TestingOutcome(
+        final TestingOutcome outcome = new TestingOutcome(
             new StickyList<>(
-                new Mapped<>(Test::execute, this.scope)
+                new Mapped<>(
+                    Test::execute,
+                    new Mapped<>(
+                        ymlTagTest -> new BasedOnYmlTest(
+                            this.image.value(), ymlTagTest
+                        ),
+                        this.scope
+                    )
+                )
             ),
             this.outputs
-        ).print();
+        );
+        outcome.print();
+        if (!outcome.successful()) {
+            throw new TestingFailedException();
+        }
     }
 
 }

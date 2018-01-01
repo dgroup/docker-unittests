@@ -96,7 +96,7 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
      * Checking all tests outcome for passed scenario's.
      * @return True in passed scenario's found.
      */
-    public boolean successfull() {
+    public boolean successful() {
         return this.passed.value();
     }
 

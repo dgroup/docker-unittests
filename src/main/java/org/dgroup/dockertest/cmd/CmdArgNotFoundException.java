@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import org.dgroup.dockertest.text.PlainFormattedText;
+
 /**
  * Thrown in case if command-line argument is required,
  * but not found in the arguments specified by user.
@@ -33,14 +35,22 @@ package org.dgroup.dockertest.cmd;
  * @todo #52 Make all exceptions non-runtime and avoid using
  *  runtime exceptions in future.
  */
-public final class CmdArgNotFoundException extends RuntimeException {
+public class CmdArgNotFoundException extends Exception {
 
     /**
      * Ctor.
-     *
      * @param msg Detailed description with missing argument.
      */
     public CmdArgNotFoundException(final String msg) {
         super(msg);
     }
+
+    /**
+     * Ctor.
+     * @param msg Detailed description with missing argument.
+     */
+    public CmdArgNotFoundException(final PlainFormattedText msg) {
+        this(msg.asString());
+    }
+
 }

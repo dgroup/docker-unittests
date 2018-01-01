@@ -21,40 +21,35 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
+package org.dgroup.dockertest.docker;
+
+import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
- * Represents cached single unit test for the docker image.
- * The same unit test will not be executed twice.
+ * Raise when exception happens during docker command execution.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class CachedTest implements Test {
+public class DockerRuntimeException extends Exception {
 
     /**
-     * Single test.
+     * Ctor.
+     * @param msg Exception details.
      */
-    private final Test origin;
-    /**
-     * Single test result.
-     */
-    private TestOutcome outcome;
-
-    /**
-     * Single test.
-     * @param origin Instance of single test.
-     */
-    public CachedTest(final Test origin) {
-        this.origin = origin;
+    public DockerRuntimeException(final String msg) {
+        super(msg);
     }
 
-    @Override
-    public TestOutcome execute() {
-        if (this.outcome == null) {
-            this.outcome = this.origin.execute();
-        }
-        return this.outcome;
+    /**
+     * Get error message splitted by {@code \n} symbol.
+     * @return Error details splitted by lines.
+     */
+    public final List<String> byLines() {
+        return new ListOf<>(
+            this.getMessage().split("\n")
+        );
     }
 }

@@ -33,6 +33,7 @@ import org.cactoos.scalar.And;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.Logo;
 import org.dgroup.dockertest.docker.CmdOutput;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
@@ -82,7 +83,7 @@ public final class StdOutput implements Output {
                     (Proc<TestOutcome>) test -> this.print(test.message()),
                     outcome
                 )
-            ).value() && outcome.successfull()
+            ).value() && outcome.successful()
         );
     }
 
@@ -142,6 +143,22 @@ public final class StdOutput implements Output {
     }
 
     /**
+     * Print exception details.
+     * @param exp Exception.
+     */
+    public void print(final DockerRuntimeException exp) {
+        this.print(exp.byLines());
+    }
+
+    /**
+     * Print exception details.
+     * @param exp Exception.
+     */
+    public void print(final Exception exp) {
+        this.print(exp.getMessage());
+    }
+
+    /**
      * Print testing status based on status.
      * @param status Of testing.
      */
@@ -163,4 +180,5 @@ public final class StdOutput implements Output {
     private void print(final List<String> messages) {
         messages.forEach(this::print);
     }
+
 }

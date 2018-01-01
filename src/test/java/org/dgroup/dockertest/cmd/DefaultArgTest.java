@@ -58,20 +58,4 @@ public class DefaultArgTest {
         );
     }
 
-//    @Test
-//    public final void thatArgumentWasSpecified() {
-//        AssertThrown.assertThrown(
-//            () ->
-//                new DefaultArg(
-//                    "-o",
-//                    new ListOf<>(
-//                        "-f", "single-test.yml", "-i", "alpine:jdk9"
-//                    )
-//                ).assertThatArgumentWasSpecified(),
-//            new CmdArgNotFoundException(
-//                "Yml file with tests wasn't specified by '-o' flag."
-//            )
-//        );
-//    }
-
 }

@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test;
 
+import org.dgroup.dockertest.docker.DockerRuntimeException;
+
 /**
  * Represents single unit test for the docker image.
  *
@@ -33,9 +35,10 @@ package org.dgroup.dockertest.test;
 public interface Test {
 
     /**
-     * Execute single test.
-     *
+     * Execute single test via docker.
      * @return Testing results.
+     * @throws DockerRuntimeException in case of runtime exceptions
+     *  on docker side.
      */
-    TestOutcome execute();
+    TestOutcome execute() throws DockerRuntimeException;
 }

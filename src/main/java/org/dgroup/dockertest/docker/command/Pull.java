@@ -23,45 +23,62 @@
  */
 package org.dgroup.dockertest.docker.command;
 
-import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.DockerCommand;
-import org.dgroup.dockertest.scalar.UncheckedCallable;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.docker.CmdOutput;
+import org.dgroup.dockertest.docker.DockerImageNotFoundException;
+import org.dgroup.dockertest.docker.DockerProcess;
+import org.dgroup.dockertest.docker.DockerProcessOnUnix;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
 
 /**
- * Represents a {@code docker pull} command which allows to download image
+ * Represents the {@code docker pull} operation which allows to download image
  * from remote docker repository.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class Pull implements DockerCommand {
+public final class Pull implements DockerProcess {
 
     /**
-     * Docker pull command.
+     * Docker image which we are going to pull.
      */
     private final String image;
+    /**
+     * Dedicated docker process for execution of pull operation.
+     */
+    private final DockerProcess origin;
 
     /**
      * Ctor.
-     * @param image Docker image specified by user.
+     * @param image Docker image for pull operation.
      */
     public Pull(final String image) {
+        this(
+            image,
+            new DockerProcessOnUnix(
+                new ListOf<>("docker", "pull", image)
+            )
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param image Docker image for pull operation.
+     * @param origin Dedicated docker process for execution of pull operation.
+     */
+    public Pull(final String image, final DockerProcess origin) {
         this.image = image;
+        this.origin = origin;
     }
 
     @Override
-    public List<String> args() {
-        return new UncheckedTernary<>(
-            this.image == null,
-            (UncheckedCallable<List<String>>) () -> {
-                throw new IllegalArgumentException("Image wasn't specified.");
-            },
-            () -> new ListOf<>("docker", "pull", this.image)
-        ).value();
+    public CmdOutput execute() throws DockerRuntimeException {
+        final String output = this.origin.execute().asText();
+        if (output.contains("pull access denied")) {
+            throw new DockerImageNotFoundException(this.image);
+        }
+        return () -> output;
     }
 
 }
-

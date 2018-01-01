@@ -30,5 +30,6 @@ package org.dgroup.dockertest.test;
  * @version $Id$
  * @since 0.1.0
  */
-public final class TestingFailedException extends RuntimeException {
+public final class TestingFailedException extends Exception {
+
 }

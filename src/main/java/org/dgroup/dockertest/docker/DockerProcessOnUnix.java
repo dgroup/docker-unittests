@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.docker;
 
+import java.util.List;
+
 /**
  * Represents an instance of docker process on Unix-related systems.
  *
@@ -41,8 +43,8 @@ public final class DockerProcessOnUnix implements DockerProcess {
      * Ctor.
      * @param cmd Docker container command.
      */
-    public DockerProcessOnUnix(final DockerCommand cmd) {
-        this(new SystemProcess(cmd.args()));
+    public DockerProcessOnUnix(final List<String> cmd) {
+        this(new SystemProcess(cmd));
     }
 
     /**
@@ -54,7 +56,7 @@ public final class DockerProcessOnUnix implements DockerProcess {
     }
 
     @Override
-    public CmdOutput run() {
+    public CmdOutput execute() {
         return new CmdOutputAsText(this.process.execute());
     }
 
