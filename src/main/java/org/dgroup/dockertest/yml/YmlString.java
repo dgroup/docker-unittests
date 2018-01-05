@@ -23,25 +23,23 @@
  */
 package org.dgroup.dockertest.yml;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.yml.tag.test.DefaultYmlTagTest;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTestOf;
 import org.dgroup.dockertest.yml.tag.tests.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.version.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
- * Transform *.yml file with tests to collection of {@link DefaultYmlTagTest }.
+ * Transform *.yml file with tests to collection of {@link YmlTagTestOf }.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTests implements Iterable<YmlTagTest> {
+public final class YmlString {
 
     /**
      * All tags defined in yml file with tests.
@@ -52,32 +50,31 @@ public final class YmlTests implements Iterable<YmlTagTest> {
      * Ctor.
      * @param yml Tags defined in file with tests as string.
      */
-    public YmlTests(final String yml) {
+    public YmlString(final String yml) {
         this.yml = yml;
     }
 
     /**
      * Parsed yml tests as list.
      * @return Yml tests.
+     * @throws IllegalYmlFileFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> asList() {
-        return new ListOf<>(this.iterator());
-    }
-
-    @Override
-    public Iterator<YmlTagTest> iterator() {
+    public List<YmlTagTest> asTests() throws IllegalYmlFileFormatException {
         final Map<String, Object> tree = this.loadYmlTree();
         final YmlTagVersion version = new YmlTagVersion(tree);
         version.verify();
-        return new YmlTagTests(tree)
-            .iterator();
+        return new YmlTagTests(tree).asList();
     }
 
     /**
      * Load string with tests as yml tree.
      * @return Tree.
+     * @throws IllegalYmlFileFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    private Map<String, Object> loadYmlTree() {
+    private Map<String, Object> loadYmlTree()
+        throws IllegalYmlFileFormatException {
         try {
             return new Yaml().load(this.yml);
         } catch (final ScannerException ex) {

@@ -26,14 +26,15 @@ package org.dgroup.dockertest.test;
 import java.util.List;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.yml.tag.output.DefaultYmlTagOutputPredicate;
-import org.dgroup.dockertest.yml.tag.test.FakeYmlTagTest;
+import org.dgroup.dockertest.docker.output.FakeCmdOutput;
+import org.dgroup.dockertest.docker.process.FakeDockerProcess;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link SingleTestOutcome}.
+ * Unit tests for class {@link TestOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -43,26 +44,17 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class SingleTestOutcomeTest {
+public final class TestOfTest {
 
     @Test
     public void passedMsg() {
         MatcherAssert.assertThat(
-            new SingleTestOutcome(
-                new FakeYmlTagTest(
-                    "curl version is 7.xxx",
-                    "curl --version",
-                    new ListOf<>(
-                        new DefaultYmlTagOutputPredicate(
-                            "startsWith", "curl 7.", new UncheckedBiFunc<>(String::startsWith)
-                        ),
-                        new DefaultYmlTagOutputPredicate(
-                            "contains", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::contains)
-                        )
-                    )
-                ),
-                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8"
-            ).message(),
+            new TestOf(
+                "curl version is 7.xxx",
+                "curl --version",
+                new ListOf<>(),
+                new FakeDockerProcess(new FakeCmdOutput(""))
+            ).messagePassed(),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(1),
                 Matchers.hasItem("> curl version is 7.xxx PASSED")
@@ -73,21 +65,26 @@ public final class SingleTestOutcomeTest {
     @Test
     public void failedMsg() {
         MatcherAssert.assertThat(
-            new SingleTestOutcome(
-                new FakeYmlTagTest(
-                    "curl version is 7.xxx",
-                    "curl --version",
-                    new ListOf<>(
-                        new DefaultYmlTagOutputPredicate(
-                            "startsWith", "curl 7.", new UncheckedBiFunc<>(String::startsWith)
-                        ),
-                        new DefaultYmlTagOutputPredicate(
-                            "equals", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::equals)
-                        )
+            new TestOf(
+                "curl version is 7.xxx",
+                "curl --version",
+                new ListOf<>(
+                    new YmlTagOutputPredicateOf(
+                        "startsWith", "curl 7.", new UncheckedBiFunc<>(String::startsWith)
+                    ),
+                    new YmlTagOutputPredicateOf(
+                        "equals", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::equals)
                     )
                 ),
-                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8"
-            ).message(),
+                new FakeDockerProcess(new FakeCmdOutput(""))
+            ).messageFailed(
+                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8",
+                new ListOf<>(
+                    new YmlTagOutputPredicateOf(
+                        "equals", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::equals)
+                    )
+                )
+            ),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(8),
                 Matchers.hasItems(

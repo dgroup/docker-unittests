@@ -21,47 +21,33 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.output;
+package org.dgroup.dockertest.text;
 
-import org.cactoos.func.UncheckedBiFunc;
-import org.cactoos.list.ListOf;
+import org.cactoos.iterable.IterableOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link DefaultYmlTagOutputPredicate}.
+ * Unit tests for class {@link Joined}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class DefaultYmlTagOutputPredicateTest {
+public final class JoinedTest {
 
     @Test
     public void asString() {
         MatcherAssert.assertThat(
-            new ListOf<>(
-                new DefaultYmlTagOutputPredicate(
-                    "startsWith", "curl 7.",
-                    new UncheckedBiFunc<>(String::startsWith)
-                ).asYmlString(),
-                new DefaultYmlTagOutputPredicate(
-                    "equals", "curl 7.57.0",
-                    new UncheckedBiFunc<>(String::equals)
-                ).asYmlString(),
-                new DefaultYmlTagOutputPredicate(
-                    "contains", "7.57",
-                    new UncheckedBiFunc<>(String::contains)
-                ).asYmlString()
-            ),
-            Matchers.hasItems(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
+            new Joined(
+                new IterableOf<>("one", "two", "three"),
+                ","
+            ).asString(),
+            Matchers.equalTo(
+                "one,two,three"
             )
         );
     }

@@ -21,22 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.scalar;
 
 /**
- * Represents a callable which didn't throw the exception.
+ * Exception-related classes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 0.1.0
  */
-public interface UncheckedCallable<T> {
-
-    /**
-     * Represents a callable function.
-     * @return Callable value.
-     */
-    T call();
-
-}
+package org.dgroup.dockertest.exception;

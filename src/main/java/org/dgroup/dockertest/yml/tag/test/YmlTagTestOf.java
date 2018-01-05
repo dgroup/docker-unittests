@@ -25,67 +25,90 @@ package org.dgroup.dockertest.yml.tag.test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import org.cactoos.collection.Filtered;
+import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutput;
+import org.dgroup.dockertest.yml.tag.YmlTagOf;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents yml tag {@code /tests/test}.
- * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutputOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
 @SuppressWarnings("PMD")
-public final class DefaultYmlTagTest implements YmlTagTest {
+public final class YmlTagTestOf implements YmlTagTest {
 
     /**
-     * Yml tag transformed to object.
+     * Yml tag `test` transformed to object.
      */
     private final YmlTag tag;
 
     /**
      * Ctor.
-     * @param yml Tag transformed to object.
+     * @param yml Yml tag `test` transformed to object.
      */
-    public DefaultYmlTagTest(final Map<String, Object> yml) {
-        this(new YmlTag(yml, "test"));
+    public YmlTagTestOf(final Map<String, Object> yml) {
+        this(new YmlTagOf(yml, "test"));
     }
 
     /**
      * Ctor.
      * @param tag Yml tag transformed to object.
      */
-    private DefaultYmlTagTest(final YmlTag tag) {
+    @SuppressWarnings("unchecked")
+    public YmlTagTestOf(final YmlTag tag) {
         this.tag = tag;
     }
 
     @Override
-    public String assume() {
-        return this.tag.map().get("assume").toString();
+    public String name() {
+        return this.tag.name();
     }
 
     @Override
-    public String cmd() {
-        return this.tag.map().get("cmd").toString();
+    public String assume() throws IllegalYmlFileFormatException {
+        this.tag.assertThatTagContain("assume");
+        return this.tag.asMap().get("assume").toString();
     }
 
     @Override
-    public String[] dockerCmdAsArray() {
+    public String cmd() throws IllegalYmlFileFormatException {
+        this.tag.assertThatTagContain("cmd");
+        return this.tag.asMap().get("cmd").toString();
+    }
+
+    @Override
+    public String[] containerCommandAsArray()
+        throws IllegalYmlFileFormatException {
         return this.cmd().split(" ");
     }
 
     @Override
-    public List<YmlTagOutputPredicate> output() {
-        return new YmlTagOutput(
-            (List<Map<String, String>>) this.tag.map().get("output")
+    @SuppressWarnings("unchecked")
+    public List<YmlTagOutputPredicate> output()
+        throws IllegalYmlFileFormatException {
+        final String child = "output";
+        this.tag.assertThatTagContain(child);
+        return new YmlTagOutputOf(
+            new StickyList<>(
+                new Filtered<>(
+                    Objects::nonNull,
+                    (List<Map<String, String>>) this.tag.asMap().get(child)
+                )
+            )
         ).conditions();
     }
 
     @Override
-    public String toString() {
+    public String asString() throws IllegalYmlFileFormatException {
         return new PlainFormattedText(
             "tag `%s`, assume `%s`, cmd `%s`, output `%s`",
             this.tag,
@@ -94,4 +117,10 @@ public final class DefaultYmlTagTest implements YmlTagTest {
             this.output().size()
         ).asString();
     }
+
+    @Override
+    public Object asObject() throws IllegalYmlFileFormatException {
+        return this.tag.asObject();
+    }
+
 }

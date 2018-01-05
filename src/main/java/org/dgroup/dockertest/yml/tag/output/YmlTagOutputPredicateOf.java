@@ -37,7 +37,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @version $Id$
  * @since 0.1.0
  */
-public final class DefaultYmlTagOutputPredicate
+public final class YmlTagOutputPredicateOf
     implements YmlTagOutputPredicate {
 
     /**
@@ -59,8 +59,7 @@ public final class DefaultYmlTagOutputPredicate
      * @param expected Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public DefaultYmlTagOutputPredicate(final String type,
-        final String expected,
+    public YmlTagOutputPredicateOf(final String type, final String expected,
         final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
         this.expected = expected;

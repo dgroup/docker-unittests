@@ -1,3 +1,0 @@
-test:
-assume: "curl version is 7.xxx"
-cmd

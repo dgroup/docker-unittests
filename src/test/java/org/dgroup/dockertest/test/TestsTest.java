@@ -25,12 +25,11 @@ package org.dgroup.dockertest.test;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.cmd.FakeArg;
-import org.dgroup.dockertest.cmd.OutputArg;
-import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.test.output.FakeOutput;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -50,19 +49,18 @@ public class TestsTest {
     @Ignore
     @Test
     public final void singleTest() throws CmdArgNotFoundException,
-        DockerRuntimeException, TestingFailedException {
+        DockerRuntimeException, TestingFailedException,
+        IllegalYmlFileFormatException {
         final FakeOutput output = new FakeOutput();
         new Tests(
-            new FakeArg(),
-            new YmlFileArg(
+            new Args(
                 new ListOf<>(
                     "-f",
                     new YmlResource(
                         "with-single-test.yml"
                     ).path()
                 )
-            ),
-            new OutputArg(new ListOf<>())
+            )
         ).execute();
         MatcherAssert.assertThat(
             output.lines(),

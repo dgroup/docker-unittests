@@ -39,18 +39,7 @@ public final class UncheckedTernary<T> implements Scalar<T> {
     /**
      * Ternary operation.
      */
-    private final Ternary<UncheckedCallable<T>> origin;
-
-    /**
-     * Ctor.
-     * @param cnd The condition
-     * @param cons The consequent
-     * @param alter The alternative
-     */
-    public UncheckedTernary(final boolean cnd, final UncheckedCallable<T> cons,
-        final UncheckedCallable<T> alter) {
-        this(new Ternary<>(cnd, cons, alter));
-    }
+    private final Ternary<T> origin;
 
     /**
      * Ctor.
@@ -59,14 +48,25 @@ public final class UncheckedTernary<T> implements Scalar<T> {
      * @param alter The alternative
      */
     public UncheckedTernary(final boolean cnd, final T cons, final T alter) {
-        this(new Ternary<>(cnd, () -> cons, () -> alter));
+        this(new Ternary<>(() -> cnd, () -> cons, () -> alter));
+    }
+
+    /**
+     * Ctor.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
+     */
+    public UncheckedTernary(final Scalar<Boolean> cnd, final Scalar<T> cons,
+        final Scalar<T> alter) {
+        this(new Ternary<>(cnd, cons, alter));
     }
 
     /**
      * Ctor.
      * @param origin Ternary operation.
      */
-    public UncheckedTernary(final Ternary<UncheckedCallable<T>> origin) {
+    public UncheckedTernary(final Ternary<T> origin) {
         this.origin = origin;
     }
 
@@ -75,7 +75,7 @@ public final class UncheckedTernary<T> implements Scalar<T> {
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public T value() {
         try {
-            return this.origin.value().call();
+            return this.origin.value();
         } catch (final Exception ex) {
             throw new IllegalStateException(ex);
         }

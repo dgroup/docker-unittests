@@ -8,3 +8,4 @@
 *.patch
 /.local/
 /.oracle_jre_usage/
+/fileTemplates/

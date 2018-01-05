@@ -23,22 +23,26 @@
  */
 package org.dgroup.dockertest.yml.tag.tests;
 
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import org.cactoos.iterator.Mapped;
+import org.cactoos.iterable.Filtered;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.test.DefaultYmlTagTest;
+import org.dgroup.dockertest.yml.tag.YmlTagOf;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.test.YmlTagTestOf;
 
 /**
  * Represents yml tag {@code /tests}.
- * Tag can contain list of {@link DefaultYmlTagTest}.
+ * Tag can contain list of {@link YmlTagTestOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTagTests implements Iterable<YmlTagTest> {
+public final class YmlTagTests {
 
     /**
      * Single yml tag as object.
@@ -50,16 +54,27 @@ public final class YmlTagTests implements Iterable<YmlTagTest> {
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
     public YmlTagTests(final Map<String, Object> tree) {
-        this.tag = new YmlTag(tree, "tests");
+        this.tag = new YmlTagOf(tree, "tests");
     }
 
-    @Override
-    public Iterator<YmlTagTest> iterator() {
-        return new Mapped<>(
-            DefaultYmlTagTest::new,
-            new Mapped<>(
-                test -> (Map<String, Object>) test,
-                this.tag.list().iterator()
+    /**
+     * Give all yml `test` tags defined in YML file.
+     * @return List of tests to be executed.
+     * @throws IllegalYmlFileFormatException in case if yml file has
+     *  illegal/wrong format.
+     */
+    @SuppressWarnings("unchecked")
+    public List<YmlTagTest> asList() throws IllegalYmlFileFormatException {
+        return new ListOf<>(
+            new Filtered<>(
+                t -> !t.output().isEmpty(),
+                new Mapped<>(
+                    YmlTagTestOf::new,
+                    new Mapped<>(
+                        test -> (Map<String, Object>) test,
+                        this.tag.asList()
+                    )
+                )
             )
         );
     }

@@ -26,22 +26,19 @@ package org.dgroup.dockertest.test.output;
 import java.io.PrintStream;
 import java.util.List;
 import org.cactoos.Proc;
+import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.Logo;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
-import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
-import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
- * Print testing results to standard output.
+ * Standard output for printing app progress and testing results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -97,29 +94,29 @@ public final class StdOutput implements Output {
     }
 
     /**
-     * Print docker command output to standard out.
-     * @param output From docker container.
-     */
-    public void print(final CmdOutput output) {
-        this.print(output.byLines());
-        this.out.println();
-    }
-
-    /**
-     * Print app logo to standard output.
-     * @param logo App logo.
-     */
-    public void print(final Logo logo) {
-        this.print(logo.byLines());
-    }
-
-    /**
      * Print message.
      * @param pattern Template.
      * @param args Arguments for template above.
      */
     public void print(final String pattern, final Object... args) {
-        this.print(new PlainFormattedText(pattern, args).asString());
+        this.print(String.format(pattern, args));
+    }
+
+    /**
+     * Print app exception.
+     * @param msg App exception message
+     * @param exp App exception details
+     */
+    public void print(final String msg, final Exception exp) {
+        this.print(
+            new Joined<>(
+                new ListOf<>(msg),
+                new Mapped<>(
+                    StackTraceElement::toString,
+                    new IterableOf<>(exp.getStackTrace())
+                )
+            )
+        );
     }
 
     /**
@@ -143,19 +140,11 @@ public final class StdOutput implements Output {
     }
 
     /**
-     * Print exception details.
-     * @param exp Exception.
+     * Print all messages separately, each on new line.
+     * @param messages For separately printing.
      */
-    public void print(final DockerRuntimeException exp) {
-        this.print(exp.byLines());
-    }
-
-    /**
-     * Print exception details.
-     * @param exp Exception.
-     */
-    public void print(final Exception exp) {
-        this.print(exp.getMessage());
+    public void print(final List<String> messages) {
+        messages.forEach(this::print);
     }
 
     /**
@@ -171,14 +160,6 @@ public final class StdOutput implements Output {
                 "Testing failed."
             ).value()
         );
-    }
-
-    /**
-     * Print all messages separately, each on new line.
-     * @param messages For separately printing.
-     */
-    private void print(final List<String> messages) {
-        messages.forEach(this::print);
     }
 
 }

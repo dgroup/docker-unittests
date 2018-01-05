@@ -23,21 +23,19 @@
  */
 package org.dgroup.dockertest.text;
 
-import java.util.List;
 import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
-import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
- * Represents different objects like arrays, iterables, etc as string.
+ * Represents different objects like arrays, iterables, etc as string
+ *  joined by particular delimiter.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class StringOf {
+public final class Joined {
 
     /**
      * All string values for joining.
@@ -52,7 +50,7 @@ public final class StringOf {
      * Ctor.
      * @param values For joining procedure.
      */
-    public StringOf(final String... values) {
+    public Joined(final String... values) {
         this(new IterableOf<>(values), " ");
     }
 
@@ -61,31 +59,20 @@ public final class StringOf {
      * @param values Is values.
      * @param delimiter Is delimiter
      */
-    public StringOf(final Iterable<String> values, final String delimiter) {
+    public Joined(final Iterable<String> values, final String delimiter) {
         this.values = values;
         this.delimiter = new UncheckedTernary<>(
-            delimiter == null,
+            () -> delimiter == null,
             () -> "",
             () -> delimiter
         );
     }
 
     /**
-     * Transform collection of {@link YmlTagOutputPredicate} to string.
-     * @param conditions Values for joining.
-     * @param delimiter Delimiter for joining.
-     */
-    public StringOf(final List<YmlTagOutputPredicate> conditions,
-        final String delimiter) {
-        this(
-            new Mapped<>(Object::toString, conditions),
-            delimiter
-        );
-    }
-
-    /**
      * Transform array/collection/etc to string.
      * @return New joined string in accordance with {@code this.delimiter }
+     * @todo #61 Remove streamex dependency from the project,
+     *  use cactoos mapped iterable + func instead.
      */
     public String asString() {
         return StreamEx.of(this.values.iterator())

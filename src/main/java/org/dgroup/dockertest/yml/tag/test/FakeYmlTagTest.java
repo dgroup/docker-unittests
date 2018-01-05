@@ -73,7 +73,7 @@ public final class FakeYmlTagTest implements YmlTagTest {
     }
 
     @Override
-    public String[] dockerCmdAsArray() {
+    public String[] containerCommandAsArray() {
         return this.command.split(" ");
     }
 
@@ -81,4 +81,15 @@ public final class FakeYmlTagTest implements YmlTagTest {
     public List<YmlTagOutputPredicate> output() {
         return this.predicates;
     }
+
+    @Override
+    public String name() {
+        return "test";
+    }
+
+    @Override
+    public Object asObject() {
+        return "";
+    }
+
 }

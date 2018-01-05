@@ -1,0 +1,9 @@
+version: 1
+
+tests:
+  - test:
+      assume: "curl version is 7.xxx"
+      output:
+        - startsWith:  "curl 7."
+        - contains:   "Protocols: "
+        - contains:   "Features: "

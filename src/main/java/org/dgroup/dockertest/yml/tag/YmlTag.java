@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -39,49 +38,35 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlTag {
+public interface YmlTag {
 
     /**
-     * YML tree with tags.
+     * Represent tag name as string.
+     * @return Name.
      */
-    private final Map<String, Object> yml;
-    /**
-     * Tag name.
-     */
-    private final String name;
-
-    /**
-     * Ctor.
-     * @param yml Yml tree loaded from *.yml file with tests.
-     * @param tag Yml tag name.
-     */
-    public YmlTag(final Map<String, Object> yml, final String tag) {
-        this.yml = yml;
-        this.name = tag;
-    }
+    String name();
 
     /**
      * Represent tag value as string.
      * @return Value.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    public String asString() {
-        return new UncheckedTernary<>(
-            this.value() == null,
-            () -> "",
-            () -> this.value().toString()
-        ).value();
+    default String asString() throws IllegalYmlFileFormatException {
+        return this.asObject().toString();
     }
 
     /**
      * Represent tag value as list.
      * @return List.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
     @SuppressWarnings("unchecked")
-    public List<Object> list() {
-        final List<Object> values = (List<Object>) this.value();
+    default List<Object> asList() throws IllegalYmlFileFormatException {
+        final List<Object> values = (List<Object>) this.asObject();
         return new UncheckedTernary<List<Object>>(
-            values == null || new Filtered<>(Objects::nonNull, values)
-                .isEmpty(),
+            () -> new Filtered<>(Objects::nonNull, values).isEmpty(),
             ListOf::new,
             () -> values
         ).value();
@@ -90,26 +75,33 @@ public final class YmlTag {
     /**
      * Represent tag value as map.
      * @return Map.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
     @SuppressWarnings("unchecked")
-    public Map<Object, Object> map() {
-        final Map<Object, Object> value = (Map<Object, Object>) this.value();
-        return new UncheckedTernary<>(
-            value == null, HashMap::new, () -> value
-        ).value();
+    default Map<Object, Object> asMap() throws IllegalYmlFileFormatException {
+        return (Map<Object, Object>) this.asObject();
     }
 
     /**
      * YML tag value.
-     * @return Tag value.
+     * @return Non-null tag value.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    private Object value() {
-        if (this.yml == null || this.yml.get(this.name) == null) {
-            throw new IllegalYmlFileFormatException(
-                "`%s` tag is missing or has incorrect structure", this.name
-            );
+    Object asObject() throws IllegalYmlFileFormatException;
+
+    /**
+     * Check that current tag has children tags with values.
+     * @param child Tag name.
+     * @throws IllegalYmlFileFormatException in case if child tag
+     *  is null/missing or has no value.
+     */
+    default void assertThatTagContain(final String child)
+        throws IllegalYmlFileFormatException {
+        if (this.asMap().get(child) == null) {
+            throw new IllegalYmlFileFormatException(this, child);
         }
-        return this.yml.get(this.name);
     }
 
 }

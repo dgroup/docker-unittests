@@ -64,10 +64,7 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
             outcome,
             new UncheckedScalar<>(
                 new StickyScalar<>(
-                    new And(
-                        TestOutcome::successful,
-                        outcome
-                    )
+                    new And(TestOutcome::successful, outcome)
                 )
             ),
             outputs
@@ -102,13 +99,18 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
 
     /**
      * Print testing outcome to specified outputs.
+     * @throws TestingFailedException in case if at least one test was failed.
      */
-    public void print() {
+    public void reportTheResults() throws TestingFailedException {
         new UncheckedScalar<>(
             new And(
                 (Proc<Output>) out -> out.print(this),
                 this.outputs
             )
         ).value();
+        if (!this.successful()) {
+            throw new TestingFailedException();
+        }
     }
+
 }

@@ -21,52 +21,66 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test;
 
 import java.util.List;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Represents a command line argument with name the docker image.
+ * Default implementation of single test result.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class DockerImageArg implements Arg {
+public final class TestOutcomeOf implements TestOutcome {
 
     /**
-     * Command line argument specified by user.
+     * Output from docker container.
      */
-    private final Arg origin;
-
+    private final UncheckedScalar<Boolean> passed;
     /**
-     * Ctor.
-     * @param args Command-line arguments are passed to the app by the user.
+     * Failed scenarios.
      */
-    public DockerImageArg(final List<String> args) {
-        this(new SingleArg("-i", args, "Docker image wasn't specified."));
-    }
+    private final List<String> msg;
 
     /**
      * Ctor.
-     * @param arg Command-line arguments are passed to the app by the user.
+     * @param passed Status of test.
+     * @param msg Test details.
+     * @checkstyle LineLengthCheck (5 lines)
      */
-    private DockerImageArg(final Arg arg) {
-        this.origin = arg;
+    public TestOutcomeOf(final Scalar<Boolean> passed, final List<String> msg) {
+        this(new UncheckedScalar<>(new StickyScalar<>(passed)), msg);
     }
 
-    @Override
-    public String name() {
-        return this.origin.name();
+    /**
+     * Ctor.
+     * @param passed Status of test.
+     * @param msg Test details.
+     * @checkstyle LineLengthCheck (5 lines)
+     */
+    public TestOutcomeOf(final UncheckedScalar<Boolean> passed, final List<String> msg) {
+        this.passed = passed;
+        this.msg = msg;
     }
 
-    @Override
-    public String value() throws CmdArgNotFoundException {
-        return this.origin.value();
+    /**
+     * Status of testing scenario.
+     * @return True in case of absent failed scenarios.
+     */
+    public boolean successful() {
+        return this.passed.value();
     }
 
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
+    /**
+     * Testing scenario details.
+     * @return Scenario details like passed/failed, docker cmd, output.
+     */
+    public List<String> message() {
+        return this.msg;
     }
+
 }

@@ -23,7 +23,11 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import java.io.FileNotFoundException;
+import java.io.UncheckedIOException;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.AssertThrown;
+import org.dgroup.dockertest.text.FileAsString;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -35,6 +39,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class YmlFileArgTest {
@@ -48,6 +53,24 @@ public final class YmlFileArgTest {
                 )
             ).file().getName(),
             Matchers.equalTo(".gitignore")
+        );
+    }
+
+    @Test
+    public void fileNotFound() {
+        AssertThrown.assertThrown(
+            () -> new FileAsString(
+                new YmlFileArg(
+                    new ListOf<>(
+                        "-f", ".gitignoreeeeeee"
+                    )
+                ).file()
+            ).content(),
+            new UncheckedIOException(
+                new FileNotFoundException(
+                    ".gitignoreeeeeee (The system cannot find the file specified)"
+                )
+            )
         );
     }
 

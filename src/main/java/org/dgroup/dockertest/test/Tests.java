@@ -27,14 +27,13 @@ import java.util.List;
 import java.util.Set;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
-import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.cmd.OutputArg;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.docker.process.Pull;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.StdOutput;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Allows to execute tests and print results.
@@ -49,11 +48,11 @@ public final class Tests {
     /**
      * Docker image for testing.
      */
-    private final Arg image;
+    private final String image;
     /**
      * Tests to be executed.
      */
-    private final List<YmlTagTest> scope;
+    private final List<Test> scope;
     /**
      * Available outputs for printing results.
      */
@@ -65,13 +64,20 @@ public final class Tests {
 
     /**
      * Ctor.
-     * @param image Docker image for testing.
-     * @param scope Yml tests to be executed.
-     * @param out Available outputs for printing results.
+     * @param args Command-line arguments specified by user.
+     * @throws CmdArgNotFoundException in case if cmd argument is missing
+     *  or not specified by user.
+     * @throws IllegalYmlFileFormatException in case if YML file with tests
+     *  has wrong/incorrect format.
      */
-    public Tests(final Arg image, final Iterable<YmlTagTest> scope,
-        final OutputArg out) {
-        this(image, new StickyList<>(scope), out.asSet(), out.std());
+    public Tests(final Args args)
+        throws CmdArgNotFoundException, IllegalYmlFileFormatException {
+        this(
+            args.dockerImage(),
+            args.tests(),
+            args.selectedByUserOutput(),
+            args.std()
+        );
     }
 
     /**
@@ -82,7 +88,7 @@ public final class Tests {
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public Tests(final Arg image, final List<YmlTagTest> scope,
+    public Tests(final String image, final List<Test> scope,
         final Set<Output> out, final StdOutput std) {
         this.image = image;
         this.scope = scope;
@@ -108,30 +114,17 @@ public final class Tests {
                 "0 testing scenarios found."
             );
         }
-        this.std.print("Found scenarios: %s.%n", this.scope.size());
+        this.std.print("Found scenarios: %s.%n%n", this.scope.size());
         this.std.print("Verify image...");
         this.std.print(
-            new Pull(this.image.value())
-                .execute()
+            new Pull(this.image).details()
         );
-        final TestingOutcome outcome = new TestingOutcome(
+        new TestingOutcome(
             new StickyList<>(
-                new Mapped<>(
-                    Test::execute,
-                    new Mapped<>(
-                        ymlTagTest -> new BasedOnYmlTest(
-                            this.image.value(), ymlTagTest
-                        ),
-                        this.scope
-                    )
-                )
+                new Mapped<>(Test::execute, this.scope)
             ),
             this.outputs
-        );
-        outcome.print();
-        if (!outcome.successful()) {
-            throw new TestingFailedException();
-        }
+        ).reportTheResults();
     }
 
 }

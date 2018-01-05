@@ -1,0 +1,9 @@
+version: 1
+
+tests:
+  - test:
+      cmd: "curl --version"
+      output:
+        - startsWith: "curl 7."
+        - contains:   "Protocols: "
+        - contains:   "Features: "

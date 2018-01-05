@@ -90,7 +90,7 @@ public final class OutputArg implements Iterable<Output> {
         final Map<String, Output> out) {
         this.out = out;
         this.specified = new UncheckedTernary<List<String>>(
-            output.specifiedByUser(),
+            output::specifiedByUser,
             () -> new StickyList<>(output.value().split(delimiter)),
             ListOf::new
         ).value();
@@ -99,7 +99,7 @@ public final class OutputArg implements Iterable<Output> {
     @Override
     public Iterator<Output> iterator() {
         return new UncheckedTernary<List<Output>>(
-            !this.specified.isEmpty()
+            () -> !this.specified.isEmpty()
                 && this.out.keySet().containsAll(this.specified),
             () -> new Mapped<>(this.out::get, this.specified),
             () -> new ListOf<>(new StdOutput())

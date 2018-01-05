@@ -27,8 +27,12 @@ import java.util.List;
 import java.util.Map;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.Mapped;
+import org.cactoos.list.Sorted;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
+import org.dgroup.dockertest.text.Joined;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.tag.YmlTag;
 
 /**
  * Represents yml tag {@code /tests/test/output}.
@@ -37,8 +41,9 @@ import org.cactoos.map.MapOf;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class YmlTagOutput {
+public final class YmlTagOutputOf implements YmlTag {
 
     /**
      * Yml string parsed as map.
@@ -54,7 +59,7 @@ public final class YmlTagOutput {
      * Ctor.
      * @param yml YML string parsed as map.
      */
-    public YmlTagOutput(final List<Map<String, String>> yml) {
+    public YmlTagOutputOf(final List<Map<String, String>> yml) {
         this(
             yml,
             new MapOf<>(
@@ -80,9 +85,9 @@ public final class YmlTagOutput {
     /**
      * Ctor.
      * @param yml YML string parsed as map.
-     * @param supported Conditions available in *.yml file with tests.
+     * @param supported Conditions applicable for output from docker container.
      */
-    public YmlTagOutput(final List<Map<String, String>> yml,
+    public YmlTagOutputOf(final List<Map<String, String>> yml,
         final Map<String, UncheckedBiFunc<String, String, Boolean>> supported) {
         this.tag = yml;
         this.supported = supported;
@@ -92,12 +97,24 @@ public final class YmlTagOutput {
      * Yml tag {@code /tests/test/output} may have several values.
      *
      * @return All specified values for tag {@code output}
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    public List<YmlTagOutputPredicate> conditions() {
+    public List<YmlTagOutputPredicate> conditions()
+        throws IllegalYmlFileFormatException {
+        if (this.tag.isEmpty()) {
+            throw new IllegalYmlFileFormatException(
+                this,
+                new Joined(
+                    new Sorted<>(this.supported.keySet()),
+                    "|"
+                ).asString()
+            );
+        }
         return new Mapped<>(
             conditions -> {
                 final String condition = conditions.keySet().iterator().next();
-                return new DefaultYmlTagOutputPredicate(
+                return new YmlTagOutputPredicateOf(
                     condition,
                     conditions.values().iterator().next(),
                     this.supported.get(condition)
@@ -107,4 +124,13 @@ public final class YmlTagOutput {
         );
     }
 
+    @Override
+    public String name() {
+        return "output";
+    }
+
+    @Override
+    public Object asObject() {
+        return this.tag;
+    }
 }

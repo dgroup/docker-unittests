@@ -29,108 +29,118 @@ import org.cactoos.iterable.Filtered;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
-import org.cactoos.list.StickyList;
+import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
- * Default implementation of single test result.
+ * Represents YML based implementation for single test.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public final class SingleTestOutcome implements TestOutcome {
+public final class TestOf implements Test {
 
     /**
-     * Detail regarding executed test.
+     * Docker container where we need to execute the test.
      */
-    private final YmlTagTest test;
+    private final DockerProcess process;
     /**
-     * Output from docker container.
+     * Name of testing scenario.
      */
-    private final String output;
+    private final String assume;
     /**
-     * Failed scenarios.
+     * Command to be executed inside of docker container.
      */
-    private final List<YmlTagOutputPredicate> failed;
+    private final String cmd;
+    /**
+     * Expected conditions which should be applied to output
+     *  from docker container.
+     */
+    private final List<YmlTagOutputPredicate> expected;
 
     /**
      * Ctor.
-     * @param test Details regarding test which was executed.
-     * @param output Output from docker container.
+     * @param assume Name of testing scenario.
+     * @param cmd Command to be executed inside of docker container.
+     * @param expected Expected conditions which should be applied
+     *  to output from docker container.
+     * @param process Docker container where test be executed.
+     * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public SingleTestOutcome(final YmlTagTest test, final String output) {
-        this.test = test;
-        this.output = output;
-        this.failed = new StickyList<>(
-            new Filtered<>(
-                t -> !t.test(this.output),
-                this.test.output()
-            )
+    public TestOf(final String assume, final String cmd,
+        final List<YmlTagOutputPredicate> expected,
+        final DockerProcess process) {
+        this.assume = assume;
+        this.cmd = cmd;
+        this.expected = expected;
+        this.process = process;
+    }
+
+    @Override
+    public TestOutcome execute() throws DockerRuntimeException {
+        final String output = this.process.execute().asText();
+        final List<YmlTagOutputPredicate> failed = new ListOf<>(
+            new Filtered<>(t -> !t.test(output), this.expected)
         );
-    }
-
-    /**
-     * Status of testing scenario.
-     * @return True in case of absent failed scenarios.
-     */
-    public boolean successful() {
-        return this.failed.isEmpty();
-    }
-
-    /**
-     * Testing scenario details.
-     * @return Scenario details like passed/failed, docker cmd, output.
-     */
-    public List<String> message() {
-        return new UncheckedTernary<>(
-            this.successful(), this::messagePassed, this::messageFailed
-        ).value();
+        return new TestOutcomeOf(
+            failed::isEmpty,
+            new UncheckedTernary<>(
+                failed::isEmpty,
+                this::messagePassed,
+                () -> this.messageFailed(output, failed)
+            ).value()
+        );
     }
 
     /**
      * Return success test report for single test.
      * @return Test report for single test.
      */
-    private List<String> messagePassed() {
+    public List<String> messagePassed() {
         return Collections.singletonList(
             new PlainFormattedText(
                 "> %s PASSED",
-                this.test.assume()
+                this.assume
             ).asString()
         );
     }
 
     /**
      * Return failed test report for single test.
+     *
+     * @param output From docker container.
+     * @param failed Failed conditions which was applied to the output
+     *  from docker container.
      * @return Test report for single test.
      */
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    private List<String> messageFailed() {
+    public List<String> messageFailed(final String output,
+        final List<YmlTagOutputPredicate> failed) {
         return new Joined<>(
             new ListOf<>(
                 new PlainFormattedText(
-                    "> %s FAILED", this.test.assume()
+                    "> %s FAILED", this.assume
                 ).asString(),
                 new PlainFormattedText(
-                    "  command: \"%s\"", this.test.cmd()
+                    "  command: \"%s\"", this.cmd
                 ).asString(),
                 new PlainFormattedText(
-                    "  output:  \"%s\"", this.output
+                    "  output:  \"%s\"", output
                 ).asString(),
                 "  expected output:"
             ),
             new Mapped<>(
                 o -> new PlainFormattedText("    - %s", o).asString(),
-                this.test.output()
+                this.expected
             ),
             new ListOf<>("  mismatch:"),
             new Mapped<>(
                 o -> new PlainFormattedText("    - %s", o).asString(),
-                this.failed
+                failed
             )
         );
     }

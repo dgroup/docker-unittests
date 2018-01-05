@@ -23,13 +23,11 @@
  */
 package org.dgroup.dockertest;
 
-import java.util.List;
-import org.cactoos.list.ListOf;
+import java.io.UncheckedIOException;
+import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.cmd.DockerImageArg;
-import org.dgroup.dockertest.cmd.OutputArg;
-import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.exception.RootCause;
 import org.dgroup.dockertest.test.NonDefinedTestingScopeException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
@@ -48,11 +46,7 @@ public final class App {
     /**
      * App command-line arguments from user.
      */
-    private final List<String> args;
-    /**
-     * Tests to be executed.
-     */
-    private final Tests tests;
+    private final Args args;
     /**
      * Default output for application progress.
      */
@@ -62,28 +56,18 @@ public final class App {
      * Ctor.
      * @param args Command-line arguments.
      */
-    public App(final List<String> args) {
-        this(
-            args,
-            new Tests(
-                new DockerImageArg(args),
-                new YmlFileArg(args),
-                new OutputArg(args)
-            ),
-            new OutputArg(args).std()
-        );
+    public App(final Args args) {
+        this(args, args.std());
     }
 
     /**
      * Ctor.
      * @param args Command-line arguments.
-     * @param tests Tests to be executed.
      * @param std Default output for application progress.
      * @checkstyle LineLengthCheck (5 lines)
      */
-    public App(final List<String> args, final Tests tests, final StdOutput std) {
+    public App(final Args args, final StdOutput std) {
         this.args = args;
-        this.tests = tests;
         this.std = std;
     }
 
@@ -92,30 +76,51 @@ public final class App {
      * @param args Command-line arguments.
      */
     public static void main(final String... args) {
-        new App(new ListOf<>(args))
+        new App(new Args(args))
             .start();
     }
 
     /**
      * Execute testing procedure.
-     * @checkstyle MagicNumberCheck (30 lines)
+     * @todo #62 Exception handling refactoring is required.
+     * @checkstyle MagicNumberCheck (100 lines)
+     * @checkstyle ExecutableStatementCountCheck (100 lines)
      */
+    @SuppressWarnings({ "PMD.PreserveStackTrace",
+        "PMD.ExceptionAsFlowControl" })
     public void start() {
+        this.std.print(new Logo("1.0.0").byLines());
         try {
-            this.std.print(new Logo("1.0.0"));
-            this.tests.execute();
+            final Tests tests = new Tests(this.args);
+            try {
+                tests.execute();
+            } catch (final NonDefinedTestingScopeException ex) {
+                this.std.print(ex.getMessage());
+            } catch (final UncheckedIOException ex) {
+                final Throwable cause = new RootCause(ex).exception();
+                if (cause instanceof IllegalYmlFileFormatException) {
+                    throw new IllegalYmlFileFormatException(cause);
+                } else {
+                    this.std.print(
+                        "App failed due to unexpected runtime exception:", ex
+                    );
+                }
+            }
+        } catch (final CmdArgNotFoundException ex) {
+            this.std.print(ex.getMessage());
+            this.shutdownWith(-3);
+        } catch (final IllegalYmlFileFormatException error) {
+            try {
+                this.std.print(this.args.ymlFilename(), error);
+            } catch (final CmdArgNotFoundException ex) {
+                this.std.print(ex.getMessage());
+                this.shutdownWith(-3);
+            }
+            this.shutdownWith(-2);
         } catch (final TestingFailedException ex) {
             this.shutdownWith(-1);
-        } catch (final IllegalYmlFileFormatException ex) {
-            this.std.print(new YmlFileArg(this.args).name(), ex);
-            this.shutdownWith(-2);
-        } catch (final NonDefinedTestingScopeException ex) {
-            this.std.print(ex);
-        } catch (final CmdArgNotFoundException ex) {
-            this.std.print(ex);
-            this.shutdownWith(-3);
         } catch (final DockerRuntimeException ex) {
-            this.std.print(ex);
+            this.std.print(ex.byLines());
             this.shutdownWith(-4);
         }
     }

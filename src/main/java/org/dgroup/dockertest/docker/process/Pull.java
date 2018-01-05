@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.docker.process;
 
+import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
@@ -77,6 +78,15 @@ public final class Pull implements DockerProcess {
             throw new DockerImageNotFoundException(this.image);
         }
         return () -> output;
+    }
+
+    /**
+     * Execute pull command and provide details regarding results.
+     * @return Pull details splitted by lines.
+     * @throws DockerRuntimeException in case runtime exception on docker side.
+     */
+    public List<String> details() throws DockerRuntimeException {
+        return this.execute().byLines();
     }
 
 }

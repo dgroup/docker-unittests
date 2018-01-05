@@ -24,18 +24,20 @@
 package org.dgroup.dockertest.yml.tag.test;
 
 import java.util.List;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutput;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.tag.YmlTag;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents yml tag {@code /tests/test}.
- * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutputOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
  */
-public interface YmlTagTest {
+public interface YmlTagTest extends YmlTag {
 
     /**
      * Name of testing scenario.
@@ -43,8 +45,10 @@ public interface YmlTagTest {
      * defined in *.yml file.
      *
      * @return Value for tag {@code /tests/test/assume}
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    String assume();
+    String assume() throws IllegalYmlFileFormatException;
 
     /**
      * Command for execution in docker container.
@@ -52,8 +56,10 @@ public interface YmlTagTest {
      * defined in *.yml file.
      *
      * @return Value for tag {@code /tests/test/cmd}
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    String cmd();
+    String cmd() throws IllegalYmlFileFormatException;
 
     /**
      * Command for execution in docker container as array.
@@ -62,8 +68,10 @@ public interface YmlTagTest {
      *
      * @return Slitted docker command by spaces.
      *  For example "java -version" became new String[]{"java", "-version"}.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    String[] dockerCmdAsArray();
+    String[] containerCommandAsArray() throws IllegalYmlFileFormatException;
 
     /**
      * List of expected conditions, which should be applied to output.
@@ -71,6 +79,8 @@ public interface YmlTagTest {
      * defined in *.yml file. Tag may have several values.
      *
      * @return All specified values for tag {@code output}
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    List<YmlTagOutputPredicate> output();
+    List<YmlTagOutputPredicate> output() throws IllegalYmlFileFormatException;
 }

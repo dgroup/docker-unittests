@@ -25,7 +25,9 @@ package org.dgroup.dockertest.yml.tag.version;
 
 import java.util.Map;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
+import org.dgroup.dockertest.yml.tag.YmlTagOf;
 
 /**
  * Represents yml tag {@code /version}.
@@ -47,14 +49,16 @@ public final class YmlTagVersion {
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
     public YmlTagVersion(final Map<String, Object> tree) {
-        this.tag = new YmlTag(tree, "version");
+        this.tag = new YmlTagOf(tree, "version");
     }
 
     /**
      * Allows to verify version of *.yml file.
      * For now only version `1` is supported.
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    public void verify() {
+    public void verify() throws IllegalYmlFileFormatException {
         if (!"1".equals(this.tag.asString())) {
             throw new IllegalArgumentException(
                 new PlainFormattedText(

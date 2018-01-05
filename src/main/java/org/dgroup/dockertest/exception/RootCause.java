@@ -21,35 +21,37 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
-
-import org.dgroup.dockertest.test.output.StdOutput;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package org.dgroup.dockertest.exception;
 
 /**
- * Unit tests for class {@link Logo}.
+ * Represents root cause exception for particular exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class LogoTest {
+public final class RootCause {
 
-    @Test
-    public void byLines() {
-        final Logo logo = new Logo("0.1.0");
-        new StdOutput().print(
-            logo.byLines()
-        );
-        MatcherAssert.assertThat(
-            logo.byLines(),
-            Matchers.hasSize(11)
-        );
+    /**
+     * Exception.
+     */
+    private final Exception origin;
+
+    /**
+     * Ctor.
+     * @param exp Exception.
+     */
+    public RootCause(final Exception exp) {
+        this.origin = exp;
+    }
+
+    /**
+     * Each exception may contain a lot of nested exceptions.
+     * @return Root case exception.
+     * @todo #63 Implementation is required.
+     */
+    public Throwable exception() {
+        return this.origin;
     }
 
 }

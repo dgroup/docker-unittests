@@ -24,11 +24,10 @@
 package org.dgroup.dockertest.cmd;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import org.dgroup.dockertest.text.FileAsString;
-import org.dgroup.dockertest.yml.YmlTests;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.YmlString;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 
 /**
@@ -38,7 +37,7 @@ import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
  * @version $Id$
  * @since 0.1.0
  */
-public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
+public final class YmlFileArg implements Arg {
 
     /**
      * Contain yml file with tests.
@@ -72,7 +71,17 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
      *  wasn't specified by user.
      */
     public File file() throws CmdArgNotFoundException {
-        return new File(this.origin.value());
+        return new File(this.filename());
+    }
+
+    /**
+     * The filename should be specified by the user with key "-f".
+     * @return Yml file with tests.
+     * @throws CmdArgNotFoundException in case if filename
+     *  wasn't specified by user.
+     */
+    public String filename() throws CmdArgNotFoundException {
+        return this.origin.value();
     }
 
     @Override
@@ -91,14 +100,17 @@ public final class YmlFileArg implements Arg, Iterable<YmlTagTest> {
         return this.origin.specifiedByUser();
     }
 
-    // @checkstyle ReturnCountCheck (10 lines)
-    @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
-    public Iterator<YmlTagTest> iterator() {
-        try {
-            return new YmlTests(this.value()).iterator();
-        } catch (final CmdArgNotFoundException exp) {
-            return Collections.emptyIterator();
-        }
+    /**
+     * Return all yml `test` tags defined in YML file.
+     *
+     * @return Defined YML `test` tags.
+     * @throws CmdArgNotFoundException in case if YML file
+     *  wasn't specified by user.
+     * @throws IllegalYmlFileFormatException in case if YML file
+     *  has wrong/corrupted format.
+     */
+    public List<YmlTagTest> testsYmlTags() throws CmdArgNotFoundException,
+        IllegalYmlFileFormatException {
+        return new YmlString(this.value()).asTests();
     }
 }
