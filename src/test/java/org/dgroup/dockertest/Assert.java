@@ -42,7 +42,6 @@ public final class Assert {
      * @param task Particular operation where exception is required.
      * @param exp Details which expected to be thrown.
      */
-    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     public void thatThrows(final ThrowingCallable task, final Exception exp) {
         Assertions.assertThatThrownBy(task)
             .isInstanceOf(exp.getClass())
@@ -57,7 +56,6 @@ public final class Assert {
      * @param regexp A regular expression which should match to occurred
      *  exception message.
      */
-    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     public void thatThrows(final ThrowingCallable task,
         final Class<? extends Exception> exp, final String regexp) {
         Assertions.assertThatThrownBy(task)

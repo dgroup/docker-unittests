@@ -39,6 +39,9 @@ import org.junit.Test;
  * @since 0.1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class YmlFileArgTest {
