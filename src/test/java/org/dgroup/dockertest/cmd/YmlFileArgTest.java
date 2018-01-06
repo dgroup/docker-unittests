@@ -23,10 +23,9 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.AssertThrown;
+import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.text.FileAsString;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,7 +57,7 @@ public final class YmlFileArgTest {
 
     @Test
     public void fileNotFound() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> new FileAsString(
                 new YmlFileArg(
                     new ListOf<>(
@@ -66,11 +65,10 @@ public final class YmlFileArgTest {
                     )
                 ).file()
             ).content(),
-            new UncheckedIOException(
-                new FileNotFoundException(
-                    ".gitignoreeeeeee (The system cannot find the file specified)"
-                )
-            )
+            UncheckedIOException.class,
+            "^.*\\.gitignoreeeeeee\\s\\((" +
+                "No\\ssuch\\sfile\\sor\\sdirectory|" +
+                "The\\ssystem\\scannot\\sfind\\sthe\\sfile\\sspecified)\\)$"
         );
     }
 

@@ -32,27 +32,36 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @checkstyle NonStaticMethodCheck (200 lines)
  */
-public final class AssertThrown {
+public final class Assert {
 
     /**
-     * Ctor.
+     * Verify that exception was thrown during particular operation.
+     *
+     * @param task Particular operation where exception is required.
+     * @param exp Details which expected to be thrown.
      */
-    private AssertThrown() {
-        // No instances required
+    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+    public void thatThrows(final ThrowingCallable task, final Exception exp) {
+        Assertions.assertThatThrownBy(task)
+            .isInstanceOf(exp.getClass())
+            .hasMessage(exp.getMessage());
     }
 
     /**
      * Verify that exception was thrown during particular operation.
      *
-     * @param operation Particular operation where exception is required.
-     * @param exception Details which expected to be thrown.
+     * @param task A particular operation where exception must be raised.
+     * @param exp Exception class which expected to be thrown.
+     * @param regexp A regular expression which should match to occurred
+     *  exception message.
      */
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
-    public static void assertThrown(final ThrowingCallable operation,
-        final Exception exception) {
-        Assertions.assertThatThrownBy(operation)
-            .isInstanceOf(exception.getClass())
-            .hasMessage(exception.getMessage());
+    public void thatThrows(final ThrowingCallable task,
+        final Class<? extends Exception> exp, final String regexp) {
+        Assertions.assertThatThrownBy(task)
+            .isInstanceOf(exp)
+            .hasMessageMatching(regexp);
     }
 }

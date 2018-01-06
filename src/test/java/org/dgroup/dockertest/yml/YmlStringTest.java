@@ -26,7 +26,7 @@ package org.dgroup.dockertest.yml;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
-import org.dgroup.dockertest.AssertThrown;
+import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 import org.hamcrest.MatcherAssert;
@@ -55,11 +55,13 @@ public final class YmlStringTest {
 
     @Test
     public void tagVersionIsMissing() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> new YmlString(
                 new YmlResource("with-missing-version-tag.yml").asString()
             ).asTests(),
-            new IllegalYmlFileFormatException("`version` tag is missing or has incorrect structure")
+            new IllegalYmlFileFormatException(
+                "`version` tag is missing or has incorrect structure"
+            )
         );
     }
 
@@ -182,7 +184,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagTestsIsMissing() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-tests-is-missing.yml"),
             new IllegalYmlFileFormatException(
                 "mapping values are not allowed here\n" +
@@ -195,7 +197,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagTestsHasNoDefinedChildren() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-tests-has-no-children.yml"),
             new IllegalYmlFileFormatException(
                 "`tests` tag is missing or has incorrect structure"
@@ -214,7 +216,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagTestHasMissingAssumeTag() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-test-has-missing-assume-tag.yml")
                 .iterator().next().assume(),
             new IllegalYmlFileFormatException(
@@ -225,7 +227,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagTestHasMissingCmdTag() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-test-has-missing-cmd-tag.yml")
                 .iterator().next().cmd(),
             new IllegalYmlFileFormatException(
@@ -236,7 +238,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagOutputHasOneWrongChild() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-output-has-one-wrong-child.yml").iterator().next().output(),
             new UncheckedIOException(
                 new IOException(
@@ -250,7 +252,7 @@ public final class YmlStringTest {
 
     @Test
     public void tagOutputHasNoDefinedChildren() {
-        AssertThrown.assertThrown(
+        new Assert().thatThrows(
             () -> this.loadTests("tag-output-has-no-children.yml").iterator().next(),
             new UncheckedIOException(
                 new IOException(
