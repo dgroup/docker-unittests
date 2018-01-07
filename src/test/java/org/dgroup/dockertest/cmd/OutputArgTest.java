@@ -26,8 +26,8 @@ package org.dgroup.dockertest.cmd;
 import org.cactoos.iterable.ItemAt;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.HtmlOutput;
-import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsInstanceOf;
@@ -38,7 +38,7 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -50,7 +50,7 @@ public final class OutputArgTest {
             new OutputArg(
                 new ListOf<>()
             ).iterator().next(),
-            IsInstanceOf.instanceOf(StdOutput.class)
+            IsInstanceOf.instanceOf(StdOutputOf.class)
         );
     }
 

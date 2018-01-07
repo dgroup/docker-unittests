@@ -33,7 +33,6 @@ import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -41,7 +40,7 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class Args {
@@ -90,16 +89,6 @@ public final class Args {
         this.image = image;
         this.yml = yml;
         this.outputs = outputs;
-    }
-
-    /**
-     * Standard output for printing app progress and testing results.
-     *
-     * @return Standard output.
-     * @checkstyle NonStaticMethodCheck (5 lines)
-     */
-    public StdOutput std() {
-        return new StdOutput();
     }
 
     /**

@@ -21,52 +21,63 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.test.output.std;
 
-import java.util.Map;
+import java.util.List;
+import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
- * Represents single yml tag in *.yml file.
+ * Fake instance of {@link StdOutput} for unit-testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagOf implements YmlTag {
+public final class FakeStdOutput implements StdOutput {
 
     /**
-     * YML tree with tags.
+     * Message storage.
      */
-    private final Map<String, Object> yml;
-    /**
-     * Tag name.
-     */
-    private final String tag;
+    private final List<String> lines;
 
     /**
      * Ctor.
-     * @param yml Yml tree loaded from *.yml file with tests.
-     * @param tag Yml tag name.
+     * @param lines Output details.
      */
-    public YmlTagOf(final Map<String, Object> yml, final String tag) {
-        this.yml = yml;
-        this.tag = tag;
+    public FakeStdOutput(final List<String> lines) {
+        this.lines = lines;
     }
 
     @Override
-    public String name() {
-        return this.tag;
+    public void print(final String msg) {
+        this.lines.add(msg);
     }
 
     @Override
-    public Object asObject() throws IllegalYmlFileFormatException {
-        if (this.yml == null || this.yml.get(this.tag) == null) {
-            throw new IllegalYmlFileFormatException(
-                "`%s` tag is missing or has incorrect structure", this.tag
-            );
-        }
-        return this.yml.get(this.tag);
+    public void print(final CmdOutput output) {
+        this.lines.addAll(output.byLines());
+    }
+
+    @Override
+    public void print(final String file,
+        final IllegalYmlFileFormatException exp) {
+        this.lines.add(file);
+        this.lines.addAll(exp.detailsSplittedByLines());
+    }
+
+    @Override
+    public void print(final TestingOutcome outcome) {
+        this.lines.add(String.valueOf(outcome.successful()));
+    }
+
+    /**
+     * App progress details.
+     * @return Output.
+     */
+    public List<String> details() {
+        return this.lines;
     }
 
 }

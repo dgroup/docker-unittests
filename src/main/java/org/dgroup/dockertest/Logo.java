@@ -25,18 +25,16 @@ package org.dgroup.dockertest;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.PlainFormattedText;
-import org.fusesource.jansi.Ansi;
-
-import static org.fusesource.jansi.Ansi.Color.BLUE;
-import static org.fusesource.jansi.Ansi.Color.GREEN;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Application logo.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class Logo {
 
@@ -56,15 +54,16 @@ public final class Logo {
     /**
      * App version and docker logo as string.
      * @return Logo.
-     * @todo #5 Use jansi in order to make picture colored.
      * @checkstyle OperatorWrapCheck (50 lines)
      * @checkstyle RegexpSinglelineCheck (50 lines)
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
      */
     public String asString() {
-        return new PlainFormattedText(String.valueOf(Ansi.ansi().fg(GREEN).bold().a("\n" +
-            "Docker testing tool (v%s)\n").reset()) +
-            String.valueOf(Ansi.ansi().fg(BLUE).bold().a(
+        final HighlightedText app = new HighlightedText(
+            new PlainFormattedText("v%s", this.appVersion()),
+            Color.GREEN
+        );
+        final HighlightedText whale = new HighlightedText(
             "                  ##         .            \n" +
             "            ## ## ##        ==            \n" +
             "         ## ## ## ##       ===            \n" +
@@ -72,8 +71,11 @@ public final class Logo {
             "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
             "     \\______ o          __/            \n" +
             "      \\    \\        __/             \n" +
-            "       \\____\\______/   \n \n").reset()),
-            this.appVersion()
+            "       \\____\\______/   \n",
+            Color.BLUE
+        );
+        return new PlainFormattedText(
+            "\nDocker testing tool (%s)\n%s", app, whale
         ).asString();
     }
 

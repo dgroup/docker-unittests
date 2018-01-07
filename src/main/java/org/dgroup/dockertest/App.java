@@ -28,10 +28,10 @@ import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.exception.RootCause;
-import org.dgroup.dockertest.test.NonDefinedTestingScopeException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.Tests;
-import org.dgroup.dockertest.test.output.StdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -39,105 +39,65 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class App {
 
     /**
-     * App command-line arguments from user.
-     */
-    private final Args args;
-    /**
-     * Default output for application progress.
-     */
-    private final StdOutput std;
-
-    /**
      * Ctor.
-     * @param args Command-line arguments.
      */
-    public App(final Args args) {
-        this(args, args.std());
-    }
-
-    /**
-     * Ctor.
-     * @param args Command-line arguments.
-     * @param std Default output for application progress.
-     * @checkstyle LineLengthCheck (5 lines)
-     */
-    public App(final Args args, final StdOutput std) {
-        this.args = args;
-        this.std = std;
+    private App() {
+        // No instances required.
     }
 
     /**
      * Main method.
-     * @param args Command-line arguments.
+     * @param arguments Command-line arguments.
      */
-    public static void main(final String... args) {
-        new App(new Args(args))
-            .start();
-    }
-
-    /**
-     * Execute testing procedure.
-     * @todo #62 Exception handling refactoring is required.
-     * @checkstyle MagicNumberCheck (100 lines)
-     * @checkstyle ExecutableStatementCountCheck (100 lines)
-     */
-    @SuppressWarnings({ "PMD.PreserveStackTrace",
-        "PMD.ExceptionAsFlowControl" })
-    public void start() {
-        this.std.print(new Logo("1.0.0").byLines());
+    public static void main(final String... arguments) {
+        final StdOutput std = new StdOutputOf(System.out, "    ");
+        final AbnormalTermination termination = new AbnormalTermination(std);
+        final Args args = new Args(arguments);
         try {
-            final Tests tests = new Tests(this.args);
-            try {
-                tests.execute();
-            } catch (final NonDefinedTestingScopeException ex) {
-                this.std.print(ex.getMessage());
-            } catch (final UncheckedIOException ex) {
-                final Throwable cause = new RootCause(ex).exception();
-                if (cause instanceof IllegalYmlFileFormatException) {
-                    throw new IllegalYmlFileFormatException(cause);
-                } else {
-                    this.std.print(
-                        "App failed due to unexpected runtime exception:", ex
-                    );
-                }
-            }
-        } catch (final CmdArgNotFoundException ex) {
-            this.std.print(ex.getMessage());
-            this.shutdownWith(-3);
-        } catch (final IllegalYmlFileFormatException error) {
-            try {
-                this.std.print(this.args.ymlFilename(), error);
-            } catch (final CmdArgNotFoundException ex) {
-                this.std.print(ex.getMessage());
-                this.shutdownWith(-3);
-            }
-            this.shutdownWith(-2);
+            std.print(new Logo("1.0").byLines());
+            new Tests(args, std)
+                .execute();
         } catch (final TestingFailedException ex) {
-            this.shutdownWith(-1);
+            termination.testingFailed();
+        } catch (final CmdArgNotFoundException ex) {
+            termination.dueTo(ex);
+        } catch (final IllegalYmlFileFormatException ex) {
+            std.print(filename(args), ex);
         } catch (final DockerRuntimeException ex) {
-            this.std.print(ex.byLines());
-            this.shutdownWith(-4);
+            termination.dueTo(ex);
+        } catch (final UncheckedIOException ex) {
+            final Throwable cause = new RootCause(ex).exception();
+            if (cause instanceof IllegalYmlFileFormatException) {
+                std.print(
+                    filename(args), (IllegalYmlFileFormatException) cause
+                );
+            } else {
+                termination.dueTo(ex);
+            }
         }
     }
 
     /**
-     * Shutdown application with error code.
-     * The error code is required when the app is invoked from shell scripts:
-     *  - {@code -1} testing failed;
-     *  - {@code -2} yml file has unsupported/incorrect format;
-     *  - {@code -3} required cmd arguments wasn't specified;
-     *  - {@code -4} runtime exception happens on docker side.
-     * @param code Exit code.
-     * @checkstyle NonStaticMethodCheck (10 lines)
+     * This method will be invoked when {@link IllegalYmlFileFormatException}
+     * occurs. It means that YML file (specified by user) has wrong format.
+     * As the result, we are able to extract file name at this time.
+     *
+     * @param args Command-line arguments from user.
+     * @return YML file name
      */
-    @SuppressWarnings("PMD.DoNotCallSystemExit")
-    private void shutdownWith(final int code) {
-        Runtime.getRuntime().exit(code);
+    private static String filename(final Args args) {
+        String file;
+        try {
+            file = args.ymlFilename();
+        } catch (final CmdArgNotFoundException ex) {
+            file = "";
+        }
+        return file;
     }
 
 }

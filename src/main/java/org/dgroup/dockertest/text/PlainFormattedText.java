@@ -24,18 +24,20 @@
 package org.dgroup.dockertest.text;
 
 import java.util.Collection;
+import org.cactoos.Text;
 import org.cactoos.list.ListOf;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 
 /**
- * Represents a formatted text.
+ * Represents a formatted {@link Text} which didn't throw the exception
+ * and verify amount of arguments passed to pattern.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
-public final class PlainFormattedText {
+public final class PlainFormattedText implements Text {
 
     /**
      * String pattern for formatting.
@@ -66,10 +68,7 @@ public final class PlainFormattedText {
         this.args = args;
     }
 
-    /**
-     * Transform the pattern with arguments to string.
-     * @return Formatted text.
-     */
+    @Override
     public String asString() {
         if (new StringOccurrences(this.pattern, "%s")
             .nonEqualTo(this.args.size())) {
@@ -87,5 +86,10 @@ public final class PlainFormattedText {
     @Override
     public String toString() {
         return this.asString();
+    }
+
+    @Override
+    public int compareTo(final Text text) {
+        return new UncheckedText(this).compareTo(text);
     }
 }

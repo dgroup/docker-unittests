@@ -38,10 +38,13 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle LineLengthCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TestOfTest {
@@ -57,7 +60,9 @@ public final class TestOfTest {
             ).messagePassed(),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(1),
-                Matchers.hasItem("> curl version is 7.xxx PASSED")
+                Matchers.hasItem(
+                    "> curl version is 7.xxx \u001B[32;1mPASSED\u001B[m"
+                )
             )
         );
     }
@@ -70,27 +75,32 @@ public final class TestOfTest {
                 "curl --version",
                 new ListOf<>(
                     new YmlTagOutputPredicateOf(
-                        "startsWith", "curl 7.", new UncheckedBiFunc<>(String::startsWith)
+                        "startsWith", "curl 7.",
+                        new UncheckedBiFunc<>(String::startsWith)
                     ),
                     new YmlTagOutputPredicateOf(
-                        "equals", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::equals)
+                        "equals", "OpenSSL/1.0.2m",
+                        new UncheckedBiFunc<>(String::equals)
                     )
                 ),
                 new FakeDockerProcess(new FakeCmdOutput(""))
             ).messageFailed(
-                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8",
+                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 " +
+                    "OpenSSL/1.0.2m zlib/1.2.8",
                 new ListOf<>(
                     new YmlTagOutputPredicateOf(
-                        "equals", "OpenSSL/1.0.2m", new UncheckedBiFunc<>(String::equals)
+                        "equals", "OpenSSL/1.0.2m",
+                        new UncheckedBiFunc<>(String::equals)
                     )
                 )
             ),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(8),
                 Matchers.hasItems(
-                    "> curl version is 7.xxx FAILED",
+                    "> curl version is 7.xxx \u001B[31;1mFAILED\u001B[m",
                     "  command: \"curl --version\"",
-                    "  output:  \"curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8\"",
+                    "  output:  \"curl 7.57.0 (x86_64-pc-linux-gnu) " +
+                        "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8\"",
                     "  expected output:",
                     "    - startsWith: \"curl 7.\"",
                     "    - equals:     \"OpenSSL/1.0.2m\"",

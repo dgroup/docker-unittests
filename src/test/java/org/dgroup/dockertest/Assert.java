@@ -31,7 +31,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle NonStaticMethodCheck (200 lines)
  */
 public final class Assert {

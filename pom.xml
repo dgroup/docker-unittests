@@ -29,7 +29,7 @@
 
     <groupId>org.dgroup.dockertest</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>0.1.0</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <properties>

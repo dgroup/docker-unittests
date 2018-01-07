@@ -23,7 +23,9 @@
  */
 package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
+import org.dgroup.dockertest.text.HighlightedText;
+import org.dgroup.dockertest.text.PlainFormattedText;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Raise when docker tool can't find an image.
@@ -31,26 +33,32 @@ import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class DockerImageNotFoundException extends DockerRuntimeException {
 
     /**
      * Ctor.
      * @param image Docker image name.
-     * @checkstyle LineLengthCheck (20 lines)
      * @checkstyle OperatorWrapCheck (20 lines)
      * @checkstyle RegexpSinglelineCheck (20 lines)
      * @checkstyle StringLiteralsConcatenationCheck (20 lines)
      */
     public DockerImageNotFoundException(final String image) {
         super(
-            new FormattedTextWithRepeatableArguments(
-                "Unable to pull image \"{0}\" from the remote repository. Possible reasons:\n" +
-                    " - incorrect name (you may verify by shell command \"docker pull {0}\");\n" +
-                    " - the remote repository doesn't exist or network\\firewall connectivity issue;\n" +
+            new PlainFormattedText(
+                "Unable to pull image \"%s\" from the remote repository. " +
+                    "Possible reasons:\n" +
+                    " - incorrect name (you may verify by shell command " +
+                    "\"%s\");\n" +
+                    " - the remote repository doesn't exist or " +
+                    "network\\firewall connectivity issue;\n" +
                     " - pull operation may require 'docker login'.\n",
-                image
+                new HighlightedText(image, Color.BLUE),
+                new HighlightedText(
+                    new PlainFormattedText("docker pull %s", image),
+                    Color.BLUE
+                )
             ).asString()
         );
     }

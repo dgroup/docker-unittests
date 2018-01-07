@@ -33,7 +33,7 @@ import org.cactoos.scalar.UncheckedScalar;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class TestOutcomeOf implements TestOutcome {
 
@@ -50,7 +50,6 @@ public final class TestOutcomeOf implements TestOutcome {
      * Ctor.
      * @param passed Status of test.
      * @param msg Test details.
-     * @checkstyle LineLengthCheck (5 lines)
      */
     public TestOutcomeOf(final Scalar<Boolean> passed, final List<String> msg) {
         this(new UncheckedScalar<>(new StickyScalar<>(passed)), msg);
@@ -60,9 +59,9 @@ public final class TestOutcomeOf implements TestOutcome {
      * Ctor.
      * @param passed Status of test.
      * @param msg Test details.
-     * @checkstyle LineLengthCheck (5 lines)
      */
-    public TestOutcomeOf(final UncheckedScalar<Boolean> passed, final List<String> msg) {
+    public TestOutcomeOf(final UncheckedScalar<Boolean> passed,
+        final List<String> msg) {
         this.passed = passed;
         this.msg = msg;
     }

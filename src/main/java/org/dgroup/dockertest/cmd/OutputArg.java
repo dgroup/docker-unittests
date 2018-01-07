@@ -37,8 +37,9 @@ import org.cactoos.map.MapOf;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.test.output.StdOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
+import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 
 /**
  * Represents a command line argument {@code -o} for output format.
@@ -51,7 +52,7 @@ import org.dgroup.dockertest.test.output.XmlOutput;
 
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class OutputArg implements Iterable<Output> {
@@ -102,7 +103,7 @@ public final class OutputArg implements Iterable<Output> {
             () -> !this.specified.isEmpty()
                 && this.out.keySet().containsAll(this.specified),
             () -> new Mapped<>(this.out::get, this.specified),
-            () -> new ListOf<>(new StdOutput())
+            () -> new ListOf<>(new StdOutputOf())
         ).value().iterator();
     }
 
@@ -112,12 +113,12 @@ public final class OutputArg implements Iterable<Output> {
      * @checkstyle NonStaticMethodCheck (5 lines)
      */
     public StdOutput std() {
-        return new StdOutput();
+        return new StdOutputOf();
     }
 
     /**
      * Give all outputs specified by user as a set.
-     * @return Selected outputs by user or default {@link StdOutput}.
+     * @return Selected outputs by user or default {@link StdOutputOf}.
      */
     public Set<Output> asSet() {
         return new HashSet<>(

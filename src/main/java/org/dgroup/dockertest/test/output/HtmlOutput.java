@@ -32,7 +32,7 @@ import org.dgroup.dockertest.test.TestingOutcome;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @todo #24:4h Print testing output to html file.
  */
 public final class HtmlOutput implements Output {

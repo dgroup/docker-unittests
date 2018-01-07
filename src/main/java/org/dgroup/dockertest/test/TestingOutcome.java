@@ -36,7 +36,7 @@ import org.dgroup.dockertest.test.output.Output;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class TestingOutcome implements Iterable<TestOutcome> {
 
@@ -99,12 +99,12 @@ public final class TestingOutcome implements Iterable<TestOutcome> {
 
     /**
      * Print testing outcome to specified outputs.
-     * @throws TestingFailedException in case if at least one test was failed.
+     * @throws TestingFailedException in case if at least one test is failed.
      */
     public void reportTheResults() throws TestingFailedException {
         new UncheckedScalar<>(
             new And(
-                (Proc<Output>) out -> out.print(this),
+                (Proc<Output>) output -> output.print(this),
                 this.outputs
             )
         ).value();

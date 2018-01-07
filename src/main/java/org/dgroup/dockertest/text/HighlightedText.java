@@ -21,52 +21,56 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.text;
 
-import java.util.Map;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
- * Represents single yml tag in *.yml file.
+ * Allows to highlight text via <b>jansi</b> library.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagOf implements YmlTag {
+public final class HighlightedText {
 
     /**
-     * YML tree with tags.
+     * Message which should be highlighted.
      */
-    private final Map<String, Object> yml;
+    private final String msg;
     /**
-     * Tag name.
+     * Color which should be used for highlighting.
      */
-    private final String tag;
+    private final Color color;
 
     /**
      * Ctor.
-     * @param yml Yml tree loaded from *.yml file with tests.
-     * @param tag Yml tag name.
+     * @param msg For highlighting.
+     * @param color For highlighting.
      */
-    public YmlTagOf(final Map<String, Object> yml, final String tag) {
-        this.yml = yml;
-        this.tag = tag;
+    public HighlightedText(final Object msg, final Color color) {
+        this(msg.toString(), color);
+    }
+
+    /**
+     * Ctor.
+     * @param msg For highlighting.
+     * @param color For highlighting.
+     */
+    public HighlightedText(final String msg, final Color color) {
+        this.msg = msg;
+        this.color = color;
     }
 
     @Override
-    public String name() {
-        return this.tag;
-    }
-
-    @Override
-    public Object asObject() throws IllegalYmlFileFormatException {
-        if (this.yml == null || this.yml.get(this.tag) == null) {
-            throw new IllegalYmlFileFormatException(
-                "`%s` tag is missing or has incorrect structure", this.tag
-            );
-        }
-        return this.yml.get(this.tag);
+    public String toString() {
+        return Ansi.ansi()
+            .fg(this.color)
+            .bold()
+            .a(this.msg)
+            .reset()
+            .toString();
     }
 
 }

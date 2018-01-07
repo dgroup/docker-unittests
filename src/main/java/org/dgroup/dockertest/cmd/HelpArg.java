@@ -23,14 +23,16 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
+
 /**
  * Print help information
- * to {@link org.dgroup.dockertest.test.output.StdOutput}
+ * to {@link StdOutputOf}
  * in case {@code -help, --help} or no-arguments specified.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @todo #10:2h Implement help command
  */
 public final class HelpArg {

@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.test;
 
-import java.util.Collections;
 import java.util.List;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.Joined;
@@ -32,15 +31,18 @@ import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Represents YML based implementation for single test.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class TestOf implements Test {
 
@@ -100,11 +102,12 @@ public final class TestOf implements Test {
      * Return success test report for single test.
      * @return Test report for single test.
      */
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public List<String> messagePassed() {
-        return Collections.singletonList(
+        return new ListOf<>(
             new PlainFormattedText(
-                "> %s PASSED",
-                this.assume
+                "> %s %s",
+                this.assume, new HighlightedText("PASSED", Color.GREEN)
             ).asString()
         );
     }
@@ -123,7 +126,9 @@ public final class TestOf implements Test {
         return new Joined<>(
             new ListOf<>(
                 new PlainFormattedText(
-                    "> %s FAILED", this.assume
+                    "> %s %s",
+                    this.assume,
+                    new HighlightedText("FAILED", Color.RED)
                 ).asString(),
                 new PlainFormattedText(
                     "  command: \"%s\"", this.cmd

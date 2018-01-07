@@ -34,7 +34,7 @@ import org.dgroup.dockertest.yml.tag.YmlTagOf;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  */
 public final class YmlTagVersion {
 

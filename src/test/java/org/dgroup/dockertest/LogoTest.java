@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest;
 
-import org.dgroup.dockertest.test.output.StdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -33,7 +33,7 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
@@ -42,8 +42,8 @@ public final class LogoTest {
 
     @Test
     public void byLines() {
-        final Logo logo = new Logo("0.1.0");
-        new StdOutput().print(
+        final Logo logo = new Logo("1.0");
+        new StdOutputOf().print(
             logo.byLines()
         );
         MatcherAssert.assertThat(

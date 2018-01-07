@@ -29,6 +29,7 @@ import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.test.output.FakeOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -40,7 +41,7 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public class TestsTest {
@@ -48,8 +49,8 @@ public class TestsTest {
     // @todo #19 Create native OS containers or install docker to CI env.
     @Ignore
     @Test
-    public final void singleTest() throws CmdArgNotFoundException,
-        DockerRuntimeException, TestingFailedException,
+    public final void singleTest() throws DockerRuntimeException,
+        TestingFailedException, CmdArgNotFoundException,
         IllegalYmlFileFormatException {
         final FakeOutput output = new FakeOutput();
         new Tests(
@@ -60,7 +61,8 @@ public class TestsTest {
                         "with-single-test.yml"
                     ).path()
                 )
-            )
+            ),
+            new StdOutputOf(System.out, "    ")
         ).execute();
         MatcherAssert.assertThat(
             output.lines(),

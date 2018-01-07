@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @todo #3 Move logback.xml to ${basedir}/target/classes, otherwise logs
  *  will be printed to std output (which isn't expected in cmd-line app).
  *  Looks like mvn-assembly-plugin or mvn-resource-plugin solves can do this.

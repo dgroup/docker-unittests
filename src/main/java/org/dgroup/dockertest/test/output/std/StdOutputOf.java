@@ -21,34 +21,33 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.output;
+package org.dgroup.dockertest.test.output.std;
 
 import java.io.PrintStream;
-import java.util.List;
 import org.cactoos.Proc;
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
+import org.dgroup.dockertest.text.HighlightedText;
+import org.dgroup.dockertest.text.PlainFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
-import org.fusesource.jansi.Ansi;
-
-import static org.fusesource.jansi.Ansi.Color.GREEN;
-import static org.fusesource.jansi.Ansi.Color.RED;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Standard output for printing app progress and testing results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class StdOutput implements Output {
+public final class StdOutputOf implements StdOutput {
 
     /**
      * Standard indent from left side of screen.
@@ -62,7 +61,7 @@ public final class StdOutput implements Output {
     /**
      * Ctor.
      */
-    public StdOutput() {
+    public StdOutputOf() {
         this(System.out, "    ");
     }
 
@@ -71,7 +70,7 @@ public final class StdOutput implements Output {
      * @param out Instance for print procedure.
      * @param indent Default indent from left side of screen.
      */
-    public StdOutput(final PrintStream out, final String indent) {
+    public StdOutputOf(final PrintStream out, final String indent) {
         this.out = out;
         this.indent = indent;
     }
@@ -88,67 +87,35 @@ public final class StdOutput implements Output {
         );
     }
 
-    /**
-     * Print text to single line.
-     * @param msg Text to print
-     * @todo #9 Use jansi for colored std output
-     */
+    @Override
+    public void print(final CmdOutput output) {
+        this.print(output.byLines());
+        this.out.println();
+    }
+
+    @Override
     public void print(final String msg) {
         this.out.printf("%s%s%n", this.indent, msg);
     }
 
-    /**
-     * Print message.
-     * @param pattern Template.
-     * @param args Arguments for template above.
-     */
-    public void print(final String pattern, final Object... args) {
-        this.print(String.format(pattern, args));
-    }
-
-    /**
-     * Print app exception.
-     * @param msg App exception message
-     * @param exp App exception details
-     */
-    public void print(final String msg, final Exception exp) {
-        this.print(
-            new Joined<>(
-                new ListOf<>(msg),
-                new Mapped<>(
-                    StackTraceElement::toString,
-                    new IterableOf<>(exp.getStackTrace())
-                )
-            )
-        );
-    }
-
-    /**
-     * Print format details in case corrupted yml file.
-     * @param file Name of corrupted yml file.
-     * @param exp Exception received during parsing yml tree.
-     */
+    @Override
     public void print(final String file,
         final IllegalYmlFileFormatException exp) {
         this.print(
             new Joined<>(
                 new ListOf<>(
-                    String.format("YML file `%s` has wrong format:", file)
+                    new PlainFormattedText(
+                        "YML file `%s` has wrong format:", file
+                    ).asString()
                 ),
                 new Mapped<>(
-                    l -> String.format("%s%s", this.indent, l),
+                    l -> new PlainFormattedText(
+                        "%s%s", this.indent, l
+                    ).asString(),
                     exp.detailsSplittedByLines()
                 )
             )
         );
-    }
-
-    /**
-     * Print all messages separately, each on new line.
-     * @param messages For separately printing.
-     */
-    public void print(final List<String> messages) {
-        messages.forEach(this::print);
     }
 
     /**
@@ -160,9 +127,9 @@ public final class StdOutput implements Output {
         this.print(
             new UncheckedTernary<>(
                 status,
-                String.valueOf(Ansi.ansi().fg(GREEN).bold().a("[OK] Testing successful.").reset()),
-                String.valueOf(Ansi.ansi().fg(RED).bold().a("[ERROR] Testing failed.").reset())
-            ).value()
+                new HighlightedText("Testing successful.", Color.GREEN),
+                new HighlightedText("Testing failed.", Color.RED)
+            ).value().toString()
         );
     }
 

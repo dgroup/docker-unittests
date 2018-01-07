@@ -32,15 +32,17 @@ import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerRuntimeException;
 import org.dgroup.dockertest.docker.process.Pull;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.test.output.StdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Allows to execute tests and print results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
+ * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class Tests {
@@ -65,18 +67,19 @@ public final class Tests {
     /**
      * Ctor.
      * @param args Command-line arguments specified by user.
+     * @param std Standard output for application progress.
      * @throws CmdArgNotFoundException in case if cmd argument is missing
      *  or not specified by user.
      * @throws IllegalYmlFileFormatException in case if YML file with tests
      *  has wrong/incorrect format.
      */
-    public Tests(final Args args)
+    public Tests(final Args args, final StdOutput std)
         throws CmdArgNotFoundException, IllegalYmlFileFormatException {
         this(
             args.dockerImage(),
             args.tests(),
             args.selectedByUserOutput(),
-            args.std()
+            std
         );
     }
 
@@ -99,25 +102,28 @@ public final class Tests {
     /**
      * Print tests results to selected outputs.
      *
-     * @throws CmdArgNotFoundException in case required command-line argument
-     *  wasn't specified by user.
      * @throws DockerRuntimeException in case runtime exception on docker side.
-     * @throws TestingFailedException in case failed tests.
+     * @throws TestingFailedException in case when at least one test is failed.
      * @todo #2:8h All tests should be executed concurrently
      *  and support thread-pool configuration from command line.
      * @todo #51 Print timing for `docker pull` command.
      */
-    public void execute() throws CmdArgNotFoundException,
-        DockerRuntimeException, TestingFailedException {
+    public void execute() throws DockerRuntimeException,
+        TestingFailedException {
         if (this.scope.isEmpty()) {
-            throw new NonDefinedTestingScopeException(
-                "0 testing scenarios found."
+            this.std.print(
+                "%s testing scenarios found.",
+                new HighlightedText(0, Color.YELLOW)
             );
+            return;
         }
-        this.std.print("Found scenarios: %s.%n%n", this.scope.size());
+        this.std.print(
+            "Found scenarios: %s.%n",
+            new HighlightedText(this.scope.size(), Color.GREEN)
+        );
         this.std.print("Verify image...");
         this.std.print(
-            new Pull(this.image).details()
+            new Pull(this.image).execute()
         );
         new TestingOutcome(
             new StickyList<>(
