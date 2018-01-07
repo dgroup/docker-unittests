@@ -62,8 +62,10 @@ public final class PlainFormattedText implements Text {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public PlainFormattedText(final String pattern,
-        final Collection<Object> args) {
+    public PlainFormattedText(
+        final String pattern,
+        final Collection<Object> args
+    ) {
         this.pattern = pattern;
         this.args = args;
     }
