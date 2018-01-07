@@ -26,6 +26,10 @@ package org.dgroup.dockertest;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.PlainFormattedText;
+import org.fusesource.jansi.Ansi;
+
+import static org.fusesource.jansi.Ansi.Color.BLUE;
+import static org.fusesource.jansi.Ansi.Color.GREEN;
 
 /**
  * Application logo.
@@ -58,8 +62,9 @@ public final class Logo {
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
      */
     public String asString() {
-        return new PlainFormattedText("\n" +
-            "Docker testing tool (v%s)\n" +
+        return new PlainFormattedText(String.valueOf(Ansi.ansi().fg(GREEN).bold().a("\n" +
+            "Docker testing tool (v%s)\n").reset()) +
+            String.valueOf(Ansi.ansi().fg(BLUE).bold().a(
             "                  ##         .            \n" +
             "            ## ## ##        ==            \n" +
             "         ## ## ## ##       ===            \n" +
@@ -67,7 +72,7 @@ public final class Logo {
             "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
             "     \\______ o          __/            \n" +
             "      \\    \\        __/             \n" +
-            "       \\____\\______/   \n \n",
+            "       \\____\\______/   \n \n").reset()),
             this.appVersion()
         ).asString();
     }
