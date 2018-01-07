@@ -36,6 +36,10 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.fusesource.jansi.Ansi;
+
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
 
 /**
  * Standard output for printing app progress and testing results.
@@ -156,8 +160,8 @@ public final class StdOutput implements Output {
         this.print(
             new UncheckedTernary<>(
                 status,
-                "Testing successful.",
-                "Testing failed."
+                String.valueOf(Ansi.ansi().fg(GREEN).bold().a("[OK] Testing successful.").reset()),
+                String.valueOf(Ansi.ansi().fg(RED).bold().a("[ERROR] Testing failed.").reset())
             ).value()
         );
     }
