@@ -31,11 +31,14 @@
      ```
    - Specify your name and email
    - Press `Apply`, `OK`.  
-4. Settings > Editor > Code Style > Java > JavaDoc
+4. Settings > Editor > Code Style 
+    - Change `Hard wrap at` to `80`
+    - Press `Apply` > `OK`
+5. Settings > Editor > Code Style > Java > JavaDoc
    - Disable `Generate "<p>" on empty lines`
-5. Settings > Editor > Code Style > Java > Blank Lines
+6. Settings > Editor > Code Style > Java > Blank Lines
    - Set `In declarations` equal to 0 in section `Keep Maximum Blank Lines`
-6. Settings > Editor > Code Style > Java > Imports
+7. Settings > Editor > Code Style > Java > Imports
    - Set the following order for `Import Layout` section
      ```bash
      import java.*
@@ -45,10 +48,10 @@
      ```
    - Change `Class count to use import with '*'` to 20
    - Change `Names count to use static import with '*'` to 20
-7. Settings > Editor > Сopyright > Formatting > Java
+8. Settings > Editor > Сopyright > Formatting > Java
     - Select `Use custom formatting options`
     - Select `Separator before` with `Length` equal to 1
-8. Settings > Editor > File and Code Templates > For current project > Files > Class
+9. Settings > Editor > File and Code Templates > For current project > Files > Class
     - Re-order text to the following
    	  ```java
          /**
@@ -64,10 +67,10 @@
        
    	  ```
    	  (empty line at the end is required).
-9. Settings > Editor > Code Style > Java > Tabs and Indents
+10. Settings > Editor > Code Style > Java > Tabs and Indents
     - Change `Continuation Indent` to 4
     - Press `OK`
-10. Settings > Editor > File and Code Templates > For current project > Includes > File Header
+11. Settings > Editor > File and Code Templates > For current project > Includes > File Header
     - Put the following text (change name, email and version accordingly)
        ```java
         /**
@@ -78,20 +81,20 @@
          * @since   0.1.0
          */
        ```
-11. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
+12. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../LICENSE.txt) 
      - Press `Apply` > `OK`
-12. Settings > Editor > Copyright > 
+13. Settings > Editor > Copyright > 
      - Press `+`
      - Select `default` copyright profile
      - Press `Apply` > `OK`
-13. Settings > Editor > Code Style > Java > Code Generation 
+14. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"
      - Select option "Make generated parameters final"
-14. Settings > Editor > Code Style > Java > Spaces
+15. Settings > Editor > Code Style > Java > Spaces
      - Select `Array initializer braces`
      - Press `Apply` > `OK`
-15. Settings > File and Code Templates > Includes
+16. Settings > File and Code Templates > Includes
      - Press `+`, name = `Unit-test File Header`, extension = `java`
      - Add text like below (change name, email and version accordingly)
         ```java
