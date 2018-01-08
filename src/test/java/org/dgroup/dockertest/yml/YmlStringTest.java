@@ -28,6 +28,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -47,8 +48,8 @@ import org.junit.Test;
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
- * @todo #1:2h Splitting is required because class with unit tests became too huge.
+ * @todo #1:2h Splitting is required because class with unit tests became too
+ *  huge.
  */
 @SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class YmlStringTest {
@@ -93,7 +94,8 @@ public final class YmlStringTest {
     }
 
     @Test
-    public void tagOutputHasAllNecessaryYmlPredicates() throws IllegalYmlFileFormatException {
+    public void tagOutputHasAllNecessaryYmlPredicates()
+        throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
             this.loadTests("with-3-simple-tests.yml").get(1).output(),
@@ -105,17 +107,20 @@ public final class YmlStringTest {
     public void tagOutputContains() throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(0).comparingType(),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(0)
+                .comparingType(),
             IsEqual.equalTo("contains")
         );
     }
 
     @Test
-    public void tagOutputContainsHasExpectedValue() throws IllegalYmlFileFormatException {
+    public void tagOutputContainsHasExpectedValue()
+        throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`" +
                 " and expected value is `v8.5.0`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(0).test("v8.5.0"),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(0)
+                .test("v8.5.0"),
             IsEqual.equalTo(true)
         );
     }
@@ -124,17 +129,20 @@ public final class YmlStringTest {
     public void tagOutputStartsWith() throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(1).comparingType(),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(1)
+                .comparingType(),
             IsEqual.equalTo("startsWith")
         );
     }
 
     @Test
-    public void tagOutputStartsWithHasExpectedValue() throws IllegalYmlFileFormatException {
+    public void tagOutputStartsWithHasExpectedValue()
+        throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`" +
                 " and expected value is `v8.`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(1).test("v8."),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(1)
+                .test("v8."),
             IsEqual.equalTo(true)
         );
     }
@@ -143,17 +151,20 @@ public final class YmlStringTest {
     public void tagOutputEndsWith() throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(2).comparingType(),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(2)
+                .comparingType(),
             IsEqual.equalTo("endsWith")
         );
     }
 
     @Test
-    public void tagOutputEndsWithHasExpectedValue() throws IllegalYmlFileFormatException {
+    public void tagOutputEndsWithHasExpectedValue()
+        throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`" +
                 " and expected value is `.5.0`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(2).test(".5.0"),
+            this.loadTests("with-3-simple-tests.yml").get(1).output().get(2)
+                .test(".5.0"),
             IsEqual.equalTo(true)
         );
     }
@@ -162,17 +173,25 @@ public final class YmlStringTest {
     public void tagOutputMatches() throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[3]/output` has 4th statement `matches`",
-            this.loadTests("with-3-simple-tests.yml").get(2).output().get(2).comparingType(),
+            this.loadTests("with-3-simple-tests.yml").get(2).output().get(2)
+                .comparingType(),
             IsEqual.equalTo("matches")
         );
     }
 
     @Test
-    public void tagOutputMatchesHasExpectedValue() throws IllegalYmlFileFormatException {
-        final String version = "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 librtmp/2.3\n" +
+    public void tagOutputMatchesHasExpectedValue()
+        throws IllegalYmlFileFormatException {
+        final String version = "curl 7.57.0 (x86_64-pc-linux-gnu) " +
+            "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 " +
+            "libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 " +
+            "librtmp/2.3\n" +
             "Release-Date: 2017-11-29\n" +
-            "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp \n" +
-            "Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL ";
+            "Protocols: dict file ftp ftps gopher http https imap imaps ldap " +
+            "ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet " +
+            "tftp \n" +
+            "Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO " +
+            "NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL ";
         MatcherAssert.assertThat(
             "Tag `tests/test[3]/output` has 4th statement `matches`" +
                 " and match regexp expression.",
@@ -206,7 +225,8 @@ public final class YmlStringTest {
     }
 
     @Test
-    public void tagTestsHasOneWronglyDefinedChild() throws IllegalYmlFileFormatException {
+    public void tagTestsHasOneWronglyDefinedChild()
+        throws IllegalYmlFileFormatException {
         MatcherAssert.assertThat(
             "Tag `tests` has 0 children",
             this.loadTests("tag-tests-has-one-wrong-child.yml"),
@@ -239,11 +259,13 @@ public final class YmlStringTest {
     @Test
     public void tagOutputHasOneWrongChild() {
         new Assert().thatThrows(
-            () -> this.loadTests("tag-output-has-one-wrong-child.yml").iterator().next().output(),
+            () -> this.loadTests("tag-output-has-one-wrong-child.yml")
+                .iterator().next().output(),
             new UncheckedIOException(
                 new IOException(
                     new IllegalYmlFileFormatException(
-                        "Tag `output` has missing required child tag `contains|endsWith|equal|matches|startsWith`"
+                        "Tag `output` has missing required child tag " +
+                            "`contains|endsWith|equal|matches|startsWith`"
                     )
                 )
             )
@@ -253,7 +275,8 @@ public final class YmlStringTest {
     @Test
     public void tagOutputHasNoDefinedChildren() {
         new Assert().thatThrows(
-            () -> this.loadTests("tag-output-has-no-children.yml").iterator().next(),
+            () -> this.loadTests("tag-output-has-no-children.yml").iterator()
+                .next(),
             new UncheckedIOException(
                 new IOException(
                     new IllegalYmlFileFormatException(
@@ -264,7 +287,24 @@ public final class YmlStringTest {
         );
     }
 
-    private List<YmlTagTest> loadTests(final String file) throws IllegalYmlFileFormatException {
+    @Test
+    public void tagOutputHasUnsupportedChild()
+        throws IllegalYmlFileFormatException {
+        final List<YmlTagOutputPredicate> expected = this.loadTests(
+            "tag-output-has-unsupported-child.yml"
+        ).iterator().next().output();
+        new Assert().thatThrows(
+            () -> expected.get(1).test(
+                "curl 7.57.0 (x86_64-pc-linux-gnu)"
+            ),
+            new IllegalYmlFileFormatException(
+                "Unsupported comparing expression `containsss:Protocols`"
+            )
+        );
+    }
+
+    private List<YmlTagTest> loadTests(final String file)
+        throws IllegalYmlFileFormatException {
         return new YmlString(
             new YmlResource(file).asString()
         ).asTests();

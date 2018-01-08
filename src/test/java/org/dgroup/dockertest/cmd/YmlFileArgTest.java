@@ -69,9 +69,7 @@ public final class YmlFileArgTest {
                 ).file()
             ).content(),
             UncheckedIOException.class,
-            "^.*\\.gitignoreeeeeee\\s\\((" +
-                "No\\ssuch\\sfile\\sor\\sdirectory|" +
-                "The\\ssystem\\scannot\\sfind\\sthe\\sfile\\sspecified)\\)$"
+            "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
         );
     }
 
