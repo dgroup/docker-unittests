@@ -196,7 +196,6 @@
                                 <exclude>dependencies:org.hamcrest</exclude>
                                 <exclude>dependencies:org.slf4j</exclude>
                                 <exclude>dependencies:ch.qos.logback</exclude>
-                                <!--@todo Activate findbugs for future releases. -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>
                         </configuration>
