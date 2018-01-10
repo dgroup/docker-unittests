@@ -6,28 +6,29 @@
 3. Each class should have the javadocs with these tags `@author`, `@version`, `@since`.
    For example,
    ```java
-   /**
-    * Represents application command-line arguments.
-    *
-    * @author Yurii Dubinka (yurii.dubinka@gmai.com)
-    * @version $Id$
-    * @since 0.1.0
-    */
-   public final class Args {
-   ...
+     /**
+      * .
+      *
+      * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+      * @version $Id$
+      * @since 1.0.0
+      */
+     public final class Args {   
+     ...
    ```
    You can configure such template in your IDE.
    For IntelliJ IDEA:
    - File > Settings > Editor > File and Code Templates > Includes > File Header 
-   - Paste text below
-     ```
-        /**
-         * .
-         * 
-         * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
-         * @version $Id$
-         * @since   0.1.0
-         */
+   - Put the following text (change name, email and version accordingly)
+     ```java
+      /**
+       *
+       * .
+       *
+       * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+       * @version $Id$
+       * @since 1.0.0
+       */
      ```
    - Specify your name and email
    - Press `Apply`, `OK`.  
@@ -35,7 +36,7 @@
     - Change `Hard wrap at` to `80`
     - Press `Apply` > `OK`
 5. Settings > Editor > Code Style > Java > Wrapping and Braces
-    - Select "Ensure right margin is not exceeded" tick
+    - Enable "Ensure right margin is not exceeded" tick
     - Press `Apply` > `OK`
 6. Settings > Editor > Code Style > Java > JavaDoc
    - Disable `Generate "<p>" on empty lines`
@@ -67,37 +68,21 @@
           #parse("File Header.java")
           public final class ${NAME} {
           }
-       
    	  ```
    	  (empty line at the end is required).
 11. Settings > Editor > Code Style > Java > Tabs and Indents
     - Change `Continuation Indent` to 4
     - Press `OK`
-12. Settings > Editor > File and Code Templates > For current project > Includes > File Header
-    - Put the following text (change name, email and version accordingly)
-       ```java
-        /**
-         * .
-         * 
-         * @author  Yurii Dubinka (yurii.dubinka@gmail.com)
-         * @version $Id$
-         * @since   1.0
-         */
-       ```
-13. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
+12. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../LICENSE.txt) 
      - Press `Apply` > `OK`
-14. Settings > Editor > Copyright > 
-     - Press `+`
-     - Select `default` copyright profile
-     - Press `Apply` > `OK`
-15. Settings > Editor > Code Style > Java > Code Generation 
+14. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"
      - Select option "Make generated parameters final"
-16. Settings > Editor > Code Style > Java > Spaces
+15. Settings > Editor > Code Style > Java > Spaces
      - Select `Array initializer braces`
      - Press `Apply` > `OK`
-17. Settings > File and Code Templates > Includes
+16. Settings > File and Code Templates > Includes
      - Press `+`, name = `Unit-test File Header`, extension = `java`
      - Add text like below (change name, email and version accordingly)
         ```java
@@ -111,4 +96,17 @@
           */
     	  @SuppressWarnings("PMD.AvoidDuplicateLiterals")
         ```
-     - Press `Apply` > `OK`
+     - Press `Apply`
+	 - Settings > File and Code Templates > Includes > Code
+	 - Change `JUnit4 Test Class` to
+	    ```java
+		    ...
+		    #parse("Unit-test File Header.java")
+		    ...
+  		```
+     - Change `JUnit5 Test Class` to
+	    ```java
+		    ...
+		    #parse("Unit-test File Header.java")
+		    ...
+     - Press `OK`
