@@ -51,7 +51,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
                                     
 ### TODOs for release 0.1.0
- - Make project public once milestone [0.1.0](https://github.com/dgroup/docker-unittests/milestone/1) is done. 
+ - Make project public once milestone [1.0-alpha](https://github.com/dgroup/docker-unittests/milestone/1) is done. 
  - @todo #6 update section "Testing..." with output details for passed and failed case.
     Also add example of usage from shell script (with bash `set -e` option).  
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
