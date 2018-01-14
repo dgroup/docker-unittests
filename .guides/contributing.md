@@ -36,13 +36,15 @@
     - Change `Hard wrap at` to `80`
     - Press `Apply` > `OK`
 5. Settings > Editor > Code Style > Java > Wrapping and Braces
-    - Enable "Ensure right margin is not exceeded" tick
+    - Enable `Ensure right margin is not exceeded` tick
+6. Settings > Editor > Code Style > Java > Wrapping and Braces > Method declaration parameters
+    - Disable `Align when multiline` tick
     - Press `Apply` > `OK`
-6. Settings > Editor > Code Style > Java > JavaDoc
+7. Settings > Editor > Code Style > Java > JavaDoc
    - Disable `Generate "<p>" on empty lines`
-7. Settings > Editor > Code Style > Java > Blank Lines
+8. Settings > Editor > Code Style > Java > Blank Lines
    - Set `In declarations` equal to 0 in section `Keep Maximum Blank Lines`
-8. Settings > Editor > Code Style > Java > Imports
+9. Settings > Editor > Code Style > Java > Imports
    - Set the following order for `Import Layout` section
      ```bash
      import java.*
@@ -52,10 +54,10 @@
      ```
    - Change `Class count to use import with '*'` to 20
    - Change `Names count to use static import with '*'` to 20
-9. Settings > Editor > Сopyright > Formatting > Java
+10. Settings > Editor > Сopyright > Formatting > Java
     - Select `Use custom formatting options`
     - Select `Separator before` with `Length` equal to 1
-10. Settings > Editor > File and Code Templates > For current project > Files > Class
+11. Settings > Editor > File and Code Templates > For current project > Files > Class
     - Re-order text to the following
    	  ```java
          /**
@@ -70,10 +72,10 @@
           }
    	  ```
    	  (empty line at the end is required).
-11. Settings > Editor > Code Style > Java > Tabs and Indents
+12. Settings > Editor > Code Style > Java > Tabs and Indents
     - Change `Continuation Indent` to 4
     - Press `OK`
-12. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
+13. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../LICENSE.txt) 
      - Press `Apply` > `OK`
 14. Settings > Editor > Code Style > Java > Code Generation 
