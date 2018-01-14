@@ -84,7 +84,7 @@
 15. Settings > Editor > Code Style > Java > Spaces
      - Select `Array initializer braces`
      - Press `Apply` > `OK`
-16. Settings > File and Code Templates > Includes
+16. Settings > Editor > File and Code Templates > Includes
      - Press `+`, name = `Unit-test File Header`, extension = `java`
      - Add text like below (change name, email and version accordingly)
         ```java
@@ -112,3 +112,9 @@
 		    #parse("Unit-test File Header.java")
 		    ...
      - Press `OK`
+17. Settings > Editor > General > Appearance 
+     - Disable `Show parameter name hints`
+     - Press `Apply` > `OK`
+18. Settings > Editor > General > Code Folding 
+     - Disable `One-line methods`
+     - Press `Apply` > `OK`
