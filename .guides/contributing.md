@@ -34,6 +34,7 @@
    - Press `Apply`, `OK`.  
 4. Settings > Editor > Code Style 
     - Change `Hard wrap at` to `80`
+    - Change `Line separator` to `Unix and OS X (\n)` 
     - Press `Apply` > `OK`
 5. Settings > Editor > Code Style > Java > Wrapping and Braces
     - Enable `Ensure right margin is not exceeded` tick
