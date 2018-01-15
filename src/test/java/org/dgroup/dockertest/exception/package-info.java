@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests for classes dedicated to interaction with docker container.
+ * Unit test for package {@link org.dgroup.dockertest.exception}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
