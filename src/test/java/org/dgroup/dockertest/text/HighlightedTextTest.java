@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.fusesource.jansi.Ansi.Color;
@@ -44,8 +45,14 @@ public final class HighlightedTextTest {
     @Test
     public void asString() {
         MatcherAssert.assertThat(
-            new HighlightedText("FAILED", Color.RED).toString(),
-            Matchers.equalTo("\u001B[31;1mFAILED\u001B[m")
+            new ListOf<>(
+                new HighlightedText("FAILED", Color.RED).toString(),
+                new HighlightedText("PASSED", Color.GREEN).toString()
+            ),
+            Matchers.hasItems(
+                "\u001B[91;1mFAILED\u001B[m",
+                "\u001B[92;1mPASSED\u001B[m"
+            )
         );
     }
 
@@ -55,6 +62,7 @@ public final class HighlightedTextTest {
         std.print(new HighlightedText("FAILED", Color.RED).toString());
         std.print(new HighlightedText("PASSED", Color.GREEN).toString());
         std.print(new HighlightedText("WARNING", Color.YELLOW).toString());
+        std.print(new HighlightedText("WHALE", Color.BLUE).toString());
     }
 
 }

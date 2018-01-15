@@ -66,7 +66,7 @@ public final class HighlightedText {
     @Override
     public String toString() {
         return Ansi.ansi()
-            .fg(this.color)
+            .fgBright(this.color)
             .bold()
             .a(this.msg)
             .reset()

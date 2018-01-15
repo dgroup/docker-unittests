@@ -61,7 +61,7 @@ public final class TestOfTest {
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(1),
                 Matchers.hasItem(
-                    "> curl version is 7.xxx \u001B[32;1mPASSED\u001B[m"
+                    "> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m"
                 )
             )
         );
@@ -97,7 +97,7 @@ public final class TestOfTest {
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(8),
                 Matchers.hasItems(
-                    "> curl version is 7.xxx \u001B[31;1mFAILED\u001B[m",
+                    "> curl version is 7.xxx \u001B[91;1mFAILED\u001B[m",
                     "  command: \"curl --version\"",
                     "  output:  \"curl 7.57.0 (x86_64-pc-linux-gnu) " +
                         "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8\"",
