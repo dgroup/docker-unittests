@@ -21,51 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.exception;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
 
 /**
- * Represents root cause exception for particular exception.
+ * Tests for classes dedicated to interaction with docker container.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class RootCause {
-    /**
-     * Exception.
-     */
-    private final Exception origin;
-
-    /**
-     * Ctor.
-     *
-     * @param exp Exception.
-     */
-    public RootCause(final Exception exp) {
-        this.origin = exp;
-    }
-
-    /**
-     * Each exception may contain a lot of nested exceptions.
-     *
-     * @return Root case exception.
-     */
-    public Throwable exception() {
-        Throwable cause = new UncheckedTernary<>(
-            this.origin.getCause() == null,
-            this.origin,
-            this.origin.getCause()
-        ).value();
-        final List<Throwable> visited = new ArrayList(5);
-        while (cause.getCause() != null
-            && !visited.contains(cause.getCause())) {
-            cause = cause.getCause();
-            visited.add(cause);
-        }
-        return cause;
-    }
-}
+package org.dgroup.dockertest.exception;
