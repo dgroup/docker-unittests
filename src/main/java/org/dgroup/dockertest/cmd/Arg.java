@@ -31,7 +31,6 @@ package org.dgroup.dockertest.cmd;
  * @since 1.0
  */
 public interface Arg {
-
     /**
      * Fetch argument name.
      *
@@ -44,8 +43,8 @@ public interface Arg {
      * The value should be specified after the name.
      *
      * @return Argument value.
-     * @throws CmdArgNotFoundException in case if argument
-     *  wasn't specified by user.
+     * @throws CmdArgNotFoundException in case if the argument wasn't
+     *  specified by the user or arguments itself are empty.
      */
     String value() throws CmdArgNotFoundException;
 

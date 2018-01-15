@@ -34,7 +34,6 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 1.0
  */
 public final class SingleArg implements Arg {
-
     /**
      * Command-line argument name.
      */
@@ -84,6 +83,11 @@ public final class SingleArg implements Arg {
 
     @Override
     public String value() throws CmdArgNotFoundException {
+        if (this.args.isEmpty()) {
+            throw new CmdArgNotFoundException(
+                "User arguments are empty."
+            );
+        }
         final String value = this.args.get(this.args.indexOf(this.name) + 1);
         if (value == null) {
             throw new CmdArgNotFoundException(this.absent);

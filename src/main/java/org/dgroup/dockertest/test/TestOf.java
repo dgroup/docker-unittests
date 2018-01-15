@@ -28,7 +28,7 @@ import org.cactoos.iterable.Filtered;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.HighlightedText;
@@ -83,7 +83,7 @@ public final class TestOf implements Test {
     }
 
     @Override
-    public TestOutcome execute() throws DockerRuntimeException {
+    public TestOutcome execute() throws DockerProcessExecutionException {
         final String output = this.process.execute().asText();
         final List<YmlTagOutputPredicate> failed = new ListOf<>(
             new Filtered<>(t -> !t.test(output), this.expected)

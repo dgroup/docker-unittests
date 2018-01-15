@@ -23,24 +23,47 @@
  */
 package org.dgroup.dockertest.docker.process;
 
+import java.time.Instant;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.docker.output.TimedCmdOutput;
 
 /**
- * Represents single docker process.
- * It might be creation of new container, pull command, etc.
+ * Elapsed time for docker process.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface DockerProcess {
+public final class Timed implements DockerProcess {
+    /**
+     * Original Docker process where we need a timing.
+     */
+    private final DockerProcess origin;
 
     /**
-     * Execute command inside of docker container.
-     * @return Docker command output.
-     * @throws DockerProcessExecutionException in case runtime exception on the
-     *  docker side.
+     * Ctor.
+     * @param origin Docker process where we need a timing.
      */
-    CmdOutput execute() throws DockerProcessExecutionException;
+    public Timed(final DockerProcess origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public CmdOutput execute() throws DockerProcessExecutionException {
+        // @checkstyle MethodBodyCommentsCheck (20 lines)
+        // @checkstyle RegexpSinglelineCheck (20 lines)
+        // @checkstyle CascadeIndentationCheck (20 lines)
+        /*
+         JLS 1.8, section 15.7.4, Argument Lists are Evaluated Left-to-Right:
+         --------------------------------------------------------------------
+         In a method or constructor invocation or class instance creation
+         expression, argument expressions may appear within the parentheses,
+         separated by commas. Each argument expression appears to be fully
+         evaluated before any part of any argument expression to its right
+        */
+        return new TimedCmdOutput(
+            Instant.now(), this.origin.execute()
+        );
+    }
 }

@@ -29,8 +29,9 @@ import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.Pull;
+import org.dgroup.dockertest.docker.process.Timed;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.text.HighlightedText;
@@ -46,7 +47,6 @@ import org.fusesource.jansi.Ansi.Color;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class Tests {
-
     /**
      * Docker image for testing.
      */
@@ -102,13 +102,15 @@ public final class Tests {
     /**
      * Print tests results to selected outputs.
      *
-     * @throws DockerRuntimeException in case runtime exception on docker side.
+     * @throws DockerProcessExecutionException in case runtime exception on the
+     *  docker side.
      * @throws TestingFailedException in case when at least one test is failed.
-     * @todo #2:8h All tests should be executed concurrently
-     *  and support thread-pool configuration from command line.
-     * @todo #51 Print timing for `docker pull` command.
+     * @todo #2:8h All tests should be executed concurrently and support
+     *  thread-pool configuration from command line. Also, the tool can use
+     *  https://github.com/testcontainers/testcontainers-java as a layer for the
+     *  docker integration.
      */
-    public void execute() throws DockerRuntimeException,
+    public void execute() throws DockerProcessExecutionException,
         TestingFailedException {
         if (this.scope.isEmpty()) {
             this.std.print(
@@ -121,9 +123,11 @@ public final class Tests {
             "Found scenarios: %s.%n",
             new HighlightedText(this.scope.size(), Color.GREEN)
         );
-        this.std.print("Verify image...");
+        this.std.print("Pull image...");
         this.std.print(
-            new Pull(this.image).execute()
+            new Timed(
+                new Pull(this.image)
+            ).execute()
         );
         new TestingOutcome(
             new StickyList<>(

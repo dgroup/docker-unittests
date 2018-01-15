@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.Assert;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -36,10 +37,9 @@ import org.junit.Test;
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public class SingleArgTest {
-
+public final class SingleArgTest {
     @Test
-    public final void specified() {
+    public void specified() {
         MatcherAssert.assertThat(
             new SingleArg(
                 "-o", new ListOf<>("-o", "std")
@@ -49,12 +49,22 @@ public class SingleArgTest {
     }
 
     @Test
-    public final void notSpecified() {
+    public void notSpecified() {
         MatcherAssert.assertThat(
             new SingleArg(
                 "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
             ).specifiedByUser(),
             Matchers.equalTo(false)
+        );
+    }
+
+    @Test
+    public void thatArgumentsAreEmpty() {
+        new Assert().thatThrows(
+            () -> new SingleArg(
+                "-o", new ListOf<>()
+            ).value(),
+            new CmdArgNotFoundException("User arguments are empty.")
         );
     }
 

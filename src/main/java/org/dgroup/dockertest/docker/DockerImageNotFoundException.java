@@ -35,8 +35,8 @@ import org.fusesource.jansi.Ansi.Color;
  * @version $Id$
  * @since 1.0
  */
-public final class DockerImageNotFoundException extends DockerRuntimeException {
-
+public final class DockerImageNotFoundException extends
+    DockerProcessExecutionException {
     /**
      * Ctor.
      * @param image Docker image name.

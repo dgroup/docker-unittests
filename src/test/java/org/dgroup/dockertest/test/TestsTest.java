@@ -27,7 +27,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.test.output.FakeOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
@@ -49,7 +49,7 @@ public class TestsTest {
     // @todo #19 Create native OS containers or install docker to CI env.
     @Ignore
     @Test
-    public final void singleTest() throws DockerRuntimeException,
+    public final void singleTest() throws DockerProcessExecutionException,
         TestingFailedException, CmdArgNotFoundException,
         IllegalYmlFileFormatException {
         final FakeOutput output = new FakeOutput();

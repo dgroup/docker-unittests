@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.docker.command;
 
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.FakeCmdOutput;
 import org.dgroup.dockertest.docker.process.FakeDockerProcess;
 import org.dgroup.dockertest.docker.process.Pull;
@@ -46,7 +46,7 @@ import org.junit.Test;
 public final class PullTest {
 
     @Test(expected = DockerImageNotFoundException.class)
-    public void imageNotFound() throws DockerRuntimeException {
+    public void imageNotFound() throws DockerProcessExecutionException {
         new Pull(
             "openjdk:9999999",
             new FakeDockerProcess(

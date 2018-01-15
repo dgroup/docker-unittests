@@ -25,7 +25,7 @@ package org.dgroup.dockertest;
 
 import java.io.UncheckedIOException;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerRuntimeException;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 
 /**
@@ -73,7 +73,7 @@ public final class AbnormalTermination {
      * runtime exception.
      * @param exp Occurred exception.
      */
-    public void dueTo(final DockerRuntimeException exp) {
+    public void dueTo(final DockerProcessExecutionException exp) {
         this.std.print(exp.byLines());
         this.shutdownWith(-4);
     }

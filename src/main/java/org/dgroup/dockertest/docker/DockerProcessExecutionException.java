@@ -33,13 +33,13 @@ import org.cactoos.list.ListOf;
  * @version $Id$
  * @since 1.0
  */
-public class DockerRuntimeException extends Exception {
+public class DockerProcessExecutionException extends Exception {
 
     /**
      * Ctor.
      * @param msg Exception details.
      */
-    public DockerRuntimeException(final String msg) {
+    public DockerProcessExecutionException(final String msg) {
         super(msg);
     }
 
