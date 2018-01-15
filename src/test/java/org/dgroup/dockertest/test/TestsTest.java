@@ -23,18 +23,22 @@
  */
 package org.dgroup.dockertest.test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.test.output.FakeOutput;
-import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.cmd.OutputArg;
+import org.dgroup.dockertest.cmd.SingleArg;
+import org.dgroup.dockertest.cmd.UncheckedArg;
+import org.dgroup.dockertest.cmd.YmlFileArg;
+import org.dgroup.dockertest.test.output.std.FakeStdOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Unit tests for class {@link Tests}.
@@ -43,30 +47,35 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@RunWith(OnlyWithinInstalledDocker.class)
 public class TestsTest {
 
-    // @todo #19 Create native OS containers or install docker to CI env.
-    @Ignore
     @Test
-    public final void singleTest() throws DockerProcessExecutionException,
-        TestingFailedException, CmdArgNotFoundException,
-        IllegalYmlFileFormatException {
-        final FakeOutput output = new FakeOutput();
+    public final void singleTest() throws Exception {
+        final List<String> args = new ListOf<>(
+            "-f", new YmlResource("with-single-test.yml").path(),
+            "-i", "openjdk:9.0.1-11"
+        );
+        final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
         new Tests(
             new Args(
-                new ListOf<>(
-                    "-f",
-                    new YmlResource(
-                        "with-single-test.yml"
-                    ).path()
+                new SingleArg("-i", args, "Docker image wasn't specified."),
+                new YmlFileArg(args),
+                new OutputArg(
+                    new UncheckedArg("-o", args),
+                    "",
+                    new HashMap<>(),
+                    output
                 )
             ),
-            new StdOutputOf(System.out, "    ")
+            output
         ).execute();
         MatcherAssert.assertThat(
-            output.lines(),
-            Matchers.hasItem("> curl version is 7.xxx PASSED")
+            output.details(),
+            Matchers.hasItem("Testing successfully completed.")
         );
     }
+
 }

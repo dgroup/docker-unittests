@@ -23,13 +23,14 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import org.cactoos.iterable.ItemAt;
 import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
@@ -49,43 +50,30 @@ public final class OutputArgTest {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>()
-            ).iterator().next(),
+            ).asSet().iterator().next(),
             IsInstanceOf.instanceOf(StdOutputOf.class)
         );
     }
 
     @Test
-    public void specifiedOutputSize() {
-        MatcherAssert.assertThat(
-            new ListOf<>(
-                new OutputArg(
-                    new ListOf<>("-o", "xml|html")
-                )
-            ),
-            IsCollectionWithSize.hasSize(2)
-        );
-    }
-
-    @Test
-    public void thatFirstOutputTypeIsXml() {
+    public void specifiedOutput() {
         MatcherAssert.assertThat(
             new OutputArg(
                 new ListOf<>("-o", "xml|html")
-            ).iterator().next(),
-            IsInstanceOf.instanceOf(XmlOutput.class)
+            ).asSet(),
+            instanceOfInAnyOrder(
+                new XmlOutput(), new HtmlOutput()
+            )
         );
     }
 
-    @Test
-    public void thatSecondOutputTypeIsHtml() throws Exception {
-        MatcherAssert.assertThat(
-            new ItemAt<>(
-                1,
-                new OutputArg(
-                    new ListOf<>("-o", "xml|html")
-                )
-            ).value(),
-            IsInstanceOf.instanceOf(HtmlOutput.class)
+    private <T> Matcher<Iterable<? extends T>> instanceOfInAnyOrder(
+        final T... items) {
+        return new IsIterableContainingInAnyOrder<>(
+            new Mapped<>(
+                i -> IsInstanceOf.instanceOf(i.getClass()),
+                new ListOf<>(items)
+            )
         );
     }
 

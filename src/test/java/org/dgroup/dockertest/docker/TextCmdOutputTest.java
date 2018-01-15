@@ -24,15 +24,13 @@
 package org.dgroup.dockertest.docker;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.RunOnlyOnWindows;
 import org.dgroup.dockertest.docker.output.TextCmdOutput;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.StringStartsWith;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link TextCmdOutput} on Windows OS.
+ * Unit tests for class {@link TextCmdOutput} on Unix OS.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -40,19 +38,19 @@ import org.junit.runner.RunWith;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
-@RunWith(RunOnlyOnWindows.class)
-public final class TextCmdOutputOnWindowsTest {
+public final class TextCmdOutputTest {
 
     @Test(timeout = 1000 * 3)
     public void text() {
         MatcherAssert.assertThat(
-            "Command `java -version` will have `1.8` version",
+            "Command `java -version` is `1.8`.",
             new TextCmdOutput(
                 new SystemProcess(
-                    new ListOf<>("cmd", "/c", "java", "-version")
+                    new ListOf<>("java", "-version")
                 ).execute()
             ).asText(),
-            StringStartsWith.startsWith("java version \"1.8")
+            Matchers.containsString("1.8")
         );
     }
+
 }

@@ -28,13 +28,13 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
 /**
- * Allows to run particular tests only on Unix system.
+ * Allows to run particular tests within installed docker only.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
+public final class OnlyWithinInstalledDocker extends BlockJUnit4ClassRunner {
 
     /**
      * Ctor.
@@ -42,17 +42,17 @@ public final class RunOnlyOnUnix extends BlockJUnit4ClassRunner {
      * @param klass Test class.
      * @throws InitializationError if the test class is malformed.
      */
-    public RunOnlyOnUnix(final Class klass) throws InitializationError {
+    public OnlyWithinInstalledDocker(final Class<?> klass)
+        throws InitializationError {
         super(klass);
     }
 
     @Override
     public void run(final RunNotifier notifier) {
-        final String system = System.getProperty("os.name");
-        if (system.endsWith("nux")
-            || system.endsWith("nix")
-            || system.endsWith("aix")) {
+        final String active = System.getProperty("docker_installed");
+        if ("yes".equalsIgnoreCase(active) || "true".equalsIgnoreCase(active)) {
             super.run(notifier);
         }
     }
+
 }

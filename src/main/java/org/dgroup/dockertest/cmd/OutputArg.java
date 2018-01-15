@@ -24,11 +24,9 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
@@ -55,7 +53,7 @@ import org.dgroup.dockertest.test.output.std.StdOutputOf;
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class OutputArg implements Iterable<Output> {
+public final class OutputArg {
 
     /**
      * Supported output formats.
@@ -65,6 +63,10 @@ public final class OutputArg implements Iterable<Output> {
      * Output formats specified by user from command line.
      */
     private final List<String> specified;
+    /**
+     * Standard output format.
+     */
+    private final StdOutput std;
 
     /**
      * Ctor.
@@ -77,7 +79,8 @@ public final class OutputArg implements Iterable<Output> {
             new MapOf<>(
                 new MapEntry<>("xml", new XmlOutput()),
                 new MapEntry<>("html", new HtmlOutput())
-            )
+            ),
+            new StdOutputOf()
         );
     }
 
@@ -86,34 +89,22 @@ public final class OutputArg implements Iterable<Output> {
      * @param output Command line argument specified by user.
      * @param delimiter For splitting value specified by user.
      * @param out Supported output formats.
+     * @param std Standard output.
+     * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public OutputArg(final UncheckedArg output, final String delimiter,
-        final Map<String, Output> out) {
+    public OutputArg(
+        final UncheckedArg output,
+        final String delimiter,
+        final Map<String, Output> out,
+        final StdOutput std
+    ) {
         this.out = out;
         this.specified = new UncheckedTernary<List<String>>(
             output::specifiedByUser,
             () -> new StickyList<>(output.value().split(delimiter)),
             ListOf::new
         ).value();
-    }
-
-    @Override
-    public Iterator<Output> iterator() {
-        return new UncheckedTernary<List<Output>>(
-            () -> !this.specified.isEmpty()
-                && this.out.keySet().containsAll(this.specified),
-            () -> new Mapped<>(this.out::get, this.specified),
-            () -> new ListOf<>(new StdOutputOf())
-        ).value().iterator();
-    }
-
-    /**
-     * Standard output for printing app progress.
-     * @return Output.
-     * @checkstyle NonStaticMethodCheck (5 lines)
-     */
-    public StdOutput std() {
-        return new StdOutputOf();
+        this.std = std;
     }
 
     /**
@@ -122,10 +113,12 @@ public final class OutputArg implements Iterable<Output> {
      */
     public Set<Output> asSet() {
         return new HashSet<>(
-            new Joined<>(
-                new ListOf<>(this.std()),
-                new ListOf<>(this.iterator())
-            )
+            new UncheckedTernary<List<Output>>(
+                () -> !this.specified.isEmpty()
+                    && this.out.keySet().containsAll(this.specified),
+                () -> new Mapped<>(this.out::get, this.specified),
+                () -> new ListOf<>(this.std)
+            ).value()
         );
     }
 
