@@ -109,6 +109,7 @@ public final class Tests {
      *  thread-pool configuration from command line. Also, the tool can use
      *  https://github.com/testcontainers/testcontainers-java as a layer for the
      *  docker integration.
+     * @todo #66 Unit test is required for smoke testing.
      */
     public void execute() throws DockerProcessExecutionException,
         TestingFailedException {
