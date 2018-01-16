@@ -54,7 +54,15 @@ public final class YmlTagTests {
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
     public YmlTagTests(final Map<String, Object> tree) {
-        this.tag = new YmlTagOf(tree, "tests");
+        this(new YmlTagOf(tree, "tests"));
+    }
+
+    /**
+     * Ctor.
+     * @param tag Yml object tree loaded from *.yml file with tests.
+     */
+    public YmlTagTests(final YmlTag tag) {
+        this.tag = tag;
     }
 
     /**

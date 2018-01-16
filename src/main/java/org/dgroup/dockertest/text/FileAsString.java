@@ -24,6 +24,8 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.TextOf;
@@ -41,14 +43,30 @@ public final class FileAsString {
     /**
      * File to read.
      */
-    private final File file;
+    private final File origin;
+    /**
+     * File charset.
+     */
+    private final Charset charset;
 
     /**
      * Ctor.
-     * @param file For reading.
+     * @param origin For reading.
+     * @todo #4 Add cmd flag which allows user to select encoding
+     *  for *.yml file with tests.
      */
-    public FileAsString(final File file) {
-        this.file = file;
+    public FileAsString(final File origin) {
+        this(origin, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Ctor.
+     * @param origin File for reading.
+     * @param charset File charset for reading.
+     */
+    public FileAsString(final File origin, final Charset charset) {
+        this.origin = origin;
+        this.charset = charset;
     }
 
     /**
@@ -59,8 +77,9 @@ public final class FileAsString {
         return new UncheckedText(
             new TextOf(
                 new BytesOf(
-                    new InputOf(this.file)
-                )
+                    new InputOf(this.origin)
+                ),
+                this.charset
             )
         ).asString();
     }

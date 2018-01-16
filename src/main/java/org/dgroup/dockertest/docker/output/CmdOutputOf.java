@@ -26,6 +26,8 @@ package org.dgroup.dockertest.docker.output;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
@@ -37,29 +39,41 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @since 1.0
  */
-public final class TextCmdOutput implements CmdOutput {
+public final class CmdOutputOf implements CmdOutput {
 
     /**
      * System process output associated with docker container.
      */
     private final Process outcome;
+    /**
+     * System process encoding.
+     */
+    private final Charset encoding;
 
     /**
      * Ctor.
      * @param outcome System process output associated with docker container.
      */
-    public TextCmdOutput(final Process outcome) {
-        this.outcome = outcome;
+    public CmdOutputOf(final Process outcome) {
+        this(outcome, StandardCharsets.UTF_8);
     }
 
-    // @todo #4 Add cmd flag which allows user to select encoding
-    //  for *.yml file with tests.
+    /**
+     * Ctor.
+     * @param outcome System process output associated with docker container.
+     * @param charset System process output charset.
+     */
+    public CmdOutputOf(final Process outcome, final Charset charset) {
+        this.outcome = outcome;
+        this.encoding = charset;
+    }
+
     @Override
     public String asText() {
         try (BufferedReader in = new BufferedReader(
             new InputStreamReader(
                 this.outcome.getInputStream(),
-                "UTF-8"
+                this.encoding
             ))
         ) {
             return new UncheckedText(

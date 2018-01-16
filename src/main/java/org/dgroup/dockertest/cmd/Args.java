@@ -75,12 +75,8 @@ public final class Args {
      */
     public Args(final List<String> args) {
         this(
-            new SingleArgOf(
-                "-i", args, "Docker image wasn't specified."
-            ),
-            new SingleArgOf(
-                "-f", args, "YML file with tests wasn't specified."
-            ),
+            new ArgOf("-i", args, "Docker image wasn't specified."),
+            new ArgOf("-f", args, "YML file with tests wasn't specified."),
             new OutputArgOf(args)
         );
     }

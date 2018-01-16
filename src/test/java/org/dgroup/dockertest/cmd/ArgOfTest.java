@@ -30,18 +30,18 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link SingleArgOf}.
+ * Unit tests for class {@link ArgOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class SingleArgOfTest {
+public final class ArgOfTest {
     @Test
     public void specified() {
         MatcherAssert.assertThat(
-            new SingleArgOf(
+            new ArgOf(
                 "-o", new ListOf<>("-o", "std")
             ).specifiedByUser(),
             Matchers.equalTo(true)
@@ -51,7 +51,7 @@ public final class SingleArgOfTest {
     @Test
     public void notSpecified() {
         MatcherAssert.assertThat(
-            new SingleArgOf(
+            new ArgOf(
                 "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
             ).specifiedByUser(),
             Matchers.equalTo(false)
@@ -61,7 +61,7 @@ public final class SingleArgOfTest {
     @Test
     public void thatArgumentsAreEmpty() {
         new Assert().thatThrows(
-            () -> new SingleArgOf(
+            () -> new ArgOf(
                 "-o", new ListOf<>()
             ).value(),
             new CmdArgNotFoundException("User arguments are empty.")

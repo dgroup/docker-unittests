@@ -29,9 +29,9 @@ import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.cmd.ArgOf;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.OutputArgOf;
-import org.dgroup.dockertest.cmd.SingleArgOf;
 import org.dgroup.dockertest.cmd.UncheckedArg;
 import org.dgroup.dockertest.test.output.std.FakeStdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
@@ -61,12 +61,8 @@ public class TestsTest {
         final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
         new Tests(
             new Args(
-                new SingleArgOf(
-                    "-i", args, "Docker image wasn't specified."
-                ),
-                new SingleArgOf(
-                    "-f", args, "YML file with tests wasn't specified."
-                ),
+                new ArgOf("-i", args, "Docker image wasn't specified."),
+                new ArgOf("-f", args, "YML file with tests wasn't specified."),
                 new OutputArgOf(
                     new UncheckedArg("-o", args),
                     "",

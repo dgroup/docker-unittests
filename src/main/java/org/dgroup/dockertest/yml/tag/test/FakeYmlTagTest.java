@@ -46,20 +46,20 @@ public final class FakeYmlTagTest implements YmlTagTest {
     /**
      * List of expected conditions to be applied to the container output.
      */
-    private final List<YmlTagOutputPredicate> predicates;
+    private final List<YmlTagOutputPredicate> expected;
 
     /**
      * Ctor.
      * @param scenario Name of testing scenario.
      * @param cmd Command for execution in docker container.
-     * @param predicates List of expected conditions to be applied
+     * @param expected List of expected conditions to be applied
      *  to the container output.
      */
     public FakeYmlTagTest(final String scenario, final String cmd,
-        final List<YmlTagOutputPredicate> predicates) {
+        final List<YmlTagOutputPredicate> expected) {
         this.scenario = scenario;
         this.command = cmd;
-        this.predicates = predicates;
+        this.expected = expected;
     }
 
     @Override
@@ -79,7 +79,7 @@ public final class FakeYmlTagTest implements YmlTagTest {
 
     @Override
     public List<YmlTagOutputPredicate> output() {
-        return this.predicates;
+        return this.expected;
     }
 
     @Override

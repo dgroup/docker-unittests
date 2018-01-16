@@ -60,7 +60,7 @@ public final class Timed implements DockerProcess {
          In a method or constructor invocation or class instance creation
          expression, argument expressions may appear within the parentheses,
          separated by commas. Each argument expression appears to be fully
-         evaluated before any part of any argument expression to its right
+         evaluated before any part of any argument expression to its right.
         */
         return new TimedCmdOutput(
             Instant.now(), this.origin.execute()

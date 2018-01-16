@@ -47,6 +47,7 @@ import org.fusesource.jansi.Ansi.Color;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class Tests {
+
     /**
      * Docker image for testing.
      */

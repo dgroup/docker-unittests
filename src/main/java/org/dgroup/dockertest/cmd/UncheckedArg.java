@@ -54,7 +54,7 @@ public final class UncheckedArg implements Arg {
      * @param args All cmd arguments.
      */
     public UncheckedArg(final String name, final List<String> args) {
-        this(new SingleArgOf(name, args));
+        this(new ArgOf(name, args));
     }
 
     @Override
@@ -62,15 +62,15 @@ public final class UncheckedArg implements Arg {
         return this.origin.name();
     }
 
-    // @checkstyle ReturnCountCheck (10 lines)
-    @SuppressWarnings("PMD.OnlyOneReturn")
     @Override
     public String value() {
+        String value;
         try {
-            return this.origin.value();
+            value = this.origin.value();
         } catch (final CmdArgNotFoundException exp) {
-            return "";
+            value = "";
         }
+        return value;
     }
 
     @Override

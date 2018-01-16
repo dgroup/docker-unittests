@@ -45,11 +45,18 @@ public final class YmlTagVersion {
 
     /**
      * Ctor.
-     *
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
     public YmlTagVersion(final Map<String, Object> tree) {
-        this.tag = new YmlTagOf(tree, "version");
+        this(new YmlTagOf(tree, "version"));
+    }
+
+    /**
+     * Ctor.
+     * @param tag Yml object tree loaded from *.yml file with tests.
+     */
+    public YmlTagVersion(final YmlTag tag) {
+        this.tag = tag;
     }
 
     /**

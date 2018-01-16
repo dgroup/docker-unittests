@@ -42,7 +42,6 @@ public final class RootCause {
 
     /**
      * Ctor.
-     *
      * @param exp Exception.
      */
     public RootCause(final Exception exp) {
@@ -51,7 +50,6 @@ public final class RootCause {
 
     /**
      * Each exception may contain a lot of nested exceptions.
-     *
      * @return Root case exception.
      */
     public Throwable exception() {

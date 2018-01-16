@@ -26,7 +26,7 @@ package org.dgroup.dockertest.docker.process;
 import java.util.List;
 import org.dgroup.dockertest.docker.SystemProcess;
 import org.dgroup.dockertest.docker.output.CmdOutput;
-import org.dgroup.dockertest.docker.output.TextCmdOutput;
+import org.dgroup.dockertest.docker.output.CmdOutputOf;
 
 /**
  * Represents an instance of docker process on Unix-related systems.
@@ -60,7 +60,7 @@ public final class DockerProcessOnUnix implements DockerProcess {
 
     @Override
     public CmdOutput execute() {
-        return new TextCmdOutput(this.process.execute());
+        return new CmdOutputOf(this.process.execute());
     }
 
 }

@@ -51,8 +51,10 @@ public final class FormattedTextWithRepeatableArguments {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public FormattedTextWithRepeatableArguments(final String pattern,
-        final Object... args) {
+    public FormattedTextWithRepeatableArguments(
+        final String pattern,
+        final Object... args
+    ) {
         this(pattern, new ListOf<>(args));
     }
 
@@ -61,8 +63,10 @@ public final class FormattedTextWithRepeatableArguments {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public FormattedTextWithRepeatableArguments(final String pattern,
-        final Collection<Object> args) {
+    public FormattedTextWithRepeatableArguments(
+        final String pattern,
+        final Collection<Object> args
+    ) {
         this.pattern = pattern;
         this.args = args;
     }

@@ -21,26 +21,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
+package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.docker.output.CmdOutputOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Exception which shows that there is no defined test for testing scope.
+ * Unit tests for class {@link CmdOutputOf} on Unix OS.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class NonDefinedTestingScopeException
-    extends CmdArgNotFoundException {
+public final class CmdOutputOfTest {
 
-    /**
-     * Ctor.
-     * @param msg Detailed description with missing argument.
-     */
-    public NonDefinedTestingScopeException(final String msg) {
-        super(msg);
+    @Test(timeout = 1000 * 3)
+    public void text() {
+        MatcherAssert.assertThat(
+            "Command `java -version` is `1.8`.",
+            new CmdOutputOf(
+                new SystemProcess(
+                    new ListOf<>("java", "-version")
+                ).execute()
+            ).asText(),
+            Matchers.containsString("1.8")
+        );
     }
 
 }

@@ -68,18 +68,17 @@ public final class TestOf implements Test {
      * Ctor.
      * @param assume Name of testing scenario.
      * @param cmd Command to be executed inside of docker container.
-     * @param expected Expected conditions which should be applied
+     * @param expect Expected conditions which should be applied
      *  to output from docker container.
-     * @param process Docker container where test be executed.
+     * @param proc Docker container where test be executed.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
     public TestOf(final String assume, final String cmd,
-        final List<YmlTagOutputPredicate> expected,
-        final DockerProcess process) {
+        final List<YmlTagOutputPredicate> expect, final DockerProcess proc) {
         this.assume = assume;
         this.cmd = cmd;
-        this.expected = expected;
-        this.process = process;
+        this.expected = expect;
+        this.process = proc;
     }
 
     @Override
