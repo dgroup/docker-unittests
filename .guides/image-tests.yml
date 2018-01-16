@@ -17,5 +17,3 @@ tests:
         - startsWith: "curl 7."
         - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
         - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
-#        - endsWith:
-#        - equals:

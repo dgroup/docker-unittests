@@ -32,17 +32,13 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
            - startsWith: "curl 7."
            - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
            - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
-     #     - endsWith:
-     #     - equals: 
    ```
 2. Run tests for image 
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
-   `-f` yml file with tests
-   
-   `-i` docker image 
-
+3. Got results
+   ![docker image tests results](./.guides/image-tests-results.png)
 
 ### F.A.Q.
  - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
