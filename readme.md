@@ -38,6 +38,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
 3. Got results 
+
 ![docker image tests results](./.guides/image-tests-results.png)
 
 ### F.A.Q.
