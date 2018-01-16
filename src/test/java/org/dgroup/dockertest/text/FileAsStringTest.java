@@ -24,6 +24,8 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
+import java.io.UncheckedIOException;
+import org.dgroup.dockertest.Assert;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -56,4 +58,14 @@ public final class FileAsStringTest {
         );
     }
 
+    @Test
+    public void fileNotFound() {
+        new Assert().thatThrows(
+            () -> new FileAsString(
+                new File(".gitignoreeeeeee")
+            ).content(),
+            UncheckedIOException.class,
+            "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
+        );
+    }
 }

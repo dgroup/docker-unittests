@@ -35,23 +35,19 @@ import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
- * Represents the instance of application.
+ * App start point with main method only.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle HideUtilityClassConstructorCheck (10 lines)
  */
+@SuppressWarnings("PMD.UseUtilityClass")
 public final class App {
-    /**
-     * Ctor.
-     */
-    private App() {
-        // No instances required.
-    }
 
     /**
-     * Main method.
-     * @param arguments Command-line arguments.
+     * Start point.
+     * @param arguments YML file with tests and docker image name.
      */
     public static void main(final String... arguments) {
         final StdOutput std = new StdOutputOf(System.out, "    ");

@@ -23,53 +23,48 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.io.UncheckedIOException;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.Assert;
-import org.dgroup.dockertest.text.FileAsString;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlFileArg}.
+ * Unit tests for class {@link SingleArgOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
- * @checkstyle OperatorWrapCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlFileArgTest {
-
+public final class SingleArgOfTest {
     @Test
-    public void fileWasFound() throws CmdArgNotFoundException {
+    public void specified() {
         MatcherAssert.assertThat(
-            new YmlFileArg(
-                new ListOf<>(
-                    "-f", ".gitignore"
-                )
-            ).file().getName(),
-            Matchers.equalTo(".gitignore")
+            new SingleArgOf(
+                "-o", new ListOf<>("-o", "std")
+            ).specifiedByUser(),
+            Matchers.equalTo(true)
         );
     }
 
     @Test
-    public void fileNotFound() {
+    public void notSpecified() {
+        MatcherAssert.assertThat(
+            new SingleArgOf(
+                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
+            ).specifiedByUser(),
+            Matchers.equalTo(false)
+        );
+    }
+
+    @Test
+    public void thatArgumentsAreEmpty() {
         new Assert().thatThrows(
-            () -> new FileAsString(
-                new YmlFileArg(
-                    new ListOf<>(
-                        "-f", ".gitignoreeeeeee"
-                    )
-                ).file()
-            ).content(),
-            UncheckedIOException.class,
-            "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
+            () -> new SingleArgOf(
+                "-o", new ListOf<>()
+            ).value(),
+            new CmdArgNotFoundException("User arguments are empty.")
         );
     }
 

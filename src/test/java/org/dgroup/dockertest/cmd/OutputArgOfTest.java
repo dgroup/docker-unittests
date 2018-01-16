@@ -24,47 +24,57 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.Assert;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.test.output.HtmlOutput;
+import org.dgroup.dockertest.test.output.XmlOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link SingleArg}.
+ * Unit tests for class {@link OutputArgOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class SingleArgTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class OutputArgOfTest {
+
     @Test
-    public void specified() {
+    public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
-            new SingleArg(
-                "-o", new ListOf<>("-o", "std")
-            ).specifiedByUser(),
-            Matchers.equalTo(true)
+            new OutputArgOf(
+                new ListOf<>()
+            ).asSet().iterator().next(),
+            IsInstanceOf.instanceOf(StdOutputOf.class)
         );
     }
 
     @Test
-    public void notSpecified() {
+    public void specifiedOutput() {
         MatcherAssert.assertThat(
-            new SingleArg(
-                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
-            ).specifiedByUser(),
-            Matchers.equalTo(false)
+            new OutputArgOf(
+                new ListOf<>("-o", "xml|html")
+            ).asSet(),
+            instanceOfInAnyOrder(
+                new XmlOutput(), new HtmlOutput()
+            )
         );
     }
 
-    @Test
-    public void thatArgumentsAreEmpty() {
-        new Assert().thatThrows(
-            () -> new SingleArg(
-                "-o", new ListOf<>()
-            ).value(),
-            new CmdArgNotFoundException("User arguments are empty.")
+    private <T> Matcher<Iterable<? extends T>> instanceOfInAnyOrder(
+        final T... items
+    ) {
+        return new IsIterableContainingInAnyOrder<>(
+            new Mapped<>(
+                i -> IsInstanceOf.instanceOf(i.getClass()),
+                new ListOf<>(items)
+            )
         );
     }
 

@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 import org.cactoos.list.Joined;
@@ -33,7 +34,9 @@ import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.text.FileAsString;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.YmlString;
 
 /**
  * App command-line arguments specified by user.
@@ -48,15 +51,15 @@ public final class Args {
     /**
      * Docker image. Specified by user from shell.
      */
-    private final YmlFileArg yml;
+    private final Arg image;
     /**
      * YML file (with tests). Specified by user from shell.
      */
-    private final OutputArg outputs;
+    private final Arg file;
     /**
      * Supported outputs formats. Specified by user from shell.
      */
-    private final Arg image;
+    private final OutputArg outputs;
 
     /**
      * Ctor.
@@ -72,22 +75,25 @@ public final class Args {
      */
     public Args(final List<String> args) {
         this(
-            new SingleArg("-i", args, "Docker image wasn't specified."),
-            new YmlFileArg(args),
-            new OutputArg(args)
+            new SingleArgOf(
+                "-i", args, "Docker image wasn't specified."
+            ),
+            new SingleArgOf(
+                "-f", args, "YML file with tests wasn't specified."
+            ),
+            new OutputArgOf(args)
         );
     }
 
     /**
      * Ctor.
      * @param image Docker image. Specified by user from shell.
-     * @param yml YML file (with tests). Specified by user from shell.
+     * @param file YML file (with tests). Specified by user from shell.
      * @param outputs Supported outputs formats. Specified by user from shell.
      */
-    public Args(final Arg image, final YmlFileArg yml,
-        final OutputArg outputs) {
+    public Args(final Arg image, final Arg file, final OutputArg outputs) {
         this.image = image;
-        this.yml = yml;
+        this.file = file;
         this.outputs = outputs;
     }
 
@@ -128,7 +134,13 @@ public final class Args {
                         )
                     )
                 ),
-                this.yml.testsYmlTags()
+                new YmlString(
+                    new FileAsString(
+                        new File(
+                            this.ymlFilename()
+                        )
+                    ).content()
+                ).asTests()
             )
         );
     }
@@ -149,6 +161,6 @@ public final class Args {
      *  wasn't specified by user.
      */
     public String ymlFilename() throws CmdArgNotFoundException {
-        return this.yml.filename();
+        return this.file.value();
     }
 }

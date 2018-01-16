@@ -33,7 +33,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @version $Id$
  * @since 1.0
  */
-public final class SingleArg implements Arg {
+public final class SingleArgOf implements Arg {
     /**
      * Command-line argument name.
      */
@@ -54,7 +54,7 @@ public final class SingleArg implements Arg {
      * @param name Cmd argument name.
      * @param args All cmd arguments.
      */
-    public SingleArg(final String name, final List<String> args) {
+    public SingleArgOf(final String name, final List<String> args) {
         this(
             name, args, new PlainFormattedText(
                 "Argument `%s` wasn't specified", name
@@ -69,7 +69,7 @@ public final class SingleArg implements Arg {
      * @param absent Error message in case when command-line argument
      *  is missing or wasn't specified by user.
      */
-    public SingleArg(final String name, final List<String> args,
+    public SingleArgOf(final String name, final List<String> args,
         final String absent) {
         this.name = name;
         this.args = args;

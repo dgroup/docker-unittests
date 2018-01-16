@@ -50,7 +50,16 @@ public final class FakeArg implements Arg {
      * Ctor.
      */
     public FakeArg() {
-        this("", "", false);
+        this("", "");
+    }
+
+    /**
+     * Ctor.
+     * @param name Cmd argument name.
+     * @param value Cmd argument value.
+     */
+    public FakeArg(final String name, final String value) {
+        this(name, value, true);
     }
 
     /**

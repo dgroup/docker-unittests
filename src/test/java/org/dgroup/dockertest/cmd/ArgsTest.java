@@ -23,19 +23,12 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.test.output.HtmlOutput;
-import org.dgroup.dockertest.test.output.XmlOutput;
-import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link OutputArg}.
+ * Unit tests for class {@link Args}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -43,37 +36,13 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class OutputArgTest {
+public final class ArgsTest {
 
     @Test
-    public void notSpecifiedOutput() {
+    public void ymlFilename() throws CmdArgNotFoundException {
         MatcherAssert.assertThat(
-            new OutputArg(
-                new ListOf<>()
-            ).asSet().iterator().next(),
-            IsInstanceOf.instanceOf(StdOutputOf.class)
-        );
-    }
-
-    @Test
-    public void specifiedOutput() {
-        MatcherAssert.assertThat(
-            new OutputArg(
-                new ListOf<>("-o", "xml|html")
-            ).asSet(),
-            instanceOfInAnyOrder(
-                new XmlOutput(), new HtmlOutput()
-            )
-        );
-    }
-
-    private <T> Matcher<Iterable<? extends T>> instanceOfInAnyOrder(
-        final T... items) {
-        return new IsIterableContainingInAnyOrder<>(
-            new Mapped<>(
-                i -> IsInstanceOf.instanceOf(i.getClass()),
-                new ListOf<>(items)
-            )
+            new Args("-f", ".gitignore").ymlFilename(),
+            Matchers.equalTo(".gitignore")
         );
     }
 

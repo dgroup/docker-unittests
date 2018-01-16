@@ -60,7 +60,7 @@ public final class RootCause {
             this.origin,
             this.origin.getCause()
         ).value();
-        final List<Throwable> visited = new ArrayList(5);
+        final List<Throwable> visited = new ArrayList<>(5);
         while (cause.getCause() != null
             && !visited.contains(cause.getCause())) {
             cause = cause.getCause();

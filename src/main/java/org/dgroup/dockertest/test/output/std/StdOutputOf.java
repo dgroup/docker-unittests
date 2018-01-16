@@ -105,7 +105,7 @@ public final class StdOutputOf implements StdOutput {
             new Joined<>(
                 new ListOf<>(
                     new PlainFormattedText(
-                        "YML file `%s` has wrong format:", file
+                        "YML file `%s` has the wrong format:", file
                     ).asString()
                 ),
                 new Mapped<>(
@@ -131,6 +131,7 @@ public final class StdOutputOf implements StdOutput {
                 new HighlightedText("Testing failed.", Color.RED)
             ).value().toString()
         );
+        this.out.println();
     }
 
 }

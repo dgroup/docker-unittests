@@ -30,11 +30,11 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.OutputArg;
-import org.dgroup.dockertest.cmd.SingleArg;
+import org.dgroup.dockertest.cmd.OutputArgOf;
+import org.dgroup.dockertest.cmd.SingleArgOf;
 import org.dgroup.dockertest.cmd.UncheckedArg;
-import org.dgroup.dockertest.cmd.YmlFileArg;
 import org.dgroup.dockertest.test.output.std.FakeStdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -61,9 +61,13 @@ public class TestsTest {
         final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
         new Tests(
             new Args(
-                new SingleArg("-i", args, "Docker image wasn't specified."),
-                new YmlFileArg(args),
-                new OutputArg(
+                new SingleArgOf(
+                    "-i", args, "Docker image wasn't specified."
+                ),
+                new SingleArgOf(
+                    "-f", args, "YML file with tests wasn't specified."
+                ),
+                new OutputArgOf(
                     new UncheckedArg("-o", args),
                     "",
                     new HashMap<>(),
@@ -75,6 +79,9 @@ public class TestsTest {
         MatcherAssert.assertThat(
             output.details(),
             Matchers.hasItem("Testing successfully completed.")
+        );
+        new StdOutputOf().print(
+            output.details()
         );
     }
 
