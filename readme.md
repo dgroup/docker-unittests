@@ -37,6 +37,36 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
    ![docker image tests results](./.guides/image-tests-results.png)
+3. Run tests from *.sh
+   ```yaml
+   version: 1
+    
+    tests:
+    
+      - test:
+          assume: "java version is 1.9, Debian build"
+          cmd:    "java -version"
+          output:
+            - contains: openjdk version "9.0.1"
+            - contains: build 9.0.1+11-Debian
+    
+      - test:
+          assume: "curl version is 8000"
+          cmd:    "curl --version"
+          output:
+            - startsWith: "curl 8000"
+            - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
+            - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
+
+   ``` 
+   ```bash
+    #!/usr/bin/env bash
+    set -e
+    echo Testing has been started
+    java -jar docker-unittests.jar -f test.yml -i docker/whalesay
+    echo This line will not be executed.
+    ```
+    ![docker image tests results](./.guides/image-tests-results-failure.png)
 
 ### F.A.Q.
  - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
