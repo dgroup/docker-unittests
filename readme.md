@@ -59,6 +59,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
             - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
 
    ``` 
+   ./test.sh
    ```bash
     #!/usr/bin/env bash
     set -e
@@ -76,8 +77,6 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
                                     
 ### TODOs for release 1.0-alpha
  - Make project public once milestone [1.0-alpha](https://github.com/dgroup/docker-unittests/milestone/1) is done. 
- - @todo #6 update section "Testing..." with output details for passed and failed case.
-    Also add example of usage from shell script (with bash `set -e` option).  
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #13 Add https://codebeat.co badge once project moved to public
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
