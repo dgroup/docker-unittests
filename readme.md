@@ -1,4 +1,4 @@
-[![Gitter](https://badges.gitter.im/dgroup/docker-unittests.svg)](https://gitter.im/dgroup/docker-unittests?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![CircleCI](https://circleci.com/gh/dgroup/docker-unittests.svg?style=svg&circle-token=b92ed160ef63a282a5464d370494df411d6d5600)](https://circleci.com/gh/dgroup/docker-unittests)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
@@ -78,7 +78,6 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
 ### TODOs for release 1.0-alpha
  - Make project public once milestone [1.0-alpha](https://github.com/dgroup/docker-unittests/milestone/1) is done. 
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
- - @todo #13 Add https://codebeat.co badge once project moved to public
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #15 Add https://sonarcloud.io badge once project moved to public
  - @todo #16 Add https://codecov.io badge once project moved to public
