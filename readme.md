@@ -77,7 +77,6 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
                                     
 ### TODOs for release 1.0-alpha
- - Make project public once milestone [1.0-alpha](https://github.com/dgroup/docker-unittests/milestone/1) is done. 
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #15 Add https://sonarcloud.io badge once project moved to public
- - @todo #17 Add http://www.javadoc.io badge once project moved to public
+ - @todo #17 Add http://www.javadoc.io badge after release to maven central
