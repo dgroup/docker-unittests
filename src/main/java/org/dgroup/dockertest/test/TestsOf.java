@@ -109,17 +109,11 @@ public final class TestsOf {
      *  thread-pool configuration from command line. Also, the tool can use
      *  https://github.com/testcontainers/testcontainers-java as a layer for the
      *  docker integration.
-     * @todo #66 Unit test is required for smoke testing.
-     * @todo #70:10m Throw NoScenarioFoundException instead of return
      */
     public void execute() throws DockerProcessExecutionException,
         TestingFailedException {
         if (this.scope.isEmpty()) {
-            this.std.print(
-                "%s testing scenarios found.",
-                new HighlightedText(0, Color.YELLOW)
-            );
-            return;
+            throw new NoScenariosFoundException();
         }
         this.std.print(
             "Found scenarios: %s.%n",

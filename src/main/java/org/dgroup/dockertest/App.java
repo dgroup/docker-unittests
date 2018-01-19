@@ -28,11 +28,14 @@ import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.exception.RootCause;
+import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.TestsOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.fusesource.jansi.Ansi;
 
 /**
  * App start point with main method only.
@@ -58,6 +61,11 @@ public final class App {
         std.print(new Logo("1.0").byLines());
         try {
             new TestsOf(args).execute();
+        } catch (final NoScenariosFoundException ex) {
+            std.print(
+                "%s testing scenarios found.",
+                new HighlightedText(0, Ansi.Color.YELLOW)
+            );
         } catch (final TestingFailedException ex) {
             termination.testingFailed();
         } catch (final CmdArgNotFoundException ex) {

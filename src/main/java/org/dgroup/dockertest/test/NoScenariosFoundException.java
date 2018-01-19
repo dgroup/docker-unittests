@@ -24,12 +24,12 @@
 package org.dgroup.dockertest.test;
 
 /**
- * Notify the application that testing is failed.
+ * Notify that there are no any testing scenarios within YML file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public class TestingFailedException extends Exception {
+public final class NoScenariosFoundException extends TestingFailedException {
 
 }
