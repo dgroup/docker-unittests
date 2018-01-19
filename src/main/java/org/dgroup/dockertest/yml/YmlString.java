@@ -26,14 +26,13 @@ package org.dgroup.dockertest.yml;
 import java.util.List;
 import java.util.Map;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTestOf;
 import org.dgroup.dockertest.yml.tag.tests.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.version.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
- * Transform *.yml file with tests to collection of {@link YmlTagTestOf }.
+ * Transform *.yml file with tests to collection of {@link YmlTagTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
