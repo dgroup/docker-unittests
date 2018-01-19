@@ -28,6 +28,7 @@ import org.cactoos.iterable.Filtered;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
@@ -67,7 +68,7 @@ public final class TestOf implements Test {
     /**
      * Ctor.
      * @param assume Name of testing scenario.
-     * @param cmd Command to be executed inside of docker container.
+     * @param cmd Command to be executed within docker container.
      * @param expect Expected conditions which should be applied
      *  to output from docker container.
      * @param proc Docker container where test be executed.
@@ -84,7 +85,7 @@ public final class TestOf implements Test {
     @Override
     public TestOutcome execute() throws DockerProcessExecutionException {
         final String output = this.process.execute().asText();
-        final List<YmlTagOutputPredicate> failed = new ListOf<>(
+        final List<YmlTagOutputPredicate> failed = new StickyList<>(
             new Filtered<>(t -> !t.test(output), this.expected)
         );
         return new TestOutcomeOf(

@@ -30,7 +30,7 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
 /**
  * Represents root cause exception for particular exception.
  *
- * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Bohdan Okun (markpolo525@gmail.com)
  * @version $Id$
  * @since 1.0
  */

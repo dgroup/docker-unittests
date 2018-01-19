@@ -73,6 +73,7 @@ public final class Tests {
      *  or not specified by user.
      * @throws IllegalYmlFileFormatException in case if YML file with tests
      *  has wrong/incorrect format.
+     * @todo #73:15m Do not pass std directly, use Args instead.
      */
     public Tests(final Args args, final StdOutput std)
         throws CmdArgNotFoundException, IllegalYmlFileFormatException {
@@ -111,6 +112,7 @@ public final class Tests {
      *  https://github.com/testcontainers/testcontainers-java as a layer for the
      *  docker integration.
      * @todo #66 Unit test is required for smoke testing.
+     * @todo #70:10m Throw NoScenarioFoundException instead of return
      */
     public void execute() throws DockerProcessExecutionException,
         TestingFailedException {

@@ -75,14 +75,12 @@ public final class YmlTagTestOf implements YmlTagTest {
 
     @Override
     public String assume() throws IllegalYmlFileFormatException {
-        this.tag.assertThatTagContain("assume");
-        return this.tag.asMap().get("assume").toString();
+        return this.child("assume");
     }
 
     @Override
     public String cmd() throws IllegalYmlFileFormatException {
-        this.tag.assertThatTagContain("cmd");
-        return this.tag.asMap().get("cmd").toString();
+        return this.child("cmd");
     }
 
     @Override
@@ -123,4 +121,16 @@ public final class YmlTagTestOf implements YmlTagTest {
         return this.tag.asObject();
     }
 
+    /**
+     * Give child tag value as a string.
+     * @param child Tag name.
+     * @return Child tag
+     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     *  or has no value.
+     */
+    private String child(final String child)
+        throws IllegalYmlFileFormatException {
+        this.tag.assertThatTagContain(child);
+        return this.tag.asMap().get(child).toString();
+    }
 }

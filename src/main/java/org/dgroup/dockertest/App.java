@@ -48,6 +48,8 @@ public final class App {
     /**
      * Start point.
      * @param arguments YML file with tests and docker image name.
+     * @todo #71:15m Pass StdOutput to Args as field instead of creation of new
+     *  instance internally.
      */
     public static void main(final String... arguments) {
         final StdOutput std = new StdOutputOf(System.out, "    ");

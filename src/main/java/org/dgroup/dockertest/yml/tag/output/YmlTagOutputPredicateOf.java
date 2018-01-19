@@ -42,7 +42,7 @@ public final class YmlTagOutputPredicateOf
     implements YmlTagOutputPredicate {
 
     /**
-     * Compare type: contains, equals, startsWith, endsWith.
+     * Compare type: contains, equals, startsWith, endsWith, matches.
      */
     private final String type;
     /**

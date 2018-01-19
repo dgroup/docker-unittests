@@ -59,6 +59,7 @@ public final class SystemProcess {
     /**
      * Execute one command.
      * @return Instance of started OS dependent system process.
+     * @todo #74:15m Do not throw runtime exception
      */
     public Process execute() {
         try {

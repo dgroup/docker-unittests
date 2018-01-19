@@ -74,8 +74,8 @@ public final class CmdOutputOf implements CmdOutput {
             new InputStreamReader(
                 this.outcome.getInputStream(),
                 this.encoding
-            ))
-        ) {
+            )
+        )) {
             return new UncheckedText(
                 new TextOf(
                     new InputOf(in)

@@ -38,6 +38,7 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @since 1.0
  */
 public final class TimedCmdOutput implements CmdOutput {
+
     /**
      * Origin.
      */
@@ -53,38 +54,38 @@ public final class TimedCmdOutput implements CmdOutput {
      * @param origin Operation output.
      */
     public TimedCmdOutput(final Instant start, final CmdOutput origin) {
-        this(origin, start, Instant.now());
+        this(start, Instant.now(), origin);
     }
 
     /**
      * Ctor.
-     * @param origin Operation output.
      * @param start Time.
      * @param end Time.
+     * @param origin Operation output.
      */
-    public TimedCmdOutput(final CmdOutput origin, final Instant start,
-        final Instant end) {
-        this(origin, Duration.between(start, end));
+    public TimedCmdOutput(final Instant start, final Instant end,
+        final CmdOutput origin) {
+        this(Duration.between(start, end), origin);
     }
 
     /**
      * Ctor.
+     * @param spent Time.
      * @param origin Operation output.
-     * @param duration Time.
      */
-    public TimedCmdOutput(final CmdOutput origin, final Duration duration) {
+    public TimedCmdOutput(final Duration spent, final CmdOutput origin) {
         // @checkstyle MagicNumberCheck (1 lines)
-        this(origin, duration.toMillis() / 1000.0);
+        this(spent.toMillis() / 1000.0, origin);
     }
 
     /**
      * Ctor.
+     * @param seconds Time spent in seconds.
      * @param origin Operation output.
-     * @param seconds Duration in seconds.
      */
-    public TimedCmdOutput(final CmdOutput origin, final Double seconds) {
-        this.origin = origin;
+    public TimedCmdOutput(final Double seconds, final CmdOutput origin) {
         this.seconds = seconds;
+        this.origin = origin;
     }
 
     @Override

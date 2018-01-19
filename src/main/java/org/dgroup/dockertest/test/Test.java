@@ -35,7 +35,7 @@ import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 public interface Test {
 
     /**
-     * Execute single test via docker.
+     * Execute single test within docker.
      * @return Testing results.
      * @throws DockerProcessExecutionException in case of runtime exceptions
      *  on docker side.

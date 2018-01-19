@@ -55,8 +55,11 @@ public final class FakeYmlTagTest implements YmlTagTest {
      * @param expected List of expected conditions to be applied
      *  to the container output.
      */
-    public FakeYmlTagTest(final String scenario, final String cmd,
-        final List<YmlTagOutputPredicate> expected) {
+    public FakeYmlTagTest(
+        final String scenario,
+        final String cmd,
+        final List<YmlTagOutputPredicate> expected
+    ) {
         this.scenario = scenario;
         this.command = cmd;
         this.expected = expected;

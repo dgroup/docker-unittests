@@ -59,6 +59,7 @@ public final class YmlString {
      * @return Yml tests.
      * @throws IllegalYmlFileFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
+     * @todo #72:15m Remove unnecessary variable.
      */
     public List<YmlTagTest> asTests() throws IllegalYmlFileFormatException {
         final Map<String, Object> tree = this.loadYmlTree();
