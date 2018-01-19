@@ -41,7 +41,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link Tests}.
+ * Unit tests for class {@link TestsOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -50,7 +50,7 @@ import org.junit.runner.RunWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @RunWith(OnlyWithinInstalledDocker.class)
-public class TestsTest {
+public class TestsOfTest {
 
     @Test
     public final void singleTest() throws Exception {
@@ -59,7 +59,7 @@ public class TestsTest {
             "-i", "openjdk:9.0.1-11"
         );
         final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
-        new Tests(
+        new TestsOf(
             new Args(
                 new ArgOf("-i", args, "Docker image wasn't specified."),
                 new ArgOf("-f", args, "YML file with tests wasn't specified."),
@@ -68,9 +68,9 @@ public class TestsTest {
                     "",
                     new HashMap<>(),
                     output
-                )
-            ),
-            output
+                ),
+                output
+            )
         ).execute();
         MatcherAssert.assertThat(
             output.details(),

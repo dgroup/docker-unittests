@@ -34,6 +34,7 @@ import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.text.FileAsString;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.YmlString;
@@ -60,24 +61,32 @@ public final class Args {
      * Supported outputs formats. Specified by user from shell.
      */
     private final OutputArg outputs;
+    /**
+     * Standard output for application progress.
+     */
+    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+    private StdOutput std;
 
     /**
      * Ctor.
+     * @param std Standard output for application progress.
      * @param args Command-line arguments specified by user.
      */
-    public Args(final String... args) {
-        this(new ListOf<>(args));
+    public Args(final StdOutput std, final String... args) {
+        this(std, new ListOf<>(args));
     }
 
     /**
      * Ctor.
+     * @param std Standard output for application progress.
      * @param args Command-line arguments specified by user.
      */
-    public Args(final List<String> args) {
+    public Args(final StdOutput std, final List<String> args) {
         this(
             new ArgOf("-i", args, "Docker image wasn't specified."),
             new ArgOf("-f", args, "YML file with tests wasn't specified."),
-            new OutputArgOf(args)
+            new OutputArgOf(args),
+            std
         );
     }
 
@@ -86,11 +95,16 @@ public final class Args {
      * @param image Docker image. Specified by user from shell.
      * @param file YML file (with tests). Specified by user from shell.
      * @param outputs Supported outputs formats. Specified by user from shell.
+     * @param std Standard output for application progress.
+     * @checkstyle ParameterNumberCheck (5 lines)
      */
-    public Args(final Arg image, final Arg file, final OutputArg outputs) {
+    public Args(final Arg image, final Arg file, final OutputArg outputs,
+        final StdOutput std
+    ) {
         this.image = image;
         this.file = file;
         this.outputs = outputs;
+        this.std = std;
     }
 
     /**
@@ -158,5 +172,13 @@ public final class Args {
      */
     public String ymlFilename() throws CmdArgNotFoundException {
         return this.file.value();
+    }
+
+    /**
+     * Standard output for application progress.
+     * @return Output.
+     */
+    public StdOutput std() {
+        return this.std;
     }
 }

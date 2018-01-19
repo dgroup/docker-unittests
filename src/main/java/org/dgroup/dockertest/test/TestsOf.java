@@ -46,7 +46,7 @@ import org.fusesource.jansi.Ansi.Color;
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class Tests {
+public final class TestsOf {
 
     /**
      * Docker image for testing.
@@ -68,20 +68,18 @@ public final class Tests {
     /**
      * Ctor.
      * @param args Command-line arguments specified by user.
-     * @param std Standard output for application progress.
      * @throws CmdArgNotFoundException in case if cmd argument is missing
      *  or not specified by user.
      * @throws IllegalYmlFileFormatException in case if YML file with tests
      *  has wrong/incorrect format.
-     * @todo #73:15m Do not pass std directly, use Args instead.
      */
-    public Tests(final Args args, final StdOutput std)
+    public TestsOf(final Args args)
         throws CmdArgNotFoundException, IllegalYmlFileFormatException {
         this(
             args.dockerImage(),
             args.tests(),
             args.selectedByUserOutput(),
-            std
+            args.std()
         );
     }
 
@@ -93,7 +91,7 @@ public final class Tests {
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public Tests(final String image, final List<Test> scope,
+    public TestsOf(final String image, final List<Test> scope,
         final Set<Output> out, final StdOutput std) {
         this.image = image;
         this.scope = scope;

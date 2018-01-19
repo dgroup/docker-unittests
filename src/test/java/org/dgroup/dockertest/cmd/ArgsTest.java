@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.test.output.std.FakeStdOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -41,7 +43,10 @@ public final class ArgsTest {
     @Test
     public void ymlFilename() throws CmdArgNotFoundException {
         MatcherAssert.assertThat(
-            new Args("-f", ".gitignore").ymlFilename(),
+            new Args(
+                new FakeStdOutput(new ListOf<>()),
+                "-f", ".gitignore"
+            ).ymlFilename(),
             Matchers.equalTo(".gitignore")
         );
     }

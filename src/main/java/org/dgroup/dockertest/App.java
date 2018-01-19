@@ -29,7 +29,7 @@ import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.exception.RootCause;
 import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.Tests;
+import org.dgroup.dockertest.test.TestsOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
@@ -54,11 +54,10 @@ public final class App {
     public static void main(final String... arguments) {
         final StdOutput std = new StdOutputOf(System.out, "    ");
         final AbnormalTermination termination = new AbnormalTermination(std);
-        final Args args = new Args(arguments);
+        final Args args = new Args(std, arguments);
+        std.print(new Logo("1.0").byLines());
         try {
-            std.print(new Logo("1.0").byLines());
-            new Tests(args, std)
-                .execute();
+            new TestsOf(args).execute();
         } catch (final TestingFailedException ex) {
             termination.testingFailed();
         } catch (final CmdArgNotFoundException ex) {
