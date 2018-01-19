@@ -11,8 +11,7 @@ test:
         -Dsonar.organization=dgroup-github \
         -Dsonar.host.url=https://sonarcloud.io \
         -Dsonar.login=9006f420405fb08ec8373a62083221c9c3f83fc0
-    - mvn test -Pqulice
-    - bash <(curl -s https://codecov.io/bash)
+    - mvn test -Pqulice && bash <(curl -s https://codecov.io/bash)
 
 notify:
   webhooks:
