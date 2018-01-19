@@ -80,5 +80,4 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
  - @todo #12 Add cobertura/jacoco coverage badge once project moved to public 
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #15 Add https://sonarcloud.io badge once project moved to public
- - @todo #16 Add https://codecov.io badge once project moved to public
  - @todo #17 Add http://www.javadoc.io badge once project moved to public

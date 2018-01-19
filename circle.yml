@@ -7,7 +7,7 @@ dependencies:
 
 test:
   override:
-    - mvn test -Pqulice
+    - mvn test -Pqulice && bash <(curl -s https://codecov.io/bash)
 
 notify:
   webhooks:
