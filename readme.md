@@ -78,5 +78,4 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
                                     
 ### TODOs for release 1.0-alpha
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
- - @todo #15 Add https://sonarcloud.io badge once project moved to public
  - @todo #17 Add http://www.javadoc.io badge after release to maven central
