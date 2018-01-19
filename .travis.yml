@@ -7,10 +7,7 @@ script:
   - set -e
   - mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
   - mvn test -Pqulice
-  - mvn -Psonar sonar:sonar \
-    -Dsonar.organization=dgroup-github \
-    -Dsonar.host.url=https://sonarcloud.io \
-    -Dsonar.login=9006f420405fb08ec8373a62083221c9c3f83fc0
+  - mvn -Psonar sonar:sonar -Dsonar.organization=dgroup-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=9006f420405fb08ec8373a62083221c9c3f83fc0
 
 env:
   global:
