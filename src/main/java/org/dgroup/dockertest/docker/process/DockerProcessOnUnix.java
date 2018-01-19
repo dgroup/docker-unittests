@@ -23,7 +23,9 @@
  */
 package org.dgroup.dockertest.docker.process;
 
+import java.io.IOException;
 import java.util.List;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.SystemProcess;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.output.CmdOutputOf;
@@ -59,8 +61,12 @@ public final class DockerProcessOnUnix implements DockerProcess {
     }
 
     @Override
-    public CmdOutput execute() {
-        return new CmdOutputOf(this.process.execute());
+    public CmdOutput execute() throws DockerProcessExecutionException {
+        try {
+            return new CmdOutputOf(this.process.execute());
+        } catch (final IOException ex) {
+            throw new DockerProcessExecutionException(ex);
+        }
     }
 
 }

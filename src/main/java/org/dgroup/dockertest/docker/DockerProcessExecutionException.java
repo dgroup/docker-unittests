@@ -37,6 +37,14 @@ public class DockerProcessExecutionException extends Exception {
 
     /**
      * Ctor.
+     * @param cause Root cause details.
+     */
+    public DockerProcessExecutionException(final Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Ctor.
      * @param msg Exception details.
      */
     public DockerProcessExecutionException(final String msg) {

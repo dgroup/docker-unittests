@@ -59,13 +59,10 @@ public final class SystemProcess {
     /**
      * Execute one command.
      * @return Instance of started OS dependent system process.
-     * @todo #74:15m Do not throw runtime exception
+     * @throws IOException if an I/O error occurs.
      */
-    public Process execute() {
-        try {
-            return this.process.start();
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public Process execute() throws IOException {
+        return this.process.start();
     }
+
 }
