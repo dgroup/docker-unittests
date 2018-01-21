@@ -1,15 +1,15 @@
-[![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master)](https://travis-ci.org/dgroup/docker-unittests)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
+[![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.dgroup.dockertest:docker-unittests)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/test/github/dgroup/docker-unittests)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
+[![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./LICENSE.txt)
 
 ### Testing of docker images
-The main concept is that all tests should use the image as is without any 'internal' 
-go-related features.
+The main concept is that all tests should use the image as is without any 'internal' go-related features.
 We, like users, receive the image and we are going to check what we've got.
 
 The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. 
