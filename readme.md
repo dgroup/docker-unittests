@@ -77,6 +77,6 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
  - [Github](./.guides/github.md)
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
                                     
-### TODOs for release 1.0-alpha
+### TODOs for release 1.0
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #17 Add http://www.javadoc.io badge after release to maven central
