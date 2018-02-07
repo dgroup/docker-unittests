@@ -36,6 +36,7 @@ import org.cactoos.text.UncheckedText;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo 83 Rename to StrictFormattedText
  */
 public final class PlainFormattedText implements Text {
 
@@ -70,6 +71,7 @@ public final class PlainFormattedText implements Text {
         this.args = args;
     }
 
+    // @todo #82 Avoid runtime exceptions in the project
     @Override
     public String asString() {
         if (new StringOccurrences(this.pattern, "%s")

@@ -24,12 +24,13 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.cactoos.Scalar;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
 
 /**
  * Read file to string.
@@ -37,14 +38,13 @@ import org.cactoos.text.UncheckedText;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #79 Rename to TextFile
  */
-public final class FileAsString {
+public final class TextFile {
 
     /**
      * File to read.
      */
-    private final File origin;
+    private final Scalar<File> origin;
     /**
      * File charset.
      */
@@ -56,8 +56,8 @@ public final class FileAsString {
      * @todo #4 Add cmd flag which allows user to select encoding
      *  for *.yml file with tests.
      */
-    public FileAsString(final File origin) {
-        this(origin, StandardCharsets.UTF_8);
+    public TextFile(final File origin) {
+        this(() -> origin, StandardCharsets.UTF_8);
     }
 
     /**
@@ -65,7 +65,7 @@ public final class FileAsString {
      * @param origin File for reading.
      * @param charset File charset for reading.
      */
-    public FileAsString(final File origin, final Charset charset) {
+    public TextFile(final Scalar<File> origin, final Charset charset) {
         this.origin = origin;
         this.charset = charset;
     }
@@ -73,16 +73,21 @@ public final class FileAsString {
     /**
      * File content.
      * @return File content as string.
+     * @throws IOException if an I/O error occurs
+     * @checkstyle IllegalCatchCheck (20 lines)
      */
-    public String content() {
-        return new UncheckedText(
-            new TextOf(
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public String content() throws IOException {
+        try {
+            return new TextOf(
                 new BytesOf(
-                    new InputOf(this.origin)
+                    new InputOf(this.origin.value())
                 ),
                 this.charset
-            )
-        ).asString();
+            ).asString();
+        } catch (final Exception exp) {
+            throw new IOException(exp);
+        }
     }
 
 }

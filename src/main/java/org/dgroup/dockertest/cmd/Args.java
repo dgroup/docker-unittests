@@ -35,7 +35,7 @@ import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.FileAsString;
+import org.dgroup.dockertest.text.TextFile;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.YmlString;
 
@@ -148,11 +148,9 @@ public final class Args {
                     )
                 ),
                 new YmlString(
-                    new FileAsString(
-                        new File(
-                            this.ymlFilename()
-                        )
-                    ).content()
+                    new TextFile(
+                        new File(this.ymlFilename())
+                    )
                 ).asTests()
             )
         );

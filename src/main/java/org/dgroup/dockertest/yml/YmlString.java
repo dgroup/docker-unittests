@@ -25,11 +25,12 @@ package org.dgroup.dockertest.yml;
 
 import java.util.List;
 import java.util.Map;
+import org.cactoos.Scalar;
+import org.dgroup.dockertest.text.TextFile;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
 import org.dgroup.dockertest.yml.tag.tests.YmlTagTests;
 import org.dgroup.dockertest.yml.tag.version.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
  * Transform *.yml file with tests to collection of {@link YmlTagTest}.
@@ -43,13 +44,21 @@ public final class YmlString {
     /**
      * All tags defined in yml file with tests.
      */
-    private final String yml;
+    private final Scalar<String> yml;
 
     /**
      * Ctor.
      * @param yml Tags defined in file with tests as string.
      */
-    public YmlString(final String yml) {
+    public YmlString(final TextFile yml) {
+        this(yml::content);
+    }
+
+    /**
+     * Ctor.
+     * @param yml Tags defined in file with tests as string.
+     */
+    public YmlString(final Scalar<String> yml) {
         this.yml = yml;
     }
 
@@ -70,12 +79,14 @@ public final class YmlString {
      * @return Tree.
      * @throws IllegalYmlFileFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
+     * @checkstyle IllegalCatchCheck (10 lines)
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private Map<String, Object> loadYmlTree()
         throws IllegalYmlFileFormatException {
         try {
-            return new Yaml().load(this.yml);
-        } catch (final ScannerException ex) {
+            return new Yaml().load(this.yml.value());
+        } catch (final Exception ex) {
             throw new IllegalYmlFileFormatException(ex.getMessage(), ex);
         }
     }

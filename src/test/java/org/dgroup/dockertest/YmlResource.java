@@ -24,8 +24,9 @@
 package org.dgroup.dockertest;
 
 import java.io.File;
-import org.dgroup.dockertest.text.FileAsString;
+import java.io.IOException;
 import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
+import org.dgroup.dockertest.text.TextFile;
 
 /**
  * Represents an yml resource available in `src/test/resources/yml/test` dir.
@@ -59,7 +60,7 @@ public final class YmlResource {
      * Ctor.
      * @param location Yml file with tests.
      */
-    private YmlResource(final FormattedTextWithRepeatableArguments location) {
+    public YmlResource(final FormattedTextWithRepeatableArguments location) {
         this.location = location;
     }
 
@@ -84,11 +85,10 @@ public final class YmlResource {
     /**
      * Return yml file as string.
      * @return Yml string.
+     * @throws IOException in case IO errors.
      */
-    public String asString() {
-        return new FileAsString(
-            this.file()
-        ).content();
+    public String asString() throws IOException {
+        return new TextFile(this.file()).content();
     }
 
 }

@@ -24,14 +24,14 @@
 package org.dgroup.dockertest.text;
 
 import java.io.File;
-import java.io.UncheckedIOException;
+import java.io.IOException;
 import org.dgroup.dockertest.Assert;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link FileAsString}.
+ * Unit tests for class {@link TextFile}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -39,12 +39,12 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class FileAsStringTest {
+public final class TextFileTest {
 
     @Test
-    public void fileContentWasReadedAsString() {
+    public void fileContentWasReadedAsString() throws IOException {
         MatcherAssert.assertThat(
-            new FileAsString(
+            new TextFile(
                 new File(
                     new FormattedTextWithRepeatableArguments(
                         "src{0}test{0}resources{0}txt{0}tests{0}simple.txt",
@@ -61,10 +61,8 @@ public final class FileAsStringTest {
     @Test
     public void fileNotFound() {
         new Assert().thatThrows(
-            () -> new FileAsString(
-                new File(".gitignoreeeeeee")
-            ).content(),
-            UncheckedIOException.class,
+            () -> new TextFile(new File(".gitignoreeeeeee")).content(),
+            IOException.class,
             "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
         );
     }

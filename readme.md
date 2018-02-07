@@ -1,5 +1,8 @@
+## Docker-unittests
+
 [![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master)](https://travis-ci.org/dgroup/docker-unittests)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
+[![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
 [![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.dgroup.dockertest:docker-unittests)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
@@ -8,7 +11,6 @@
 [![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./LICENSE.txt)
 
-### Testing of docker images
 The main concept is that all tests should use the image as is without any 'internal' go-related features.
 We, like users, receive the image and we are going to check what we've got.
 
@@ -81,3 +83,5 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
 ### TODOs for release 1.0
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #17 Add http://www.javadoc.io badge after release to maven central
+ - @todo #80 Check rultor as POC for deployment process to mvn central
+ - @todo #81 Publish automatically binary artifacts to github releases    

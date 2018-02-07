@@ -58,7 +58,7 @@ public final class YmlStringTest {
     public void tagVersionIsMissing() {
         new Assert().thatThrows(
             () -> new YmlString(
-                new YmlResource("with-missing-version-tag.yml").asString()
+                () -> new YmlResource("with-missing-version-tag.yml").asString()
             ).asTests(),
             new IllegalYmlFileFormatException(
                 "`version` tag is missing or has incorrect structure"
@@ -306,7 +306,7 @@ public final class YmlStringTest {
     private List<YmlTagTest> loadTests(final String file)
         throws IllegalYmlFileFormatException {
         return new YmlString(
-            new YmlResource(file).asString()
+            () -> new YmlResource(file).asString()
         ).asTests();
     }
 
