@@ -46,7 +46,6 @@
         <!-- Dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <streamex.version>0.6.6</streamex.version>
         <cactoos.version>0.27</cactoos.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
@@ -70,12 +69,6 @@
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>${jansi.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>one.util</groupId>
-            <artifactId>streamex</artifactId>
-            <version>${streamex.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -191,7 +184,6 @@
                                 <exclude>xml:/src/main/resources/logback.xml</exclude>
                                 <exclude>dependencies:org.cactoos:cactoos</exclude>
                                 <exclude>dependencies:org.fusesource.jansi:jansi</exclude>
-                                <exclude>dependencies:one.util:streamex</exclude>
                                 <exclude>dependencies:org.yaml:snakeyaml</exclude>
                                 <exclude>dependencies:org.hamcrest</exclude>
                                 <exclude>dependencies:org.slf4j</exclude>

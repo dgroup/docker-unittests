@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.text;
 
-import one.util.streamex.StreamEx;
 import org.cactoos.iterable.IterableOf;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 
@@ -71,12 +70,9 @@ public final class Joined {
     /**
      * Transform array/collection/etc to string.
      * @return New joined string in accordance with {@code this.delimiter }
-     * @todo #61 Remove streamex dependency from the project,
-     *  use cactoos mapped iterable + func instead.
      */
     public String asString() {
-        return StreamEx.of(this.values.iterator())
-            .joining(this.delimiter.value());
+        return String.join(this.delimiter.value(), this.values);
     }
 
     @Override

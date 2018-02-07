@@ -37,6 +37,7 @@ import org.cactoos.text.UncheckedText;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #79 Rename to TextFile
  */
 public final class FileAsString {
 

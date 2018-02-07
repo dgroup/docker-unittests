@@ -98,7 +98,10 @@ public final class Args {
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (5 lines)
      */
-    public Args(final Arg image, final Arg file, final OutputArg outputs,
+    public Args(
+        final Arg image,
+        final Arg file,
+        final OutputArg outputs,
         final StdOutput std
     ) {
         this.image = image;

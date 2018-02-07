@@ -44,6 +44,7 @@ public interface CmdOutput {
     /**
      * Represent cmd output splitted by lines.
      * @return Cmd output as list.
+     * @todo #77 Move interface default methods to the envelope classes
      */
     default List<String> byLines() {
         return new ListOf<>(

@@ -29,6 +29,7 @@ package org.dgroup.dockertest.cmd;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #78 Make arg with generic
  */
 public interface Arg {
     /**

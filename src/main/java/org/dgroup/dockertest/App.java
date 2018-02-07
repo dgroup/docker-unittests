@@ -43,6 +43,7 @@ import org.fusesource.jansi.Ansi;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #76 Daily stream cleaning for 1.0-beta release.
  * @checkstyle HideUtilityClassConstructorCheck (10 lines)
  */
 @SuppressWarnings("PMD.UseUtilityClass")
