@@ -58,34 +58,20 @@
 10. Settings > Editor > Сopyright > Formatting > Java
     - Select `Use custom formatting options`
     - Select `Separator before` with `Length` equal to 1
-11. Settings > Editor > File and Code Templates > For current project > Files > Class
-    - Re-order text to the following
-   	  ```java
-         /**
-          * MIT License
-          *
-            ...
-          * SOFTWARE.
-          */
-          #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
-          #parse("File Header.java")
-          public final class ${NAME} {
-          }
-   	  ```
-   	  (empty line at the end is required).
-12. Settings > Editor > Code Style > Java > Tabs and Indents
+    - Disable `Add blank line after`
+11. Settings > Editor > Code Style > Java > Tabs and Indents
     - Change `Continuation Indent` to 4
     - Press `OK`
-13. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
+12. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
      - Copy [license](../license.txt) 
      - Press `Apply` > `OK`
-14. Settings > Editor > Code Style > Java > Code Generation 
+13. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"
      - Select option "Make generated parameters final"
-15. Settings > Editor > Code Style > Java > Spaces
+14. Settings > Editor > Code Style > Java > Spaces
      - Select `Array initializer braces`
      - Press `Apply` > `OK`
-16. Settings > Editor > File and Code Templates > Includes
+15. Settings > Editor > File and Code Templates > Includes
      - Press `+`, name = `Unit-test File Header`, extension = `java`
      - Add text like below (change name, email and version accordingly)
         ```java
@@ -113,9 +99,9 @@
 		    #parse("Unit-test File Header.java")
 		    ...
      - Press `OK`
-17. Settings > Editor > General > Appearance 
+16. Settings > Editor > General > Appearance 
      - Disable `Show parameter name hints`
      - Press `Apply` > `OK`
-18. Settings > Editor > General > Code Folding 
+17. Settings > Editor > General > Code Folding 
      - Disable `One-line methods`
      - Press `Apply` > `OK`
