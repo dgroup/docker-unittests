@@ -177,7 +177,7 @@
                         <artifactId>qulice-maven-plugin</artifactId>
                         <version>${qulice.version}</version>
                         <configuration>
-                            <license>file:${basedir}/LICENSE.txt</license>
+                            <license>file:${basedir}/license.txt</license>
                             <lineLength>100</lineLength>
                             <excludes combine.children="append">
                                 <exclude>checkstyle:/src/site/resources/.*</exclude>

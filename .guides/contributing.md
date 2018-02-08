@@ -77,7 +77,7 @@
     - Change `Continuation Indent` to 4
     - Press `OK`
 13. Settings > Editor > Copyright > Copyright Profiles > Add new with name `default` > 
-     - Copy [license](../LICENSE.txt) 
+     - Copy [license](../license.txt) 
      - Press `Apply` > `OK`
 14. Settings > Editor > Code Style > Java > Code Generation 
      - Select option "Make generated local variables final"

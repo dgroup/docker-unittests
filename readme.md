@@ -9,7 +9,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/test/github/dgroup/docker-unittests)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
 [![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
-[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./LICENSE.txt)
+[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
 
 The main concept is that all tests should use the image as is without any 'internal' go-related features.
 We, like users, receive the image and we are going to check what we've got.
