@@ -23,50 +23,39 @@
  */
 package org.dgroup.dockertest.docker.output;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import org.cactoos.io.InputOf;
-import org.cactoos.text.TextOf;
+import java.util.List;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Represent command output for command from docker container.
+ * CmdOutput envelope.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class CmdOutputOf extends CmdOutputEnvelope {
+class CmdOutputEnvelope implements CmdOutput {
+
+    /**
+     * Origin.
+     */
+    private final Scalar<CmdOutput> origin;
 
     /**
      * Ctor.
-     * @param outcome System process output associated with docker container.
+     * @param origin Output.
      */
-    public CmdOutputOf(final Process outcome) {
-        this(outcome, StandardCharsets.UTF_8);
+    CmdOutputEnvelope(final Scalar<CmdOutput> origin) {
+        this.origin = origin;
     }
 
-    /**
-     * Ctor.
-     * @param outcome System process output associated with docker container.
-     * @param charset System process output charset.
-     */
-    public CmdOutputOf(final Process outcome, final Charset charset) {
-        super(() -> new TextCmdOutput(
-            () -> {
-                try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                        outcome.getInputStream(),
-                        charset
-                    )
-                )) {
-                    return new TextOf(new InputOf(in)).asString();
-                } catch (final IOException ex) {
-                    throw new IllegalStateException(ex);
-                }
-            }
-        ));
+    @Override
+    public String asText() {
+        return new UncheckedScalar<>(this.origin).value().asText();
+    }
+
+    @Override
+    public List<String> byLines() {
+        return new UncheckedScalar<>(this.origin).value().byLines();
     }
 }

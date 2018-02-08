@@ -21,28 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.output;
-
-import java.util.List;
 
 /**
- * Represents docker command output.
+ * Unit tests for package {@link org.dgroup.dockertest.docker.output}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface CmdOutput {
-
-    /**
-     * Represent cmd output as string.
-     * @return Cmd output as string.
-     */
-    String asText();
-
-    /**
-     * Represent cmd output splitted by lines.
-     * @return Cmd output as list.
-     */
-    List<String> byLines();
-}
+package org.dgroup.dockertest.docker.output;

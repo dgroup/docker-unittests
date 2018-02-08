@@ -23,50 +23,50 @@
  */
 package org.dgroup.dockertest.docker.output;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import org.cactoos.io.InputOf;
-import org.cactoos.text.TextOf;
+import java.util.List;
+import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Represent command output for command from docker container.
+ * Text output for docker command.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class CmdOutputOf extends CmdOutputEnvelope {
+public final class TextCmdOutput implements CmdOutput {
+
+    /**
+     * Origin.
+     */
+    private final Scalar<String> text;
 
     /**
      * Ctor.
-     * @param outcome System process output associated with docker container.
+     * @param text Origin.
      */
-    public CmdOutputOf(final Process outcome) {
-        this(outcome, StandardCharsets.UTF_8);
+    public TextCmdOutput(final String text) {
+        this(() -> text);
     }
 
     /**
      * Ctor.
-     * @param outcome System process output associated with docker container.
-     * @param charset System process output charset.
+     * @param text Origin.
      */
-    public CmdOutputOf(final Process outcome, final Charset charset) {
-        super(() -> new TextCmdOutput(
-            () -> {
-                try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                        outcome.getInputStream(),
-                        charset
-                    )
-                )) {
-                    return new TextOf(new InputOf(in)).asString();
-                } catch (final IOException ex) {
-                    throw new IllegalStateException(ex);
-                }
-            }
-        ));
+    public TextCmdOutput(final Scalar<String> text) {
+        this.text = text;
+    }
+
+    @Override
+    public String asText() {
+        return new UncheckedScalar<>(this.text).value();
+    }
+
+    @Override
+    public List<String> byLines() {
+        return new ListOf<>(
+            this.asText().split("\n")
+        );
     }
 }

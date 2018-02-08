@@ -27,6 +27,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.docker.output.TextCmdOutput;
 
 /**
  * Represents the {@code docker pull} operation which allows to download image
@@ -76,7 +77,7 @@ public final class Pull implements DockerProcess {
         if (output.contains("pull access denied")) {
             throw new DockerImageNotFoundException(this.image);
         }
-        return () -> output;
+        return new TextCmdOutput(output);
     }
 
 }

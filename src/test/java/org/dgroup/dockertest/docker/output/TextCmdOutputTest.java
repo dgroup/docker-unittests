@@ -23,26 +23,30 @@
  */
 package org.dgroup.dockertest.docker.output;
 
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Represents docker command output.
+ * Unit tests for class {@link TextCmdOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public interface CmdOutput {
+public final class TextCmdOutputTest {
 
-    /**
-     * Represent cmd output as string.
-     * @return Cmd output as string.
-     */
-    String asText();
+    @Test
+    public void byLines() {
+        MatcherAssert.assertThat(
+            new TextCmdOutput(
+                "line 1\nline 2\nline 3"
+            ).byLines(),
+            Matchers.hasItems(
+                "line 1", "line 2", "line 3"
+            )
+        );
+    }
 
-    /**
-     * Represent cmd output splitted by lines.
-     * @return Cmd output as list.
-     */
-    List<String> byLines();
 }

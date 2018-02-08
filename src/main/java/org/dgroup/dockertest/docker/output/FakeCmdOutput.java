@@ -23,6 +23,10 @@
  */
 package org.dgroup.dockertest.docker.output;
 
+import java.util.List;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.text.Joined;
+
 /**
  * Fake implementation of {@link CmdOutput} for unit testing purposes.
  *
@@ -35,18 +39,31 @@ public final class FakeCmdOutput implements CmdOutput {
     /**
      * Output from docker process.
      */
-    private final String output;
+    private final List<String> output;
 
     /**
      * Ctor.
      * @param output Docker process output.
      */
-    public FakeCmdOutput(final String output) {
+    public FakeCmdOutput(final String... output) {
+        this(new ListOf<>(output));
+    }
+
+    /**
+     * Ctor.
+     * @param output Docker process output.
+     */
+    public FakeCmdOutput(final List<String> output) {
         this.output = output;
     }
 
     @Override
     public String asText() {
+        return new Joined(this.output, " ").asString();
+    }
+
+    @Override
+    public List<String> byLines() {
         return this.output;
     }
 

@@ -211,6 +211,7 @@
                             <excludes>
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/Fake*.*</exclude>
+                                <exclude>org/dgroup/dockertest/**/*Envelope.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/Logged*.*</exclude>
                             </excludes>
                         </configuration>
@@ -236,12 +237,12 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>0.70</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>0.70</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
@@ -261,7 +262,7 @@
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>12</maximum>
+                                                    <maximum>5</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>

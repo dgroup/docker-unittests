@@ -28,7 +28,6 @@ import java.time.Instant;
 import java.util.List;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.PlainFormattedText;
 
 /**
  * Output for docker command with elapsed time.
@@ -37,12 +36,8 @@ import org.dgroup.dockertest.text.PlainFormattedText;
  * @version $Id$
  * @since 1.0
  */
-public final class TimedCmdOutput implements CmdOutput {
+public final class TimedCmdOutput extends CmdOutputEnvelope {
 
-    /**
-     * Origin.
-     */
-    private final CmdOutput origin;
     /**
      * Operation duration in seconds.
      */
@@ -84,24 +79,15 @@ public final class TimedCmdOutput implements CmdOutput {
      * @param origin Operation output.
      */
     public TimedCmdOutput(final Double seconds, final CmdOutput origin) {
+        super(() -> origin);
         this.seconds = seconds;
-        this.origin = origin;
-    }
-
-    @Override
-    public String asText() {
-        return this.origin.asText();
     }
 
     @Override
     public List<String> byLines() {
         return new Joined<>(
-            this.origin.byLines(),
-            new ListOf<>(
-                new PlainFormattedText(
-                    "Elapsed: %ss", this.seconds
-                ).asString()
-            )
+            super.byLines(),
+            new ListOf<>(String.format("Elapsed: %ss", this.seconds))
         );
     }
 
