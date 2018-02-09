@@ -36,7 +36,7 @@ import org.cactoos.text.UncheckedText;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo 83 Rename to StrictFormattedText
+ * @todo #84 Rename to StrictFormattedText
  */
 public final class PlainFormattedText implements Text {
 
