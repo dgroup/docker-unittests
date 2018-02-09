@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.docker;
 
 import org.dgroup.dockertest.text.HighlightedText;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.fusesource.jansi.Ansi.Color;
 
 /**
@@ -46,7 +46,7 @@ public final class DockerImageNotFoundException extends
      */
     public DockerImageNotFoundException(final String image) {
         super(
-            new PlainFormattedText(
+            new StrictFormattedText(
                 "Unable to pull image \"%s\" from the remote repository. " +
                     "Possible reasons:\n" +
                     " - incorrect name (you may verify by shell command " +
@@ -56,7 +56,7 @@ public final class DockerImageNotFoundException extends
                     " - pull operation may require 'docker login'.\n",
                 new HighlightedText(image, Color.BLUE),
                 new HighlightedText(
-                    new PlainFormattedText("docker pull %s", image),
+                    new StrictFormattedText("docker pull %s", image),
                     Color.BLUE
                 )
             ).asString()

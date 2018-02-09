@@ -44,7 +44,6 @@ import org.fusesource.jansi.Ansi;
  * @version $Id$
  * @since 1.0
  * @todo #76 Daily stream cleaning for 1.0-beta release.
- * @todo #83 Activate docker on travis-ci for unit-testing
  * @checkstyle HideUtilityClassConstructorCheck (10 lines)
  */
 @SuppressWarnings("PMD.UseUtilityClass")

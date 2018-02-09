@@ -21,34 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.text;
 
-import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.Assert;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Thrown in case if command-line argument is required,
- * but not found in the arguments specified by user.
+ * Unit tests for class {@link StrictFormattedText}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
-public class CmdArgNotFoundException extends Exception {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class StrictFormattedTextTest {
 
-    /**
-     * Ctor.
-     * @param msg Detailed description with missing argument.
-     */
-    public CmdArgNotFoundException(final String msg) {
-        super(msg);
+    @Test
+    public void asString() {
+        MatcherAssert.assertThat(
+            new StrictFormattedText(
+                "%s open %s.",
+                10, "issues"
+            ).asString(),
+            Matchers.equalTo("10 open issues.")
+        );
     }
 
-    /**
-     * Ctor.
-     * @param msg Detailed description with missing argument.
-     */
-    public CmdArgNotFoundException(final StrictFormattedText msg) {
-        this(msg.asString());
+    @Test
+    public void twoParametersForPatternAreMissing() {
+        new Assert().thatThrows(
+            () -> new StrictFormattedText(
+                "%s %s %s",
+                "only one arg"
+            ).asString(),
+            new IllegalArgumentException(
+                "Wrong amount of arguments(1) for pattern '%s %s %s'."
+            )
+        );
     }
 
 }

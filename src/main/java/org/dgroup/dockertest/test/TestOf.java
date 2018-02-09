@@ -33,7 +33,7 @@ import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.text.HighlightedText;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 import org.fusesource.jansi.Ansi.Color;
 
@@ -105,7 +105,7 @@ public final class TestOf implements Test {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public List<String> messagePassed() {
         return new ListOf<>(
-            new PlainFormattedText(
+            new StrictFormattedText(
                 "> %s %s",
                 this.assume, new HighlightedText("PASSED", Color.GREEN)
             ).asString()
@@ -125,26 +125,26 @@ public final class TestOf implements Test {
         final List<YmlTagOutputPredicate> failed) {
         return new Joined<>(
             new ListOf<>(
-                new PlainFormattedText(
+                new StrictFormattedText(
                     "> %s %s",
                     this.assume,
                     new HighlightedText("FAILED", Color.RED)
                 ).asString(),
-                new PlainFormattedText(
+                new StrictFormattedText(
                     "  command: \"%s\"", this.cmd
                 ).asString(),
-                new PlainFormattedText(
+                new StrictFormattedText(
                     "  output:  \"%s\"", output
                 ).asString(),
                 "  expected output:"
             ),
             new Mapped<>(
-                o -> new PlainFormattedText("    - %s", o).asString(),
+                o -> new StrictFormattedText("    - %s", o).asString(),
                 this.expected
             ),
             new ListOf<>("  mismatch:"),
             new Mapped<>(
-                o -> new PlainFormattedText("    - %s", o).asString(),
+                o -> new StrictFormattedText("    - %s", o).asString(),
                 failed
             )
         );

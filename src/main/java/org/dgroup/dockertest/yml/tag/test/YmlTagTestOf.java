@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.StickyList;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.YmlTagOf;
@@ -107,7 +107,7 @@ public final class YmlTagTestOf implements YmlTagTest {
 
     @Override
     public String asString() throws IllegalYmlFileFormatException {
-        return new PlainFormattedText(
+        return new StrictFormattedText(
             "tag `%s`, assume `%s`, cmd `%s`, output `%s`",
             this.tag,
             this.assume(),

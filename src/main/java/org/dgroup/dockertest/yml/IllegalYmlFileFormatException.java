@@ -25,7 +25,7 @@ package org.dgroup.dockertest.yml;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 
 /**
@@ -52,14 +52,14 @@ public final class IllegalYmlFileFormatException extends Exception {
      */
     public IllegalYmlFileFormatException(final String pattern,
         final Object... args) {
-        this(new PlainFormattedText(pattern, args));
+        this(new StrictFormattedText(pattern, args));
     }
 
     /**
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFileFormatException(final PlainFormattedText msg) {
+    public IllegalYmlFileFormatException(final StrictFormattedText msg) {
         this(msg.toString());
     }
 

@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.yml.tag.version;
 
 import java.util.Map;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.YmlTagOf;
@@ -68,7 +68,7 @@ public final class YmlTagVersion {
     public void verify() throws IllegalYmlFileFormatException {
         if (!"1".equals(this.tag.asString())) {
             throw new IllegalArgumentException(
-                new PlainFormattedText(
+                new StrictFormattedText(
                     "Unsupported version: %s",
                     this.tag.asString()
                 ).asString()

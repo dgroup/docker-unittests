@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 
 /**
  * Default implementation for single command-line argument.
@@ -56,7 +56,7 @@ public final class ArgOf implements Arg {
      */
     public ArgOf(final String name, final List<String> args) {
         this(
-            name, args, new PlainFormattedText(
+            name, args, new StrictFormattedText(
                 "Argument `%s` wasn't specified", name
             ).asString()
         );

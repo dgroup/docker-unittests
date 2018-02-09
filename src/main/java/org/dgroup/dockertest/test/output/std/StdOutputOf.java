@@ -35,7 +35,7 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
 import org.dgroup.dockertest.text.HighlightedText;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.fusesource.jansi.Ansi.Color;
 
@@ -104,12 +104,12 @@ public final class StdOutputOf implements StdOutput {
         this.print(
             new Joined<>(
                 new ListOf<>(
-                    new PlainFormattedText(
+                    new StrictFormattedText(
                         "YML file `%s` has the wrong format:", file
                     ).asString()
                 ),
                 new Mapped<>(
-                    l -> new PlainFormattedText(
+                    l -> new StrictFormattedText(
                         "%s%s", this.indent, l
                     ).asString(),
                     exp.detailsSplittedByLines()

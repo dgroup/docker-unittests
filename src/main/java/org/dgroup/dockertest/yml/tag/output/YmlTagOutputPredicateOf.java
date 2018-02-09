@@ -26,7 +26,7 @@ package org.dgroup.dockertest.yml.tag.output;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
 import org.cactoos.text.UncheckedText;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -100,7 +100,7 @@ public final class YmlTagOutputPredicateOf
      * @checkstyle StringLiteralsConcatenationCheck (10 lines)
      */
     public String asYmlString() {
-        return new PlainFormattedText(
+        return new StrictFormattedText(
             "%s:%s\"%s\"",
             this.comparingType(),
             new UncheckedText(

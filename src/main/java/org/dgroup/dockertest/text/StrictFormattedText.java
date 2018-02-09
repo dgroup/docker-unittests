@@ -36,9 +36,8 @@ import org.cactoos.text.UncheckedText;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #84 Rename to StrictFormattedText
  */
-public final class PlainFormattedText implements Text {
+public final class StrictFormattedText implements Text {
 
     /**
      * String pattern for formatting.
@@ -54,7 +53,7 @@ public final class PlainFormattedText implements Text {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public PlainFormattedText(final String pattern, final Object... args) {
+    public StrictFormattedText(final String pattern, final Object... args) {
         this(pattern, new ListOf<>(args));
     }
 
@@ -63,7 +62,7 @@ public final class PlainFormattedText implements Text {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public PlainFormattedText(
+    public StrictFormattedText(
         final String pattern,
         final Collection<Object> args
     ) {

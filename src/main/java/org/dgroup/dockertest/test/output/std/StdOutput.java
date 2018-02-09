@@ -30,7 +30,7 @@ import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.text.PlainFormattedText;
+import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -55,7 +55,7 @@ public interface StdOutput extends Output {
      */
     default void print(final String pattern, final Object... args) {
         this.print(
-            new PlainFormattedText(pattern, args).asString()
+            new StrictFormattedText(pattern, args).asString()
         );
     }
 
