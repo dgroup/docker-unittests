@@ -1,0 +1,27 @@
+architect:
+  - dgroup
+
+assets:
+  secret.xml: "dgroup/secret-repo#assets/settings.xml"
+
+readers:
+  - "urn:github:1651114"
+
+merge:
+  script:
+    mvn -Pqulice -Ddocker_installed=no clean package
+
+#deploy:
+#  env:
+#    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
+#  script:
+#    - "sudo bundle"
+#    - "mvn clean deploy -Prultor --settings ../settings.xml"
+#    - "mvn clean site-deploy -Psite -Prempl --settings ../settings.xml"
+
+#release:
+#  script: |
+#    mvn versions:set "-DnewVersion=$tag"
+#    git commit -am "$tag"
+#    mvn clean deploy -Pqulice -Psonatype -Pjcabi
+#    mvn clean site-deploy -Psite -Prempl --settings ../settings.xml

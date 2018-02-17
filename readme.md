@@ -1,16 +1,20 @@
 ## Docker-unittests
 
 [![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master)](https://travis-ci.org/dgroup/docker-unittests)
+[![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
+[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
+
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
-[![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2)
-[![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
-[![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.dgroup.dockertest:docker-unittests)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/test/github/dgroup/docker-unittests)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
-[![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
-[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
+
+[![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.dgroup.dockertest:docker-unittests)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
+[![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a44d11a620da4ff0a6ff294ff9045aa3)](https://www.codacy.com/app/dgroup/docker-unittests?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/docker-unittests&amp;utm_campaign=Badge_Grade)
 
 The main concept is that all tests should use the image as is without any 'internal' go-related features.
 We, like users, receive the image and we are going to check what we've got.

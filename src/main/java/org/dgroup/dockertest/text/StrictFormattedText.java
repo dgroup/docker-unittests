@@ -70,7 +70,6 @@ public final class StrictFormattedText implements Text {
         this.args = args;
     }
 
-    // @todo #82 Avoid runtime exceptions in the project
     @Override
     public String asString() {
         if (new StringOccurrences(this.pattern, "%s")
