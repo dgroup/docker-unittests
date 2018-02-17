@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
@@ -65,12 +64,12 @@ public interface YmlTag {
      */
     @SuppressWarnings("unchecked")
     default List<Object> asList() throws IllegalYmlFileFormatException {
-        final List<Object> values = (List<Object>) this.asObject();
-        return new UncheckedTernary<List<Object>>(
-            () -> new Filtered<>(Objects::nonNull, values).isEmpty(),
-            ListOf::new,
-            () -> values
-        ).value();
+        return new ListOf<>(
+            new Filtered<>(
+                Objects::nonNull,
+                (List<Object>) this.asObject()
+            )
+        );
     }
 
     /**

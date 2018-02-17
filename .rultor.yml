@@ -1,15 +1,18 @@
 architect:
   - dgroup
 
-assets:
-  secret.xml: "dgroup/secret-repo#assets/settings.xml"
-
 readers:
   - "urn:github:1651114"
 
+docker:
+  directory: docker-unittests/.rultor
+
+install:
+  - "docker pull openjdk:9.0.1-11"
+
 merge:
   script:
-    mvn -Pqulice -Ddocker_installed=no clean package
+    - mvn -Pqulice -Ddocker_installed=yes clean package
 
 #deploy:
 #  env:
@@ -19,9 +22,8 @@ merge:
 #    - "mvn clean deploy -Prultor --settings ../settings.xml"
 #    - "mvn clean site-deploy -Psite -Prempl --settings ../settings.xml"
 
-#release:
-#  script: |
-#    mvn versions:set "-DnewVersion=$tag"
-#    git commit -am "$tag"
-#    mvn clean deploy -Pqulice -Psonatype -Pjcabi
-#    mvn clean site-deploy -Psite -Prempl --settings ../settings.xml
+release:
+  script: |
+    mvn versions:set "-DnewVersion=$tag"
+    git commit -am "$tag"
+    mvn clean package -Pqulice -Ddocker_installed=yes
