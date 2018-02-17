@@ -79,13 +79,13 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     ```
     ![docker image tests results](./.guides/image-tests-results-failure.png)
 
-### F.A.Q.
+#### F.A.Q.
  - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
  - [Contributing guide](./.guides/contributing.md)  
  - [Github](./.guides/github.md)
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
                                     
-### TODOs for release 1.0
+#### TODOs for release 1.0
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #17 Add http://www.javadoc.io badge after release to maven central
  - @todo #80 Check rultor as POC for deployment process to mvn central
