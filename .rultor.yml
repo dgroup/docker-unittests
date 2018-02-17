@@ -4,12 +4,6 @@ architect:
 readers:
   - "urn:github:1651114"
 
-docker:
-  image: dgroup/dindx
-
-install:
-  - "docker pull openjdk:9.0.1-11"
-
 merge:
   script:
     - mvn -Pqulice -Ddocker_installed=yes clean package
