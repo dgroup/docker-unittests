@@ -6,7 +6,7 @@ readers:
 
 merge:
   script:
-    - mvn -Pqulice -Ddocker_installed=yes clean package
+    - mvn -Pqulice -Ddocker_installed=no clean package
 
 #deploy:
 #  env:
@@ -20,4 +20,4 @@ release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn clean package -Pqulice -Ddocker_installed=yes
+    mvn clean package -Pqulice -Ddocker_installed=no
