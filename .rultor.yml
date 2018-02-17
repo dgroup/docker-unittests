@@ -5,7 +5,7 @@ readers:
   - "urn:github:1651114"
 
 docker:
-  directory: docker-unittests/.rultor
+  directory: rultor
 
 install:
   - "docker pull openjdk:9.0.1-11"
