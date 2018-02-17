@@ -19,8 +19,8 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.2/main' >> /etc/apk/repositori
     rm apache-maven-$MAVEN_VERSION-bin.tar.gz && \
     mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
 
-CMD uname -a && echo "" && \
-    git --version && echo "" && \
-    docker -v && echo "" && \
-    java -version && echo "" && \
+CMD uname -a        && echo "" && \
+    git --version   && echo "" && \
+    docker -v       && echo "" && \
+    java -version   && echo "" && \
     mvn -v
