@@ -106,9 +106,10 @@ public final class TestsOf {
      *  docker side.
      * @throws TestingFailedException in case when at least one test is failed.
      * @todo #2:8h All tests should be executed concurrently and support
-     *  thread-pool configuration from command line. Also, the tool can use
-     *  https://github.com/testcontainers/testcontainers-java as a layer for the
-     *  docker integration.
+     *  thread-pool configuration from command line.
+     * @todo #94 Use https://github.com/testcontainers/testcontainers-java
+     *  as a layer for the docker integration.
+     * @todo #95 Do not create an objects inside #execute method, move to ctor.
      */
     public void execute() throws DockerProcessExecutionException,
         TestingFailedException {

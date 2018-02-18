@@ -37,6 +37,7 @@ import org.dgroup.dockertest.test.output.Output;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #93 Extract interface from the class below
  */
 public final class TestingOutcome implements Iterable<TestOutcome> {
 

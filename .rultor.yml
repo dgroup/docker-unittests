@@ -4,6 +4,9 @@ architect:
 readers:
   - "urn:github:1651114"
 
+assets:
+  secret.xml: "dgroup/mvn-secret-settings#docker-unittests.xml"
+
 merge:
   script:
     - mvn -Pqulice -Ddocker_installed=no clean package
@@ -20,4 +23,5 @@ release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn clean package -Pqulice -Ddocker_installed=no
+    mvn -Pqulice -Ddocker_installed=no clean package
+    mvn -Prelease -s secret.xml github-release:release
