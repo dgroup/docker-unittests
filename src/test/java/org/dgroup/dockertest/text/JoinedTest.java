@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.text;
 
-import org.cactoos.iterable.IterableOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -42,13 +41,8 @@ public final class JoinedTest {
     @Test
     public void asString() {
         MatcherAssert.assertThat(
-            new Joined(
-                new IterableOf<>("one", "two", "three"),
-                ","
-            ).asString(),
-            Matchers.equalTo(
-                "one,two,three"
-            )
+            new Joined("one", "two", "three").toString(),
+            Matchers.equalTo("one two three")
         );
     }
 

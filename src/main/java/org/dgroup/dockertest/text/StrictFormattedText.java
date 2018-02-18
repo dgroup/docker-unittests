@@ -37,7 +37,7 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @since 1.0
  */
-public final class StrictFormattedText implements Text {
+public final class StrictFormattedText {
 
     /**
      * String pattern for formatting.
@@ -70,7 +70,10 @@ public final class StrictFormattedText implements Text {
         this.args = args;
     }
 
-    @Override
+    /**
+     * Build text based on pattern and arguments.
+     * @return Text
+     */
     public String asString() {
         if (new StringOccurrences(this.pattern, "%s")
             .nonEqualTo(this.args.size())) {
@@ -90,8 +93,4 @@ public final class StrictFormattedText implements Text {
         return this.asString();
     }
 
-    @Override
-    public int compareTo(final Text text) {
-        return new UncheckedText(this).compareTo(text);
-    }
 }

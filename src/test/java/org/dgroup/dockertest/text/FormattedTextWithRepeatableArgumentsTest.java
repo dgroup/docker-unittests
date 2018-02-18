@@ -48,7 +48,7 @@ public class FormattedTextWithRepeatableArgumentsTest {
             new FormattedTextWithRepeatableArguments(
                 "{0}{1}test{1}resources{1}testng.xml",
                 "home", File.separator
-            ).asString(),
+            ).toString(),
             Matchers.equalTo(
                 "home" + File.separator + "test" +
                     File.separator + "resources" +
