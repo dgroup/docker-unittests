@@ -13,11 +13,10 @@ merge:
 
 #deploy:
 #  env:
-#    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
+#    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
 #  script:
 #    - "sudo bundle"
 #    - "mvn clean deploy -Prultor --settings ../settings.xml"
-#    - "mvn clean site-deploy -Psite -Prempl --settings ../settings.xml"
 
 release:
   script: |
