@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.test;
 
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
+import org.dgroup.dockertest.test.outcome.TestOutcome;
 
 /**
  * Represents single unit test for the docker image.

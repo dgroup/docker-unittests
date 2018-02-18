@@ -32,6 +32,8 @@ import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.docker.process.Pull;
 import org.dgroup.dockertest.docker.process.Timed;
+import org.dgroup.dockertest.test.outcome.TestingOutcome;
+import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;

@@ -26,7 +26,7 @@ package org.dgroup.dockertest.test.output.std;
 import java.util.List;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
-import org.dgroup.dockertest.test.TestingOutcome;
+import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
+package org.dgroup.dockertest.test.outcome;
 
 import java.util.Collection;
 import java.util.Set;
@@ -31,6 +31,7 @@ import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.Output;
 
 /**

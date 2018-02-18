@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.cactoos.list.Joined;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.test.TestOutcome;
-import org.dgroup.dockertest.test.TestingOutcome;
+import org.dgroup.dockertest.test.outcome.TestOutcome;
+import org.dgroup.dockertest.test.outcome.TestingOutcome;
 
 /**
  * Fake instance of {@link Output} for unit testing purposes.

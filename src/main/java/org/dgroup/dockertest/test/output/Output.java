@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.test.output;
 
-import org.dgroup.dockertest.test.TestingOutcome;
+import org.dgroup.dockertest.test.outcome.TestingOutcome;
 
 /**
  * Represent an output where we can print the testing results

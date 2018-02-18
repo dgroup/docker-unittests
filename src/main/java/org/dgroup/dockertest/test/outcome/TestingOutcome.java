@@ -21,25 +21,29 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.output;
+package org.dgroup.dockertest.test.outcome;
 
-import org.dgroup.dockertest.test.outcome.TestingOutcome;
+import java.util.Collection;
+import org.dgroup.dockertest.test.TestingFailedException;
 
 /**
- * Print testing results to html file.
- * The *.html file with output will be placed to current directory.
- * Also directory can be exported from {@code -reports_home} cmd argument.
+ * Represents outcome for all tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #24:4h Print testing output to html file.
  */
-public final class HtmlOutput implements Output {
+public interface TestingOutcome extends Collection<TestOutcome> {
 
-    @Override
-    public void print(final TestingOutcome outcome) {
-        throw new UnsupportedOperationException("#print()");
-    }
+    /**
+     * Checking all tests outcome for passed scenario's.
+     * @return True in passed scenario's found.
+     */
+    boolean successful();
 
+    /**
+     * Print testing outcome to specified outputs.
+     * @throws TestingFailedException in case if at least one test is failed.
+     */
+    void reportTheResults() throws TestingFailedException;
 }

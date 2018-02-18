@@ -21,28 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
-
-import java.util.List;
 
 /**
- * Represents single test result.
+ * Classes related to testing outcome details.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestOutcome {
-
-    /**
-     * Single test result.
-     * @return Status of single test result.
-     */
-    boolean successful();
-
-    /**
-     * Single test result message.
-     * @return Details regarding to expected and actual output.
-     */
-    List<String> message();
-}
+package org.dgroup.dockertest.test.outcome;

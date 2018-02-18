@@ -32,6 +32,8 @@ import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.test.outcome.TestOutcome;
+import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import org.dgroup.dockertest.text.StrictFormattedText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
