@@ -23,4 +23,4 @@ release:
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
     mvn -Pqulice -Ddocker_installed=no clean package
-    mvn -Prelease -s secret.xml github-release:release
+    mvn -Prelease -s ../secret.xml github-release:release
