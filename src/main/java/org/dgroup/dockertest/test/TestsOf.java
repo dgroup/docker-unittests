@@ -23,20 +23,18 @@
  */
 package org.dgroup.dockertest.test;
 
-import java.util.List;
-import java.util.Set;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
+import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.docker.process.Pull;
 import org.dgroup.dockertest.docker.process.Timed;
-import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.HighlightedText;
+import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
-import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Allows to execute tests and print results.
@@ -49,21 +47,17 @@ import org.fusesource.jansi.Ansi.Color;
 public final class TestsOf {
 
     /**
-     * Docker image for testing.
+     * Pull docker image before the testing.
      */
-    private final String image;
+    private final DockerProcess pull;
     /**
-     * Tests to be executed.
+     * Testing results.
      */
-    private final List<Test> scope;
-    /**
-     * Available outputs for printing results.
-     */
-    private final Set<Output> outputs;
+    private final TestingOutcome tests;
     /**
      * Standard output for application progress.
      */
-    private final StdOutput std;
+    private final UncheckedScalar<StdOutput> std;
 
     /**
      * Ctor.
@@ -76,26 +70,32 @@ public final class TestsOf {
     public TestsOf(final Args args)
         throws CmdArgNotFoundException, IllegalYmlFileFormatException {
         this(
-            args.dockerImage(),
-            args.tests(),
-            args.selectedByUserOutput(),
-            args.std()
+            new Timed(
+                new Pull(args.dockerImage())
+            ),
+            new TestingOutcomeOf(
+                new StickyList<>(
+                    new Mapped<>(Test::execute, args.tests())
+                ),
+                args.selectedByUserOutput()
+            ),
+            args.stdOutput()
         );
     }
 
     /**
      * Ctor.
-     * @param image Docker image for testing.
-     * @param scope Tests to be executed.
-     * @param out Available outputs for printing results.
+     * @param pull Docker process for pulling image before testing.
+     * @param tests Testing results.
      * @param std Standard output for application progress.
-     * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public TestsOf(final String image, final List<Test> scope,
-        final Set<Output> out, final StdOutput std) {
-        this.image = image;
-        this.scope = scope;
-        this.outputs = out;
+    public TestsOf(
+        final DockerProcess pull,
+        final TestingOutcome tests,
+        final UncheckedScalar<StdOutput> std
+    ) {
+        this.pull = pull;
+        this.tests = tests;
         this.std = std;
     }
 
@@ -109,29 +109,19 @@ public final class TestsOf {
      *  thread-pool configuration from command line.
      * @todo #94 Use https://github.com/testcontainers/testcontainers-java
      *  as a layer for the docker integration.
-     * @todo #95 Do not create an objects inside #execute method, move to ctor.
      */
     public void execute() throws DockerProcessExecutionException,
         TestingFailedException {
-        if (this.scope.isEmpty()) {
+        if (this.tests.isEmpty()) {
             throw new NoScenariosFoundException();
         }
-        this.std.print(
+        this.std.value().print(
             "Found scenarios: %s.%n",
-            new HighlightedText(this.scope.size(), Color.GREEN)
+            new GreenText(this.tests.size())
         );
-        this.std.print("Pull image...");
-        this.std.print(
-            new Timed(
-                new Pull(this.image)
-            ).execute()
-        );
-        new TestingOutcome(
-            new StickyList<>(
-                new Mapped<>(Test::execute, this.scope)
-            ),
-            this.outputs
-        ).reportTheResults();
+        this.std.value().print("Pull image...");
+        this.std.value().print(this.pull.execute());
+        this.tests.reportTheResults();
     }
 
 }

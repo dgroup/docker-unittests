@@ -33,9 +33,8 @@ import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.TestsOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.dgroup.dockertest.text.HighlightedText;
+import org.dgroup.dockertest.text.highlighted.YellowText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
-import org.fusesource.jansi.Ansi;
 
 /**
  * App start point with main method only.
@@ -63,7 +62,7 @@ public final class App {
         } catch (final NoScenariosFoundException ex) {
             std.print(
                 "%s testing scenarios found.",
-                new HighlightedText(0, Ansi.Color.YELLOW)
+                new YellowText(0)
             );
         } catch (final TestingFailedException ex) {
             termination.testingFailed();

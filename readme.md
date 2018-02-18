@@ -88,5 +88,4 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
 #### TODOs for release 1.0
  - @todo #14 Add http://i.jpeek.org badge after release to maven central
  - @todo #17 Add http://www.javadoc.io badge after release to maven central
- - @todo #80 Check rultor as POC for deployment process to mvn central
- - @todo #81 Publish automatically binary artifacts to github releases    
+ - @todo #80 Check rultor as POC for deployment process to mvn central  

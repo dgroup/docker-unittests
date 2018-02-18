@@ -21,56 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
-
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.Color;
 
 /**
- * Allows to highlight text via <b>jansi</b> library.
+ * Highlighted texts.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class HighlightedText {
-
-    /**
-     * Message which should be highlighted.
-     */
-    private final String msg;
-    /**
-     * Color which should be used for highlighting.
-     */
-    private final Color color;
-
-    /**
-     * Ctor.
-     * @param msg For highlighting.
-     * @param color For highlighting.
-     */
-    public HighlightedText(final Object msg, final Color color) {
-        this(msg.toString(), color);
-    }
-
-    /**
-     * Ctor.
-     * @param msg For highlighting.
-     * @param color For highlighting.
-     */
-    public HighlightedText(final String msg, final Color color) {
-        this.msg = msg;
-        this.color = color;
-    }
-
-    @Override
-    public String toString() {
-        return Ansi.ansi()
-            .fgBright(this.color)
-            .bold()
-            .a(this.msg)
-            .reset()
-            .toString();
-    }
-
-}
+package org.dgroup.dockertest.text.highlighted;

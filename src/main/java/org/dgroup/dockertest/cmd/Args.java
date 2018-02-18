@@ -30,6 +30,7 @@ import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
@@ -179,7 +180,7 @@ public final class Args {
      * Standard output for application progress.
      * @return Output.
      */
-    public StdOutput std() {
-        return this.std;
+    public UncheckedScalar<StdOutput> stdOutput() {
+        return new UncheckedScalar<>(() -> this.std);
     }
 }

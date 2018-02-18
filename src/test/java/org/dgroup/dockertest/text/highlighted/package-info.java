@@ -21,28 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
-
-import java.util.Collection;
 
 /**
- * Represents outcome for all tests.
+ * Tests for package {@link org.dgroup.dockertest.text.highlighted}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Collection<TestOutcome> {
-
-    /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
-     */
-    boolean successful();
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults() throws TestingFailedException;
-}
+package org.dgroup.dockertest.text.highlighted;

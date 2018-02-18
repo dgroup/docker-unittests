@@ -32,10 +32,10 @@ import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
-import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.highlighted.GreenText;
+import org.dgroup.dockertest.text.highlighted.RedText;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
-import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Represents YML based implementation for single test.
@@ -106,8 +106,7 @@ public final class TestOf implements Test {
     public List<String> messagePassed() {
         return new ListOf<>(
             new StrictFormattedText(
-                "> %s %s",
-                this.assume, new HighlightedText("PASSED", Color.GREEN)
+                "> %s %s", this.assume, new GreenText("PASSED")
             ).asString()
         );
     }
@@ -126,9 +125,7 @@ public final class TestOf implements Test {
         return new Joined<>(
             new ListOf<>(
                 new StrictFormattedText(
-                    "> %s %s",
-                    this.assume,
-                    new HighlightedText("FAILED", Color.RED)
+                    "> %s %s", this.assume, new RedText("FAILED")
                 ).asString(),
                 new StrictFormattedText(
                     "  command: \"%s\"", this.cmd

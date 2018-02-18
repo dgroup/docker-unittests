@@ -23,9 +23,8 @@
  */
 package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.StrictFormattedText;
-import org.fusesource.jansi.Ansi.Color;
+import org.dgroup.dockertest.text.highlighted.BlueText;
 
 /**
  * Raise when docker tool can't find an image.
@@ -54,10 +53,9 @@ public final class DockerImageNotFoundException extends
                     " - the remote repository doesn't exist or " +
                     "network\\firewall connectivity issue;\n" +
                     " - pull operation may require 'docker login'.\n",
-                new HighlightedText(image, Color.BLUE),
-                new HighlightedText(
-                    new StrictFormattedText("docker pull %s", image),
-                    Color.BLUE
+                new BlueText(image),
+                new BlueText(
+                    new StrictFormattedText("docker pull %s", image)
                 )
             ).asString()
         );

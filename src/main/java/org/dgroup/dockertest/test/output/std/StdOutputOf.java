@@ -34,10 +34,11 @@ import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.TestOutcome;
 import org.dgroup.dockertest.test.TestingOutcome;
-import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.highlighted.GreenText;
+import org.dgroup.dockertest.text.highlighted.HighlightedText;
+import org.dgroup.dockertest.text.highlighted.RedText;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
-import org.fusesource.jansi.Ansi.Color;
 
 /**
  * Standard output for printing app progress and testing results.
@@ -125,11 +126,11 @@ public final class StdOutputOf implements StdOutput {
     private void printTestingStatus(final boolean status) {
         this.out.println();
         this.print(
-            new UncheckedTernary<>(
+            new UncheckedTernary<HighlightedText>(
                 status,
-                new HighlightedText("Testing successful.", Color.GREEN),
-                new HighlightedText("Testing failed.", Color.RED)
-            ).value().toString()
+                new GreenText("Testing successful."),
+                new RedText("Testing failed.")
+            ).value().text()
         );
         this.out.println();
     }

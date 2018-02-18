@@ -21,12 +21,11 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.text.highlighted;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.fusesource.jansi.Ansi.Color;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -43,11 +42,11 @@ import org.junit.Test;
 public final class HighlightedTextTest {
 
     @Test
-    public void asString() {
+    public void text() {
         MatcherAssert.assertThat(
             new ListOf<>(
-                new HighlightedText("FAILED", Color.RED).toString(),
-                new HighlightedText("PASSED", Color.GREEN).toString()
+                new RedText("FAILED").text(),
+                new GreenText("PASSED").text()
             ),
             Matchers.hasItems(
                 "\u001B[91;1mFAILED\u001B[m",
@@ -59,10 +58,10 @@ public final class HighlightedTextTest {
     @Test
     public void visualColor() {
         final StdOutput std = new StdOutputOf();
-        std.print(new HighlightedText("FAILED", Color.RED).toString());
-        std.print(new HighlightedText("PASSED", Color.GREEN).toString());
-        std.print(new HighlightedText("WARNING", Color.YELLOW).toString());
-        std.print(new HighlightedText("WHALE", Color.BLUE).toString());
+        std.print(new RedText("FAILED"));
+        std.print(new GreenText("PASSED"));
+        std.print(new YellowText("WARNING"));
+        std.print(new BlueText("WHALE"));
     }
 
 }

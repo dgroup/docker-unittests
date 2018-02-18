@@ -146,7 +146,7 @@
                             <mainClass>org.dgroup.dockertest.App</mainClass>
                         </manifest>
                     </archive>
-                    <finalName>${project.name}-v${project.version}</finalName>
+                    <finalName>${project.name}-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
@@ -327,7 +327,7 @@
                                 <configuration>
                                     <releaseName>v${project.version}</releaseName>
                                     <tag>v${project.version}</tag>
-                                    <artifact>${project.build.directory}${file.separator}${project.artifactId}-v${project.version}.jar</artifact>
+                                    <artifact>${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar</artifact>
                                 </configuration>
                             </execution>
                         </executions>

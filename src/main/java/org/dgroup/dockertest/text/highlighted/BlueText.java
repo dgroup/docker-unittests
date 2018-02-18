@@ -21,28 +21,25 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
+package org.dgroup.dockertest.text.highlighted;
 
-import java.util.Collection;
+import org.fusesource.jansi.Ansi;
 
 /**
- * Represents outcome for all tests.
+ * Highlight text within blue color via <b>jansi</b> library.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Collection<TestOutcome> {
+public final class BlueText extends HighlightedTextEnvelope {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Ctor.
+     * @param msg Origin.
      */
-    boolean successful();
+    public BlueText(final Object msg) {
+        super(msg, Ansi.Color.BLUE);
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults() throws TestingFailedException;
 }

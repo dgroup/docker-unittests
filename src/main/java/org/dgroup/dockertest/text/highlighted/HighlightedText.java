@@ -21,28 +21,20 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test;
-
-import java.util.Collection;
+package org.dgroup.dockertest.text.highlighted;
 
 /**
- * Represents outcome for all tests.
+ * Allows to highlight text via <b>jansi</b> library.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Collection<TestOutcome> {
+public interface HighlightedText {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Highlighted text.
+     * @return Text escaped by <b>jansi</b> colors.
      */
-    boolean successful();
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults() throws TestingFailedException;
+    String text();
 }

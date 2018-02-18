@@ -25,9 +25,9 @@ package org.dgroup.dockertest;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.HighlightedText;
 import org.dgroup.dockertest.text.StrictFormattedText;
-import org.fusesource.jansi.Ansi.Color;
+import org.dgroup.dockertest.text.highlighted.BlueText;
+import org.dgroup.dockertest.text.highlighted.GreenText;
 
 /**
  * Application logo.
@@ -59,11 +59,10 @@ public final class Logo {
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
      */
     public String asString() {
-        final HighlightedText app = new HighlightedText(
-            new StrictFormattedText("v%s", this.appVersion()),
-            Color.GREEN
+        final GreenText app = new GreenText(
+            new StrictFormattedText("v%s", this.appVersion())
         );
-        final HighlightedText whale = new HighlightedText(
+        final BlueText whale = new BlueText(
             "                  ##         .            \n" +
             "            ## ## ##        ==            \n" +
             "         ## ## ## ##       ===            \n" +
@@ -71,8 +70,7 @@ public final class Logo {
             "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
             "     \\______ o          __/            \n" +
             "      \\    \\        __/             \n" +
-            "       \\____\\______/   \n",
-            Color.BLUE
+            "       \\____\\______/   \n"
         );
         return new StrictFormattedText(
             "\nDocker testing tool (%s)\n%s", app, whale

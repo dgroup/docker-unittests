@@ -49,6 +49,14 @@ public interface StdOutput extends Output {
     void print(final String msg);
 
     /**
+     * Print text to single line.
+     * @param msg Text to print
+     */
+    default void print(final Object msg) {
+        this.print(msg.toString());
+    }
+
+    /**
      * Print message.
      * @param pattern Template.
      * @param args Arguments for template above.
