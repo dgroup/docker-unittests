@@ -21,54 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
-
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Default implementation of single test result.
+ * Unit tests for layer related to manipulation with yml tag `version`.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TestOutcomeOf implements TestOutcome {
-
-    /**
-     * Output from docker container.
-     */
-    private final Scalar<Boolean> passed;
-    /**
-     * Failed scenarios.
-     */
-    private final List<String> msg;
-
-    /**
-     * Ctor.
-     * @param passed Status of test.
-     * @param msg Test details.
-     */
-    public TestOutcomeOf(final Scalar<Boolean> passed, final List<String> msg) {
-        this.passed = passed;
-        this.msg = msg;
-    }
-
-    /**
-     * Status of testing scenario.
-     * @return True in case of absent failed scenarios.
-     */
-    public boolean successful() {
-        return new UncheckedScalar<>(this.passed).value();
-    }
-
-    /**
-     * Testing scenario details.
-     * @return Scenario details like passed/failed, docker cmd, output.
-     */
-    public List<String> message() {
-        return this.msg;
-    }
-
-}
+package org.dgroup.dockertest.yml.tag.version;

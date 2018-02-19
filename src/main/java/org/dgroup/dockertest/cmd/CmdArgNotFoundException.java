@@ -23,8 +23,6 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.text.StrictFormattedText;
-
 /**
  * Thrown in case if command-line argument is required,
  * but not found in the arguments specified by user.
@@ -41,14 +39,6 @@ public class CmdArgNotFoundException extends Exception {
      */
     public CmdArgNotFoundException(final String msg) {
         super(msg);
-    }
-
-    /**
-     * Ctor.
-     * @param msg Detailed description with missing argument.
-     */
-    public CmdArgNotFoundException(final StrictFormattedText msg) {
-        this(msg.asString());
     }
 
 }

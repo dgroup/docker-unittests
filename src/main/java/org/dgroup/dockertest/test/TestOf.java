@@ -29,6 +29,7 @@ import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
+import org.cactoos.scalar.StickyScalar;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
@@ -91,7 +92,7 @@ public final class TestOf implements Test {
             new Filtered<>(t -> !t.test(output), this.expected)
         );
         return new TestOutcomeOf(
-            failed::isEmpty,
+            new StickyScalar<>(failed::isEmpty),
             new UncheckedTernary<>(
                 failed::isEmpty,
                 this::messagePassed,

@@ -21,54 +21,28 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.yml.tag.version;
 
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import java.util.Collections;
+import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.junit.Test;
 
 /**
- * Default implementation of single test result.
+ * Unit tests for class {@link YmlTagVersion}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TestOutcomeOf implements TestOutcome {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class YmlTagVersionTest {
 
-    /**
-     * Output from docker container.
-     */
-    private final Scalar<Boolean> passed;
-    /**
-     * Failed scenarios.
-     */
-    private final List<String> msg;
-
-    /**
-     * Ctor.
-     * @param passed Status of test.
-     * @param msg Test details.
-     */
-    public TestOutcomeOf(final Scalar<Boolean> passed, final List<String> msg) {
-        this.passed = passed;
-        this.msg = msg;
-    }
-
-    /**
-     * Status of testing scenario.
-     * @return True in case of absent failed scenarios.
-     */
-    public boolean successful() {
-        return new UncheckedScalar<>(this.passed).value();
-    }
-
-    /**
-     * Testing scenario details.
-     * @return Scenario details like passed/failed, docker cmd, output.
-     */
-    public List<String> message() {
-        return this.msg;
+    @Test(expected = IllegalYmlFileFormatException.class)
+    public void verify() throws IllegalYmlFileFormatException {
+        new YmlTagVersion(
+            Collections.emptyMap()
+        ).verify();
     }
 
 }

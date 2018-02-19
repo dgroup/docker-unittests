@@ -30,6 +30,7 @@ import org.dgroup.dockertest.test.output.XmlOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -46,12 +47,32 @@ import org.junit.Test;
 public final class OutputArgOfTest {
 
     @Test
-    public void notSpecifiedOutput() {
+    public void defaultOutput() {
         MatcherAssert.assertThat(
             new OutputArgOf(
                 new ListOf<>()
             ).asSet().iterator().next(),
             IsInstanceOf.instanceOf(StdOutputOf.class)
+        );
+    }
+
+    @Test
+    public void notSpecifiedOutput() {
+        MatcherAssert.assertThat(
+            new OutputArgOf(
+                new ListOf<>()
+            ).specifiedByUser(),
+            Matchers.equalTo(false)
+        );
+    }
+
+    @Test
+    public void test() {
+        MatcherAssert.assertThat(
+            new OutputArgOf(
+                new ListOf<>("-o", "xml|html")
+            ).value(),
+            Matchers.equalTo("xml|html")
         );
     }
 

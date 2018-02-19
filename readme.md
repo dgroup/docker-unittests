@@ -74,7 +74,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     #!/usr/bin/env bash
     set -e
     echo Testing has been started
-    java -jar docker-unittests.jar -f test.yml -i docker/whalesay
+    java -jar docker-unittests.jar -f test.yml -i openjdk:9.0.1-11
     echo This line will not be executed.
     ```
     ![docker image tests results](./.guides/image-tests-results-failure.png)
