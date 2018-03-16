@@ -50,7 +50,15 @@ public final class Joined implements Text {
      * @param values For joining procedure.
      */
     public Joined(final String... values) {
-        this(new IterableOf<>(values), " ");
+        this(new IterableOf<>(values));
+    }
+
+    /**
+     * Ctor.
+     * @param values Is values.
+     */
+    public Joined(final Iterable<String> values) {
+        this(values, " ");
     }
 
     /**
