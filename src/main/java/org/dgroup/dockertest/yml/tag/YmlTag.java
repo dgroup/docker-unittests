@@ -36,7 +36,7 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #80 Move defaults methods outside of interface.
+ * @todo # Move defaults methods outside of interface.
  */
 public interface YmlTag {
 
