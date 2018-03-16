@@ -21,48 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
- * OS dependent system process.
+ * Unit-tests for package {@link org.dgroup.dockertest.test.output.std}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class SystemProcess {
-
-    /**
-     * OS dependent system process instance.
-     */
-    private final ProcessBuilder process;
-
-    /**
-     * Ctor.
-     * @param cmd Arguments for OS dependent system process.
-     */
-    public SystemProcess(final List<String> cmd) {
-        this(new ProcessBuilder(cmd).redirectErrorStream(true));
-    }
-
-    /**
-     * Ctor.
-     * @param process Instance of OS dependent system process.
-     */
-    public SystemProcess(final ProcessBuilder process) {
-        this.process = process;
-    }
-
-    /**
-     * Execute one command.
-     * @return Instance of started OS dependent system process.
-     * @throws IOException if an I/O error occurs.
-     */
-    public Process execute() throws IOException {
-        return this.process.start();
-    }
-
-}
+package org.dgroup.dockertest.test.output.std;

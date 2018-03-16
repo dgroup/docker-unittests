@@ -25,6 +25,7 @@ package org.dgroup.dockertest.test.outcome;
 
 import java.util.List;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
 
 /**
@@ -37,13 +38,22 @@ import org.cactoos.scalar.UncheckedScalar;
 public final class TestOutcomeOf implements TestOutcome {
 
     /**
-     * Output from docker container.
+     * Status of test scenario.
      */
     private final Scalar<Boolean> passed;
     /**
-     * Failed scenarios.
+     * The message/details regarding testing scenario.
      */
     private final List<String> msg;
+
+    /**
+     * Ctor.
+     * @param passed Status of test.
+     * @param msg Test details.
+     */
+    public TestOutcomeOf(final Boolean passed, final String... msg) {
+        this(() -> passed, new ListOf<>(msg));
+    }
 
     /**
      * Ctor.

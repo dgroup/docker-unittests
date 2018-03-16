@@ -28,7 +28,7 @@ import java.util.List;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.SystemProcess;
+import org.dgroup.dockertest.docker.ProcessOf;
 import org.dgroup.dockertest.docker.output.CmdOutputOf;
 
 /**
@@ -59,14 +59,14 @@ public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
      * @param cmd Docker container command.
      */
     public SystemUnixDockerProcess(final List<String> cmd) {
-        this(new SystemProcess(cmd));
+        this(new ProcessOf(cmd));
     }
 
     /**
      * Ctor.
      * @param process System process associated with docker container.
      */
-    public SystemUnixDockerProcess(final SystemProcess process) {
+    public SystemUnixDockerProcess(final ProcessOf process) {
         super(() -> {
             try {
                 return new CmdOutputOf(process.execute());
