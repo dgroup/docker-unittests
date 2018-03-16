@@ -91,7 +91,7 @@ public final class TestsOf {
      * Print tests results to selected outputs.
      *
      * @throws TestingFailedException in case when at least one test is failed.
-     * @todo #2:8h All tests should be executed concurrently and support
+     * @todo #102:8h All tests should be executed concurrently and support
      *  thread-pool configuration from command line.
      */
     public void execute() throws TestingFailedException {

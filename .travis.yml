@@ -4,6 +4,9 @@
 
 language: java
 
+notifications:
+  slack: jclubteam:upRZaAFk2dZkFTVmpFIVOVOB
+
 sudo: required
 
 services:
@@ -32,6 +35,3 @@ jdk:
 
 after_success:
   - "bash <(curl -s https://codecov.io/bash)"
-
-notifications:
-  slack: jclubteam:upRZaAFk2dZkFTVmpFIVOVOB

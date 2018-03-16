@@ -36,17 +36,17 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 public final class YmlTagOf implements YmlTag {
 
     /**
-     * YML tree with tags.
+     * YML tags tree.
      */
     private final Map<String, Object> yml;
     /**
-     * Tag name.
+     * YML tag name.
      */
     private final String tag;
 
     /**
      * Ctor.
-     * @param yml Yml tree loaded from *.yml file with tests.
+     * @param yml Yml tags tree loaded from *.yml file with tests.
      * @param tag Yml tag name.
      */
     public YmlTagOf(final Map<String, Object> yml, final String tag) {
