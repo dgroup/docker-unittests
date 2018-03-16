@@ -57,7 +57,7 @@ public final class TimedTest {
                         return new TextCmdOutput("Some docker-related action.");
                     }).execute().byLines()
             ).text().matches(
-                "^Some\\sdocker-related\\saction.\\sElapsed:\\s\\d.\\d\\d\\ds$"
+                "^Some\\sdocker-related\\saction.\\sElapsed:\\s\\d\\.\\d+s$"
             ),
             Matchers.equalTo(true)
         );

@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.docker.output.TextCmdOutput;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
@@ -46,6 +47,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.AddEmptyString" })
 public final class StdOutputOfTest {
@@ -72,6 +74,33 @@ public final class StdOutputOfTest {
                 "...java version is 1.9\n" +
                 "...curl version is 7.xxx\n\n" +
                 "...\u001B[92;1mTesting successful.\u001B[m\n\n"
+            )
+        );
+    }
+
+    @Test
+    public void printFailedTestingOutcome()
+        throws UnsupportedEncodingException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final StdOutput out = new StdOutputOf(
+            new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
+            "..."
+        );
+        out.print(
+            new TestingOutcomeOf(
+                new ListOf<>(
+                    new TestOutcomeOf(false, "java version is 1.9"),
+                    new TestOutcomeOf(true, "curl version is 7.xxx")
+                ),
+                Collections.emptySet()
+            )
+        );
+        MatcherAssert.assertThat(
+            new String(baos.toByteArray(), StandardCharsets.UTF_8),
+            Matchers.equalTo("" +
+                "...java version is 1.9\n" +
+                "...curl version is 7.xxx\n\n" +
+                "...\u001B[91;1mTesting failed.\u001B[m\n\n"
             )
         );
     }
@@ -120,6 +149,24 @@ public final class StdOutputOfTest {
                 "..org.dgroup.dockertest.test.output.std.StdOutputOfTest." +
                 "printException(StdOutputOfTest.java:"
             )
+        );
+    }
+
+    @Test
+    public void printCmdOutput() throws UnsupportedEncodingException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final StdOutput out = new StdOutputOf(
+            new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
+            ".."
+        );
+        out.print(
+            new TextCmdOutput(
+                "line 1\nline 2\nline 3"
+            )
+        );
+        MatcherAssert.assertThat(
+            new String(baos.toByteArray(), StandardCharsets.UTF_8),
+            Matchers.equalTo("..line 1\n..line 2\n..line 3\n\n")
         );
     }
 
