@@ -25,9 +25,10 @@ package org.dgroup.dockertest.docker.process;
 
 import java.io.IOException;
 import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.SystemProcess;
-import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.output.CmdOutputOf;
 
 /**
@@ -37,18 +38,27 @@ import org.dgroup.dockertest.docker.output.CmdOutputOf;
  * @version $Id$
  * @since 1.0
  */
-public final class DockerProcessOnUnix implements DockerProcess {
+public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
 
     /**
-     * System process associated with docker container.
+     * Ctor.
+     * @param img Docker image for testing
+     * @param cmd Command to be executed within container
      */
-    private final SystemProcess process;
+    public SystemUnixDockerProcess(final String img, final String... cmd) {
+        this(
+            new Joined<>(
+                new ListOf<>("docker", "run", "--rm", img),
+                new ListOf<>(cmd)
+            )
+        );
+    }
 
     /**
      * Ctor.
      * @param cmd Docker container command.
      */
-    public DockerProcessOnUnix(final List<String> cmd) {
+    public SystemUnixDockerProcess(final List<String> cmd) {
         this(new SystemProcess(cmd));
     }
 
@@ -56,17 +66,13 @@ public final class DockerProcessOnUnix implements DockerProcess {
      * Ctor.
      * @param process System process associated with docker container.
      */
-    public DockerProcessOnUnix(final SystemProcess process) {
-        this.process = process;
+    public SystemUnixDockerProcess(final SystemProcess process) {
+        super(() -> {
+            try {
+                return new CmdOutputOf(process.execute());
+            } catch (final IOException ex) {
+                throw new DockerProcessExecutionException(ex);
+            }
+        });
     }
-
-    @Override
-    public CmdOutput execute() throws DockerProcessExecutionException {
-        try {
-            return new CmdOutputOf(this.process.execute());
-        } catch (final IOException ex) {
-            throw new DockerProcessExecutionException(ex);
-        }
-    }
-
 }

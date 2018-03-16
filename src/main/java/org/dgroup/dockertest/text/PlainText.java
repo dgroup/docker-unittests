@@ -24,20 +24,18 @@
 package org.dgroup.dockertest.text;
 
 import java.util.Collection;
-import org.cactoos.Text;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 
 /**
- * Represents a formatted {@link Text} which didn't throw the exception
- * and verify amount of arguments passed to pattern.
+ * Represents a formatted {@link org.cactoos.Text} which didn't throw the
+ * exception and verify amount of arguments passed to pattern.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class StrictFormattedText {
+public final class PlainText implements Text {
 
     /**
      * String pattern for formatting.
@@ -53,7 +51,7 @@ public final class StrictFormattedText {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public StrictFormattedText(final String pattern, final Object... args) {
+    public PlainText(final String pattern, final Object... args) {
         this(pattern, new ListOf<>(args));
     }
 
@@ -62,7 +60,7 @@ public final class StrictFormattedText {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public StrictFormattedText(
+    public PlainText(
         final String pattern,
         final Collection<Object> args
     ) {
@@ -70,11 +68,8 @@ public final class StrictFormattedText {
         this.args = args;
     }
 
-    /**
-     * Build text based on pattern and arguments.
-     * @return Text
-     */
-    public String asString() {
+    @Override
+    public String text() {
         if (new StringOccurrences(this.pattern, "%s")
             .nonEqualTo(this.args.size())) {
             throw new IllegalArgumentException(
@@ -84,13 +79,16 @@ public final class StrictFormattedText {
                 )
             );
         }
-        return new UncheckedText(new FormattedText(this.pattern, this.args))
-            .asString();
+        return new UncheckedText(
+            new org.cactoos.text.FormattedText(
+                this.pattern, this.args
+            )
+        ).asString();
     }
 
     @Override
     public String toString() {
-        return this.asString();
+        return this.text();
     }
 
 }

@@ -105,10 +105,7 @@ public final class YmlTagOutputOf implements YmlTag {
         if (this.tag.isEmpty()) {
             throw new IllegalYmlFileFormatException(
                 this,
-                new Joined(
-                    new Sorted<>(this.supported.keySet()),
-                    "|"
-                ).asString()
+                new Joined(new Sorted<>(this.supported.keySet()), "|")
             );
         }
         return new Mapped<>(

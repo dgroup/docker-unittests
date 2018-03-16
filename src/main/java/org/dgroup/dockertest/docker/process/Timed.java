@@ -24,8 +24,6 @@
 package org.dgroup.dockertest.docker.process;
 
 import java.time.Instant;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.output.TimedCmdOutput;
 
 /**
@@ -35,35 +33,30 @@ import org.dgroup.dockertest.docker.output.TimedCmdOutput;
  * @version $Id$
  * @since 1.0
  */
-public final class Timed implements DockerProcess {
-    /**
-     * Original Docker process where we need a timing.
-     */
-    private final DockerProcess origin;
+public final class Timed extends DockerProcessEnvelope {
 
     /**
      * Ctor.
      * @param origin Docker process where we need a timing.
+     * @checkstyle LineLengthCheck (20 lines)
      */
     public Timed(final DockerProcess origin) {
-        this.origin = origin;
+        super(() -> {
+            // @checkstyle MethodBodyCommentsCheck (20 lines)
+            // @checkstyle RegexpSinglelineCheck (20 lines)
+            // @checkstyle CascadeIndentationCheck (20 lines)
+            /*
+             JLS 1.8, section 15.7.4, Argument Lists are Evaluated Left-to-Right:
+             -------------------------------------------------------------------
+             In a method or constructor invocation or class instance creation
+             expression, argument expressions may appear within the parentheses,
+             separated by commas. Each argument expression appears to be fully
+             evaluated before any part of any argument expression to its right.
+            */
+            return new TimedCmdOutput(
+                Instant.now(), origin.execute()
+            );
+        });
     }
 
-    @Override
-    public CmdOutput execute() throws DockerProcessExecutionException {
-        // @checkstyle MethodBodyCommentsCheck (20 lines)
-        // @checkstyle RegexpSinglelineCheck (20 lines)
-        // @checkstyle CascadeIndentationCheck (20 lines)
-        /*
-         JLS 1.8, section 15.7.4, Argument Lists are Evaluated Left-to-Right:
-         --------------------------------------------------------------------
-         In a method or constructor invocation or class instance creation
-         expression, argument expressions may appear within the parentheses,
-         separated by commas. Each argument expression appears to be fully
-         evaluated before any part of any argument expression to its right.
-        */
-        return new TimedCmdOutput(
-            Instant.now(), this.origin.execute()
-        );
-    }
 }

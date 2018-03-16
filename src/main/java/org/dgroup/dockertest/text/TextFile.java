@@ -52,12 +52,29 @@ public final class TextFile {
 
     /**
      * Ctor.
-     * @param origin For reading.
+     * @param path For reading.
      * @todo #4 Add cmd flag which allows user to select encoding
      *  for *.yml file with tests.
      */
-    public TextFile(final File origin) {
-        this(() -> origin, StandardCharsets.UTF_8);
+    public TextFile(final Text path) {
+        this(path.text());
+    }
+
+    /**
+     * Ctor.
+     * @param path Origin file path for reading.
+     */
+    public TextFile(final String path) {
+        this(path, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Ctor.
+     * @param path Origin file path for reading.
+     * @param charset Origin file charset for reading.
+     */
+    public TextFile(final String path, final Charset charset) {
+        this(() -> new File(path), charset);
     }
 
     /**
@@ -77,7 +94,7 @@ public final class TextFile {
      * @checkstyle IllegalCatchCheck (20 lines)
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public String content() throws IOException {
+    public String text() throws IOException {
         try {
             return new TextOf(
                 new BytesOf(

@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +54,16 @@ import org.junit.runner.RunWith;
 public class TestsOfTest {
 
     @Test
-    public final void singleTest() throws Exception {
+    public final void execute() throws Exception {
+        final YmlResource tests = new YmlResource(
+            ".guides%simage-tests.yml", File.separator
+        );
         final List<String> args = new ListOf<>(
-            "-f", new YmlResource("with-single-test.yml").path(),
+            "-f", tests.path(),
             "-i", "openjdk:9.0.1-11"
         );
         final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
+        output.print("File: %s.", tests.path());
         new TestsOf(
             new Args(
                 new ArgOf("-i", args, "Docker image wasn't specified."),
@@ -72,12 +77,12 @@ public class TestsOfTest {
                 output
             )
         ).execute();
+        new StdOutputOf().print(
+            output.details()
+        );
         MatcherAssert.assertThat(
             output.details(),
             Matchers.hasItem("Testing successfully completed.")
-        );
-        new StdOutputOf().print(
-            output.details()
         );
     }
 

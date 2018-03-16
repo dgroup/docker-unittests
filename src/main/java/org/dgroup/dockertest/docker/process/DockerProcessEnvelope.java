@@ -21,66 +21,45 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.docker.process;
 
-import java.text.MessageFormat;
-import java.util.Collection;
-import org.cactoos.list.ListOf;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
+import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
- * Represents formatted text with repeatable arguments.
- * Allows to simplify parameters amount.
+ * Envelope for {@link DockerProcess}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class FormattedTextWithRepeatableArguments {
+class DockerProcessEnvelope implements DockerProcess {
 
     /**
-     * String pattern for formatting.
+     * Origin.
      */
-    private final String pattern;
-    /**
-     * Arguments, which should be used for patern.
-     */
-    private final Collection<Object> args;
+    private final Scalar<DockerProcess> origin;
 
     /**
      * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * @param origin Origin.
      */
-    public FormattedTextWithRepeatableArguments(
-        final String pattern,
-        final Object... args
-    ) {
-        this(pattern, new ListOf<>(args));
+    DockerProcessEnvelope(final DockerProcess origin) {
+        this(() -> origin);
     }
 
     /**
      * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * @param origin Origin.
      */
-    public FormattedTextWithRepeatableArguments(
-        final String pattern,
-        final Collection<Object> args
-    ) {
-        this.pattern = pattern;
-        this.args = args;
-    }
-
-    /**
-     * Transform the pattern with arguments to string.
-     * @return Formatted text.
-     */
-    public String asString() {
-        return MessageFormat.format(this.pattern, this.args.toArray());
+    DockerProcessEnvelope(final Scalar<DockerProcess> origin) {
+        this.origin = origin;
     }
 
     @Override
-    public String toString() {
-        return this.asString();
+    public CmdOutput execute() throws DockerProcessExecutionException {
+        return new UncheckedScalar<>(this.origin).value().execute();
     }
 }

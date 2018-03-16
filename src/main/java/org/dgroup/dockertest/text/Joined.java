@@ -34,7 +34,7 @@ import org.dgroup.dockertest.scalar.UncheckedTernary;
  * @version $Id$
  * @since 1.0
  */
-public final class Joined {
+public final class Joined implements Text {
 
     /**
      * All string values for joining.
@@ -67,17 +67,14 @@ public final class Joined {
         );
     }
 
-    /**
-     * Transform array/collection/etc to string.
-     * @return New joined string in accordance with {@code this.delimiter }
-     */
-    public String asString() {
+    @Override
+    public String text() {
         return String.join(this.delimiter.value(), this.values);
     }
 
     @Override
     public String toString() {
-        return this.asString();
+        return this.text();
     }
 
 }

@@ -23,45 +23,19 @@
  */
 package org.dgroup.dockertest.text;
 
-import java.io.File;
-import java.io.IOException;
-import org.dgroup.dockertest.Assert;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 /**
- * Unit tests for class {@link TextFile}.
+ * Text.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextFileTest {
+public interface Text {
 
-    @Test
-    public void fileContentWasRedAsString() throws IOException {
-        MatcherAssert.assertThat(
-            new TextFile(
-                new TextWithRepeatableArguments(
-                    "src{0}test{0}resources{0}txt{0}tests{0}simple.txt",
-                    File.separator
-                )
-            ).text(),
-            Matchers.equalTo(
-                "test:\nassume: \"curl version is 7.xxx\"\ncmd"
-            )
-        );
-    }
+    /**
+     * Build text based on pattern and arguments.
+     * @return Text
+     */
+    String text();
 
-    @Test
-    public void fileNotFound() {
-        new Assert().thatThrows(
-            () -> new TextFile(".gitignoreeeeeee").text(),
-            IOException.class,
-            "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
-        );
-    }
 }

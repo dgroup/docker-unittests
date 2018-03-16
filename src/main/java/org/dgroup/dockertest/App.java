@@ -26,7 +26,6 @@ package org.dgroup.dockertest;
 import java.io.UncheckedIOException;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.exception.RootCause;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
@@ -70,8 +69,6 @@ public final class App {
             termination.dueTo(ex);
         } catch (final IllegalYmlFileFormatException ex) {
             std.print(filename(args), ex);
-        } catch (final DockerProcessExecutionException ex) {
-            termination.dueTo(ex);
         } catch (final UncheckedIOException ex) {
             final Throwable cause = new RootCause(ex).exception();
             if (cause instanceof IllegalYmlFileFormatException) {

@@ -21,39 +21,38 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.docker.process;
 
-import java.io.File;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+// @checkstyle ImportCohesionCheck (2 lines)
+// @checkstyle ImportOrderCheck (5 lines)
+import java.nio.charset.StandardCharsets;
+import com.github.dockerjava.api.model.Frame;
+import com.github.dockerjava.core.command.LogContainerResultCallback;
 
 /**
- * Unit tests for class {@link FormattedTextWithRepeatableArguments}.
+ * Logs collector from docker container.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
- * @checkstyle OperatorWrapCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public class FormattedTextWithRepeatableArgumentsTest {
+@SuppressWarnings("PMD.AvoidStringBufferField")
+public final class LogCallback extends LogContainerResultCallback {
 
-    @Test
-    public final void asString() {
-        MatcherAssert.assertThat(
-            new FormattedTextWithRepeatableArguments(
-                "{0}{1}test{1}resources{1}testng.xml",
-                "home", File.separator
-            ).toString(),
-            Matchers.equalTo(
-                "home" + File.separator + "test" +
-                    File.separator + "resources" +
-                    File.separator + "testng.xml"
-            )
-        );
+    /**
+     * Logs from docker container.
+     */
+    private final StringBuilder log = new StringBuilder();
+
+    @Override
+    public void onNext(final Frame frame) {
+        this.log.append(new String(frame.getPayload(), StandardCharsets.UTF_8));
     }
+
+    @Override
+    public String toString() {
+        return this.log.toString();
+    }
+
 }

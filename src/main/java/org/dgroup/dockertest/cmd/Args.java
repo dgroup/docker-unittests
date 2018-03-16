@@ -23,15 +23,13 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.io.File;
 import java.util.List;
 import java.util.Set;
-import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.process.DockerProcessOnUnix;
+import org.dgroup.dockertest.docker.process.DockerProcessOf;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
@@ -139,19 +137,13 @@ public final class Args {
                     ymlTagTest.assume(),
                     ymlTagTest.cmd(),
                     ymlTagTest.output(),
-                    new DockerProcessOnUnix(
-                        new Joined<>(
-                            new ListOf<>(
-                                "docker", "run", "--rm", this.dockerImage()
-                            ),
-                            new ListOf<>(ymlTagTest.containerCommandAsArray())
-                        )
+                    new DockerProcessOf(
+                        this.dockerImage(),
+                        ymlTagTest.containerCommandAsArray()
                     )
                 ),
                 new YmlString(
-                    new TextFile(
-                        new File(this.ymlFilename())
-                    )
+                    new TextFile(this.ymlFilename())
                 ).asTests()
             )
         );

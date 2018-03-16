@@ -21,45 +21,38 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.docker.process;
 
-import org.dgroup.dockertest.Assert;
+import org.dgroup.dockertest.OnlyWithinInstalledDocker;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link StrictFormattedText}.
+ * Unit tests for class {@link DockerProcessOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class StrictFormattedTextTest {
+@RunWith(OnlyWithinInstalledDocker.class)
+public final class DockerProcessOfTest {
 
     @Test
-    public void asString() {
+    public void execute() throws DockerProcessExecutionException {
         MatcherAssert.assertThat(
-            new StrictFormattedText(
-                "%s open %s.",
-                10, "issues"
-            ).asString(),
-            Matchers.equalTo("10 open issues.")
-        );
-    }
-
-    @Test
-    public void twoParametersForPatternAreMissing() {
-        new Assert().thatThrows(
-            () -> new StrictFormattedText(
-                "%s %s %s",
-                "only one arg"
-            ).asString(),
-            new IllegalArgumentException(
-                "Wrong amount of arguments(1) for pattern '%s %s %s'."
+            new DockerProcessOf(
+                "openjdk:9.0.1-11",
+                new String[]{"java", "-version" }
+            ).execute().byLines(),
+            Matchers.hasItems(
+                "openjdk version \"9.0.1\"",
+                "OpenJDK Runtime Environment (build 9.0.1+11-Debian-1)",
+                "OpenJDK 64-Bit Server VM (build 9.0.1+11-Debian-1, mixed mode)"
             )
         );
     }

@@ -35,7 +35,7 @@ import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
-import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
@@ -108,9 +108,9 @@ public final class TestOf implements Test {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public List<String> messagePassed() {
         return new ListOf<>(
-            new StrictFormattedText(
+            new PlainText(
                 "> %s %s", this.assume, new GreenText("PASSED")
-            ).asString()
+            ).text()
         );
     }
 
@@ -127,24 +127,24 @@ public final class TestOf implements Test {
         final List<YmlTagOutputPredicate> failed) {
         return new Joined<>(
             new ListOf<>(
-                new StrictFormattedText(
+                new PlainText(
                     "> %s %s", this.assume, new RedText("FAILED")
-                ).asString(),
-                new StrictFormattedText(
+                ).text(),
+                new PlainText(
                     "  command: \"%s\"", this.cmd
-                ).asString(),
-                new StrictFormattedText(
+                ).text(),
+                new PlainText(
                     "  output:  \"%s\"", output
-                ).asString(),
+                ).text(),
                 "  expected output:"
             ),
             new Mapped<>(
-                o -> new StrictFormattedText("    - %s", o).asString(),
+                o -> new PlainText("    - %s", o).text(),
                 this.expected
             ),
             new ListOf<>("  mismatch:"),
             new Mapped<>(
-                o -> new StrictFormattedText("    - %s", o).asString(),
+                o -> new PlainText("    - %s", o).text(),
                 failed
             )
         );

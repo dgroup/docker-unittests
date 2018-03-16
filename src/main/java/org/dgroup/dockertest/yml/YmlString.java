@@ -51,7 +51,7 @@ public final class YmlString {
      * @param yml Tags defined in file with tests as string.
      */
     public YmlString(final TextFile yml) {
-        this(yml::content);
+        this(yml::text);
     }
 
     /**

@@ -27,8 +27,7 @@ import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
- * Represents single docker process.
- * It might be creation of new container, pull command, etc.
+ * Represents single docker container process.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

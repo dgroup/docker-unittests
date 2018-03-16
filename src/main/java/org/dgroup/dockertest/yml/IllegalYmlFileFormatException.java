@@ -25,7 +25,8 @@ package org.dgroup.dockertest.yml;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 
 /**
@@ -52,14 +53,14 @@ public final class IllegalYmlFileFormatException extends Exception {
      */
     public IllegalYmlFileFormatException(final String pattern,
         final Object... args) {
-        this(new StrictFormattedText(pattern, args));
+        this(new PlainText(pattern, args));
     }
 
     /**
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFileFormatException(final StrictFormattedText msg) {
+    public IllegalYmlFileFormatException(final PlainText msg) {
         this(msg.toString());
     }
 
@@ -92,6 +93,16 @@ public final class IllegalYmlFileFormatException extends Exception {
             "Tag `%s` has missing required child tag `%s`",
             tag.name(), child
         );
+    }
+
+    /**
+     * Ctor.
+     * @param tag YML tag which has missing required child.
+     * @param child Name of child YML tag.
+     * @checkstyle
+     */
+    public IllegalYmlFileFormatException(final YmlTag tag, final Text child) {
+        this(tag, child.text());
     }
 
     /**

@@ -34,7 +34,7 @@ import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.scalar.UncheckedTernary;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
-import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.HighlightedText;
 import org.dgroup.dockertest.text.highlighted.RedText;
@@ -105,14 +105,14 @@ public final class StdOutputOf implements StdOutput {
         this.print(
             new Joined<>(
                 new ListOf<>(
-                    new StrictFormattedText(
+                    new PlainText(
                         "YML file `%s` has the wrong format:", file
-                    ).asString()
+                    ).text()
                 ),
                 new Mapped<>(
-                    l -> new StrictFormattedText(
+                    l -> new PlainText(
                         "%s%s", this.indent, l
-                    ).asString(),
+                    ).text(),
                     exp.detailsSplittedByLines()
                 )
             )

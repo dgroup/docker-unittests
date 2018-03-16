@@ -28,10 +28,6 @@ import org.cactoos.list.StickyList;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.process.DockerProcess;
-import org.dgroup.dockertest.docker.process.Pull;
-import org.dgroup.dockertest.docker.process.Timed;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
@@ -48,10 +44,6 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  */
 public final class TestsOf {
 
-    /**
-     * Pull docker image before the testing.
-     */
-    private final DockerProcess pull;
     /**
      * Testing results.
      */
@@ -72,9 +64,6 @@ public final class TestsOf {
     public TestsOf(final Args args)
         throws CmdArgNotFoundException, IllegalYmlFileFormatException {
         this(
-            new Timed(
-                new Pull(args.dockerImage())
-            ),
             new TestingOutcomeOf(
                 new StickyList<>(
                     new Mapped<>(Test::execute, args.tests())
@@ -87,16 +76,13 @@ public final class TestsOf {
 
     /**
      * Ctor.
-     * @param pull Docker process for pulling image before testing.
      * @param tests Testing results.
      * @param std Standard output for application progress.
      */
     public TestsOf(
-        final DockerProcess pull,
         final TestingOutcome tests,
         final UncheckedScalar<StdOutput> std
     ) {
-        this.pull = pull;
         this.tests = tests;
         this.std = std;
     }
@@ -104,16 +90,11 @@ public final class TestsOf {
     /**
      * Print tests results to selected outputs.
      *
-     * @throws DockerProcessExecutionException in case runtime exception on the
-     *  docker side.
      * @throws TestingFailedException in case when at least one test is failed.
      * @todo #2:8h All tests should be executed concurrently and support
      *  thread-pool configuration from command line.
-     * @todo #94 Use https://github.com/testcontainers/testcontainers-java
-     *  as a layer for the docker integration.
      */
-    public void execute() throws DockerProcessExecutionException,
-        TestingFailedException {
+    public void execute() throws TestingFailedException {
         if (this.tests.isEmpty()) {
             throw new NoScenariosFoundException();
         }
@@ -121,8 +102,6 @@ public final class TestsOf {
             "Found scenarios: %s.%n",
             new GreenText(this.tests.size())
         );
-        this.std.value().print("Pull image...");
-        this.std.value().print(this.pull.execute());
         this.tests.reportTheResults();
     }
 

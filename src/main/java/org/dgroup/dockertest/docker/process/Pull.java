@@ -25,8 +25,6 @@ package org.dgroup.dockertest.docker.process;
 
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.output.TextCmdOutput;
 
 /**
@@ -37,16 +35,7 @@ import org.dgroup.dockertest.docker.output.TextCmdOutput;
  * @version $Id$
  * @since 1.0
  */
-public final class Pull implements DockerProcess {
-
-    /**
-     * Docker image which we are going to pull.
-     */
-    private final String image;
-    /**
-     * Dedicated docker process for execution of pull operation.
-     */
-    private final DockerProcess origin;
+public final class Pull extends DockerProcessEnvelope {
 
     /**
      * Ctor.
@@ -55,7 +44,7 @@ public final class Pull implements DockerProcess {
     public Pull(final String image) {
         this(
             image,
-            new DockerProcessOnUnix(
+            new SystemUnixDockerProcess(
                 new ListOf<>("docker", "pull", image)
             )
         );
@@ -67,17 +56,13 @@ public final class Pull implements DockerProcess {
      * @param origin Dedicated docker process for execution of pull operation.
      */
     public Pull(final String image, final DockerProcess origin) {
-        this.image = image;
-        this.origin = origin;
-    }
-
-    @Override
-    public CmdOutput execute() throws DockerProcessExecutionException {
-        final String output = this.origin.execute().asText();
-        if (output.contains("pull access denied")) {
-            throw new DockerImageNotFoundException(this.image);
-        }
-        return new TextCmdOutput(output);
+        super(() -> {
+            final String output = origin.execute().asText();
+            if (output.contains("pull access denied")) {
+                throw new DockerImageNotFoundException(image);
+            }
+            return new TextCmdOutput(output);
+        });
     }
 
 }

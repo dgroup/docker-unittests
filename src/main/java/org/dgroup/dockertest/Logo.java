@@ -25,7 +25,7 @@ package org.dgroup.dockertest;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.StrictFormattedText;
+import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.highlighted.BlueText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 
@@ -60,7 +60,7 @@ public final class Logo {
      */
     public String asString() {
         final GreenText app = new GreenText(
-            new StrictFormattedText("v%s", this.appVersion())
+            new PlainText("v%s", this.appVersion())
         );
         final BlueText whale = new BlueText(
             "                  ##         .            \n" +
@@ -72,9 +72,9 @@ public final class Logo {
             "      \\    \\        __/             \n" +
             "       \\____\\______/   \n"
         );
-        return new StrictFormattedText(
+        return new PlainText(
             "\nDocker testing tool (%s)\n%s", app, whale
-        ).asString();
+        ).text();
     }
 
     /**

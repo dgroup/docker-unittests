@@ -23,45 +23,62 @@
  */
 package org.dgroup.dockertest.text;
 
-import java.io.File;
-import java.io.IOException;
-import org.dgroup.dockertest.Assert;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import java.text.MessageFormat;
+import java.util.Collection;
+import org.cactoos.list.ListOf;
 
 /**
- * Unit tests for class {@link TextFile}.
+ * Represents formatted text with repeatable arguments.
+ * Allows to simplify parameters amount.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextFileTest {
+public final class TextWithRepeatableArguments
+    implements Text {
 
-    @Test
-    public void fileContentWasRedAsString() throws IOException {
-        MatcherAssert.assertThat(
-            new TextFile(
-                new TextWithRepeatableArguments(
-                    "src{0}test{0}resources{0}txt{0}tests{0}simple.txt",
-                    File.separator
-                )
-            ).text(),
-            Matchers.equalTo(
-                "test:\nassume: \"curl version is 7.xxx\"\ncmd"
-            )
-        );
+    /**
+     * String pattern for formatting.
+     */
+    private final String pattern;
+    /**
+     * Arguments, which should be used for patern.
+     */
+    private final Collection<Object> args;
+
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public TextWithRepeatableArguments(
+        final String pattern,
+        final Object... args
+    ) {
+        this(pattern, new ListOf<>(args));
     }
 
-    @Test
-    public void fileNotFound() {
-        new Assert().thatThrows(
-            () -> new TextFile(".gitignoreeeeeee").text(),
-            IOException.class,
-            "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
-        );
+    /**
+     * Ctor.
+     * @param pattern Template.
+     * @param args Arguments for template above.
+     */
+    public TextWithRepeatableArguments(
+        final String pattern,
+        final Collection<Object> args
+    ) {
+        this.pattern = pattern;
+        this.args = args;
+    }
+
+    @Override
+    public String text() {
+        return MessageFormat.format(this.pattern, this.args.toArray());
+    }
+
+    @Override
+    public String toString() {
+        return this.text();
     }
 }

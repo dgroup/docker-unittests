@@ -25,8 +25,13 @@ package org.dgroup.dockertest;
 
 import java.io.File;
 import java.io.IOException;
-import org.dgroup.dockertest.text.FormattedTextWithRepeatableArguments;
+import java.nio.charset.StandardCharsets;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextFile;
+import org.dgroup.dockertest.text.TextWithRepeatableArguments;
 
 /**
  * Represents an yml resource available in `src/test/resources/yml/test` dir.
@@ -41,15 +46,25 @@ public final class YmlResource {
     /**
      * Path to yml file.
      */
-    private final FormattedTextWithRepeatableArguments location;
+    private final Scalar<File> location;
 
     /**
      * Ctor.
-     * @param name Yml file with tests.
+     * @param pattern For {@link PlainText}.
+     * @param args For {@link PlainText}.
+     */
+    public YmlResource(final String pattern, final String... args) {
+        this(new PlainText(pattern, args));
+    }
+
+    /**
+     * Ctor.
+     * @param name Yml file with tests which was placed to YML resource dir
+     *  {@code src/test/resources/yml/tests }.
      */
     public YmlResource(final String name) {
         this(
-            new FormattedTextWithRepeatableArguments(
+            new TextWithRepeatableArguments(
                 "src{0}test{0}resources{0}yml{0}tests{0}{1}",
                 File.separator, name
             )
@@ -60,7 +75,15 @@ public final class YmlResource {
      * Ctor.
      * @param location Yml file with tests.
      */
-    public YmlResource(final FormattedTextWithRepeatableArguments location) {
+    public YmlResource(final Text location) {
+        this(() -> new File(location.text()));
+    }
+
+    /**
+     * Ctor.
+     * @param location Yml file with tests.
+     */
+    public YmlResource(final Scalar<File> location) {
         this.location = location;
     }
 
@@ -70,7 +93,7 @@ public final class YmlResource {
      * @return Yml file with tests.
      */
     public File file() {
-        return new File(this.path());
+        return new UncheckedScalar<>(this.location).value();
     }
 
     /**
@@ -79,7 +102,7 @@ public final class YmlResource {
      * @return Path to file.
      */
     public String path() {
-        return this.location.asString();
+        return this.file().getAbsolutePath();
     }
 
     /**
@@ -88,7 +111,7 @@ public final class YmlResource {
      * @throws IOException in case IO errors.
      */
     public String asString() throws IOException {
-        return new TextFile(this.file()).content();
+        return new TextFile(this::file, StandardCharsets.UTF_8).text();
     }
 
 }

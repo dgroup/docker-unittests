@@ -48,6 +48,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
         <cactoos.version>0.27</cactoos.version>
+        <dockerjava.version>3.0.14</dockerjava.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
         <jackson-databind>2.9.2</jackson-databind>
@@ -65,6 +66,11 @@
             <artifactId>cactoos</artifactId>
             <version>${cactoos.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java</artifactId>
+            <version>${dockerjava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
@@ -190,14 +196,17 @@
                             <license>file:${basedir}/license.txt</license>
                             <lineLength>100</lineLength>
                             <excludes combine.children="append">
-                                <exclude>checkstyle:/src/site/resources/.*</exclude>
                                 <exclude>xml:/src/main/resources/logback.xml</exclude>
+                                <exclude>xml:/src/test/resources/logback-test.xml</exclude>
                                 <exclude>dependencies:org.cactoos:cactoos</exclude>
                                 <exclude>dependencies:org.fusesource.jansi:jansi</exclude>
                                 <exclude>dependencies:org.yaml:snakeyaml</exclude>
                                 <exclude>dependencies:org.hamcrest</exclude>
                                 <exclude>dependencies:org.slf4j</exclude>
                                 <exclude>dependencies:ch.qos.logback</exclude>
+                                <exclude>dependencies:com.github.docker-java:docker-java</exclude>
+                                <exclude>dependencies:junit:junit</exclude>
+                                <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>
                         </configuration>
@@ -222,7 +231,6 @@
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/Fake*.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/*Envelope.*</exclude>
-                                <exclude>org/dgroup/dockertest/**/Logged*.*</exclude>
                             </excludes>
                         </configuration>
                         <executions>

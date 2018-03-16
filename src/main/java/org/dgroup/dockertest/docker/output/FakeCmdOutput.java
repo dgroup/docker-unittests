@@ -59,7 +59,7 @@ public final class FakeCmdOutput implements CmdOutput {
 
     @Override
     public String asText() {
-        return new Joined(this.output, " ").asString();
+        return new Joined(this.output, " ").text();
     }
 
     @Override
