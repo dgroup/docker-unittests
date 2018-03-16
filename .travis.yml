@@ -15,6 +15,7 @@ before_install:
 cache:
   directories:
     - $HOME/.m2
+
 script:
   - set -e
   - mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
@@ -25,7 +26,12 @@ env:
   global:
     - MAVEN_OPTS="-Xmx256m"
     - JAVA_OPTS="-Xmx256m"
+
 jdk:
   - oraclejdk8
+
 after_success:
   - "bash <(curl -s https://codecov.io/bash)"
+
+notifications:
+  slack: jclubteam:upRZaAFk2dZkFTVmpFIVOVOB
