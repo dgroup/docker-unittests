@@ -1,4 +1,7 @@
+
+
 ### Contributing F.A.Q.
+0. Follow [EO principles](http://www.elegantobjects.org/#principles)
 1. Use `@todo #/DEV` labels for all todo tasks.
    Its allows 0pdd to create the issues.
 2. Run `mvn clean package -Pqulice` before commit. 

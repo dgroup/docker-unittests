@@ -10,6 +10,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/org/dgroup/project/58b731a9-6b07-4ccf-9044-ad305ad243e6/?tab=dependencies&vulns=vulnerable)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
 
+[![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.dgroup.dockertest:docker-unittests)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
@@ -23,7 +24,7 @@ The project has been started in Java as POC, however, I'm thinking about porting
 Kindly ask you to raise the issue in case of any suggestions regarding another ways\languages.
 
 ### General image test 
-1. Define an [*.yml file](./.guides/image-tests.yml) with tests.
+1. Define an [*.yml file](./docs/image-tests.yml) with tests.
    ```yml
    version: 1
    
@@ -47,7 +48,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
-   ![docker image tests results](./.guides/image-tests-results.png)
+   ![docker image tests results](./docs/image-tests-results.png)
 ### Test image by script
 1. Define the `test.yml` with tests.
    ```yaml
@@ -81,12 +82,12 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     echo This line will not be executed as testing will fail
     ```
 3. Run the `test.sh`
-    ![docker image tests results](./.guides/image-tests-results-failure.png)
+    ![docker image tests results](./docs/image-tests-results-failure.png)
 
 #### F.A.Q.
  - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
- - [Contributing guide](./.guides/contributing.md)  
- - [Github](./.guides/github.md)
+ - [Contributing guide](./docs/contributing.md)  
+ - [Github](./docs/github.md)
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       
                                     
 #### TODOs for release 1.0

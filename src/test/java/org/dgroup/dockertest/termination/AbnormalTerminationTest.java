@@ -63,7 +63,7 @@ public final class AbnormalTerminationTest {
         final Termination termination = new AbnormalTermination(
             runtime,
             out,
-            new Args(out, "-f", ".guides/image-tests.yml")
+            new Args(out, "-f", "docs/image-tests.yml")
         );
         termination.dueTo(
             new IllegalYmlFormatException(new Exception("Shit happens."))
@@ -71,7 +71,7 @@ public final class AbnormalTerminationTest {
         MatcherAssert.assertThat(
             new String(baos.toByteArray(), StandardCharsets.UTF_8),
             Matchers.equalTo("" +
-                "..YML file `.guides/image-tests.yml` has the wrong format:\n" +
+                "..YML file `docs/image-tests.yml` has the wrong format:\n" +
                 "....java.lang.Exception: Shit happens.\n"
             )
         );

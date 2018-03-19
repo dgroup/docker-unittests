@@ -57,7 +57,7 @@ public class TestsOfTest {
     @Test
     public final void execute() throws Exception {
         final YmlResource tests = new YmlResource(
-            ".guides%simage-tests.yml", File.separator
+            "docs%simage-tests.yml", File.separator
         );
         final List<String> args = new ListOf<>(
             "-f", tests.path(),
