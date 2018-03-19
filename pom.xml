@@ -39,6 +39,12 @@
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
+        <code.coverage.limit.classes-without-tests>5</code.coverage.limit.classes-without-tests>
+        <code.coverage.limit.instructions>0.55</code.coverage.limit.instructions>
+        <code.coverage.limit.complexity>0.50</code.coverage.limit.complexity>
+        <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
+        <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
+        <code.coverage.limit.line>0.55</code.coverage.limit.line>
         <!-- Code quality -->
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
@@ -257,32 +263,32 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.instructions}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.line}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>${code.coverage.limit.branch}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>${code.coverage.limit.complexity}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>METHOD</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.methods}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>2</maximum>
+                                                    <maximum>${code.coverage.limit.classes-without-tests}</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>
