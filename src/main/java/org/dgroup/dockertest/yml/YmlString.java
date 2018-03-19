@@ -65,10 +65,10 @@ public final class YmlString {
     /**
      * Parsed yml tests as list.
      * @return Yml tests.
-     * @throws IllegalYmlFileFormatException in case if YML file has
+     * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> asTests() throws IllegalYmlFileFormatException {
+    public List<YmlTagTest> asTests() throws IllegalYmlFormatException {
         final Map<String, Object> tree = this.loadYmlTree();
         new YmlTagVersion(tree).verify();
         return new YmlTagTests(tree).asList();
@@ -77,17 +77,17 @@ public final class YmlString {
     /**
      * Load string with tests as yml tree.
      * @return Tree.
-     * @throws IllegalYmlFileFormatException in case if YML file has
+     * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      * @checkstyle IllegalCatchCheck (10 lines)
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private Map<String, Object> loadYmlTree()
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         try {
             return new Yaml().load(this.yml.value());
         } catch (final Exception ex) {
-            throw new IllegalYmlFileFormatException(ex.getMessage(), ex);
+            throw new IllegalYmlFormatException(ex.getMessage(), ex);
         }
     }
 

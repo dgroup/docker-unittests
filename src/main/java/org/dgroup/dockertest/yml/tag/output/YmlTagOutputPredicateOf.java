@@ -27,7 +27,7 @@ import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
 import org.cactoos.text.UncheckedText;
 import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Default implementation of {@link YmlTagOutputPredicate}.
@@ -79,9 +79,9 @@ public final class YmlTagOutputPredicateOf
 
     @Override
     public boolean test(final String actual)
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         if (this.predicate == null) {
-            throw new IllegalYmlFileFormatException(
+            throw new IllegalYmlFormatException(
                 "Unsupported comparing expression `%s:%s`",
                 this.comparingType(), this.expectedValue()
             );

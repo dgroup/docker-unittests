@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents single yml tag in *.yml file.
@@ -36,7 +36,7 @@ import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo # Move defaults methods outside of interface.
+ * @todo #/DEV Move defaults methods outside of interface.
  */
 public interface YmlTag {
 
@@ -49,21 +49,21 @@ public interface YmlTag {
     /**
      * Represent tag value as string.
      * @return Value.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    default String asString() throws IllegalYmlFileFormatException {
+    default String asString() throws IllegalYmlFormatException {
         return this.asObject().toString();
     }
 
     /**
      * Represent tag value as list.
      * @return List.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
     @SuppressWarnings("unchecked")
-    default List<Object> asList() throws IllegalYmlFileFormatException {
+    default List<Object> asList() throws IllegalYmlFormatException {
         return new ListOf<>(
             new Filtered<>(
                 Objects::nonNull,
@@ -75,32 +75,32 @@ public interface YmlTag {
     /**
      * Represent tag value as map.
      * @return Map.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
     @SuppressWarnings("unchecked")
-    default Map<Object, Object> asMap() throws IllegalYmlFileFormatException {
+    default Map<Object, Object> asMap() throws IllegalYmlFormatException {
         return (Map<Object, Object>) this.asObject();
     }
 
     /**
      * YML tag value.
      * @return Non-null tag value.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    Object asObject() throws IllegalYmlFileFormatException;
+    Object asObject() throws IllegalYmlFormatException;
 
     /**
      * Check that current tag has children tags with values.
      * @param child Tag name.
-     * @throws IllegalYmlFileFormatException in case if child tag
+     * @throws IllegalYmlFormatException in case if child tag
      *  is null/missing or has no value.
      */
     default void assertThatTagContain(final String child)
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         if (this.asMap().get(child) == null) {
-            throw new IllegalYmlFileFormatException(this, child);
+            throw new IllegalYmlFormatException(this, child);
         }
     }
 

@@ -32,6 +32,7 @@ package org.dgroup.dockertest.cmd;
  * @todo #78 Make arg with generic
  */
 public interface Arg {
+
     /**
      * Fetch argument name.
      *
@@ -51,9 +52,50 @@ public interface Arg {
 
     /**
      * Verify existence of argument in the arguments specified by user.
-     *
      * @return Existence of argument.
      */
     boolean specifiedByUser();
+
+    /**
+     * Fake implementation for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (20 lines)
+     * @checkstyle JavadocVariableCheck (20 lines)
+     */
+    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+    final class Fake implements Arg {
+
+        private final String name;
+        private final String value;
+        private final Boolean specified;
+
+        public Fake() {
+            this("", "");
+        }
+
+        public Fake(final String nme, final String val) {
+            this(nme, val, true);
+        }
+
+        public Fake(final String nme, final String val, final Boolean spfd) {
+            this.name = nme;
+            this.value = val;
+            this.specified = spfd;
+        }
+
+        @Override
+        public String name() {
+            return this.name;
+        }
+
+        @Override
+        public String value() {
+            return this.value;
+        }
+
+        @Override
+        public boolean specifiedByUser() {
+            return this.specified;
+        }
+    }
 
 }

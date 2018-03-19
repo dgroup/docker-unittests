@@ -21,50 +21,41 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.output;
-
-import java.util.List;
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.text.Joined;
+package org.dgroup.dockertest.termination;
 
 /**
- * Fake implementation of {@link CmdOutput} for unit testing purposes.
+ * Represent current application process.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class FakeCmdOutput implements CmdOutput {
+public interface Runtime {
 
     /**
-     * Output from docker process.
+     * Shutdown current console application with particular exit code
+     * in order to notify the parent system process (for example bash script).
+     * @param code Exit code.
      */
-    private final List<String> output;
+    void shutdownWith(final int code);
 
     /**
-     * Ctor.
-     * @param output Docker process output.
+     * Fake implementation for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (20 lines)
+     * @checkstyle JavadocVariableCheck (20 lines)
+     * @checkstyle HiddenFieldCheck (10 lines)
      */
-    public FakeCmdOutput(final String... output) {
-        this(new ListOf<>(output));
-    }
+    class Fake implements Runtime {
 
-    /**
-     * Ctor.
-     * @param output Docker process output.
-     */
-    public FakeCmdOutput(final List<String> output) {
-        this.output = output;
-    }
+        private int code;
 
-    @Override
-    public String asText() {
-        return new Joined(this.output, " ").text();
-    }
+        @Override
+        public void shutdownWith(final int code) {
+            this.code = code;
+        }
 
-    @Override
-    public List<String> byLines() {
-        return this.output;
+        public int exitCode() {
+            return this.code;
+        }
     }
-
 }

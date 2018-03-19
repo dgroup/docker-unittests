@@ -24,6 +24,8 @@
 package org.dgroup.dockertest.docker.output;
 
 import java.util.List;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.text.Joined;
 
 /**
  * Represents docker command output.
@@ -45,4 +47,32 @@ public interface CmdOutput {
      * @return Cmd output as list.
      */
     List<String> byLines();
+
+    /**
+     * Fake implementation for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (20 lines)
+     * @checkstyle JavadocVariableCheck (20 lines)
+     */
+    final class Fake implements CmdOutput {
+
+        private final List<String> output;
+
+        public Fake(final String... output) {
+            this(new ListOf<>(output));
+        }
+
+        public Fake(final List<String> output) {
+            this.output = output;
+        }
+
+        @Override
+        public String asText() {
+            return new Joined(this.output, " ").text();
+        }
+
+        @Override
+        public List<String> byLines() {
+            return this.output;
+        }
+    }
 }

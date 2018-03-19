@@ -25,8 +25,8 @@ package org.dgroup.dockertest.docker.command;
 
 import org.dgroup.dockertest.docker.DockerImageNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.output.FakeCmdOutput;
-import org.dgroup.dockertest.docker.process.FakeDockerProcess;
+import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.docker.process.Pull;
 import org.junit.Test;
 
@@ -49,8 +49,8 @@ public final class PullTest {
     public void imageNotFound() throws DockerProcessExecutionException {
         new Pull(
             "openjdk:9999999",
-            new FakeDockerProcess(
-                new FakeCmdOutput(
+            new DockerProcess.Fake(
+                new CmdOutput.Fake(
                     "Error response from daemon: pull access denied for openjdk:9999999, " +
                         "repository does not exist or may require 'docker login'\n"
                 )

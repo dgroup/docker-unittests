@@ -23,9 +23,10 @@
  */
 package org.dgroup.dockertest;
 
-import java.util.List;
-import org.cactoos.list.ListOf;
+import java.util.Iterator;
+import org.cactoos.iterable.IterableOf;
 import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.SplittedText;
 import org.dgroup.dockertest.text.highlighted.BlueText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 
@@ -36,7 +37,7 @@ import org.dgroup.dockertest.text.highlighted.GreenText;
  * @version $Id$
  * @since 1.0
  */
-public final class Logo {
+public final class Logo implements Iterable<String> {
 
     /**
      * Application version.
@@ -54,15 +55,17 @@ public final class Logo {
     /**
      * App version and docker logo as string.
      * @return Logo.
+     * @checkstyle AddEmptyString (50 lines)
      * @checkstyle OperatorWrapCheck (50 lines)
      * @checkstyle RegexpSinglelineCheck (50 lines)
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
      */
+    @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
         final GreenText app = new GreenText(
             new PlainText("v%s", this.appVersion())
         );
-        final BlueText whale = new BlueText(
+        final BlueText whale = new BlueText("" +
             "                  ##         .            \n" +
             "            ## ## ##        ==            \n" +
             "         ## ## ## ##       ===            \n" +
@@ -72,19 +75,8 @@ public final class Logo {
             "      \\    \\        __/             \n" +
             "       \\____\\______/   \n"
         );
-        return new PlainText(
-            "\nDocker testing tool (%s)\n%s", app, whale
-        ).text();
-    }
-
-    /**
-     * App logo splitted by lines.
-     * @return Lines.
-     */
-    public List<String> byLines() {
-        return new ListOf<>(
-            this.asString().split("\n")
-        );
+        return new PlainText("\nDocker testing tool (%s)\n%s", app, whale)
+            .text();
     }
 
     /**
@@ -93,5 +85,12 @@ public final class Logo {
      */
     public String appVersion() {
         return this.version;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return new IterableOf<>(
+            new SplittedText(this.asString(), "\n").asArray()
+        ).iterator();
     }
 }

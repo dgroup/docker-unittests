@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.yml.tag.output;
 
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents yml tag
@@ -53,9 +53,9 @@ public interface YmlTagOutputPredicate {
      *
      * @param actual Output received from docker container.
      * @return True in case if expected value is equal to actual value.
-     * @throws IllegalYmlFileFormatException in case when condition is
+     * @throws IllegalYmlFormatException in case when condition is
      *  unsupported or har wrong/empty value.
      */
-    boolean test(final String actual) throws IllegalYmlFileFormatException;
+    boolean test(final String actual) throws IllegalYmlFormatException;
 
 }

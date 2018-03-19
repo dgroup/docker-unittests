@@ -23,8 +23,6 @@
  */
 package org.dgroup.dockertest.yml;
 
-import java.util.List;
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.yml.tag.YmlTag;
@@ -36,13 +34,13 @@ import org.dgroup.dockertest.yml.tag.YmlTag;
  * @version $Id$
  * @since 1.0
  */
-public final class IllegalYmlFileFormatException extends Exception {
+public final class IllegalYmlFormatException extends Exception {
 
     /**
      * Ctor.
      * @param cause Original cause.
      */
-    public IllegalYmlFileFormatException(final Throwable cause) {
+    public IllegalYmlFormatException(final Throwable cause) {
         super(cause);
     }
 
@@ -51,7 +49,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public IllegalYmlFileFormatException(final String pattern,
+    public IllegalYmlFormatException(final String pattern,
         final Object... args) {
         this(new PlainText(pattern, args));
     }
@@ -60,7 +58,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFileFormatException(final PlainText msg) {
+    public IllegalYmlFormatException(final PlainText msg) {
         this(msg.toString());
     }
 
@@ -68,7 +66,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFileFormatException(final String msg) {
+    public IllegalYmlFormatException(final String msg) {
         super(msg);
     }
 
@@ -77,7 +75,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * @param msg Describes what exactly tag is wrong.
      * @param cause Original cause.
      */
-    public IllegalYmlFileFormatException(final String msg,
+    public IllegalYmlFormatException(final String msg,
         final Throwable cause) {
         super(msg, cause);
     }
@@ -88,7 +86,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * @param child Name of child YML tag.
      * @checkstyle
      */
-    public IllegalYmlFileFormatException(final YmlTag tag, final String child) {
+    public IllegalYmlFormatException(final YmlTag tag, final String child) {
         this(
             "Tag `%s` has missing required child tag `%s`",
             tag.name(), child
@@ -101,15 +99,7 @@ public final class IllegalYmlFileFormatException extends Exception {
      * @param child Name of child YML tag.
      * @checkstyle
      */
-    public IllegalYmlFileFormatException(final YmlTag tag, final Text child) {
+    public IllegalYmlFormatException(final YmlTag tag, final Text child) {
         this(tag, child.text());
-    }
-
-    /**
-     * Split message about wrong format to list of lines.
-     * @return Messages.
-     */
-    public List<String> detailsSplittedByLines() {
-        return new ListOf<>(this.getMessage().split("\n"));
     }
 }

@@ -34,8 +34,9 @@ import org.dgroup.dockertest.cmd.ArgOf;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.OutputArgOf;
 import org.dgroup.dockertest.cmd.UncheckedArg;
-import org.dgroup.dockertest.test.output.std.FakeStdOutput;
+import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.dgroup.dockertest.text.PlainText;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -62,8 +63,12 @@ public class TestsOfTest {
             "-f", tests.path(),
             "-i", "openjdk:9.0.1-11"
         );
-        final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
-        output.print("File: %s.", tests.path());
+        final StdOutput.Fake output = new StdOutput.Fake(new ArrayList<>(12));
+        output.print(
+            new PlainText(
+                "File: %s.", tests.path()
+            ).text()
+        );
         new TestsOf(
             new Args(
                 new ArgOf("-i", args, "Docker image wasn't specified."),

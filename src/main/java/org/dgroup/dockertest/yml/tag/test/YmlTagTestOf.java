@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.cactoos.collection.Filtered;
 import org.cactoos.list.StickyList;
 import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.YmlTagOf;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
@@ -74,25 +74,25 @@ public final class YmlTagTestOf implements YmlTagTest {
     }
 
     @Override
-    public String assume() throws IllegalYmlFileFormatException {
+    public String assume() throws IllegalYmlFormatException {
         return this.child("assume");
     }
 
     @Override
-    public String cmd() throws IllegalYmlFileFormatException {
+    public String cmd() throws IllegalYmlFormatException {
         return this.child("cmd");
     }
 
     @Override
     public String[] containerCommandAsArray()
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         return this.cmd().split(" ");
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<YmlTagOutputPredicate> output()
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         final String child = "output";
         this.tag.assertThatTagContain(child);
         return new YmlTagOutputOf(
@@ -106,7 +106,7 @@ public final class YmlTagTestOf implements YmlTagTest {
     }
 
     @Override
-    public String asString() throws IllegalYmlFileFormatException {
+    public String asString() throws IllegalYmlFormatException {
         return new PlainText(
             "tag `%s`, assume `%s`, cmd `%s`, output `%s`",
             this.tag,
@@ -117,7 +117,7 @@ public final class YmlTagTestOf implements YmlTagTest {
     }
 
     @Override
-    public Object asObject() throws IllegalYmlFileFormatException {
+    public Object asObject() throws IllegalYmlFormatException {
         return this.tag.asObject();
     }
 
@@ -125,11 +125,11 @@ public final class YmlTagTestOf implements YmlTagTest {
      * Give child tag value as a string.
      * @param child Tag name.
      * @return Child tag
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
     private String child(final String child)
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         this.tag.assertThatTagContain(child);
         return this.tag.asMap().get(child).toString();
     }

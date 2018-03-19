@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.yml.tag;
 
 import java.util.Map;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents single yml tag in *.yml file.
@@ -60,9 +60,9 @@ public final class YmlTagOf implements YmlTag {
     }
 
     @Override
-    public Object asObject() throws IllegalYmlFileFormatException {
+    public Object asObject() throws IllegalYmlFormatException {
         if (this.yml == null || this.yml.get(this.tag) == null) {
-            throw new IllegalYmlFileFormatException(
+            throw new IllegalYmlFormatException(
                 "`%s` tag is missing or has incorrect structure", this.tag
             );
         }

@@ -21,35 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
-
-import org.dgroup.dockertest.docker.output.CmdOutput;
 
 /**
- * Fake implementation of {@link DockerProcess} for unit testing purposes.
+ * Unit-tests for package {@link org.dgroup.dockertest.termination}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class FakeDockerProcess implements DockerProcess {
-
-    /**
-     * Output from docker container.
-     */
-    private final CmdOutput output;
-
-    /**
-     * Ctor.
-     * @param output From docker container.
-     */
-    public FakeDockerProcess(final CmdOutput output) {
-        this.output = output;
-    }
-
-    @Override
-    public CmdOutput execute() {
-        return this.output;
-    }
-
-}
+package org.dgroup.dockertest.termination;

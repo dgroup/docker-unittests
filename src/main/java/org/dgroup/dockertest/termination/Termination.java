@@ -21,87 +21,61 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.termination;
 
 import java.io.UncheckedIOException;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.test.TestingFailedException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
- * For cases of comm app abnormal termination.
+ * Terminate application process.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle MagicNumberCheck (200 lines)
  */
-public final class AbnormalTermination {
-
-    /**
-     * Standard output for application progress.
-     */
-    private final StdOutput std;
-
-    /**
-     * Ctor.
-     * @param std Standard output for application progress.
-     */
-    public AbnormalTermination(final StdOutput std) {
-        this.std = std;
-    }
+public interface Termination {
 
     /**
      * Shutdown the application with code {@code -1} due to failed testing.
+     * @param exp Occurred exception.
      */
-    public void testingFailed() {
-        this.shutdownWith(-1);
-    }
+    void dueTo(TestingFailedException exp);
+
+    /**
+     * Shutdown the application with code {@code -1} due to failed testing.
+     * @param exp Occurred exception.
+     */
+    void dueTo(NoScenariosFoundException exp);
+
+    /**
+     * Shutdown the application with code {@code -2} due to failed testing.
+     * @param exp Occurred exception.
+     */
+    void dueTo(final IllegalYmlFormatException exp);
 
     /**
      * Shutdown the application with code {@code -3} due to missing required
      * command-line argument.
      * @param exp Occurred exception.
      */
-    public void dueTo(final CmdArgNotFoundException exp) {
-        this.std.print(exp.getMessage());
-        this.shutdownWith(-3);
-    }
+    void dueTo(final CmdArgNotFoundException exp);
 
     /**
      * Shutdown the application with code {@code -4} due to unexpected docker
      * runtime exception.
      * @param exp Occurred exception.
      */
-    public void dueTo(final DockerProcessExecutionException exp) {
-        this.std.print(exp.byLines());
-        this.shutdownWith(-4);
-    }
+    void dueTo(final DockerProcessExecutionException exp);
 
     /**
      * Shutdown the application with code {@code -5} due to unexpected runtime
      * exception.
      * @param exp Occurred exception.
      */
-    public void dueTo(final UncheckedIOException exp) {
-        this.std.print("App failed due to unexpected runtime exception:", exp);
-        this.shutdownWith(-5);
-    }
-
-    /**
-     * Shutdown application with error code.
-     * The error code is required when the app is invoked from shell scripts:
-     *  - {@code -1} testing failed;
-     *  - {@code -2} yml file has unsupported/incorrect format;
-     *  - {@code -3} required cmd arguments wasn't specified;
-     *  - {@code -4} runtime exception happens on docker side.
-     *  - {@code -5} runtime exception happens.
-     * @param code Exit code.
-     * @checkstyle NonStaticMethodCheck (10 lines)
-     */
-    @SuppressWarnings("PMD.DoNotCallSystemExit")
-    private void shutdownWith(final int code) {
-        Runtime.getRuntime().exit(code);
-    }
+    void dueTo(final UncheckedIOException exp);
 
 }

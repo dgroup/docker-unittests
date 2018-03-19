@@ -35,7 +35,7 @@ import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.text.TextFile;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.YmlString;
 
 /**
@@ -126,11 +126,11 @@ public final class Args {
      * @return List of tests to be executed for output from docker container.
      * @throws CmdArgNotFoundException in case if argument
      *  wasn't specified by user.
-     * @throws IllegalYmlFileFormatException in case if YML file
+     * @throws IllegalYmlFormatException in case if YML file
      *  has wrong/corrupted format.
      */
     public List<Test> tests() throws CmdArgNotFoundException,
-        IllegalYmlFileFormatException {
+        IllegalYmlFormatException {
         return new StickyList<>(
             new Mapped<>(
                 ymlTagTest -> new TestOf(

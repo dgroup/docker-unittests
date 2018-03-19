@@ -21,57 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.output;
-
-import java.util.Iterator;
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.text.SplittedText;
 
 /**
- * Text output for docker command.
+ * Classes related to app termination.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TextCmdOutput implements CmdOutput, Iterable<String> {
-
-    /**
-     * Origin.
-     */
-    private final Scalar<String> text;
-
-    /**
-     * Ctor.
-     * @param text Origin.
-     */
-    public TextCmdOutput(final String text) {
-        this(() -> text);
-    }
-
-    /**
-     * Ctor.
-     * @param text Origin.
-     */
-    public TextCmdOutput(final Scalar<String> text) {
-        this.text = text;
-    }
-
-    @Override
-    public String asText() {
-        return new UncheckedScalar<>(this.text).value();
-    }
-
-    @Override
-    public List<String> byLines() {
-        return new ListOf<>(this::iterator);
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        return new SplittedText(this.asText(), "\n").asStringIterator();
-    }
-}
+package org.dgroup.dockertest.termination;

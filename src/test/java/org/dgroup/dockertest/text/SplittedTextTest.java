@@ -21,57 +21,35 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.output;
+package org.dgroup.dockertest.text;
 
-import java.util.Iterator;
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.text.SplittedText;
+import org.cactoos.list.Mapped;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Text output for docker command.
+ * Unit tests for class {@link SplittedText}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TextCmdOutput implements CmdOutput, Iterable<String> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class SplittedTextTest {
 
-    /**
-     * Origin.
-     */
-    private final Scalar<String> text;
-
-    /**
-     * Ctor.
-     * @param text Origin.
-     */
-    public TextCmdOutput(final String text) {
-        this(() -> text);
+    @Test
+    public void asArray() {
+        MatcherAssert.assertThat(
+            new Mapped<>(
+                Text::text,
+                new SplittedText("Line 1\nLine 2\n", "\n")
+            ),
+            Matchers.hasItems(
+                "Line 1", "Line 2"
+            )
+        );
     }
 
-    /**
-     * Ctor.
-     * @param text Origin.
-     */
-    public TextCmdOutput(final Scalar<String> text) {
-        this.text = text;
-    }
-
-    @Override
-    public String asText() {
-        return new UncheckedScalar<>(this.text).value();
-    }
-
-    @Override
-    public List<String> byLines() {
-        return new ListOf<>(this::iterator);
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        return new SplittedText(this.asText(), "\n").asStringIterator();
-    }
 }

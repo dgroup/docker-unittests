@@ -28,7 +28,7 @@ import java.util.Map;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.YmlTagOf;
 import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
@@ -68,11 +68,11 @@ public final class YmlTagTests {
     /**
      * Give all yml `test` tags defined in YML file.
      * @return List of tests to be executed.
-     * @throws IllegalYmlFileFormatException in case if yml file has
+     * @throws IllegalYmlFormatException in case if yml file has
      *  illegal/wrong format.
      */
     @SuppressWarnings("unchecked")
-    public List<YmlTagTest> asList() throws IllegalYmlFileFormatException {
+    public List<YmlTagTest> asList() throws IllegalYmlFormatException {
         return new ListOf<>(
             new Filtered<>(
                 t -> !t.output().isEmpty(),

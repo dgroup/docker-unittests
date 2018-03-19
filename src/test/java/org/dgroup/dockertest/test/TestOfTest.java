@@ -26,8 +26,8 @@ package org.dgroup.dockertest.test;
 import java.util.List;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.output.FakeCmdOutput;
-import org.dgroup.dockertest.docker.process.FakeDockerProcess;
+import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -56,7 +56,7 @@ public final class TestOfTest {
                 "curl version is 7.xxx",
                 "curl --version",
                 new ListOf<>(),
-                new FakeDockerProcess(new FakeCmdOutput(""))
+                new DockerProcess.Fake(new CmdOutput.Fake(""))
             ).messagePassed(),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(1),
@@ -83,7 +83,7 @@ public final class TestOfTest {
                         new UncheckedBiFunc<>(String::equals)
                     )
                 ),
-                new FakeDockerProcess(new FakeCmdOutput(""))
+                new DockerProcess.Fake(new CmdOutput.Fake(""))
             ).messageFailed(
                 "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 " +
                     "OpenSSL/1.0.2m zlib/1.2.8",

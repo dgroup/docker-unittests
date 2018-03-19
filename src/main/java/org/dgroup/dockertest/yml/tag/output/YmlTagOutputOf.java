@@ -31,7 +31,7 @@ import org.cactoos.list.Sorted;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.dgroup.dockertest.text.Joined;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 
 /**
@@ -97,13 +97,13 @@ public final class YmlTagOutputOf implements YmlTag {
      * Yml tag {@code /tests/test/output} may have several values.
      *
      * @return All specified values for tag {@code output}
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
     public List<YmlTagOutputPredicate> conditions()
-        throws IllegalYmlFileFormatException {
+        throws IllegalYmlFormatException {
         if (this.tag.isEmpty()) {
-            throw new IllegalYmlFileFormatException(
+            throw new IllegalYmlFormatException(
                 this,
                 new Joined(new Sorted<>(this.supported.keySet()), "|")
             );

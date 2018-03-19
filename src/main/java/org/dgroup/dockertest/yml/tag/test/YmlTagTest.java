@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.yml.tag.test;
 
 import java.util.List;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
@@ -45,10 +45,10 @@ public interface YmlTagTest extends YmlTag {
      * defined in *.yml file.
      *
      * @return Value for tag {@code /tests/test/assume}
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    String assume() throws IllegalYmlFileFormatException;
+    String assume() throws IllegalYmlFormatException;
 
     /**
      * Command for execution in docker container.
@@ -56,10 +56,10 @@ public interface YmlTagTest extends YmlTag {
      * defined in *.yml file.
      *
      * @return Value for tag {@code /tests/test/cmd}
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    String cmd() throws IllegalYmlFileFormatException;
+    String cmd() throws IllegalYmlFormatException;
 
     /**
      * Command for execution in docker container as array.
@@ -68,10 +68,10 @@ public interface YmlTagTest extends YmlTag {
      *
      * @return Slitted docker command by spaces.
      *  For example "java -version" became new String[]{"java", "-version"}.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    String[] containerCommandAsArray() throws IllegalYmlFileFormatException;
+    String[] containerCommandAsArray() throws IllegalYmlFormatException;
 
     /**
      * List of expected conditions, which should be applied to output.
@@ -79,8 +79,61 @@ public interface YmlTagTest extends YmlTag {
      * defined in *.yml file. Tag may have several values.
      *
      * @return All specified values for tag {@code output}
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    List<YmlTagOutputPredicate> output() throws IllegalYmlFileFormatException;
+    List<YmlTagOutputPredicate> output() throws IllegalYmlFormatException;
+
+    /**
+     * Fake instance for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (10 lines)
+     * @checkstyle JavadocVariableCheck (10 lines)
+     */
+    final class Fake implements YmlTagTest {
+
+        private final String scenario;
+        private final String command;
+        private final List<YmlTagOutputPredicate> expected;
+
+        public Fake(
+            final String scenario,
+            final String cmd,
+            final List<YmlTagOutputPredicate> expected
+        ) {
+            this.scenario = scenario;
+            this.command = cmd;
+            this.expected = expected;
+        }
+
+        @Override
+        public String assume() {
+            return this.scenario;
+        }
+
+        @Override
+        public String cmd() {
+            return this.command;
+        }
+
+        @Override
+        public String[] containerCommandAsArray() {
+            return this.command.split(" ");
+        }
+
+        @Override
+        public List<YmlTagOutputPredicate> output() {
+            return this.expected;
+        }
+
+        @Override
+        public String name() {
+            return "test";
+        }
+
+        @Override
+        public Object asObject() {
+            return "";
+        }
+    }
+
 }

@@ -25,7 +25,7 @@ package org.dgroup.dockertest.yml.tag.version;
 
 import java.util.Map;
 import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.tag.YmlTag;
 import org.dgroup.dockertest.yml.tag.YmlTagOf;
 
@@ -62,10 +62,10 @@ public final class YmlTagVersion {
     /**
      * Allows to verify version of *.yml file.
      * For now only version `1` is supported.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    public void verify() throws IllegalYmlFileFormatException {
+    public void verify() throws IllegalYmlFormatException {
         if (!"1".equals(this.tag.asString())) {
             throw new IllegalArgumentException(
                 new PlainText(

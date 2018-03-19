@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.yml.tag.version;
 
 import java.util.Collections;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.junit.Test;
 
 /**
@@ -38,8 +38,8 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class YmlTagVersionTest {
 
-    @Test(expected = IllegalYmlFileFormatException.class)
-    public void verify() throws IllegalYmlFileFormatException {
+    @Test(expected = IllegalYmlFormatException.class)
+    public void verify() throws IllegalYmlFormatException {
         new YmlTagVersion(
             Collections.emptyMap()
         ).verify();
