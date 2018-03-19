@@ -7,7 +7,7 @@
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
 [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2)
 [![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/test/github/dgroup/docker-unittests)
+[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/org/dgroup/project/58b731a9-6b07-4ccf-9044-ad305ad243e6/?tab=dependencies&vulns=vulnerable)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
 
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
@@ -22,6 +22,7 @@ We, like users, receive the image and we are going to check what we've got.
 The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. 
 Kindly ask you to raise the issue in case of any suggestions regarding another ways\languages.
 
+### General image test 
 1. Define an [*.yml file](./.guides/image-tests.yml) with tests.
    ```yml
    version: 1
@@ -47,7 +48,8 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
    ![docker image tests results](./.guides/image-tests-results.png)
-3. Run tests from *.sh
+### Test image by script
+1. Define the `test.yml` with tests.
    ```yaml
    version: 1
     
@@ -60,7 +62,8 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
             - contains: openjdk version "9.0.1"
             - contains: build 9.0.1+11-Debian
     
-      - test:
+      # The test below will fail due to wrong version of curl.
+      - test: 
           assume: "curl version is 8000"
           cmd:    "curl --version"
           output:
@@ -69,14 +72,15 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
             - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
 
    ``` 
-   ./test.sh
+2. Define an `test.sh` with testing command
    ```bash
     #!/usr/bin/env bash
     set -e
     echo Testing has been started
     java -jar docker-unittests.jar -f test.yml -i openjdk:9.0.1-11
-    echo This line will not be executed.
+    echo This line will not be executed as testing will fail
     ```
+3. Run the `test.sh`
     ![docker image tests results](./.guides/image-tests-results-failure.png)
 
 #### F.A.Q.
