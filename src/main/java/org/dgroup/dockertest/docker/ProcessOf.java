@@ -24,12 +24,10 @@
 package org.dgroup.dockertest.docker;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.StickyScalar;
-import org.cactoos.scalar.UncheckedScalar;
 
 /**
  * OS dependent system process.
@@ -39,7 +37,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @since 1.0
  */
 @SuppressWarnings("PMD.CallSuperInConstructor")
-public final class ProcessOf extends Process {
+public final class ProcessOf implements Process {
 
     /**
      * OS dependent system process instance.
@@ -50,10 +48,20 @@ public final class ProcessOf extends Process {
      * Ctor.
      * @param cmd Arguments for OS dependent system process.
      */
+    public ProcessOf(final String... cmd) {
+        this(new ListOf<>(cmd));
+    }
+
+    /**
+     * Ctor.
+     * @param cmd Arguments for OS dependent system process.
+     */
     public ProcessOf(final List<String> cmd) {
         this(
             new StickyScalar<>(
-                () -> new ProcessBuilder(cmd).redirectErrorStream(true).start()
+                () -> () -> new ProcessBuilder(cmd)
+                    .redirectErrorStream(true)
+                    .start()
             )
         );
     }
@@ -66,49 +74,15 @@ public final class ProcessOf extends Process {
         this.origin = origin;
     }
 
-    /**
-     * Execute one command.
-     * @return Instance of started OS dependent system process.
-     * @throws IOException if an I/O error occurs.
-     * @checkstyle IllegalCatchCheck (6 lines)
-     */
+    @Override
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public Process execute() throws IOException {
+    public java.lang.Process execute() throws IOException {
+        // @checkstyle IllegalCatchCheck (5 lines)
         try {
-            return this.origin.value();
+            return this.origin.value().execute();
         } catch (final Exception exp) {
             throw new IOException(exp);
         }
-    }
-
-    @Override
-    public OutputStream getOutputStream() {
-        return new UncheckedScalar<>(this.origin).value().getOutputStream();
-    }
-
-    @Override
-    public InputStream getInputStream() {
-        return new UncheckedScalar<>(this.origin).value().getInputStream();
-    }
-
-    @Override
-    public InputStream getErrorStream() {
-        return new UncheckedScalar<>(this.origin).value().getErrorStream();
-    }
-
-    @Override
-    public int waitFor() throws InterruptedException {
-        return new UncheckedScalar<>(this.origin).value().waitFor();
-    }
-
-    @Override
-    public int exitValue() {
-        return new UncheckedScalar<>(this.origin).value().exitValue();
-    }
-
-    @Override
-    public void destroy() {
-        new UncheckedScalar<>(this.origin).value().destroy();
     }
 
 }

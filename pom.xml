@@ -235,7 +235,7 @@
                             <output>file</output>
                             <excludes>
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
-                                <exclude>org/dgroup/dockertest/**/*Fake*.*</exclude>
+                                <exclude>org/dgroup/dockertest/**/*/*Fake*.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/*Envelope.*</exclude>
                                 <exclude>org/dgroup/dockertest/App.*</exclude>
                                 <exclude>org/dgroup/dockertest/termination/RuntimeOf.*</exclude>

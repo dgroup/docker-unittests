@@ -45,7 +45,7 @@ import org.dgroup.dockertest.yml.IllegalYmlFormatException;
  * @todo #76 Daily stream cleaning for 1.0-beta release.
  * @checkstyle HideUtilityClassConstructorCheck (10 lines)
  */
-@SuppressWarnings("PMD.UseUtilityClass")
+@SuppressWarnings({"PMD.UseUtilityClass", "squid:S1197"})
 public final class App {
 
     /**

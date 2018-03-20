@@ -24,54 +24,25 @@
 package org.dgroup.dockertest.docker;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import org.dgroup.dockertest.docker.output.CmdOutputOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link CmdOutputOf} on Unix OS.
+ * Unit tests for class {@link ProcessOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle AbbreviationAsWordInNameCheck (500 lines)
- * @checkstyle MethodBodyCommentsCheck (500 lines)
  */
-public final class CmdOutputOfTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class ProcessOfTest {
 
-    @Test(timeout = 1000 * 3)
-    public void text() throws IOException {
-        MatcherAssert.assertThat(
-            "Command `java -version` is `1.8`.",
-            new CmdOutputOf(
-                new ProcessOf("java", "-version").execute()
-            ).asText(),
-            Matchers.containsString("1.8")
-        );
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void throwISE() {
-        new CmdOutputOf(
-            new FakeProcess(
-                new InputStream() {
-                    @Override
-                    public int read() throws IOException {
-                        throw new IOException("Shit happens");
-                    }
-                },
-                new OutputStream() {
-                    @Override
-                    public void write(final int bytes) {
-                        // ok
-                    }
-                }
-            )
-        ).asText();
+    @Test(expected = IOException.class)
+    public void execute() throws IOException {
+        new ProcessOf(
+            () -> {
+                throw new DockerProcessExecutionException("Shit happens!");
+            }
+        ).execute();
     }
 }

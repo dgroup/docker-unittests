@@ -21,40 +21,23 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
+package org.dgroup.dockertest.docker;
 
-import org.dgroup.dockertest.OnlyWithinInstalledDocker;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.io.IOException;
 
 /**
- * Unit tests for class {@link DockerProcessOf}.
+ * OS dependent system process.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-@RunWith(OnlyWithinInstalledDocker.class)
-public final class DockerProcessOfTest {
+public interface Process {
 
-    @Test
-    public void execute() throws DockerProcessExecutionException {
-        MatcherAssert.assertThat(
-            new DockerProcessOf(
-                "openjdk:9.0.1-11",
-                "java", "-version"
-            ).execute().byLines(),
-            Matchers.hasItems(
-                "openjdk version \"9.0.1\"",
-                "OpenJDK Runtime Environment (build 9.0.1+11-Debian-1)",
-                "OpenJDK 64-Bit Server VM (build 9.0.1+11-Debian-1, mixed mode)"
-            )
-        );
-    }
-
+    /**
+     * Execute one command.
+     * @return Instance of started OS dependent system process.
+     * @throws IOException if an I/O error occurs.
+     */
+    java.lang.Process execute() throws IOException;
 }

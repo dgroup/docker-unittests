@@ -25,9 +25,12 @@ package org.dgroup.dockertest.docker.process;
 
 import java.io.IOException;
 import java.util.List;
+import org.cactoos.Scalar;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
+import org.dgroup.dockertest.docker.Process;
 import org.dgroup.dockertest.docker.ProcessOf;
 import org.dgroup.dockertest.docker.output.CmdOutputOf;
 
@@ -59,20 +62,23 @@ public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
      * @param cmd Docker container command.
      */
     public SystemUnixDockerProcess(final List<String> cmd) {
-        this(new ProcessOf(cmd));
+        this(() -> new ProcessOf(cmd));
     }
 
     /**
      * Ctor.
      * @param process System process associated with docker container.
      */
-    public SystemUnixDockerProcess(final ProcessOf process) {
+    public SystemUnixDockerProcess(final Scalar<Process> process) {
         super(() -> {
             try {
-                return new CmdOutputOf(process.execute());
+                return new CmdOutputOf(
+                    new UncheckedScalar<>(process).value().execute()
+                );
             } catch (final IOException ex) {
                 throw new DockerProcessExecutionException(ex);
             }
         });
     }
+
 }

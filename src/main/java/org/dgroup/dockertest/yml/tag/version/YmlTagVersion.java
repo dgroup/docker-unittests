@@ -67,7 +67,7 @@ public final class YmlTagVersion {
      */
     public void verify() throws IllegalYmlFormatException {
         if (!"1".equals(this.tag.asString())) {
-            throw new IllegalArgumentException(
+            throw new IllegalYmlFormatException(
                 new PlainText(
                     "Unsupported version: %s",
                     this.tag.asString()

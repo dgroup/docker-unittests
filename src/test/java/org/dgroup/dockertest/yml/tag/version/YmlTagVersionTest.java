@@ -24,6 +24,8 @@
 package org.dgroup.dockertest.yml.tag.version;
 
 import java.util.Collections;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.junit.Test;
 
@@ -39,9 +41,18 @@ import org.junit.Test;
 public final class YmlTagVersionTest {
 
     @Test(expected = IllegalYmlFormatException.class)
-    public void verify() throws IllegalYmlFormatException {
+    public void noVersionSpecified() throws IllegalYmlFormatException {
         new YmlTagVersion(
             Collections.emptyMap()
+        ).verify();
+    }
+
+    @Test(expected = IllegalYmlFormatException.class)
+    public void unsupportedVersionSpecified() throws IllegalYmlFormatException {
+        new YmlTagVersion(
+            new MapOf<>(
+                new MapEntry<>("version", "0.0-alpha")
+            )
         ).verify();
     }
 

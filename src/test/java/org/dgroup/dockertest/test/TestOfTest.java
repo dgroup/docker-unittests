@@ -23,11 +23,16 @@
  */
 package org.dgroup.dockertest.test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.ListOf;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.process.DockerProcess;
+import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
+import org.dgroup.dockertest.test.output.std.StdOutput.Fake;
 import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,6 +50,7 @@ import org.junit.Test;
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TestOfTest {
@@ -109,6 +115,19 @@ public final class TestOfTest {
                 )
             )
         );
+    }
+
+    @Test(expected = NoScenariosFoundException.class)
+    public void noScenariosFound() throws TestingFailedException {
+        new TestsOf(
+            new TestingOutcomeOf(
+                new ListOf<>(),
+                new HashSet<>()
+            ),
+            new UncheckedScalar<>(
+                () -> new Fake(new ArrayList<>(10))
+            )
+        ).execute();
     }
 
 }

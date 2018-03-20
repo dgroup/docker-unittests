@@ -21,57 +21,39 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.text;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import org.dgroup.dockertest.docker.output.CmdOutputOf;
+import java.io.File;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link CmdOutputOf} on Unix OS.
+ * Unit tests for class {@link TextWithRepeatableArguments}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle AbbreviationAsWordInNameCheck (500 lines)
- * @checkstyle MethodBodyCommentsCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
  */
-public final class CmdOutputOfTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public class TextWithRepeatableArgumentsTest {
 
-    @Test(timeout = 1000 * 3)
-    public void text() throws IOException {
+    @Test
+    public final void asString() {
         MatcherAssert.assertThat(
-            "Command `java -version` is `1.8`.",
-            new CmdOutputOf(
-                new ProcessOf("java", "-version").execute()
-            ).asText(),
-            Matchers.containsString("1.8")
-        );
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void throwISE() {
-        new CmdOutputOf(
-            new FakeProcess(
-                new InputStream() {
-                    @Override
-                    public int read() throws IOException {
-                        throw new IOException("Shit happens");
-                    }
-                },
-                new OutputStream() {
-                    @Override
-                    public void write(final int bytes) {
-                        // ok
-                    }
-                }
+            new TextWithRepeatableArguments(
+                "{0}{1}test{1}resources{1}testng.xml",
+                "home", File.separator
+            ).toString(),
+            Matchers.equalTo(
+                "home" + File.separator + "test" +
+                    File.separator + "resources" +
+                    File.separator + "testng.xml"
             )
-        ).asText();
+        );
     }
 }

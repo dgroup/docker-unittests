@@ -34,7 +34,7 @@ import java.io.OutputStream;
  * @since 1.0
  */
 @SuppressWarnings("PMD.CallSuperInConstructor")
-public final class FakeProcess extends Process {
+public final class FakeProcess extends java.lang.Process implements Process {
 
     /**
      * Stream connected to the normal output of the sub-process.
@@ -119,6 +119,11 @@ public final class FakeProcess extends Process {
     @Override
     @SuppressWarnings("PMD.UncommentedEmptyMethodBody")
     public void destroy() {
+    }
+
+    @Override
+    public java.lang.Process execute() {
+        return this;
     }
 
 }
