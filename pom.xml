@@ -39,13 +39,6 @@
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
-        <code.coverage.limit.classes-without-tests>5</code.coverage.limit.classes-without-tests>
-        <code.coverage.limit.instructions>0.55</code.coverage.limit.instructions>
-        <code.coverage.limit.complexity>0.50</code.coverage.limit.complexity>
-        <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
-        <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
-        <code.coverage.limit.line>0.55</code.coverage.limit.line>
-        <!-- Code quality -->
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
@@ -64,6 +57,14 @@
         <assertj-core.version>3.8.0</assertj-core.version>
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
+        <!-- Code quality -->
+        <code.coverage.limit.classes-without-tests>5</code.coverage.limit.classes-without-tests>
+        <code.coverage.limit.instructions>0.55</code.coverage.limit.instructions>
+        <code.coverage.limit.complexity>0.50</code.coverage.limit.complexity>
+        <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
+        <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
+        <code.coverage.limit.line>0.55</code.coverage.limit.line>
+        <sonar.coverage.exclusions>**/RuntimeOf.java,**/App.java,**/*Exception.java,**/*Fake*.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>

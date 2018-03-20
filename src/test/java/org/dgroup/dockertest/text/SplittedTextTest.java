@@ -52,4 +52,17 @@ public final class SplittedTextTest {
         );
     }
 
+    @Test
+    public void defaultDelimiter() {
+        MatcherAssert.assertThat(
+            new Mapped<>(
+                Text::text,
+                new SplittedText("text1 text2")
+            ),
+            Matchers.hasItems(
+                "text1", "text2"
+            )
+        );
+    }
+
 }
