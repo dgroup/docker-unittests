@@ -1,18 +1,23 @@
 ## Docker-unittests
 
-[![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master)](https://travis-ci.org/dgroup/docker-unittests)
+[![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master&style=for-the-badge)](https://travis-ci.org/dgroup/docker-unittests)
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
-[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
+[![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/docker-unittests.svg?style=flat-square)](https://github.com/dgroup/docker-unittests/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/dgroup/docker-unittests.svg?style=flat-square)](https://github.com/dgroup/docker-unittests/graphs/contributors)
+[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](./license.txt)
 
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
-[![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2)
 [![Dependency Status](https://requires.io/github/dgroup/docker-unittests/requirements.svg?branch=master)](https://requires.io/github/dgroup/docker-unittests/requirements/?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/org/dgroup/project/58b731a9-6b07-4ccf-9044-ad305ad243e6/?tab=dependencies&vulns=vulnerable)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a26cbce0fb24f3480a39124)
+<!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.dgroup.dockertest%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![SQ passed](https://sonarcloud.io/api/project_badges/measure?project=org.dgroup.dockertest%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![SQ bugs](https://sonarcloud.io/api/project_badges/measure?project=org.dgroup.dockertest%3Adocker-unittests&metric=bugs)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![SQ coverage](https://sonarcloud.io/api/project_badges/measure?project=org.dgroup.dockertest%3Adocker-unittests&metric=coverage)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
+[![SQ tech debt](https://sonarcloud.io/api/project_badges/measure?project=org.dgroup.dockertest%3Adocker-unittests&metric=sqale_index)](https://sonarcloud.io/dashboard/index/org.dgroup.dockertest:docker-unittests)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
 [![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a44d11a620da4ff0a6ff294ff9045aa3)](https://www.codacy.com/app/dgroup/docker-unittests?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/docker-unittests&amp;utm_campaign=Badge_Grade)
