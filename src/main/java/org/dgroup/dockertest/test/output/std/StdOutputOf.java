@@ -124,7 +124,7 @@ public final class StdOutputOf implements StdOutput {
     }
 
     /**
-     * Print testing status based on status.
+     * Print testing results based on status.
      * @param status Of testing.
      */
     private void printTestingStatus(final boolean status) {

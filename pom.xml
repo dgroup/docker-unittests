@@ -35,6 +35,7 @@
     <properties>
         <!-- System, mvn plugins, etc -->
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
@@ -64,7 +65,7 @@
         <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
         <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
         <code.coverage.limit.line>0.55</code.coverage.limit.line>
-        <sonar.coverage.exclusions>**/RuntimeOf.java,**/App.java,**/*Exception.java,**/*Fake*.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/RuntimeOf.java,**/App.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
