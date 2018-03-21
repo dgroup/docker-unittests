@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master&style=for-the-badge)](https://travis-ci.org/dgroup/docker-unittests)
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/docker-unittests.svg?style=flat-square)](https://github.com/dgroup/docker-unittests/graphs/commit-activity)
-[![Contributors](https://img.shields.io/github/contributors/dgroup/docker-unittests.svg?style=flat-square)](https://github.com/dgroup/docker-unittests/graphs/contributors)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](./license.txt)
 
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
