@@ -21,38 +21,51 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag;
+package org.dgroup.dockertest.exception;
 
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagOutputOf}.
+ * Unit tests for class {@link RootCauseOf}.
  *
- * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @author Bohdan Okun (markpolo525@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLength (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle OperatorWrapCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagOutputOfTest {
+public final class RootCauseOfTest {
 
     @Test
-    public void matchesRegexpSmoke() {
-        final String version =
-            "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 librtmp/2.3\n" +
-            "Release-Date: 2017-11-29\n" +
-            "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp \n" +
-            "Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL \n";
+    public void exception() {
+        final Throwable cause = new RootCauseOf(
+            new Exception(
+                "Some code thrown the exception. I don't know what to do.",
+                new Exception(
+                    "I don't know, i've just got this shit",
+                    new IOException(
+                        "Something wen't wrong",
+                        new UncheckedIOException(
+                            new FileNotFoundException(
+                                "Can't find the file."
+                            )
+                        )
+                    )
+                )
+            )
+        ).exception();
         MatcherAssert.assertThat(
-            version.matches("^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"),
-            Matchers.equalTo(true)
+            cause,
+            Matchers.instanceOf(FileNotFoundException.class)
+        );
+        MatcherAssert.assertThat(
+            cause.getMessage(),
+            Matchers.equalTo("Can't find the file.")
         );
     }
 }

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.output;
+package org.dgroup.dockertest.yml.tag;
 
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 

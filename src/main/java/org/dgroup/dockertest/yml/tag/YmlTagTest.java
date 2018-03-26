@@ -21,23 +21,20 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.test;
+package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
-import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputOf;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
 
 /**
  * Represents yml tag {@code /tests/test}.
- * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutputOf}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface YmlTagTest extends YmlTag {
+public interface YmlTagTest {
 
     /**
      * Name of testing scenario.
@@ -123,16 +120,6 @@ public interface YmlTagTest extends YmlTag {
         @Override
         public List<YmlTagOutputPredicate> output() {
             return this.expected;
-        }
-
-        @Override
-        public String name() {
-            return "test";
-        }
-
-        @Override
-        public Object asObject() {
-            return "";
         }
     }
 

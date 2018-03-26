@@ -21,8 +21,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.output;
+package org.dgroup.dockertest.yml.tag;
 
+import org.cactoos.BiFunc;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
 import org.cactoos.text.UncheckedText;
@@ -61,6 +62,17 @@ public final class YmlTagOutputPredicateOf
      * @param predicate Condition, which should satisfy the actual value.
      */
     public YmlTagOutputPredicateOf(final String type, final String expected,
+        final BiFunc<String, String, Boolean> predicate) {
+        this(type, expected, new UncheckedBiFunc<>(predicate));
+    }
+
+    /**
+     * Ctor.
+     * @param type Comparing type like contains, equal, startsWiths, endsWith.
+     * @param expected Expected value from test scenario.
+     * @param predicate Condition, which should satisfy the actual value.
+     */
+    public YmlTagOutputPredicateOf(final String type, final String expected,
         final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
         this.expected = expected;
@@ -78,12 +90,13 @@ public final class YmlTagOutputPredicateOf
     }
 
     @Override
-    public boolean test(final String actual)
-        throws IllegalYmlFormatException {
+    public boolean test(final String actual) throws IllegalYmlFormatException {
         if (this.predicate == null) {
             throw new IllegalYmlFormatException(
-                "Unsupported comparing expression `%s:%s`",
-                this.comparingType(), this.expectedValue()
+                new PlainText(
+                    "Unsupported comparing expression `%s:%s`",
+                    this.comparingType(), this.expectedValue()
+                )
             );
         }
         return this.predicate.apply(actual, this.expected);

@@ -21,49 +21,34 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.exception;
+package org.dgroup.dockertest.yml.tag;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.Assert;
+import org.dgroup.dockertest.YmlResource;
+import org.junit.Test;
 
 /**
- * Represents root cause exception for particular exception.
+ * Unit tests for class {@link YmlTagTestOf}.
  *
- * @author Bohdan Okun (markpolo525@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle OperatorWrapCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
-public final class RootCause {
-    /**
-     * Exception.
-     */
-    private final Exception origin;
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class YmlTagTestOfTest {
 
-    /**
-     * Ctor.
-     * @param exp Exception.
-     */
-    public RootCause(final Exception exp) {
-        this.origin = exp;
+    @Test
+    public void tagTestsHasOneWronglyDefinedChild() {
+        new Assert().thatThrowableMessageEndingWith(
+            () -> new YmlResource("tag-tests-has-one-wrong-child.yml")
+                .scenarios().iterator().next(),
+            "IllegalYmlFormatException: " +
+                "`test` tag is missing or has incorrect structure"
+        );
     }
 
-    /**
-     * Each exception may contain a lot of nested exceptions.
-     * @return Root case exception.
-     */
-    public Throwable exception() {
-        Throwable cause = new UncheckedTernary<>(
-            this.origin.getCause() == null,
-            this.origin,
-            this.origin.getCause()
-        ).value();
-        final List<Throwable> visited = new ArrayList<>(5);
-        while (cause.getCause() != null
-            && !visited.contains(cause.getCause())) {
-            cause = cause.getCause();
-            visited.add(cause);
-        }
-        return cause;
-    }
 }

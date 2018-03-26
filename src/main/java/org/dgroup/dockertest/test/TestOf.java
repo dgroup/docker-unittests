@@ -32,13 +32,13 @@ import org.cactoos.list.StickyList;
 import org.cactoos.scalar.StickyScalar;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
  * Represents YML based implementation for single test.
@@ -93,7 +93,7 @@ public final class TestOf implements Test {
         );
         return new TestOutcomeOf(
             new StickyScalar<>(failed::isEmpty),
-            new UncheckedTernary<>(
+            new If<>(
                 failed::isEmpty,
                 this::messagePassed,
                 () -> this.messageFailed(output, failed)

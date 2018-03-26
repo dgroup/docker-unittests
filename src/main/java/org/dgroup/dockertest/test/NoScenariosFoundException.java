@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test;
 
+import org.dgroup.dockertest.text.PlainText;
+
 /**
  * Notify that there are no any testing scenarios within YML file.
  *
@@ -31,5 +33,28 @@ package org.dgroup.dockertest.test;
  * @since 1.0
  */
 public final class NoScenariosFoundException extends TestingFailedException {
+
+    /**
+     * Ctor.
+     */
+    public NoScenariosFoundException() {
+        this("No scenarios found within resource with tests.");
+    }
+
+    /**
+     * Ctor.
+     * @param msg Error message.
+     */
+    public NoScenariosFoundException(final PlainText msg) {
+        this(msg.text());
+    }
+
+    /**
+     * Ctor.
+     * @param msg Error message.
+     */
+    public NoScenariosFoundException(final String msg) {
+        super(msg);
+    }
 
 }

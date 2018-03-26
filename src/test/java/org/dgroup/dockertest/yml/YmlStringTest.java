@@ -23,17 +23,14 @@
  */
 package org.dgroup.dockertest.yml;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.List;
 import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
+import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
-import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -55,61 +52,11 @@ import org.junit.Test;
 public final class YmlStringTest {
 
     @Test
-    public void tagVersionIsMissing() {
-        new Assert().thatThrows(
-            () -> new YmlString(
-                () -> new YmlResource("with-missing-version-tag.yml").asString()
-            ).asTests(),
-            new IllegalYmlFormatException(
-                "`version` tag is missing or has incorrect structure"
-            )
-        );
-    }
-
-    @Test
-    public void iterator() throws IllegalYmlFormatException {
+    public void iterator() {
         MatcherAssert.assertThat(
             "Tests from file `with-3-simple-tests.yml` loaded as Iterable",
             this.loadTests("with-3-simple-tests.yml"),
             IsCollectionWithSize.hasSize(3)
-        );
-    }
-
-    @Test
-    public void tagAssume() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/assume` equal to `\"node version is 8.5.1\"`",
-            this.loadTests("with-3-simple-tests.yml").get(1).assume(),
-            IsEqual.equalTo("node version is 8.5.1")
-        );
-    }
-
-    @Test
-    public void tagCmd() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/cmd` is equal to `\"node -v\"`",
-            this.loadTests("with-3-simple-tests.yml").get(1).cmd(),
-            IsEqual.equalTo("node -v")
-        );
-    }
-
-    @Test
-    public void tagOutputHasAllNecessaryYmlPredicates()
-        throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 4 statements",
-            this.loadTests("with-3-simple-tests.yml").get(1).output(),
-            IsCollectionWithSize.hasSize(4)
-        );
-    }
-
-    @Test
-    public void tagOutputContains() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 1st statement `contains`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(0)
-                .comparingType(),
-            IsEqual.equalTo("contains")
         );
     }
 
@@ -121,7 +68,7 @@ public final class YmlStringTest {
                 " and expected value is `v8.5.0`",
             this.loadTests("with-3-simple-tests.yml").get(1).output().get(0)
                 .test("v8.5.0"),
-            IsEqual.equalTo(true)
+            Matchers.equalTo(true)
         );
     }
 
@@ -131,7 +78,7 @@ public final class YmlStringTest {
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
             this.loadTests("with-3-simple-tests.yml").get(1).output().get(1)
                 .comparingType(),
-            IsEqual.equalTo("startsWith")
+            Matchers.equalTo("startsWith")
         );
     }
 
@@ -143,17 +90,19 @@ public final class YmlStringTest {
                 " and expected value is `v8.`",
             this.loadTests("with-3-simple-tests.yml").get(1).output().get(1)
                 .test("v8."),
-            IsEqual.equalTo(true)
+            Matchers.equalTo(true)
         );
     }
 
     @Test
-    public void tagOutputEndsWith() throws IllegalYmlFormatException {
+    public void tagOutputEndsWith() throws IllegalYmlFormatException,
+        NoScenariosFoundException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
-            this.loadTests("with-3-simple-tests.yml").get(1).output().get(2)
-                .comparingType(),
-            IsEqual.equalTo("endsWith")
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2)
+                .output().get(2).comparingType(),
+            Matchers.equalTo("endsWith")
         );
     }
 
@@ -165,7 +114,7 @@ public final class YmlStringTest {
                 " and expected value is `.5.0`",
             this.loadTests("with-3-simple-tests.yml").get(1).output().get(2)
                 .test(".5.0"),
-            IsEqual.equalTo(true)
+            Matchers.equalTo(true)
         );
     }
 
@@ -175,7 +124,7 @@ public final class YmlStringTest {
             "Tag `tests/test[3]/output` has 4th statement `matches`",
             this.loadTests("with-3-simple-tests.yml").get(2).output().get(2)
                 .comparingType(),
-            IsEqual.equalTo("matches")
+            Matchers.equalTo("matches")
         );
     }
 
@@ -197,48 +146,16 @@ public final class YmlStringTest {
                 " and match regexp expression.",
             this.loadTests("with-3-simple-tests.yml")
                 .get(2).output().get(2).test(version),
-            IsEqual.equalTo(true)
-        );
-    }
-
-    @Test
-    public void tagTestsIsMissing() {
-        new Assert().thatThrows(
-            () -> this.loadTests("tag-tests-is-missing.yml"),
-            new IllegalYmlFormatException(
-                "mapping values are not allowed here\n" +
-                    " in 'string', line 3, column 9:\n" +
-                    "      - test:\n" +
-                    "            ^\n"
-            )
-        );
-    }
-
-    @Test
-    public void tagTestsHasNoDefinedChildren() {
-        new Assert().thatThrows(
-            () -> this.loadTests("tag-tests-has-no-children.yml"),
-            new IllegalYmlFormatException(
-                "`tests` tag is missing or has incorrect structure"
-            )
-        );
-    }
-
-    @Test
-    public void tagTestsHasOneWronglyDefinedChild()
-        throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests` has 0 children",
-            this.loadTests("tag-tests-has-one-wrong-child.yml"),
-            Matchers.hasSize(0)
+            Matchers.equalTo(true)
         );
     }
 
     @Test
     public void tagTestHasMissingAssumeTag() {
         new Assert().thatThrows(
-            () -> this.loadTests("tag-test-has-missing-assume-tag.yml")
-                .iterator().next().assume(),
+            () -> new YmlResource("tag-test-has-missing-assume-tag.yml")
+                .scenario(1)
+                .assume(),
             new IllegalYmlFormatException(
                 "Tag `test` has missing required child tag `assume`"
             )
@@ -256,58 +173,8 @@ public final class YmlStringTest {
         );
     }
 
-    @Test
-    public void tagOutputHasOneWrongChild() {
-        new Assert().thatThrows(
-            () -> this.loadTests("tag-output-has-one-wrong-child.yml")
-                .iterator().next().output(),
-            new UncheckedIOException(
-                new IOException(
-                    new IllegalYmlFormatException(
-                        "Tag `output` has missing required child tag " +
-                            "`contains|endsWith|equal|matches|startsWith`"
-                    )
-                )
-            )
-        );
-    }
-
-    @Test
-    public void tagOutputHasNoDefinedChildren() {
-        new Assert().thatThrows(
-            () -> this.loadTests("tag-output-has-no-children.yml").iterator()
-                .next(),
-            new UncheckedIOException(
-                new IOException(
-                    new IllegalYmlFormatException(
-                        "Tag `test` has missing required child tag `output`"
-                    )
-                )
-            )
-        );
-    }
-
-    @Test
-    public void tagOutputHasUnsupportedChild()
-        throws IllegalYmlFormatException {
-        final List<YmlTagOutputPredicate> expected = this.loadTests(
-            "tag-output-has-unsupported-child.yml"
-        ).iterator().next().output();
-        new Assert().thatThrows(
-            () -> expected.get(1).test(
-                "curl 7.57.0 (x86_64-pc-linux-gnu)"
-            ),
-            new IllegalYmlFormatException(
-                "Unsupported comparing expression `containsss:Protocols`"
-            )
-        );
-    }
-
-    private List<YmlTagTest> loadTests(final String file)
-        throws IllegalYmlFormatException {
-        return new YmlString(
-            () -> new YmlResource(file).asString()
-        ).asTests();
+    private List<YmlTagTest> loadTests(final String file) {
+        return new YmlResource(file).scenarios();
     }
 
 }

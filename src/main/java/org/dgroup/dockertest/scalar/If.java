@@ -21,78 +21,76 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.scalar;
 
 import org.cactoos.Scalar;
-import org.cactoos.iterable.IterableOf;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.scalar.If;
+import org.cactoos.scalar.Ternary;
 
 /**
- * Represents different objects like arrays, iterables, etc as string
- *  joined by particular delimiter.
+ * Lazy ternary operation which didn't throw exception.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
  */
-public final class Joined implements Text {
+public final class If<T> implements Scalar<T> {
 
     /**
-     * All string values for joining.
+     * Ternary operation.
      */
-    private final Iterable<String> values;
-    /**
-     * Delimiter for joining procedure.
-     */
-    private final Scalar<String> delimiter;
+    private final Ternary<T> origin;
 
     /**
      * Ctor.
-     * @param values For joining.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
      */
-    public Joined(final String... values) {
-        this(new IterableOf<>(values));
+    public If(final boolean cnd, final T cons, final T alter) {
+        this(new Ternary<>(() -> cnd, () -> cons, () -> alter));
     }
 
     /**
      * Ctor.
-     * @param values For joining.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
      */
-    public Joined(final Iterable<String> values) {
-        this(values, " ");
+    public If(final boolean cnd, final T cons, final Scalar<T> alter) {
+        this(() -> cnd, () -> cons, alter);
     }
 
     /**
      * Ctor.
-     * @param values For joining.
-     * @param dlmtr Common delimiter for values above.
+     * @param cnd The condition
+     * @param cons The consequent
+     * @param alter The alternative
      */
-    public Joined(final Iterable<String> values, final String dlmtr) {
-        this(values, new If<>(dlmtr == null, "", () -> dlmtr));
+    public If(
+        final Scalar<Boolean> cnd,
+        final Scalar<T> cons,
+        final Scalar<T> alter
+    ) {
+        this(new Ternary<>(cnd, cons, alter));
     }
 
     /**
      * Ctor.
-     * @param values For joining.
-     * @param dlmtr Common delimiter for values above.
+     * @param origin Ternary operation.
      */
-    public Joined(final Iterable<String> values, final Scalar<String> dlmtr) {
-        this.values = values;
-        this.delimiter = dlmtr;
+    public If(final Ternary<T> origin) {
+        this.origin = origin;
     }
 
+    // @checkstyle IllegalCatchCheck (10 lines)
     @Override
-    public String text() {
-        return String.join(
-            new UncheckedScalar<>(this.delimiter).value(),
-            this.values
-        );
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public T value() {
+        try {
+            return this.origin.value();
+        } catch (final Exception ex) {
+            throw new IllegalStateException(ex);
+        }
     }
-
-    @Override
-    public String toString() {
-        return this.text();
-    }
-
 }

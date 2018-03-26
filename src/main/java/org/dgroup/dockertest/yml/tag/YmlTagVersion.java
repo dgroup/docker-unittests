@@ -21,63 +21,57 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.scalar;
+package org.dgroup.dockertest.yml.tag;
 
-import org.cactoos.Scalar;
-import org.cactoos.scalar.Ternary;
+import java.util.Map;
+import org.dgroup.dockertest.scalar.If;
+import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
- * Ternary operation which didn't throw exception.
+ * Represents yml tag {@code /version}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 1.0
  */
-public final class UncheckedTernary<T> implements Scalar<T> {
-
-    /**
-     * Ternary operation.
-     */
-    private final Ternary<T> origin;
+public final class YmlTagVersion extends YmlTagEnvelope<String> {
 
     /**
      * Ctor.
-     * @param cnd The condition
-     * @param cons The consequent
-     * @param alter The alternative
+     * @param tree Yml object tree loaded from *.yml file with tests.
      */
-    public UncheckedTernary(final boolean cnd, final T cons, final T alter) {
-        this(new Ternary<>(() -> cnd, () -> cons, () -> alter));
+    public YmlTagVersion(final Map<String, Object> tree) {
+        this(tree, "version");
     }
 
     /**
      * Ctor.
-     * @param cnd The condition
-     * @param cons The consequent
-     * @param alter The alternative
+     * @param tree Object tree loaded from *.yml file with tests.
+     * @param tag Current YML tag name.
      */
-    public UncheckedTernary(final Scalar<Boolean> cnd, final Scalar<T> cons,
-        final Scalar<T> alter) {
-        this(new Ternary<>(cnd, cons, alter));
+    private YmlTagVersion(final Map<String, Object> tree, final String tag) {
+        super(
+            new If<>(
+                tree == null || tree.get(tag) == null,
+                "", () -> tree.get(tag).toString()
+            ),
+            tag
+        );
     }
 
     /**
-     * Ctor.
-     * @param origin Ternary operation.
+     * Allows to verify version of *.yml file.
+     * For now only version `1` is supported.
+     * @throws IllegalYmlFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    public UncheckedTernary(final Ternary<T> origin) {
-        this.origin = origin;
-    }
-
-    // @checkstyle IllegalCatchCheck (10 lines)
-    @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public T value() {
-        try {
-            return this.origin.value();
-        } catch (final Exception ex) {
-            throw new IllegalStateException(ex);
+    public void verify() throws IllegalYmlFormatException {
+        if (!"1".equals(this.value())) {
+            throw new IllegalYmlFormatException(
+                new PlainText("Unsupported version: %s", this.value())
+            );
         }
     }
+
 }

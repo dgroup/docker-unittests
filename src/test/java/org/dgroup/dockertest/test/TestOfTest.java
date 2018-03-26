@@ -33,7 +33,7 @@ import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.process.DockerProcess;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.test.output.std.StdOutput.Fake;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicateOf;
+import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

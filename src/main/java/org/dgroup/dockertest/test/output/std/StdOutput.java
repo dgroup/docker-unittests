@@ -25,7 +25,7 @@ package org.dgroup.dockertest.test.output.std;
 
 import java.util.List;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
 
@@ -106,7 +106,7 @@ public interface StdOutput extends Output {
         @Override
         public void print(final TestingOutcome outcome) {
             this.print(
-                new UncheckedTernary<>(
+                new If<>(
                     outcome.successful(),
                     "Testing successfully completed.",
                     "Testing failed."

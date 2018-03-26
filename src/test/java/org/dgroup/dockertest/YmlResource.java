@@ -24,14 +24,18 @@
 package org.dgroup.dockertest;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.cactoos.Scalar;
+import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextFile;
 import org.dgroup.dockertest.text.TextWithRepeatableArguments;
+import org.dgroup.dockertest.yml.YmlString;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
 
 /**
  * Represents an yml resource available in `src/test/resources/yml/test` dir.
@@ -40,13 +44,22 @@ import org.dgroup.dockertest.text.TextWithRepeatableArguments;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class YmlResource {
 
     /**
      * Path to yml file.
      */
-    private final Scalar<File> location;
+    private final Scalar<String> location;
+    /**
+     * YML file as string.
+     */
+    private final TextFile text;
+    /**
+     * Tests within YML file.
+     */
+    private final Scalar<List<YmlTagTest>> tests;
 
     /**
      * Ctor.
@@ -73,45 +86,87 @@ public final class YmlResource {
 
     /**
      * Ctor.
-     * @param location Yml file with tests.
+     * @param path Yml file with tests.
      */
-    public YmlResource(final Text location) {
-        this(() -> new File(location.text()));
+    public YmlResource(final Text path) {
+        this(() -> new File(path.text()));
     }
 
     /**
      * Ctor.
-     * @param location Yml file with tests.
+     * @param path Yml file with tests.
      */
-    public YmlResource(final Scalar<File> location) {
-        this.location = location;
+    public YmlResource(final Scalar<File> path) {
+        this(
+            new StickyScalar<>(() -> path.value().getAbsolutePath()),
+            new TextFile(path, StandardCharsets.UTF_8)
+        );
     }
 
     /**
-     * File with tests.
-     *
-     * @return Yml file with tests.
+     * Ctor.
+     * @param path Yml file with tests.
+     * @param txt Yml text with tests.
      */
-    public File file() {
-        return new UncheckedScalar<>(this.location).value();
+    public YmlResource(final Scalar<String> path, final TextFile txt) {
+        this(path, txt, new StickyScalar<>(() -> new YmlString(txt).asTests()));
+    }
+
+    /**
+     * Ctor.
+     * @param path Yml file with tests.
+     * @param txt Yml text with tests.
+     * @param tests List of tests for the yml file.
+     */
+    public YmlResource(
+        final Scalar<String> path,
+        final TextFile txt,
+        final Scalar<List<YmlTagTest>> tests
+    ) {
+        this.location = path;
+        this.text = txt;
+        this.tests = tests;
     }
 
     /**
      * Path to *.yml file with tests.
-     *
      * @return Path to file.
      */
     public String path() {
-        return this.file().getAbsolutePath();
+        return new UncheckedScalar<>(this.location).value();
     }
 
     /**
-     * Return yml file as string.
-     * @return Yml string.
-     * @throws IOException in case IO errors.
+     * Return yml file as is.
+     * @return YML file with tests.
      */
-    public String asString() throws IOException {
-        return new TextFile(this::file, StandardCharsets.UTF_8).text();
+    public TextFile file() {
+        return this.text;
+    }
+
+    /**
+     * Return all tests within yml resource.
+     * @return Testing scenarios.
+     */
+    public List<YmlTagTest> scenarios() {
+        return new UncheckedScalar<>(this.tests).value();
+    }
+
+    /**
+     * Fetch particular scenario by its number starting from 1...n .
+     *
+     * @param pos Scenario number.
+     * @return One testing scenario.
+     * @throws NoScenariosFoundException in case if we can't find the scenarios
+     *  due to empty/corrupted YML file.
+     */
+    public YmlTagTest scenario(final int pos) throws NoScenariosFoundException {
+        if (pos < 1 || pos > this.scenarios().size()) {
+            throw new NoScenariosFoundException(
+                new PlainText("Scenario with '%s' position not found", pos)
+            );
+        }
+        return this.scenarios().get(pos - 1);
     }
 
 }

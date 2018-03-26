@@ -21,47 +21,49 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.exception;
+package org.dgroup.dockertest.yml.tag;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import org.cactoos.func.UncheckedBiFunc;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link RootCause}.
+ * Unit tests for class {@link YmlTagOutputPredicateOf}.
  *
- * @author Bohdan Okun (markpolo525@gmail.com)
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RootCauseTest {
+public final class YmlTagOutputPredicateOfTest {
+
     @Test
-    public void exception() {
+    public void asString() {
         MatcherAssert.assertThat(
-            new RootCause(
-                new Exception(
-                    "Some code thrown the exception. I don't know what to do.",
-                    new Exception(
-                        "I don't know, i've just got this shit",
-                        new IOException(
-                            "Something wen't wrong",
-                            new UncheckedIOException(
-                                new FileNotFoundException(
-                                    "Can't find the file."
-                                )
-                            )
-                        )
-                    )
-                )
-            ).exception().getMessage(),
-            Matchers.equalTo(
-                "Can't find the file."
+            new ListOf<>(
+                new YmlTagOutputPredicateOf(
+                    "startsWith", "curl 7.",
+                    new UncheckedBiFunc<>(String::startsWith)
+                ).asYmlString(),
+                new YmlTagOutputPredicateOf(
+                    "equals", "curl 7.57.0",
+                    new UncheckedBiFunc<>(String::equals)
+                ).asYmlString(),
+                new YmlTagOutputPredicateOf(
+                    "contains", "7.57",
+                    new UncheckedBiFunc<>(String::contains)
+                ).asYmlString()
+            ),
+            Matchers.hasItems(
+                "startsWith: \"curl 7.\"",
+                "equals:     \"curl 7.57.0\"",
+                "contains:   \"7.57\""
             )
         );
     }
+
 }

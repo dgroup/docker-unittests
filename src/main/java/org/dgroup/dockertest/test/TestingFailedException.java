@@ -32,4 +32,19 @@ package org.dgroup.dockertest.test;
  */
 public class TestingFailedException extends Exception {
 
+    /**
+     * Ctor.
+     */
+    public TestingFailedException() {
+        this("Testing failed.");
+    }
+
+    /**
+     * Ctor.
+     * @param msg Error message.
+     */
+    public TestingFailedException(final String msg) {
+        super(msg);
+    }
+
 }

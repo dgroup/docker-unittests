@@ -31,7 +31,7 @@ import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.text.PlainText;
@@ -130,7 +130,7 @@ public final class StdOutputOf implements StdOutput {
     private void printTestingStatus(final boolean status) {
         this.out.println();
         this.print(
-            new UncheckedTernary<HighlightedText>(
+            new If<HighlightedText>(
                 status,
                 new GreenText("Testing successful."),
                 new RedText("Testing failed.")

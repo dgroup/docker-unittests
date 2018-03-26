@@ -21,59 +21,58 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.version;
+package org.dgroup.dockertest.yml.tag;
 
-import java.util.Map;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
-import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.YmlTagOf;
 
 /**
- * Represents yml tag {@code /version}.
+ * YmlTag envelope.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
  */
-public final class YmlTagVersion {
+class YmlTagEnvelope<T> implements YmlTag<T> {
 
     /**
-     * Single yml tag as object.
+     * YML tags tree.
      */
-    private final YmlTag tag;
-
+    private final Scalar<T> yml;
     /**
-     * Ctor.
-     * @param tree Yml object tree loaded from *.yml file with tests.
+     * YML tag name.
      */
-    public YmlTagVersion(final Map<String, Object> tree) {
-        this(new YmlTagOf(tree, "version"));
-    }
+    private final String tag;
 
     /**
      * Ctor.
-     * @param tag Yml object tree loaded from *.yml file with tests.
+     * @param yml Object tree loaded from *.yml file with tests.
+     * @param tag Current YML tag name.
      */
-    public YmlTagVersion(final YmlTag tag) {
+    YmlTagEnvelope(final Scalar<T> yml, final String tag) {
+        this.yml = yml;
         this.tag = tag;
     }
 
-    /**
-     * Allows to verify version of *.yml file.
-     * For now only version `1` is supported.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    public void verify() throws IllegalYmlFormatException {
-        if (!"1".equals(this.tag.asString())) {
+    @Override
+    public String name() {
+        return this.tag;
+    }
+
+    @Override
+    public T value() throws IllegalYmlFormatException {
+        final T val = new UncheckedScalar<>(this.yml).value();
+        if (val == null || val.toString().trim().isEmpty()) {
             throw new IllegalYmlFormatException(
                 new PlainText(
-                    "Unsupported version: %s",
-                    this.tag.asString()
-                ).text()
+                    "`%s` tag is missing or has incorrect structure", this.tag
+                )
             );
         }
+        return val;
     }
 
 }

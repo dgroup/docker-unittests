@@ -21,18 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.tests;
+package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.yml.IllegalYmlFormatException;
-import org.dgroup.dockertest.yml.tag.YmlTag;
-import org.dgroup.dockertest.yml.tag.YmlTagOf;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTestOf;
 
 /**
  * Represents yml tag {@code /tests}.
@@ -42,49 +37,43 @@ import org.dgroup.dockertest.yml.tag.test.YmlTagTestOf;
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagTests {
-
-    /**
-     * Single yml tag as object.
-     */
-    private final YmlTag tag;
+public final class YmlTagTests extends YmlTagEnvelope<List<YmlTagTest>> {
 
     /**
      * Ctor.
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
     public YmlTagTests(final Map<String, Object> tree) {
-        this(new YmlTagOf(tree, "tests"));
+        this(tree, "tests");
     }
 
     /**
      * Ctor.
-     * @param tag Yml object tree loaded from *.yml file with tests.
+     * @param tree Yml object tree loaded from *.yml file with tests.
+     * @param tag In YML.
+     * @todo #/DEV Avoid class casting due to snakeyaml restrictions
+     * @checkstyle IndentationCheck (30 lines)
      */
-    public YmlTagTests(final YmlTag tag) {
-        this.tag = tag;
-    }
-
-    /**
-     * Give all yml `test` tags defined in YML file.
-     * @return List of tests to be executed.
-     * @throws IllegalYmlFormatException in case if yml file has
-     *  illegal/wrong format.
-     */
-    @SuppressWarnings("unchecked")
-    public List<YmlTagTest> asList() throws IllegalYmlFormatException {
-        return new ListOf<>(
-            new Filtered<>(
-                t -> !t.output().isEmpty(),
-                new Mapped<>(
-                    YmlTagTestOf::new,
-                    new Mapped<>(
-                        test -> (Map<String, Object>) test,
-                        this.tag.asList()
+    public YmlTagTests(final Map<String, Object> tree, final String tag) {
+        super(
+            () -> {
+                new StrictYmlTree(tree).verify();
+                final List<Object> tests = (List<Object>) tree.get(tag);
+                new StrictYmlTree(tag, tests).verify();
+                return new ListOf<>(
+                    new Filtered<>(
+                        t -> !t.output().isEmpty(),
+                        new Mapped<>(
+                            YmlTagTestOf::new,
+                            new Mapped<>(
+                                test -> (Map<String, Object>) test,
+                                tests
+                            )
+                        )
                     )
-                )
-            )
+                );
+            },
+            tag
         );
     }
-
 }

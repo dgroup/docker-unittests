@@ -21,48 +21,46 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.output;
+package org.dgroup.dockertest.yml.tag;
 
-import org.cactoos.func.UncheckedBiFunc;
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.dgroup.dockertest.Assert;
+import org.dgroup.dockertest.YmlResource;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagOutputPredicateOf}.
+ * Unit tests for class {@link YmlTagTests}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class DefaultYmlTagOutputOfPredicateTest {
+public final class YmlTagTestsTest {
 
     @Test
-    public void asString() {
-        MatcherAssert.assertThat(
-            new ListOf<>(
-                new YmlTagOutputPredicateOf(
-                    "startsWith", "curl 7.",
-                    new UncheckedBiFunc<>(String::startsWith)
-                ).asYmlString(),
-                new YmlTagOutputPredicateOf(
-                    "equals", "curl 7.57.0",
-                    new UncheckedBiFunc<>(String::equals)
-                ).asYmlString(),
-                new YmlTagOutputPredicateOf(
-                    "contains", "7.57",
-                    new UncheckedBiFunc<>(String::contains)
-                ).asYmlString()
-            ),
-            Matchers.hasItems(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
+    public void tagTestsIsMissing() {
+        new Assert().thatThrowableMessageEndingWith(
+            () -> new YmlResource("tag-tests-is-missing.yml").scenarios(),
+            "IllegalYmlFormatException: " +
+                "mapping values are not allowed here\n" +
+                " in 'string', line 3, column 9:\n" +
+                "      - test:\n" +
+                "            ^\n"
+        );
+    }
+
+    @Test
+    public void tagTestsHasNoDefinedChildren() {
+        new Assert().thatThrowableMessageEndingWith(
+            () -> new YmlResource("tag-tests-has-no-children.yml")
+                .scenarios()
+                .iterator().next(),
+            "IllegalYmlFormatException: " +
+                "`tests` tag is missing or has incorrect structure"
         );
     }
 

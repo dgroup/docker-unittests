@@ -32,7 +32,7 @@ import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.XmlOutput;
@@ -98,7 +98,7 @@ public final class OutputArgOf implements OutputArg {
     ) {
         this(
             origin,
-            new UncheckedTernary<List<String>>(
+            new If<List<String>>(
                 origin::specifiedByUser,
                 () -> new StickyList<>(origin.value().split(delimiter)),
                 ListOf::new
@@ -131,7 +131,7 @@ public final class OutputArgOf implements OutputArg {
     @Override
     public Set<Output> asSet() {
         return new HashSet<>(
-            new UncheckedTernary<List<Output>>(
+            new If<List<Output>>(
                 () -> !this.specified.isEmpty()
                     && this.supported.keySet().containsAll(this.specified),
                 () -> new Mapped<>(this.supported::get, this.specified),

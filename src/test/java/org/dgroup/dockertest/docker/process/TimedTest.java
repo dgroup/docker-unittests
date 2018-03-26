@@ -43,14 +43,14 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TimedTest {
 
-    @Test(timeout = 10 * 1000)
+    @Test(timeout = 5 * 1000)
     public void execute() throws DockerProcessExecutionException {
         MatcherAssert.assertThat(
             new Joined(
                 new Timed(
                     () -> {
                         try {
-                            TimeUnit.SECONDS.sleep(3);
+                            TimeUnit.SECONDS.sleep(1);
                         } catch (final InterruptedException exp) {
                             throw new DockerProcessExecutionException(exp);
                         }

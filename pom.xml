@@ -131,7 +131,7 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -214,6 +214,7 @@
                                 <exclude>dependencies:ch.qos.logback</exclude>
                                 <exclude>dependencies:com.github.docker-java:docker-java</exclude>
                                 <exclude>dependencies:junit:junit</exclude>
+                                <exclude>dependencies:org.assertj:assertj-core</exclude>
                                 <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>

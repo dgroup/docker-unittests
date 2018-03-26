@@ -21,12 +21,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.yml.tag.version;
+package org.dgroup.dockertest.yml.tag;
 
 import java.util.Collections;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
+import org.dgroup.dockertest.Assert;
+import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.dgroup.dockertest.yml.YmlString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -55,5 +60,35 @@ public final class YmlTagVersionTest {
             )
         ).verify();
     }
+
+    @Test
+    public void version() throws IllegalYmlFormatException {
+        MatcherAssert.assertThat(
+            new YmlTagVersion(
+                new YmlString(
+                    new YmlResource("with-single-test.yml").file()
+                ).ymlTree()
+            ).value(),
+            Matchers.equalTo("1")
+        );
+    }
+
+    @Test
+    public void tagVersionIsMissing() {
+        new Assert().thatThrows(
+            () -> new YmlTagVersion(
+                new YmlString(
+                    new YmlResource("with-missing-version-tag.yml").file()
+                ).ymlTree()
+            ).verify(),
+            new IllegalYmlFormatException(
+                "`version` tag is missing or has incorrect structure"
+            )
+        );
+    }
+
+// {version=1, tests=[{test={assume=curl version is 7.xxx, cmd=curl
+// --version, output=[{startsWith=curl 7.}, {contains=Protocols: },
+// {contains=Features: }]}}]}
 
 }
