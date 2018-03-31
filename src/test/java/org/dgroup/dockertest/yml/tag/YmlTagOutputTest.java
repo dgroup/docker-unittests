@@ -126,4 +126,104 @@ public final class YmlTagOutputTest {
         );
     }
 
+    @Test
+    public void tagOutputStartsWith()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2).output().get(1)
+                .comparingType(),
+            Matchers.equalTo("startsWith")
+        );
+    }
+
+    @Test
+    public void tagOutputStartsWithHasExpectedValue()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[2]/output` has 2nd statement `startsWith`" +
+                " and expected value is `v8.`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2)
+                .output()
+                .get(1)
+                .test("v8."),
+            Matchers.equalTo(true)
+        );
+    }
+
+    @Test
+    public void tagOutputEndsWith() throws IllegalYmlFormatException,
+        NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2)
+                .output().get(2).comparingType(),
+            Matchers.equalTo("endsWith")
+        );
+    }
+
+    @Test
+    public void tagOutputEndsWithHasExpectedValue()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[2]/output` has 3rd statement `endsWith`" +
+                " and expected value is `.5.0`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2)
+                .output().get(2).test(".5.0"),
+            Matchers.equalTo(true)
+        );
+    }
+
+    @Test
+    public void tagOutputMatches()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[3]/output` has 4th statement `matches`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(3)
+                .output().get(2).comparingType(),
+            Matchers.equalTo("matches")
+        );
+    }
+
+    @Test
+    public void tagOutputMatchesHasExpectedValue()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        final String version = "curl 7.57.0 (x86_64-pc-linux-gnu) " +
+            "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 " +
+            "libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 " +
+            "librtmp/2.3\n" +
+            "Release-Date: 2017-11-29\n" +
+            "Protocols: dict file ftp ftps gopher http https imap imaps ldap " +
+            "ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet " +
+            "tftp \n" +
+            "Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO " +
+            "NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL ";
+        MatcherAssert.assertThat(
+            "Tag `tests/test[3]/output` has 4th statement `matches`" +
+                " and match regexp expression.",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(3)
+                .output().get(2).test(version),
+            Matchers.equalTo(true)
+        );
+    }
+
+    @Test
+    public void tagOutputContainsHasExpectedValue()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[2]/output` has 1st statement `contains`" +
+                " and expected value is `v8.5.0`",
+            new YmlResource("with-3-simple-tests.yml")
+                .scenario(2)
+                .output().get(0).test("v8.5.0"),
+            Matchers.equalTo(true)
+        );
+    }
+
 }

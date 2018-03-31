@@ -53,7 +53,7 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
    ![docker image tests results](./docs/image-tests-results.png)
-### Test image by script
+### Test image by shell script
 1. Define the `test.yml` with tests.
    ```yaml
    version: 1

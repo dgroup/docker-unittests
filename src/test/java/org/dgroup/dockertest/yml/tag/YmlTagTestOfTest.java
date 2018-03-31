@@ -71,7 +71,7 @@ public final class YmlTagTestOfTest {
     }
 
     @Test
-    public void tagTestHasMissingAssumeTag() {
+    public void tagTestHasMissingAssumeTagIsolated() {
         new Assert().thatThrows(
             () -> new YmlTagTestOf(
                 "{test={" +
@@ -123,5 +123,27 @@ public final class YmlTagTestOfTest {
         );
     }
 
+    @Test
+    public void tagTestHasMissingAssumeTag() {
+        new Assert().thatThrows(
+            () -> new YmlResource("tag-test-has-missing-assume-tag.yml")
+                .scenario(1)
+                .assume(),
+            new IllegalYmlFormatException(
+                "Tag `test` has missing required child tag `assume`"
+            )
+        );
+    }
+
+    @Test
+    public void tagTestHasMissingCmdTag() {
+        new Assert().thatThrows(
+            () -> new YmlResource("tag-test-has-missing-cmd-tag.yml")
+                .scenario(1).cmd(),
+            new IllegalYmlFormatException(
+                "Tag `test` has missing required child tag `cmd`"
+            )
+        );
+    }
 
 }
