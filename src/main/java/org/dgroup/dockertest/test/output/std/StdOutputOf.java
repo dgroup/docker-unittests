@@ -34,7 +34,7 @@ import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.HighlightedText;
 import org.dgroup.dockertest.text.highlighted.RedText;
@@ -97,7 +97,7 @@ public final class StdOutputOf implements StdOutput {
         this.print(header);
         this.print(
             new Mapped<>(
-                msg -> new PlainText("%s%s", this.indent, msg).text(),
+                msg -> new TextOf("%s%s", this.indent, msg).text(),
                 new ListOf<>(messages)
             )
         );

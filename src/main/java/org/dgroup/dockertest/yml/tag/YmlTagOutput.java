@@ -25,15 +25,17 @@ package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.cactoos.BiFunc;
-import org.cactoos.iterable.Filtered;
-import org.cactoos.iterable.Sorted;
+import org.cactoos.Scalar;
 import org.cactoos.list.Mapped;
+import org.cactoos.list.Sorted;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
+import org.dgroup.dockertest.text.Before;
+import org.dgroup.dockertest.text.Between;
 import org.dgroup.dockertest.text.Joined;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -50,11 +52,18 @@ public final class YmlTagOutput extends
 
     /**
      * Ctor.
-     * @param yml YML string parsed as map.
+     * @param yml Output tag.
      */
-    public YmlTagOutput(final List<Map<String, String>> yml) {
+    public YmlTagOutput(final YmlTag<String> yml) {
+        this(yml::value);
+    }
+
+    /**
+     * Ctor.
+     * @param yml Output tag.
+     */
+    public YmlTagOutput(final Scalar<String> yml) {
         this(
-            "output",
             yml,
             new MapOf<>(
                 new MapEntry<>("contains", String::contains),
@@ -68,45 +77,44 @@ public final class YmlTagOutput extends
 
     /**
      * Ctor.
-     * @param tag Name of YML tag.
-     * @param yml YML string parsed as map.
+     * @param yml Output tag.
      * @param supported Conditions applicable for output from docker container.
      * @checkstyle IndentationCheck (40 lines)
      */
     public YmlTagOutput(
-        final String tag,
-        final List<Map<String, String>> yml,
+        final Scalar<String> yml,
         final Map<String, BiFunc<String, String, Boolean>> supported
     ) {
         super(
             () -> {
-                if (yml == null || yml.isEmpty()) {
+                if ("".equals(yml.value()) || yml.value().trim().isEmpty()) {
                     throw new IllegalYmlFormatException(
-                        tag,
-                        new Joined(new Sorted<>(supported.keySet()), "|").text()
+                        new TextOf(
+                            "Tag `output` has missing required child tag `%s`",
+                            new Joined(new Sorted<>(supported.keySet()), "|")
+                        )
                     );
                 }
                 return new Mapped<>(
-                    cnds -> {
-                        final String cnd = cnds.keySet().iterator().next();
-                        if (!supported.containsKey(cnd)) {
+                    cpr -> {
+                        final String type = new Before(cpr, "=").text();
+                        final String val = new Between(cpr, "=").last("}");
+                        if (!supported.containsKey(type)) {
                             throw new IllegalYmlFormatException(
-                                new PlainText(
+                                new TextOf(
                                     "Unsupported comparing expression `%s:%s`",
-                                    cnd, cnds.get(cnd)
+                                    type, val
                                 )
                             );
                         }
                         return new YmlTagOutputPredicateOf(
-                            cnd,
-                            cnds.values().iterator().next(),
-                            supported.get(cnd)
+                            type, val, supported.get(type)
                         );
                     },
-                    new Filtered<>(Objects::nonNull, yml)
+                    new Splitted(yml.value(), "\\}, \\{")
                 );
             },
-            tag
+            "output"
         );
     }
 

@@ -27,7 +27,7 @@ import org.cactoos.BiFunc;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
 import org.cactoos.text.UncheckedText;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -93,7 +93,7 @@ public final class YmlTagOutputPredicateOf
     public boolean test(final String actual) throws IllegalYmlFormatException {
         if (this.predicate == null) {
             throw new IllegalYmlFormatException(
-                new PlainText(
+                new TextOf(
                     "Unsupported comparing expression `%s:%s`",
                     this.comparingType(), this.expectedValue()
                 )
@@ -113,7 +113,7 @@ public final class YmlTagOutputPredicateOf
      * @checkstyle StringLiteralsConcatenationCheck (10 lines)
      */
     public String asYmlString() {
-        return new PlainText(
+        return new TextOf(
             "%s:%s\"%s\"",
             this.comparingType(),
             new UncheckedText(

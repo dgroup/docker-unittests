@@ -28,14 +28,14 @@ import org.cactoos.list.ListOf;
 import org.cactoos.text.UncheckedText;
 
 /**
- * Represents a formatted {@link org.cactoos.Text} which didn't throw the
+ * Represents a formatted {@link Text} which didn't throw the
  * exception and verify amount of arguments passed to pattern.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class PlainText implements Text {
+public final class TextOf implements Text {
 
     /**
      * String pattern for formatting.
@@ -51,7 +51,7 @@ public final class PlainText implements Text {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public PlainText(final String pattern, final Object... args) {
+    public TextOf(final String pattern, final Object... args) {
         this(pattern, new ListOf<>(args));
     }
 
@@ -60,10 +60,7 @@ public final class PlainText implements Text {
      * @param pattern Template.
      * @param args Arguments for template above.
      */
-    public PlainText(
-        final String pattern,
-        final Collection<Object> args
-    ) {
+    public TextOf(final String pattern, final Collection<Object> args) {
         this.pattern = pattern;
         this.args = args;
     }

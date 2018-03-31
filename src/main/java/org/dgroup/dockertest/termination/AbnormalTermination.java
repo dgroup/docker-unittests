@@ -30,8 +30,8 @@ import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.text.SplittedText;
+import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.YellowText;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
@@ -98,7 +98,7 @@ public final class AbnormalTermination implements Termination {
     @Override
     public void dueTo(final NoScenariosFoundException exp) {
         this.std.print(
-            new PlainText(
+            new TextOf(
                 "%s testing scenarios found.", new YellowText(0)
             ).text()
         );
@@ -112,7 +112,7 @@ public final class AbnormalTermination implements Termination {
 
     @Override
     public void dueTo(final DockerProcessExecutionException exp) {
-        this.std.print(new SplittedText(exp.getMessage()).asStrings());
+        this.std.print(new Splitted(exp.getMessage()).asStrings());
         this.runtime.shutdownWith(-4);
     }
 
@@ -127,11 +127,11 @@ public final class AbnormalTermination implements Termination {
     public void dueTo(final IllegalYmlFormatException exp) {
         try {
             this.std.print(
-                new PlainText(
+                new TextOf(
                     "YML file `%s` has the wrong format:",
                     this.args.ymlFilename()
                 ).text(),
-                new SplittedText(exp.getMessage(), "\n").asArray()
+                new Splitted(exp.getMessage(), "\n").asArray()
             );
             this.runtime.shutdownWith(-2);
         } catch (final CmdArgNotFoundException exception) {

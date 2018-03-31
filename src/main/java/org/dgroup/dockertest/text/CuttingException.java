@@ -23,46 +23,38 @@
  */
 package org.dgroup.dockertest.text;
 
-import org.cactoos.list.Mapped;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 /**
- * Unit tests for class {@link SplittedText}.
+ * Cutting.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class SplittedTextTest {
+public final class CuttingException extends Exception {
 
-    @Test
-    public void asArray() {
-        MatcherAssert.assertThat(
-            new Mapped<>(
-                Text::text,
-                new SplittedText("Line 1\nLine 2\n", "\n")
-            ),
-            Matchers.hasItems(
-                "Line 1", "Line 2"
-            )
-        );
+    /**
+     * Ctor.
+     * @param pattern For {@link TextOf}.
+     * @param args For {@link TextOf}.
+     */
+    public CuttingException(final String pattern, final Object... args) {
+        this(new TextOf(pattern, args));
     }
 
-    @Test
-    public void defaultDelimiter() {
-        MatcherAssert.assertThat(
-            new Mapped<>(
-                Text::text,
-                new SplittedText("text1 text2")
-            ),
-            Matchers.hasItems(
-                "text1", "text2"
-            )
-        );
+    /**
+     * Ctor.
+     * @param msg Origin.
+     */
+    public CuttingException(final Text msg) {
+        super(msg.text());
+    }
+
+    /**
+     * Ctor.
+     * @param exp Origin.
+     */
+    public CuttingException(final Exception exp) {
+        super(exp);
     }
 
 }

@@ -23,8 +23,13 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
+import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -33,8 +38,10 @@ import org.junit.Test;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle RegexpMultilineCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
@@ -47,8 +54,74 @@ public final class YmlTagTestOfTest {
             () -> new YmlResource("tag-tests-has-one-wrong-child.yml")
                 .scenarios().iterator().next(),
             "IllegalYmlFormatException: " +
-                "`test` tag is missing or has incorrect structure"
+                "`tests` tag has no defined children"
         );
     }
+
+    @Test
+    public void tagOutputStartsWith()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        MatcherAssert.assertThat(
+            "Tag `tests/test[1]/output` has 2nd statement `startsWith`",
+            new YmlResource("with-single-test.yml")
+                .scenario(1)
+                .output().get(0).comparingType(),
+            Matchers.equalTo("startsWith")
+        );
+    }
+
+    @Test
+    public void tagTestHasMissingAssumeTag() {
+        new Assert().thatThrows(
+            () -> new YmlTagTestOf(
+                "{test={" +
+                    "cmd=curl --version, " +
+                    "output=[" +
+                    "{startsWith=curl 7.}, " +
+                    "{contains=Protocols: }, " +
+                    "{contains=Features: }" +
+                    "]}}"
+            ).assume(),
+            new IllegalYmlFormatException(
+                "Tag `test` has missing required child tag `assume`"
+            )
+        );
+    }
+
+    /**
+     * @todo #DEV Implement escaping of chars which are using for split
+     */
+    @Test
+    public void escapedSymbols()
+        throws IllegalYmlFormatException, NoScenariosFoundException {
+        final YmlTagOutputPredicate output = new YmlResource(
+            "with-escaped-symbols-in-3-tests.yml"
+        ).scenario(3).output().get(1);
+        MatcherAssert.assertThat(
+            "Tag `tests/test[3]/output` has 2nd statement `startsWith`",
+            new ListOf<>(
+                output.comparingType(), output.expectedValue()
+            ),
+            Matchers.hasItems("contains", "Protocols: \\{")
+        );
+    }
+
+    @Test
+    public void value() throws IllegalYmlFormatException {
+        MatcherAssert.assertThat(
+            new YmlTagTestOf(
+                new YmlTag.Fake("", "curl version is 7.xxx"),
+                new YmlTag.Fake("", "curl --version"),
+                new YmlTag.Fake("", "curl 7.")
+            ).value(),
+            Matchers.equalTo(
+                "tag `test`, " +
+                    "assume `curl version is 7.xxx`, " +
+                    "cmd `curl --version`, " +
+                    "output `curl 7.`"
+            )
+        );
+    }
+
 
 }

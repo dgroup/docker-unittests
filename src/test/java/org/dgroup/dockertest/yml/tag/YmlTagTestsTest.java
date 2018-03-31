@@ -57,10 +57,10 @@ public final class YmlTagTestsTest {
     public void tagTestsHasNoDefinedChildren() {
         new Assert().thatThrowableMessageEndingWith(
             () -> new YmlResource("tag-tests-has-no-children.yml")
-                .scenarios()
-                .iterator().next(),
+                .scenario(1)
+                .assume(),
             "IllegalYmlFormatException: " +
-                "`tests` tag is missing or has incorrect structure"
+                "`tests` tag has incorrect structure"
         );
     }
 

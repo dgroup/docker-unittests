@@ -28,7 +28,7 @@ import java.util.List;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.text.SplittedText;
+import org.dgroup.dockertest.text.Splitted;
 
 /**
  * Text output for docker command.
@@ -72,6 +72,6 @@ public final class TextCmdOutput implements CmdOutput, Iterable<String> {
 
     @Override
     public Iterator<String> iterator() {
-        return new SplittedText(this.asText(), "\n").asStringIterator();
+        return new Splitted(this.asText(), "\n").asStringIterator();
     }
 }

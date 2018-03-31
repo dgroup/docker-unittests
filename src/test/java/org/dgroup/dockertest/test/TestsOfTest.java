@@ -36,7 +36,7 @@ import org.dgroup.dockertest.cmd.OutputArgOf;
 import org.dgroup.dockertest.cmd.UncheckedArg;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -65,7 +65,7 @@ public class TestsOfTest {
         );
         final StdOutput.Fake output = new StdOutput.Fake(new ArrayList<>(12));
         output.print(
-            new PlainText(
+            new TextOf(
                 "File: %s.", tests.path()
             ).text()
         );

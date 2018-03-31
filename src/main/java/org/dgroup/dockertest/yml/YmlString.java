@@ -46,7 +46,7 @@ public final class YmlString {
     /**
      * Yml tags as tree.
      */
-    private final Scalar<Map<String, Object>> tree;
+    private final Scalar<String> tree;
 
     /**
      * Ctor.
@@ -57,7 +57,10 @@ public final class YmlString {
             new StickyScalar<>(
                 () -> {
                     try {
-                        return new Yaml().load(yml.text());
+                        final String text = new Yaml()
+                            .loadAs(yml.text(), Map.class)
+                            .toString();
+                        return text.substring(1, text.length() - 1);
                     } catch (final IOException ex) {
                         throw new IllegalYmlFormatException(ex);
                     }
@@ -70,7 +73,7 @@ public final class YmlString {
      * Ctor.
      * @param tree YML tags defined in file with tests as string.
      */
-    public YmlString(final Scalar<Map<String, Object>> tree) {
+    public YmlString(final Scalar<String> tree) {
         this.tree = tree;
     }
 
@@ -97,8 +100,7 @@ public final class YmlString {
      * @checkstyle IllegalCatchCheck (10 lines)
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public Map<String, Object> ymlTree()
-        throws IllegalYmlFormatException {
+    public String ymlTree() throws IllegalYmlFormatException {
         try {
             return this.tree.value();
         } catch (final Exception exp) {

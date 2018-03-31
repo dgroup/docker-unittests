@@ -21,47 +21,52 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.yml.tag;
 
-import org.dgroup.dockertest.Assert;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.cactoos.Scalar;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
- * Unit tests for class {@link PlainText}.
+ * Text yml tag.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class PlainTextTest {
+public final class TextTag implements YmlTag<String> {
 
-    @Test
-    public void asString() {
-        MatcherAssert.assertThat(
-            new PlainText(
-                "%s open %s.",
-                10, "issues"
-            ).text(),
-            Matchers.equalTo("10 open issues.")
-        );
+    /**
+     * Origin.
+     */
+    private final Scalar<String> yml;
+    /**
+     * Name of yml tag.
+     */
+    private final String tag;
+
+    /**
+     * Ctor.
+     * @param yml Object tree loaded from *.yml file with tests.
+     * @param tag Current YML tag name.
+     */
+    public TextTag(final Scalar<String> yml, final String tag) {
+        this.yml = yml;
+        this.tag = tag;
     }
 
-    @Test
-    public void twoParametersForPatternAreMissing() {
-        new Assert().thatThrows(
-            () -> new PlainText(
-                "%s %s %s",
-                "only one arg"
-            ).text(),
-            new IllegalArgumentException(
-                "Wrong amount of arguments(1) for pattern '%s %s %s'."
-            )
-        );
+    @Override
+    public String name() {
+        return this.tag;
     }
 
+    @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public String value() throws IllegalYmlFormatException {
+        // @checkstyle IllegalCatchCheck (10 lines)
+        try {
+            return this.yml.value();
+        } catch (final Exception exp) {
+            throw new IllegalYmlFormatException(exp);
+        }
+    }
 }

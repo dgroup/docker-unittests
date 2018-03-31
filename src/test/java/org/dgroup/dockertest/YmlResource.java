@@ -30,9 +30,9 @@ import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
-import org.dgroup.dockertest.text.PlainText;
 import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextFile;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.TextWithRepeatableArguments;
 import org.dgroup.dockertest.yml.YmlString;
 import org.dgroup.dockertest.yml.tag.YmlTagTest;
@@ -63,11 +63,11 @@ public final class YmlResource {
 
     /**
      * Ctor.
-     * @param pattern For {@link PlainText}.
-     * @param args For {@link PlainText}.
+     * @param pattern For {@link TextOf}.
+     * @param args For {@link TextOf}.
      */
     public YmlResource(final String pattern, final String... args) {
-        this(new PlainText(pattern, args));
+        this(new TextOf(pattern, args));
     }
 
     /**
@@ -153,7 +153,7 @@ public final class YmlResource {
     }
 
     /**
-     * Fetch particular scenario by its number starting from 1...n .
+     * Fetch particular scenario by its number starting from {@code 1...n}.
      *
      * @param pos Scenario number.
      * @return One testing scenario.
@@ -163,7 +163,7 @@ public final class YmlResource {
     public YmlTagTest scenario(final int pos) throws NoScenariosFoundException {
         if (pos < 1 || pos > this.scenarios().size()) {
             throw new NoScenariosFoundException(
-                new PlainText("Scenario with '%s' position not found", pos)
+                new TextOf("Scenario with '%s' position not found", pos)
             );
         }
         return this.scenarios().get(pos - 1);

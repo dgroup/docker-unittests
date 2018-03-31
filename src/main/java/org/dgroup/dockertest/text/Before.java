@@ -21,42 +21,59 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
-
-import org.dgroup.dockertest.text.TextOf;
-import org.dgroup.dockertest.text.highlighted.BlueText;
+package org.dgroup.dockertest.text;
 
 /**
- * Raise when docker tool can't find an image.
- * Mostly because of wrong image name specified by user.
+ * Cut text before particular string.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class DockerImageNotFoundException extends
-    DockerProcessExecutionException {
+public final class Before {
+
+    /**
+     * Origin.
+     */
+    private final String origin;
+    /**
+     * Right border for cutting.
+     */
+    private final String right;
+
     /**
      * Ctor.
-     * @param image Docker image name.
-     * @checkstyle OperatorWrapCheck (20 lines)
-     * @checkstyle RegexpSinglelineCheck (20 lines)
-     * @checkstyle StringLiteralsConcatenationCheck (20 lines)
+     * @param origin Text.
+     * @param right Border for cutting.
      */
-    public DockerImageNotFoundException(final String image) {
-        super(
-            new TextOf(
-                "Unable to pull image \"%s\" from the remote repository. " +
-                    "Possible reasons:\n" +
-                    " - incorrect name (you may verify by shell command " +
-                    "\"%s\");\n" +
-                    " - the remote repository doesn't exist or " +
-                    "network\\firewall connectivity issue;\n" +
-                    " - pull operation may require 'docker login'.\n",
-                new BlueText(image),
-                new BlueText(new TextOf("docker pull %s", image))
-            ).text()
-        );
+    public Before(final Text origin, final String right) {
+        this(origin.text(), right);
     }
 
+    /**
+     * Ctor.
+     * @param origin Text.
+     * @param right Border for cutting.
+     */
+    public Before(final String origin, final String right) {
+        this.origin = origin;
+        this.right = right;
+    }
+
+    /**
+     * Cut text before right border.
+     * @return Text.
+     * @throws CuttingException in case wrong input data.
+     */
+    public String text() throws CuttingException {
+        if (this.origin.contains(this.right)) {
+            return this.origin.substring(
+                0, this.origin.indexOf(this.right)
+            );
+        } else {
+            throw new CuttingException(
+                "Can't cut `%s` from `%s`.", this.right, this.origin
+            );
+        }
+    }
 }

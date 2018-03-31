@@ -24,10 +24,12 @@
 package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
-import java.util.Map;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.text.Between;
+import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents yml tag {@code /tests}.
@@ -42,38 +44,36 @@ public final class YmlTagTests extends YmlTagEnvelope<List<YmlTagTest>> {
     /**
      * Ctor.
      * @param tree Yml object tree loaded from *.yml file with tests.
+     * @checkstyle IndentationCheck (40 lines)
+     * @checkstyle CascadeIndentationCheck (40 lines)
      */
-    public YmlTagTests(final Map<String, Object> tree) {
-        this(tree, "tests");
-    }
-
-    /**
-     * Ctor.
-     * @param tree Yml object tree loaded from *.yml file with tests.
-     * @param tag In YML.
-     * @todo #/DEV Avoid class casting due to snakeyaml restrictions
-     * @checkstyle IndentationCheck (30 lines)
-     */
-    public YmlTagTests(final Map<String, Object> tree, final String tag) {
-        super(
-            () -> {
-                new StrictYmlTree(tree).verify();
-                final List<Object> tests = (List<Object>) tree.get(tag);
-                new StrictYmlTree(tag, tests).verify();
+    public YmlTagTests(final String tree) {
+        super(() -> {
+                if ("version=1, tests=null".equals(tree)) {
+                    throw new IllegalYmlFormatException(
+                        "`tests` tag has incorrect structure"
+                    );
+                }
+                if ("version=1, tests=[null]".equals(tree)) {
+                    throw new IllegalYmlFormatException(
+                        "`tests` tag has no defined children"
+                    );
+                }
                 return new ListOf<>(
                     new Filtered<>(
                         t -> !t.output().isEmpty(),
                         new Mapped<>(
-                            YmlTagTestOf::new,
-                            new Mapped<>(
-                                test -> (Map<String, Object>) test,
-                                tests
+                            test -> new YmlTagTestOf(test::text),
+                            new Splitted(
+                                new Between(tree, ", tests=[").last("]"),
+                                "}}, "
                             )
                         )
                     )
                 );
             },
-            tag
+            "tests"
         );
     }
+
 }

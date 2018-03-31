@@ -81,12 +81,11 @@ public final class YmlTagOutputTest {
 
     @Test
     public void tagOutputHasNoDefinedChildren() {
-        new Assert().thatThrownRootcause(
+        new Assert().thatThrowableMessageEndingWith(
             () -> new YmlResource("tag-output-has-no-children.yml")
                 .scenarios().iterator().next().output(),
-            new IllegalYmlFormatException(
-                "Tag `test` has missing required child tag `output`"
-            )
+            "IllegalYmlFormatException: Tag `output` has missing required " +
+                "child tag `contains|endsWith|equal|matches|startsWith`"
         );
     }
 

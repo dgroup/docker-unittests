@@ -25,7 +25,7 @@ package org.dgroup.dockertest.yml.tag;
 
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -67,12 +67,39 @@ class YmlTagEnvelope<T> implements YmlTag<T> {
         final T val = new UncheckedScalar<>(this.yml).value();
         if (val == null || val.toString().trim().isEmpty()) {
             throw new IllegalYmlFormatException(
-                new PlainText(
+                new TextOf(
                     "`%s` tag is missing or has incorrect structure", this.tag
                 )
             );
         }
         return val;
+    }
+
+    /**
+     * Give child tag value.
+     * @param child Tag.
+     * @return Value of child tag.
+     * @throws IllegalYmlFormatException in case if tag is null/missing
+     *  or has no value.
+     * @checkstyle IllegalCatchCheck (20 lines)
+     */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    protected T child(final YmlTag<T> child)
+        throws IllegalYmlFormatException {
+        try {
+            final T cval = child.value();
+            if (cval == null || cval.toString().trim().isEmpty()) {
+                throw new IllegalYmlFormatException(
+                    new TextOf(
+                        "Tag `%s` has missing required child tag `%s`",
+                        this.name(), child.name()
+                    )
+                );
+            }
+            return cval;
+        } catch (final Exception exp) {
+            throw new IllegalYmlFormatException(exp.getMessage(), exp);
+        }
     }
 
 }

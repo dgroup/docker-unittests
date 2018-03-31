@@ -21,41 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker;
+package org.dgroup.dockertest.text;
 
-import org.dgroup.dockertest.text.TextOf;
-import org.dgroup.dockertest.text.highlighted.BlueText;
+import org.cactoos.list.Mapped;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Raise when docker tool can't find an image.
- * Mostly because of wrong image name specified by user.
+ * Unit tests for class {@link Splitted}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class DockerImageNotFoundException extends
-    DockerProcessExecutionException {
-    /**
-     * Ctor.
-     * @param image Docker image name.
-     * @checkstyle OperatorWrapCheck (20 lines)
-     * @checkstyle RegexpSinglelineCheck (20 lines)
-     * @checkstyle StringLiteralsConcatenationCheck (20 lines)
-     */
-    public DockerImageNotFoundException(final String image) {
-        super(
-            new TextOf(
-                "Unable to pull image \"%s\" from the remote repository. " +
-                    "Possible reasons:\n" +
-                    " - incorrect name (you may verify by shell command " +
-                    "\"%s\");\n" +
-                    " - the remote repository doesn't exist or " +
-                    "network\\firewall connectivity issue;\n" +
-                    " - pull operation may require 'docker login'.\n",
-                new BlueText(image),
-                new BlueText(new TextOf("docker pull %s", image))
-            ).text()
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class SplittedTest {
+
+    @Test
+    public void asArray() {
+        MatcherAssert.assertThat(
+            new Mapped<>(
+                Text::text,
+                new Splitted("Line 1\nLine 2\n", "\n")
+            ),
+            Matchers.hasItems(
+                "Line 1", "Line 2"
+            )
+        );
+    }
+
+    @Test
+    public void defaultDelimiter() {
+        MatcherAssert.assertThat(
+            new Mapped<>(
+                Text::text,
+                new Splitted("text1 text2")
+            ),
+            Matchers.hasItems(
+                "text1", "text2"
+            )
         );
     }
 

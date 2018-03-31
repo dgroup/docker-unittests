@@ -31,7 +31,7 @@ import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
@@ -100,7 +100,7 @@ public final class TestsOf {
             throw new NoScenariosFoundException();
         }
         this.std.value().print(
-            new PlainText(
+            new TextOf(
                 "Found scenarios: %s.%n",
                 new GreenText(this.tests.size())
             ).text()

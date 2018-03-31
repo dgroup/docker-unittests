@@ -25,8 +25,8 @@ package org.dgroup.dockertest;
 
 import java.util.Iterator;
 import org.cactoos.iterable.IterableOf;
-import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.text.SplittedText;
+import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.BlueText;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 
@@ -63,7 +63,7 @@ public final class Logo implements Iterable<String> {
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
         final GreenText app = new GreenText(
-            new PlainText("v%s", this.appVersion())
+            new TextOf("v%s", this.appVersion())
         );
         final BlueText whale = new BlueText("" +
             "                  ##         .            \n" +
@@ -75,7 +75,7 @@ public final class Logo implements Iterable<String> {
             "      \\    \\        __/             \n" +
             "       \\____\\______/   \n"
         );
-        return new PlainText("\nDocker testing tool (%s)\n%s", app, whale)
+        return new TextOf("\nDocker testing tool (%s)\n%s", app, whale)
             .text();
     }
 
@@ -90,7 +90,7 @@ public final class Logo implements Iterable<String> {
     @Override
     public Iterator<String> iterator() {
         return new IterableOf<>(
-            new SplittedText(this.asString(), "\n").asArray()
+            new Splitted(this.asString(), "\n").asArray()
         ).iterator();
     }
 }

@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.yml;
 
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 
 /**
  * Notify that *.yml file has a wrong structure.
@@ -53,7 +53,7 @@ public final class IllegalYmlFormatException extends Exception {
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFormatException(final PlainText msg) {
+    public IllegalYmlFormatException(final TextOf msg) {
         this(msg.toString());
     }
 
@@ -89,7 +89,7 @@ public final class IllegalYmlFormatException extends Exception {
      * @param args Arguments for template above.
      */
     private IllegalYmlFormatException(final String ptrn, final Object... args) {
-        this(new PlainText(ptrn, args));
+        this(new TextOf(ptrn, args));
     }
 
 }

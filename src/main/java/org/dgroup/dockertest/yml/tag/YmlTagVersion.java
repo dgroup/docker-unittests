@@ -23,9 +23,8 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import java.util.Map;
-import org.dgroup.dockertest.scalar.If;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.Between;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -41,7 +40,7 @@ public final class YmlTagVersion extends YmlTagEnvelope<String> {
      * Ctor.
      * @param tree Yml object tree loaded from *.yml file with tests.
      */
-    public YmlTagVersion(final Map<String, Object> tree) {
+    public YmlTagVersion(final String tree) {
         this(tree, "version");
     }
 
@@ -50,14 +49,8 @@ public final class YmlTagVersion extends YmlTagEnvelope<String> {
      * @param tree Object tree loaded from *.yml file with tests.
      * @param tag Current YML tag name.
      */
-    private YmlTagVersion(final Map<String, Object> tree, final String tag) {
-        super(
-            new If<>(
-                tree == null || tree.get(tag) == null,
-                "", () -> tree.get(tag).toString()
-            ),
-            tag
-        );
+    private YmlTagVersion(final String tree, final String tag) {
+        super(() -> new Between(tree, "version=").first(","), tag);
     }
 
     /**
@@ -69,7 +62,7 @@ public final class YmlTagVersion extends YmlTagEnvelope<String> {
     public void verify() throws IllegalYmlFormatException {
         if (!"1".equals(this.value())) {
             throw new IllegalYmlFormatException(
-                new PlainText("Unsupported version: %s", this.value())
+                new TextOf("Unsupported version: %s", this.value())
             );
         }
     }

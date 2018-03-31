@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import java.util.Collections;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.dgroup.dockertest.Assert;
@@ -47,9 +46,7 @@ public final class YmlTagVersionTest {
 
     @Test(expected = IllegalYmlFormatException.class)
     public void noVersionSpecified() throws IllegalYmlFormatException {
-        new YmlTagVersion(
-            Collections.emptyMap()
-        ).verify();
+        new YmlTagVersion("").verify();
     }
 
     @Test(expected = IllegalYmlFormatException.class)
@@ -57,7 +54,7 @@ public final class YmlTagVersionTest {
         new YmlTagVersion(
             new MapOf<>(
                 new MapEntry<>("version", "0.0-alpha")
-            )
+            ).toString()
         ).verify();
     }
 
@@ -86,9 +83,5 @@ public final class YmlTagVersionTest {
             )
         );
     }
-
-// {version=1, tests=[{test={assume=curl version is 7.xxx, cmd=curl
-// --version, output=[{startsWith=curl 7.}, {contains=Protocols: },
-// {contains=Features: }]}}]}
 
 }

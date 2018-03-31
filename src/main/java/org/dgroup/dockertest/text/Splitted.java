@@ -37,7 +37,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @since 1.0
  */
-public final class SplittedText implements Iterable<Text> {
+public final class Splitted implements Iterable<Text> {
 
     /**
      * Origin text.
@@ -52,7 +52,7 @@ public final class SplittedText implements Iterable<Text> {
      * Ctor.
      * @param text Origin.
      */
-    public SplittedText(final String text) {
+    public Splitted(final String text) {
         this(text, " ");
     }
 
@@ -61,7 +61,7 @@ public final class SplittedText implements Iterable<Text> {
      * @param text Origin.
      * @param delimiter For splitting.
      */
-    public SplittedText(final String text, final String delimiter) {
+    public Splitted(final String text, final String delimiter) {
         this(() -> () -> text, delimiter);
     }
 
@@ -70,7 +70,7 @@ public final class SplittedText implements Iterable<Text> {
      * @param text Origin.
      * @param delimiter For splitting.
      */
-    public SplittedText(final Scalar<Text> text, final String delimiter) {
+    public Splitted(final Scalar<Text> text, final String delimiter) {
         this.text = text;
         this.delimiter = delimiter;
     }

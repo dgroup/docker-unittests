@@ -24,13 +24,10 @@
 package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import org.cactoos.Scalar;
-import org.cactoos.iterable.Filtered;
-import org.cactoos.list.StickyList;
-import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.text.SplittedText;
+import org.dgroup.dockertest.text.Between;
+import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -42,124 +39,95 @@ import org.dgroup.dockertest.yml.IllegalYmlFormatException;
  * @since 1.0
  */
 @SuppressWarnings("PMD")
-public final class YmlTagTestOf implements YmlTagTest {
+public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
+    YmlTagTest {
 
     /**
-     * YML tag name.
+     * Scenario name (assume YML tag).
      */
-    private final String tag;
+    private final YmlTag<String> scenario;
     /**
-     * Children YML tags.
+     * Container command (cmd YML tag).
      */
-    private final Scalar<Map<String, Object>> children;
+    private final YmlTag<String> command;
+    /**
+     * Container output (output YML tag).
+     */
+    private final YmlTag<String> out;
 
     /**
      * Ctor.
-     * @param yml Yml tag `test` transformed to object.
+     * @param yml Presentation of tag `test` as string.
      */
-    public YmlTagTestOf(final Map<String, Object> yml) {
-        this(yml, "test");
+    public YmlTagTestOf(final String yml) {
+        this(() -> yml);
     }
 
     /**
      * Ctor.
-     * @param yml Yml tag `test` transformed to object.
-     * @param tag String representation of YML tag `test`.
+     * @param yml Presentation of tag `test` as string.
      */
-    public YmlTagTestOf(final Map<String, Object> yml, final String tag) {
+    public YmlTagTestOf(final Scalar<String> yml) {
         this(
-            tag,
-            () -> {
-                new StrictYmlTree(tag, yml).verify();
-                final Map<String, Object> test =
-                    (Map<String, Object>) yml.get(tag);
-                new StrictYmlTree("tests", tag, test).verify();
-                return test;
-            }
+            new TextTag(
+                () -> new Between(yml, "{test={assume=").first(", cmd="),
+                "assume"
+            ),
+            new TextTag(
+                () -> new Between(yml, ", cmd=").first(", output=[{"),
+                "cmd"
+            ),
+            new TextTag(
+                () -> new Between(yml, ", output=[{").last("]"),
+                "output"
+            )
         );
     }
 
     /**
      * Ctor.
-     * @param tag String representation of YML tag `test`
-     * @param children YML tags.
+     * @param assume Yml tag under `test`.
+     * @param cmd Yml tag under `test`.
+     * @param output Yml tag under `test`.
+     * @checkstyle IndentationCheck (20 lines)
      */
     public YmlTagTestOf(
-        final String tag,
-        final Scalar<Map<String, Object>> children
+        final YmlTag<String> assume,
+        final YmlTag<String> cmd,
+        final YmlTag<String> output
     ) {
-        this.tag = tag;
-        this.children = children;
+        super(
+            () -> new TextOf(
+                "tag `test`, assume `%s`, cmd `%s`, output `%s`",
+                assume.value(), cmd.value(), output.value()
+            ).text(),
+            "test"
+        );
+        this.scenario = assume;
+        this.command = cmd;
+        this.out = output;
     }
 
     @Override
     public String assume() throws IllegalYmlFormatException {
-        return this.child("assume");
+        return this.child(this.scenario);
     }
 
     @Override
     public String cmd() throws IllegalYmlFormatException {
-        return this.child("cmd");
+        return this.child(this.command);
     }
 
     @Override
     public String[] containerCommandAsArray() throws IllegalYmlFormatException {
-        return new SplittedText(this.cmd()).asArray();
+        return new Splitted(this.cmd()).asArray();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<YmlTagOutputPredicate> output()
         throws IllegalYmlFormatException {
-        // @checkstyle IllegalCatchCheck (20 lines)
-        try {
-            final String child = "output";
-            final List<Map<String, String>> cvalue =
-                (List<Map<String, String>>) this.children.value().get(child);
-            if (cvalue == null) {
-                throw new IllegalYmlFormatException(this.tag, child);
-            }
-            return new YmlTagOutput(
-                new StickyList<>(
-                    new Filtered<>(Objects::nonNull, cvalue)
-                )
-            ).value();
-        } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp);
-        }
+        return new YmlTagOutput(this.out).value();
     }
 
-    /**
-     * Print `test` tag details to string.
-     * @return Details about `test` tag.
-     * @throws IllegalYmlFormatException in case if YML tree is corrupted
-     *  or has a wrong/invalid format.
-     */
-    public String asString() throws IllegalYmlFormatException {
-        return new PlainText(
-            "tag `%s`, assume `%s`, cmd `%s`, output `%s`",
-            this.tag, this.assume(), this.cmd(), this.output().size()
-        ).text();
-    }
-
-    /**
-     * Give child tag value as a string.
-     * @param name Of child tag.
-     * @return Value of child tag.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     * @checkstyle IllegalCatchCheck (15 lines)
-     */
-    private String child(final String name)
-        throws IllegalYmlFormatException {
-        try {
-            final Object child = this.children.value().get(name);
-            if (child == null || child.toString().trim().isEmpty()) {
-                throw new IllegalYmlFormatException(this.tag, name);
-            }
-            return child.toString();
-        } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp.getMessage(), exp);
-        }
-    }
 }
