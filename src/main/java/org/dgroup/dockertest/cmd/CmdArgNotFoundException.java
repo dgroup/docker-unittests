@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import org.dgroup.dockertest.text.Text;
+
 /**
  * Thrown in case if command-line argument is required,
  * but not found in the arguments specified by user.
@@ -39,6 +41,31 @@ public class CmdArgNotFoundException extends Exception {
      */
     public CmdArgNotFoundException(final String msg) {
         super(msg);
+    }
+
+    /**
+     * Ctor.
+     * @param cause Origin.
+     */
+    public CmdArgNotFoundException(final Exception cause) {
+        super(cause);
+    }
+
+    /**
+     * Ctor.
+     * @param msg Detailed description with missing argument.
+     */
+    public CmdArgNotFoundException(final Text msg) {
+        super(msg.text());
+    }
+
+    /**
+     * Ctor.
+     * @param msg Detailed description with missing argument.
+     * @param cause Origin.
+     */
+    public CmdArgNotFoundException(final Text msg, final Exception cause) {
+        super(msg.text(), cause);
     }
 
 }

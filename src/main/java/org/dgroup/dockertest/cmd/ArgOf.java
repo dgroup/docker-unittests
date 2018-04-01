@@ -32,67 +32,16 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public final class ArgOf implements Arg {
-    /**
-     * Command-line argument name.
-     */
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    private final String name;
-    /**
-     * All command-line arguments specified by user.
-     */
-    private final List<String> args;
-    /**
-     * Error message in case when command-line argument is missing
-     *  or wasn't specified by user.
-     */
-    private final String absent;
+public final class ArgOf extends ArgEnvelope<String> {
 
     /**
      * Ctor.
      * @param name Cmd argument name.
      * @param args All cmd arguments.
+     * @param msg Error message in case if arguments wasn't specified by user.
      */
-    public ArgOf(final String name, final List<String> args) {
-        this(name, args, String.format("Argument `%s` wasn't specified", name));
+    public ArgOf(final String name, final List<String> args, final String msg) {
+        super(name, args, arg -> arg, () -> msg);
     }
 
-    /**
-     * Ctor.
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     * @param absent Error message in case when command-line argument
-     *  is missing or wasn't specified by user.
-     */
-    public ArgOf(final String name, final List<String> args,
-        final String absent) {
-        this.name = name;
-        this.args = args;
-        this.absent = absent;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public String value() throws CmdArgNotFoundException {
-        if (this.args.isEmpty()) {
-            throw new CmdArgNotFoundException(
-                "User arguments are empty."
-            );
-        }
-        final String value = this.args.get(this.args.indexOf(this.name) + 1);
-        if (value == null) {
-            throw new CmdArgNotFoundException(this.absent);
-        }
-        return value;
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.args.indexOf(this.name()) >= 0
-            && this.args.indexOf(this.name()) + 1 < this.args.size();
-    }
 }

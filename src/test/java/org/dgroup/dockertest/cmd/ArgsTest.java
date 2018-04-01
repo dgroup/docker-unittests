@@ -27,6 +27,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
 /**
@@ -48,6 +49,16 @@ public final class ArgsTest {
                 "-f", ".gitignore"
             ).ymlFilename(),
             Matchers.equalTo(".gitignore")
+        );
+    }
+
+    @Test
+    public void defaultOutput() {
+        MatcherAssert.assertThat(
+            new Args(
+                new StdOutput.Fake(new ListOf<>())
+            ).selectedByUserOutput().iterator().next(),
+            IsInstanceOf.instanceOf(StdOutput.Fake.class)
         );
     }
 

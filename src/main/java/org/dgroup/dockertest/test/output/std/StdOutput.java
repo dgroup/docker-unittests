@@ -24,7 +24,7 @@
 package org.dgroup.dockertest.test.output.std;
 
 import java.util.List;
-import org.cactoos.list.ListOf;
+import org.cactoos.collection.Mapped;
 import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
@@ -49,7 +49,7 @@ public interface StdOutput extends Output {
      * @param header Text to print as header
      * @param msg Text to print
      */
-    void print(final String header, final String... msg);
+    void print(final String header, final Object... msg);
 
     /**
      * Print text to single line.
@@ -85,9 +85,9 @@ public interface StdOutput extends Output {
         }
 
         @Override
-        public void print(final String header, final String... lines) {
+        public void print(final String header, final Object... lines) {
             this.print(header);
-            this.print(new ListOf<>(lines));
+            this.print(new Mapped<>(Object::toString, lines));
         }
 
         @Override

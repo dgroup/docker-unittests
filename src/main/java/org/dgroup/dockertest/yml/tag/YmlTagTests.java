@@ -63,7 +63,7 @@ public final class YmlTagTests extends YmlTagEnvelope<List<YmlTagTest>> {
                     new Filtered<>(
                         t -> !t.output().isEmpty(),
                         new Mapped<>(
-                            test -> new YmlTagTestOf(test::text),
+                            YmlTagTestOf::new,
                             new Splitted(
                                 new Between(tree, ", tests=[").last("]"),
                                 "}}, "

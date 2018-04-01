@@ -28,27 +28,30 @@ package org.dgroup.dockertest.cmd;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
- * @todo #78 Make arg with generic
  */
-public interface Arg {
+public interface Arg<T> {
 
     /**
-     * Fetch argument name.
+     * Fetch name of command-line argument.
      *
+     * For example, for {@code -f tests.yml} the name is {@code -f}.
      * @return Argument name.
      */
     String name();
 
     /**
-     * Fetch argument value from arguments list.
+     * Fetch value of command-line argument.
+     *
      * The value should be specified after the name.
+     * For example, for {@code -f tests.yml} the value is {@code tests.yml}.
      *
      * @return Argument value.
      * @throws CmdArgNotFoundException in case if the argument wasn't
      *  specified by the user or arguments itself are empty.
      */
-    String value() throws CmdArgNotFoundException;
+    T value() throws CmdArgNotFoundException;
 
     /**
      * Verify existence of argument in the arguments specified by user.
@@ -62,7 +65,7 @@ public interface Arg {
      * @checkstyle JavadocVariableCheck (20 lines)
      */
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    final class Fake implements Arg {
+    final class Fake implements Arg<String> {
 
         private final String name;
         private final String value;

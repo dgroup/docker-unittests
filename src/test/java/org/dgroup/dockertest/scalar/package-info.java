@@ -21,21 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text.highlighted;
 
 /**
- * Allows to highlight text via <b>jansi</b> library.
+ * Unit tests for package {@link org.dgroup.dockertest.scalar}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #/DEV Remove interface as its can't be replaced by o.d.d.text.Text
  */
-public interface HighlightedText {
-
-    /**
-     * Highlighted text.
-     * @return Text escaped by <b>jansi</b> colors.
-     */
-    String text();
-}
+package org.dgroup.dockertest.scalar;

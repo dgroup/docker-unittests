@@ -93,12 +93,12 @@ public final class StdOutputOf implements StdOutput {
     }
 
     @Override
-    public void print(final String header, final String... messages) {
+    public void print(final String header, final Object... lines) {
         this.print(header);
         this.print(
             new Mapped<>(
                 msg -> new TextOf("%s%s", this.indent, msg).text(),
-                new ListOf<>(messages)
+                new ListOf<>(lines)
             )
         );
     }

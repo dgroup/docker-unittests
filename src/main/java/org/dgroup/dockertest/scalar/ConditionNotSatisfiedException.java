@@ -21,21 +21,38 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text.highlighted;
+package org.dgroup.dockertest.scalar;
 
 /**
- * Allows to highlight text via <b>jansi</b> library.
+ * Throwing when condition in {@link StrictIf} is false.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #/DEV Remove interface as its can't be replaced by o.d.d.text.Text
  */
-public interface HighlightedText {
+public final class ConditionNotSatisfiedException extends Exception {
 
     /**
-     * Highlighted text.
-     * @return Text escaped by <b>jansi</b> colors.
+     * Ctor.
      */
-    String text();
+    public ConditionNotSatisfiedException() {
+        super();
+    }
+
+    /**
+     * Ctor.
+     * @param msg Origin.
+     */
+    public ConditionNotSatisfiedException(final String msg) {
+        super(msg);
+    }
+
+    /**
+     * Ctor.
+     * @param cause Origin.
+     */
+    public ConditionNotSatisfiedException(final Exception cause) {
+        super(cause);
+    }
+
 }

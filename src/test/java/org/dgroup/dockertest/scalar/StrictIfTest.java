@@ -21,60 +21,34 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.scalar;
 
-import java.util.List;
+import org.cactoos.ScalarHasValue;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Command-line argument that doesn't throw checked
- *  {@link CmdArgNotFoundException}.
+ * Unit tests for class {@link StrictIf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class UncheckedArg implements Arg {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class StrictIfTest {
 
-    /**
-     * Command line argument.
-     */
-    private final Arg origin;
-
-    /**
-     * Ctor.
-     * @param origin Command line argument.
-     */
-    public UncheckedArg(final Arg origin) {
-        this.origin = origin;
+    @Test
+    public void conditionIsTrue() {
+        MatcherAssert.assertThat(
+            new StrictIf<>(true, ":)"),
+            new ScalarHasValue<>(":)")
+        );
     }
 
-    /**
-     * Ctor.
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     */
-    public UncheckedArg(final String name, final List<String> args) {
-        this(new ArgOf(name, args));
+    @Test(expected = ConditionNotSatisfiedException.class)
+    public void conditionIsFalse() throws ConditionNotSatisfiedException {
+        new StrictIf<>(false, ":)").value();
     }
 
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public String value() {
-        String value;
-        try {
-            value = this.origin.value();
-        } catch (final CmdArgNotFoundException exp) {
-            value = "";
-        }
-        return value;
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.origin.specifiedByUser();
-    }
 }

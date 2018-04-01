@@ -24,7 +24,6 @@
 package org.dgroup.dockertest;
 
 import java.util.Iterator;
-import org.cactoos.iterable.IterableOf;
 import org.dgroup.dockertest.text.Splitted;
 import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.BlueText;
@@ -89,8 +88,6 @@ public final class Logo implements Iterable<String> {
 
     @Override
     public Iterator<String> iterator() {
-        return new IterableOf<>(
-            new Splitted(this.asString(), "\n").asArray()
-        ).iterator();
+        return new Splitted(this.asString(), "\n").iterator();
     }
 }

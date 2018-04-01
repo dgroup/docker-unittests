@@ -25,15 +25,13 @@ package org.dgroup.dockertest.test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.ArgOf;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.OutputArgOf;
-import org.dgroup.dockertest.cmd.UncheckedArg;
+import org.dgroup.dockertest.cmd.OutputOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.text.TextOf;
@@ -73,12 +71,7 @@ public class TestsOfTest {
             new Args(
                 new ArgOf("-i", args, "Docker image wasn't specified."),
                 new ArgOf("-f", args, "YML file with tests wasn't specified."),
-                new OutputArgOf(
-                    new UncheckedArg("-o", args),
-                    "",
-                    new HashMap<>(),
-                    output
-                ),
+                new OutputOf(args),
                 output
             )
         ).execute();

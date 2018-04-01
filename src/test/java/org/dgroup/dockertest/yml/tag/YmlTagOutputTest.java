@@ -45,7 +45,7 @@ import org.junit.Test;
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 public final class YmlTagOutputTest {
 
     @Test

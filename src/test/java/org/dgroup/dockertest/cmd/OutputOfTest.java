@@ -27,7 +27,6 @@ import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
-import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,7 +35,7 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link OutputArgOf}.
+ * Unit tests for class {@link OutputOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -44,22 +43,12 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class OutputArgOfTest {
-
-    @Test
-    public void defaultOutput() {
-        MatcherAssert.assertThat(
-            new OutputArgOf(
-                new ListOf<>()
-            ).asSet().iterator().next(),
-            IsInstanceOf.instanceOf(StdOutputOf.class)
-        );
-    }
+public final class OutputOfTest {
 
     @Test
     public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
-            new OutputArgOf(
+            new OutputOf(
                 new ListOf<>()
             ).specifiedByUser(),
             Matchers.equalTo(false)
@@ -67,21 +56,11 @@ public final class OutputArgOfTest {
     }
 
     @Test
-    public void test() {
+    public void specifiedOutput() throws CmdArgNotFoundException {
         MatcherAssert.assertThat(
-            new OutputArgOf(
+            new OutputOf(
                 new ListOf<>("-o", "xml|html")
             ).value(),
-            Matchers.equalTo("xml|html")
-        );
-    }
-
-    @Test
-    public void specifiedOutput() {
-        MatcherAssert.assertThat(
-            new OutputArgOf(
-                new ListOf<>("-o", "xml|html")
-            ).asSet(),
             instanceOfInAnyOrder(
                 new XmlOutput(), new HtmlOutput()
             )

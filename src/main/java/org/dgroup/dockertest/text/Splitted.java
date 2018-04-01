@@ -23,12 +23,10 @@
  */
 package org.dgroup.dockertest.text;
 
-import java.util.Iterator;
-import org.cactoos.Func;
 import org.cactoos.Scalar;
-import org.cactoos.iterable.IterableOf;
-import org.cactoos.iterable.Mapped;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.collection.CollectionEnvelope;
+import org.cactoos.list.ListOf;
+import org.cactoos.scalar.StickyScalar;
 
 /**
  * Splitted text.
@@ -37,16 +35,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @since 1.0
  */
-public final class Splitted implements Iterable<Text> {
-
-    /**
-     * Origin text.
-     */
-    private final Scalar<Text> text;
-    /**
-     * Delimiter for splitting.
-     */
-    private final String delimiter;
+public final class Splitted extends CollectionEnvelope<String> {
 
     /**
      * Ctor.
@@ -62,7 +51,7 @@ public final class Splitted implements Iterable<Text> {
      * @param delimiter For splitting.
      */
     public Splitted(final String text, final String delimiter) {
-        this(() -> () -> text, delimiter);
+        this(() -> text, delimiter);
     }
 
     /**
@@ -70,43 +59,23 @@ public final class Splitted implements Iterable<Text> {
      * @param text Origin.
      * @param delimiter For splitting.
      */
-    public Splitted(final Scalar<Text> text, final String delimiter) {
-        this.text = text;
-        this.delimiter = delimiter;
+    public Splitted(final Scalar<String> text, final String delimiter) {
+        this(new StickyScalar<>(() -> text.value().split(delimiter)));
     }
 
     /**
-     * Split text to array by particular delimiter.
-     * @return Splitted text.
+     * Ctor.
+     * @param text Origin.
      */
-    public String[] asArray() {
-        return new UncheckedScalar<>(this.text)
-            .value()
-            .text()
-            .split(this.delimiter);
-    }
-
-    @Override
-    public Iterator<Text> iterator() {
-        return new Mapped<>(
-            (Func<String, Text>) txt -> () -> txt,
-            this.asStringIterator()
-        ).iterator();
+    public Splitted(final Scalar<String[]> text) {
+        super(() -> new ListOf<>(text.value()));
     }
 
     /**
-     * Split text to string iterator.
-     * @return Splitted text.
+     * Convert splitted values to the string array.
+     * @return Splitted values.
      */
-    public Iterator<String> asStringIterator() {
-        return this.asStrings().iterator();
-    }
-
-    /**
-     * Split text to string iterable.
-     * @return Splitted text.
-     */
-    public Iterable<String> asStrings() {
-        return new IterableOf<>(this.asArray());
+    public String[] toStringArray() {
+        return this.toArray(new String[this.size()]);
     }
 }

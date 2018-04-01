@@ -112,7 +112,7 @@ public final class AbnormalTermination implements Termination {
 
     @Override
     public void dueTo(final DockerProcessExecutionException exp) {
-        this.std.print(new Splitted(exp.getMessage()).asStrings());
+        this.std.print(new Splitted(exp.getMessage(), "\n"));
         this.runtime.shutdownWith(-4);
     }
 
@@ -131,7 +131,7 @@ public final class AbnormalTermination implements Termination {
                     "YML file `%s` has the wrong format:",
                     this.args.ymlFilename()
                 ).text(),
-                new Splitted(exp.getMessage(), "\n").asArray()
+                new Splitted(exp.getMessage(), "\n").toArray()
             );
             this.runtime.shutdownWith(-2);
         } catch (final CmdArgNotFoundException exception) {

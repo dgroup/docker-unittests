@@ -120,7 +120,7 @@ public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
 
     @Override
     public String[] containerCommandAsArray() throws IllegalYmlFormatException {
-        return new Splitted(this.cmd()).asArray();
+        return new Splitted(this.cmd()).toStringArray();
     }
 
     @Override

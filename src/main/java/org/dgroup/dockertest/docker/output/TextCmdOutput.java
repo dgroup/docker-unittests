@@ -67,11 +67,11 @@ public final class TextCmdOutput implements CmdOutput, Iterable<String> {
 
     @Override
     public List<String> byLines() {
-        return new ListOf<>(this::iterator);
+        return new ListOf<>(this);
     }
 
     @Override
     public Iterator<String> iterator() {
-        return new Splitted(this.asText(), "\n").asStringIterator();
+        return new Splitted(this.text, "\n").iterator();
     }
 }

@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.text;
 
-import org.cactoos.list.Mapped;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -40,12 +39,9 @@ import org.junit.Test;
 public final class SplittedTest {
 
     @Test
-    public void asArray() {
+    public void asCollection() {
         MatcherAssert.assertThat(
-            new Mapped<>(
-                Text::text,
-                new Splitted("Line 1\nLine 2\n", "\n")
-            ),
+            new Splitted("Line 1\nLine 2\n", "\n"),
             Matchers.hasItems(
                 "Line 1", "Line 2"
             )
@@ -53,12 +49,17 @@ public final class SplittedTest {
     }
 
     @Test
+    public void asArray() {
+        MatcherAssert.assertThat(
+            new Splitted("Line 1\nLine 2\n", "\n").toArray(),
+            Matchers.arrayContaining("Line 1", "Line 2")
+        );
+    }
+
+    @Test
     public void defaultDelimiter() {
         MatcherAssert.assertThat(
-            new Mapped<>(
-                Text::text,
-                new Splitted("text1 text2")
-            ),
+            new Splitted("text1 text2"),
             Matchers.hasItems(
                 "text1", "text2"
             )
