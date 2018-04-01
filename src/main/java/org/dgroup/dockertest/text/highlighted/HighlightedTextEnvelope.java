@@ -25,22 +25,23 @@ package org.dgroup.dockertest.text.highlighted;
 
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.text.Text;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 
 /**
- * Envelope for {@link HighlightedText}.
+ * Envelope for {@link Text}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-class HighlightedTextEnvelope implements HighlightedText {
+class HighlightedTextEnvelope implements Text {
 
     /**
      * Origin.
      */
-    private final Scalar<HighlightedText> msg;
+    private final Scalar<Text> msg;
 
     /**
      * Ctor.
@@ -70,7 +71,7 @@ class HighlightedTextEnvelope implements HighlightedText {
      * Ctor.
      * @param msg Origin.
      */
-    HighlightedTextEnvelope(final Scalar<HighlightedText> msg) {
+    HighlightedTextEnvelope(final Scalar<Text> msg) {
         this.msg = msg;
     }
 

@@ -34,9 +34,9 @@ import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
+import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
-import org.dgroup.dockertest.text.highlighted.HighlightedText;
 import org.dgroup.dockertest.text.highlighted.RedText;
 
 /**
@@ -130,7 +130,7 @@ public final class StdOutputOf implements StdOutput {
     private void printTestingStatus(final boolean status) {
         this.out.println();
         this.print(
-            new If<HighlightedText>(
+            new If<Text>(
                 status,
                 new GreenText("Testing successful."),
                 new RedText("Testing failed.")
