@@ -31,7 +31,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link HighlightedText}.
+ * Unit tests for class {@link HighlightedTextEnvelope}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
