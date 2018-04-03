@@ -47,7 +47,7 @@ public final class DockerProcessOfTest {
         MatcherAssert.assertThat(
             new DockerProcessOf(
                 "openjdk:9.0.1-11",
-                new String[]{"java", "-version" }
+                "java", "-version"
             ).execute().byLines(),
             Matchers.hasItems(
                 "openjdk version \"9.0.1\"",

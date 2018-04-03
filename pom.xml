@@ -35,11 +35,11 @@
     <properties>
         <!-- System, mvn plugins, etc -->
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
-        <!-- Code quality -->
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
@@ -58,6 +58,14 @@
         <assertj-core.version>3.8.0</assertj-core.version>
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
+        <!-- Code quality -->
+        <code.coverage.limit.classes-without-tests>5</code.coverage.limit.classes-without-tests>
+        <code.coverage.limit.instructions>0.55</code.coverage.limit.instructions>
+        <code.coverage.limit.complexity>0.50</code.coverage.limit.complexity>
+        <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
+        <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
+        <code.coverage.limit.line>0.55</code.coverage.limit.line>
+        <sonar.coverage.exclusions>**/RuntimeOf.java,**/App.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -123,7 +131,7 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -206,6 +214,7 @@
                                 <exclude>dependencies:ch.qos.logback</exclude>
                                 <exclude>dependencies:com.github.docker-java:docker-java</exclude>
                                 <exclude>dependencies:junit:junit</exclude>
+                                <exclude>dependencies:org.assertj:assertj-core</exclude>
                                 <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>
@@ -229,8 +238,10 @@
                             <output>file</output>
                             <excludes>
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
-                                <exclude>org/dgroup/dockertest/**/Fake*.*</exclude>
+                                <exclude>org/dgroup/dockertest/**/*/*Fake*.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/*Envelope.*</exclude>
+                                <exclude>org/dgroup/dockertest/App.*</exclude>
+                                <exclude>org/dgroup/dockertest/termination/RuntimeOf.*</exclude>
                             </excludes>
                         </configuration>
                         <executions>
@@ -255,32 +266,32 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.instructions}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.line}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>${code.coverage.limit.branch}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.50</minimum>
+                                                    <minimum>${code.coverage.limit.complexity}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>METHOD</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>0.55</minimum>
+                                                    <minimum>${code.coverage.limit.methods}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>10</maximum>
+                                                    <maximum>${code.coverage.limit.classes-without-tests}</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>

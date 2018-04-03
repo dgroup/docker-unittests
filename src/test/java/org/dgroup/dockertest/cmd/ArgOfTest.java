@@ -24,7 +24,6 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.Assert;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -36,13 +35,18 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidDuplicateLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class ArgOfTest {
+
     @Test
     public void specified() {
         MatcherAssert.assertThat(
             new ArgOf(
-                "-o", new ListOf<>("-o", "std")
+                "-o",
+                new ListOf<>("-o", "std"),
+                "Argument `-o` wasn't found"
             ).specifiedByUser(),
             Matchers.equalTo(true)
         );
@@ -52,19 +56,14 @@ public final class ArgOfTest {
     public void notSpecified() {
         MatcherAssert.assertThat(
             new ArgOf(
-                "-o", new ListOf<>("-f", "single-test.yml", "-i", "alpine:jdk9")
+                "-o",
+                new ListOf<>(
+                    "-f", "single-test.yml",
+                    "-i", "alpine:jdk9"
+                ),
+                "Argument `-o` wasn't found"
             ).specifiedByUser(),
             Matchers.equalTo(false)
-        );
-    }
-
-    @Test
-    public void thatArgumentsAreEmpty() {
-        new Assert().thatThrows(
-            () -> new ArgOf(
-                "-o", new ListOf<>()
-            ).value(),
-            new CmdArgNotFoundException("User arguments are empty.")
         );
     }
 

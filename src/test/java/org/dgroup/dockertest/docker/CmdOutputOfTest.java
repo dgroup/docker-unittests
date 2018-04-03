@@ -26,7 +26,6 @@ package org.dgroup.dockertest.docker;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.output.CmdOutputOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,9 +49,7 @@ public final class CmdOutputOfTest {
         MatcherAssert.assertThat(
             "Command `java -version` is `1.8`.",
             new CmdOutputOf(
-                new ProcessOf(
-                    new ListOf<>("java", "-version")
-                ).execute()
+                new ProcessOf("java", "-version").execute()
             ).asText(),
             Matchers.containsString("1.8")
         );

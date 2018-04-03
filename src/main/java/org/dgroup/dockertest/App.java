@@ -26,14 +26,15 @@ package org.dgroup.dockertest;
 import java.io.UncheckedIOException;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.exception.RootCause;
+import org.dgroup.dockertest.exception.RootCauseOf;
+import org.dgroup.dockertest.termination.AbnormalTermination;
+import org.dgroup.dockertest.termination.Termination;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.TestsOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
-import org.dgroup.dockertest.text.highlighted.YellowText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * App start point with main method only.
@@ -53,50 +54,27 @@ public final class App {
      */
     public static void main(final String... arguments) {
         final StdOutput std = new StdOutputOf(System.out, "    ");
-        final AbnormalTermination termination = new AbnormalTermination(std);
         final Args args = new Args(std, arguments);
-        std.print(new Logo("1.0").byLines());
+        final Termination termination = new AbnormalTermination(std, args);
         try {
+            std.print(new Logo("1.0"));
             new TestsOf(args).execute();
         } catch (final NoScenariosFoundException ex) {
-            std.print(
-                "%s testing scenarios found.",
-                new YellowText(0)
-            );
+            termination.dueTo(ex);
         } catch (final TestingFailedException ex) {
-            termination.testingFailed();
+            termination.dueTo(ex);
         } catch (final CmdArgNotFoundException ex) {
             termination.dueTo(ex);
-        } catch (final IllegalYmlFileFormatException ex) {
-            std.print(filename(args), ex);
+        } catch (final IllegalYmlFormatException ex) {
+            termination.dueTo(ex);
         } catch (final UncheckedIOException ex) {
-            final Throwable cause = new RootCause(ex).exception();
-            if (cause instanceof IllegalYmlFileFormatException) {
-                std.print(
-                    filename(args), (IllegalYmlFileFormatException) cause
-                );
+            final Throwable cause = new RootCauseOf(ex).exception();
+            if (cause instanceof IllegalYmlFormatException) {
+                termination.dueTo((IllegalYmlFormatException) cause);
             } else {
                 termination.dueTo(ex);
             }
         }
-    }
-
-    /**
-     * This method will be invoked when {@link IllegalYmlFileFormatException}
-     * occurs. It means that YML file (specified by user) has wrong format.
-     * As the result, we are able to extract file name at this time.
-     *
-     * @param args Command-line arguments from user.
-     * @return YML file name
-     */
-    private static String filename(final Args args) {
-        String file;
-        try {
-            file = args.ymlFilename();
-        } catch (final CmdArgNotFoundException ex) {
-            file = "";
-        }
-        return file;
     }
 
 }

@@ -23,13 +23,15 @@
  */
 package org.dgroup.dockertest.yml;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.cactoos.Scalar;
+import org.cactoos.scalar.StickyScalar;
 import org.dgroup.dockertest.text.TextFile;
-import org.dgroup.dockertest.yml.tag.test.YmlTagTest;
-import org.dgroup.dockertest.yml.tag.tests.YmlTagTests;
-import org.dgroup.dockertest.yml.tag.version.YmlTagVersion;
+import org.dgroup.dockertest.yml.tag.YmlTagTest;
+import org.dgroup.dockertest.yml.tag.YmlTagTests;
+import org.dgroup.dockertest.yml.tag.YmlTagVersion;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -42,52 +44,67 @@ import org.yaml.snakeyaml.Yaml;
 public final class YmlString {
 
     /**
-     * All tags defined in yml file with tests.
+     * Yml tags as tree.
      */
-    private final Scalar<String> yml;
+    private final Scalar<String> tree;
 
     /**
      * Ctor.
      * @param yml Tags defined in file with tests as string.
      */
     public YmlString(final TextFile yml) {
-        this(yml::text);
+        this(
+            new StickyScalar<>(
+                () -> {
+                    try {
+                        final String text = new Yaml()
+                            .loadAs(yml.text(), Map.class)
+                            .toString();
+                        return text.substring(1, text.length() - 1);
+                    } catch (final IOException ex) {
+                        throw new IllegalYmlFormatException(ex);
+                    }
+                }
+            )
+        );
     }
 
     /**
      * Ctor.
-     * @param yml Tags defined in file with tests as string.
+     * @param tree YML tags defined in file with tests as string.
      */
-    public YmlString(final Scalar<String> yml) {
-        this.yml = yml;
+    public YmlString(final Scalar<String> tree) {
+        this.tree = tree;
     }
 
     /**
      * Parsed yml tests as list.
      * @return Yml tests.
-     * @throws IllegalYmlFileFormatException in case if YML file has
+     * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> asTests() throws IllegalYmlFileFormatException {
-        final Map<String, Object> tree = this.loadYmlTree();
-        new YmlTagVersion(tree).verify();
-        return new YmlTagTests(tree).asList();
+    public List<YmlTagTest> asTests() throws IllegalYmlFormatException {
+        new YmlTagVersion(
+            this.ymlTree()
+        ).verify();
+        return new YmlTagTests(
+            this.ymlTree()
+        ).value();
     }
 
     /**
      * Load string with tests as yml tree.
-     * @return Tree.
-     * @throws IllegalYmlFileFormatException in case if YML file has
+     * @return YML tree.
+     * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      * @checkstyle IllegalCatchCheck (10 lines)
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    private Map<String, Object> loadYmlTree()
-        throws IllegalYmlFileFormatException {
+    public String ymlTree() throws IllegalYmlFormatException {
         try {
-            return new Yaml().load(this.yml.value());
-        } catch (final Exception ex) {
-            throw new IllegalYmlFileFormatException(ex.getMessage(), ex);
+            return this.tree.value();
+        } catch (final Exception exp) {
+            throw new IllegalYmlFormatException(exp);
         }
     }
 

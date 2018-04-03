@@ -25,6 +25,7 @@ package org.dgroup.dockertest.docker.process;
 
 // @checkstyle ImportCohesionCheck (2 lines)
 // @checkstyle ImportOrderCheck (10 lines)
+
 import java.io.IOException;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;

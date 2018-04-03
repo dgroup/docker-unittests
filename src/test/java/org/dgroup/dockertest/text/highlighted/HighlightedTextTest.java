@@ -31,7 +31,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link HighlightedText}.
+ * Unit tests for class {@link HighlightedTextEnvelope}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -58,10 +58,10 @@ public final class HighlightedTextTest {
     @Test
     public void visualColor() {
         final StdOutput std = new StdOutputOf();
-        std.print(new RedText("FAILED"));
-        std.print(new GreenText("PASSED"));
-        std.print(new YellowText("WARNING"));
-        std.print(new BlueText("WHALE"));
+        std.print(new RedText("FAILED").text());
+        std.print(new GreenText("PASSED").text());
+        std.print(new YellowText("WARNING").text());
+        std.print(new BlueText("WHALE").text());
     }
 
 }

@@ -25,17 +25,16 @@ package org.dgroup.dockertest.test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.cmd.ArgOf;
 import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.OutputArgOf;
-import org.dgroup.dockertest.cmd.UncheckedArg;
-import org.dgroup.dockertest.test.output.std.FakeStdOutput;
+import org.dgroup.dockertest.cmd.OutputOf;
+import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -56,24 +55,23 @@ public class TestsOfTest {
     @Test
     public final void execute() throws Exception {
         final YmlResource tests = new YmlResource(
-            ".guides%simage-tests.yml", File.separator
+            "docs%simage-tests.yml", File.separator
         );
         final List<String> args = new ListOf<>(
             "-f", tests.path(),
             "-i", "openjdk:9.0.1-11"
         );
-        final FakeStdOutput output = new FakeStdOutput(new ArrayList<>(12));
-        output.print("File: %s.", tests.path());
+        final StdOutput.Fake output = new StdOutput.Fake(new ArrayList<>(12));
+        output.print(
+            new TextOf(
+                "File: %s.", tests.path()
+            ).text()
+        );
         new TestsOf(
             new Args(
                 new ArgOf("-i", args, "Docker image wasn't specified."),
                 new ArgOf("-f", args, "YML file with tests wasn't specified."),
-                new OutputArgOf(
-                    new UncheckedArg("-o", args),
-                    "",
-                    new HashMap<>(),
-                    output
-                ),
+                new OutputOf(args),
                 output
             )
         ).execute();

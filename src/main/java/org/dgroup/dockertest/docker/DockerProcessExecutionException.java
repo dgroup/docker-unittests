@@ -23,9 +23,6 @@
  */
 package org.dgroup.dockertest.docker;
 
-import java.util.List;
-import org.cactoos.list.ListOf;
-
 /**
  * Raise when exception happens during docker command execution.
  *
@@ -49,15 +46,5 @@ public class DockerProcessExecutionException extends Exception {
      */
     public DockerProcessExecutionException(final String msg) {
         super(msg);
-    }
-
-    /**
-     * Get error message splitted by {@code \n} symbol.
-     * @return Error details splitted by lines.
-     */
-    public final List<String> byLines() {
-        return new ListOf<>(
-            this.getMessage().split("\n")
-        );
     }
 }

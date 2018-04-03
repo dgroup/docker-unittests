@@ -25,20 +25,19 @@ package org.dgroup.dockertest.test.output.std;
 
 import java.io.PrintStream;
 import org.cactoos.Proc;
+import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Joined;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.output.CmdOutput;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.Text;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
-import org.dgroup.dockertest.text.highlighted.HighlightedText;
 import org.dgroup.dockertest.text.highlighted.RedText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Standard output for printing app progress and testing results.
@@ -89,44 +88,49 @@ public final class StdOutputOf implements StdOutput {
     }
 
     @Override
-    public void print(final CmdOutput output) {
-        this.print(output.byLines());
-        this.out.println();
-    }
-
-    @Override
     public void print(final String msg) {
-        this.out.printf("%s%s%n", this.indent, msg);
+        this.print(new ListOf<>(msg));
     }
 
     @Override
-    public void print(final String file,
-        final IllegalYmlFileFormatException exp) {
+    public void print(final String header, final Object... lines) {
+        this.print(header);
+        this.print(
+            new Mapped<>(
+                msg -> new TextOf("%s%s", this.indent, msg).text(),
+                new ListOf<>(lines)
+            )
+        );
+    }
+
+    @Override
+    public void print(final String msg, final Exception exp) {
         this.print(
             new Joined<>(
-                new ListOf<>(
-                    new PlainText(
-                        "YML file `%s` has the wrong format:", file
-                    ).text()
-                ),
+                new ListOf<>(msg),
                 new Mapped<>(
-                    l -> new PlainText(
-                        "%s%s", this.indent, l
-                    ).text(),
-                    exp.detailsSplittedByLines()
+                    StackTraceElement::toString,
+                    new IterableOf<>(exp.getStackTrace())
                 )
             )
         );
     }
 
+    @Override
+    public void print(final Iterable<String> messages) {
+        for (final String msg : messages) {
+            this.out.printf("%s%s%n", this.indent, msg);
+        }
+    }
+
     /**
-     * Print testing status based on status.
+     * Print testing results based on status.
      * @param status Of testing.
      */
     private void printTestingStatus(final boolean status) {
         this.out.println();
         this.print(
-            new UncheckedTernary<HighlightedText>(
+            new If<Text>(
                 status,
                 new GreenText("Testing successful."),
                 new RedText("Testing failed.")

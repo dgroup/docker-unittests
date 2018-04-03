@@ -23,22 +23,17 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import org.cactoos.collection.Filtered;
-import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Represents single yml tag in *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
- * @todo # Move defaults methods outside of interface.
  */
-public interface YmlTag {
+public interface YmlTag<T> {
 
     /**
      * Represent tag name as string.
@@ -49,58 +44,34 @@ public interface YmlTag {
     /**
      * Represent tag value as string.
      * @return Value.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
+     * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    default String asString() throws IllegalYmlFileFormatException {
-        return this.asObject().toString();
-    }
+    T value() throws IllegalYmlFormatException;
 
     /**
-     * Represent tag value as list.
-     * @return List.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
-     *  or has no value.
+     * Fake implementation for unit-testing purposes.
+     * @checkstyle JavadocVariableCheck (10 lines)
+     * @checkstyle JavadocMethodCheck (50 lines)
      */
-    @SuppressWarnings("unchecked")
-    default List<Object> asList() throws IllegalYmlFileFormatException {
-        return new ListOf<>(
-            new Filtered<>(
-                Objects::nonNull,
-                (List<Object>) this.asObject()
-            )
-        );
-    }
+    class Fake implements YmlTag<String> {
 
-    /**
-     * Represent tag value as map.
-     * @return Map.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    @SuppressWarnings("unchecked")
-    default Map<Object, Object> asMap() throws IllegalYmlFileFormatException {
-        return (Map<Object, Object>) this.asObject();
-    }
+        private final String tag;
+        private final String value;
 
-    /**
-     * YML tag value.
-     * @return Non-null tag value.
-     * @throws IllegalYmlFileFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    Object asObject() throws IllegalYmlFileFormatException;
+        public Fake(final String tag, final String value) {
+            this.tag = tag;
+            this.value = value;
+        }
 
-    /**
-     * Check that current tag has children tags with values.
-     * @param child Tag name.
-     * @throws IllegalYmlFileFormatException in case if child tag
-     *  is null/missing or has no value.
-     */
-    default void assertThatTagContain(final String child)
-        throws IllegalYmlFileFormatException {
-        if (this.asMap().get(child) == null) {
-            throw new IllegalYmlFileFormatException(this, child);
+        @Override
+        public String name() {
+            return this.tag;
+        }
+
+        @Override
+        public String value() {
+            return this.value;
         }
     }
 

@@ -25,6 +25,7 @@ package org.dgroup.dockertest;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.dgroup.dockertest.exception.RootCauseOf;
 
 /**
  * Simplify unit testing of exception throwing.
@@ -35,6 +36,34 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  * @checkstyle NonStaticMethodCheck (200 lines)
  */
 public final class Assert {
+
+    /**
+     * Each exception may have hierarchy of nested exceptions.
+     *
+     * Current method allows to verify that the nested root-cause exception was
+     * thrown during particular operation.
+     *
+     * @param task Particular operation where exception is required.
+     * @param exp Details which expected to be thrown.
+     * @checkstyle IllegalCatchCheck (20 lines)
+     */
+    @SuppressWarnings({
+        "PMD.AvoidCatchingThrowable",
+        "PMD.OnlyOneConstructorShouldDoInitialization",
+        "PMD.ConstructorOnlyInitializesOrCallOtherConstructors" })
+    public void thatThrownRootcause(
+        final ThrowingCallable task,
+        final Exception exp
+    ) {
+        try {
+            task.call();
+            Assertions.failBecauseExceptionWasNotThrown(exp.getClass());
+        } catch (final Throwable throwable) {
+            Assertions.assertThat(new RootCauseOf(throwable).exception())
+                .hasMessage(exp.getMessage())
+                .isInstanceOf(exp.getClass());
+        }
+    }
 
     /**
      * Verify that exception was thrown during particular operation.
@@ -56,10 +85,27 @@ public final class Assert {
      * @param regexp A regular expression which should match to occurred
      *  exception message.
      */
-    public void thatThrows(final ThrowingCallable task,
-        final Class<? extends Exception> exp, final String regexp) {
+    public void thatThrows(
+        final ThrowingCallable task,
+        final Class<? extends Exception> exp,
+        final String regexp
+    ) {
         Assertions.assertThatThrownBy(task)
             .isInstanceOf(exp)
             .hasMessageMatching(regexp);
+    }
+
+    /**
+     * Verify that exception thrown during particular operation has a message
+     * ending with a particular string.
+     *
+     * @param task A particular operation where exception must be raised.
+     * @param msg Expected end within error message.
+     */
+    public void thatThrowableMessageEndingWith(
+        final ThrowingCallable task,
+        final String msg
+    ) {
+        Assertions.assertThatThrownBy(task).hasMessageEndingWith(msg);
     }
 }

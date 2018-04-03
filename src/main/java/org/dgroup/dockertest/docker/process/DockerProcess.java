@@ -42,4 +42,24 @@ public interface DockerProcess {
      *  docker side.
      */
     CmdOutput execute() throws DockerProcessExecutionException;
+
+    /**
+     * Fake implementation for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (10 lines)
+     * @checkstyle JavadocVariableCheck (10 lines)
+     */
+    final class Fake implements DockerProcess {
+
+        private final CmdOutput output;
+
+        public Fake(final CmdOutput output) {
+            this.output = output;
+        }
+
+        @Override
+        public CmdOutput execute() {
+            return this.output;
+        }
+
+    }
 }

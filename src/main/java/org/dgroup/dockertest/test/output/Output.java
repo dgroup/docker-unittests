@@ -23,6 +23,11 @@
  */
 package org.dgroup.dockertest.test.output;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.cactoos.list.Joined;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 
 /**
@@ -40,5 +45,28 @@ public interface Output {
      * @param outcome Of testing.
      */
     void print(final TestingOutcome outcome);
+
+    /**
+     * Fake instance for unit testing purposes.
+     * @checkstyle JavadocMethodCheck (20 lines)
+     * @checkstyle JavadocVariableCheck (20 lines)
+     */
+    final class Fake implements Output {
+
+        private final List<String> output = new ArrayList<>(10);
+
+        @Override
+        public void print(final TestingOutcome outcome) {
+            this.output.addAll(
+                new Joined<>(
+                    new Mapped<>(TestOutcome::message, outcome)
+                )
+            );
+        }
+
+        public List<String> lines() {
+            return this.output;
+        }
+    }
 
 }

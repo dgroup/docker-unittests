@@ -23,10 +23,12 @@
  */
 package org.dgroup.dockertest.docker.output;
 
+import java.util.Iterator;
 import java.util.List;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.text.Splitted;
 
 /**
  * Text output for docker command.
@@ -35,7 +37,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @since 1.0
  */
-public final class TextCmdOutput implements CmdOutput {
+public final class TextCmdOutput implements CmdOutput, Iterable<String> {
 
     /**
      * Origin.
@@ -65,8 +67,11 @@ public final class TextCmdOutput implements CmdOutput {
 
     @Override
     public List<String> byLines() {
-        return new ListOf<>(
-            this.asText().split("\n")
-        );
+        return new ListOf<>(this);
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return new Splitted(this.text, "\n").iterator();
     }
 }

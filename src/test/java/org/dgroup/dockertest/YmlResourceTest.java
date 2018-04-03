@@ -42,7 +42,7 @@ import org.junit.Test;
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings({ "PMD.AddEmptyString", "PMD.AvoidDuplicateLiterals" })
-public final class YmlResourceTest {
+public final class  YmlResourceTest {
 
     @Test
     public void path() {
@@ -63,7 +63,9 @@ public final class YmlResourceTest {
     public void asString() throws IOException {
         MatcherAssert.assertThat(
             new ListOf<>(
-                new YmlResource("with-single-test.yml").asString().split("\n")
+                new YmlResource("with-single-test.yml").file()
+                    .text()
+                    .split("\n")
             ),
             Matchers.hasItems(
                 "version: 1",

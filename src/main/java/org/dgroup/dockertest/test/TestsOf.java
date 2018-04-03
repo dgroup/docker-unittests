@@ -31,8 +31,9 @@ import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
  * Allows to execute tests and print results.
@@ -58,11 +59,11 @@ public final class TestsOf {
      * @param args Command-line arguments specified by user.
      * @throws CmdArgNotFoundException in case if cmd argument is missing
      *  or not specified by user.
-     * @throws IllegalYmlFileFormatException in case if YML file with tests
+     * @throws IllegalYmlFormatException in case if YML file with tests
      *  has wrong/incorrect format.
      */
     public TestsOf(final Args args)
-        throws CmdArgNotFoundException, IllegalYmlFileFormatException {
+        throws CmdArgNotFoundException, IllegalYmlFormatException {
         this(
             new TestingOutcomeOf(
                 new StickyList<>(
@@ -99,8 +100,10 @@ public final class TestsOf {
             throw new NoScenariosFoundException();
         }
         this.std.value().print(
-            "Found scenarios: %s.%n",
-            new GreenText(this.tests.size())
+            new TextOf(
+                "Found scenarios: %s.%n",
+                new GreenText(this.tests.size())
+            ).text()
         );
         this.tests.reportTheResults();
     }

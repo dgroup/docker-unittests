@@ -23,8 +23,10 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.cactoos.Scalar;
 import org.cactoos.iterable.IterableOf;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.scalar.If;
 
 /**
  * Represents different objects like arrays, iterables, etc as string
@@ -43,11 +45,11 @@ public final class Joined implements Text {
     /**
      * Delimiter for joining procedure.
      */
-    private final UncheckedTernary<String> delimiter;
+    private final Scalar<String> delimiter;
 
     /**
      * Ctor.
-     * @param values For joining procedure.
+     * @param values For joining.
      */
     public Joined(final String... values) {
         this(new IterableOf<>(values));
@@ -55,7 +57,7 @@ public final class Joined implements Text {
 
     /**
      * Ctor.
-     * @param values Is values.
+     * @param values For joining.
      */
     public Joined(final Iterable<String> values) {
         this(values, " ");
@@ -63,21 +65,29 @@ public final class Joined implements Text {
 
     /**
      * Ctor.
-     * @param values Is values.
-     * @param delimiter Is delimiter
+     * @param values For joining.
+     * @param dlmtr Common delimiter for values above.
      */
-    public Joined(final Iterable<String> values, final String delimiter) {
+    public Joined(final Iterable<String> values, final String dlmtr) {
+        this(values, new If<>(dlmtr == null, "", () -> dlmtr));
+    }
+
+    /**
+     * Ctor.
+     * @param values For joining.
+     * @param dlmtr Common delimiter for values above.
+     */
+    public Joined(final Iterable<String> values, final Scalar<String> dlmtr) {
         this.values = values;
-        this.delimiter = new UncheckedTernary<>(
-            () -> delimiter == null,
-            () -> "",
-            () -> delimiter
-        );
+        this.delimiter = dlmtr;
     }
 
     @Override
     public String text() {
-        return String.join(this.delimiter.value(), this.values);
+        return String.join(
+            new UncheckedScalar<>(this.delimiter).value(),
+            this.values
+        );
     }
 
     @Override

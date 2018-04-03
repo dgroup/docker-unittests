@@ -33,8 +33,8 @@ package org.dgroup.dockertest.text;
 public interface Text {
 
     /**
-     * Build text based on pattern and arguments.
-     * @return Text
+     * Give the plain text.
+     * @return Text.
      */
     String text();
 

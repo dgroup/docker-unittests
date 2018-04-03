@@ -32,13 +32,13 @@ import org.cactoos.list.StickyList;
 import org.cactoos.scalar.StickyScalar;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.process.DockerProcess;
-import org.dgroup.dockertest.scalar.UncheckedTernary;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
-import org.dgroup.dockertest.text.PlainText;
+import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
-import org.dgroup.dockertest.yml.tag.output.YmlTagOutputPredicate;
+import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
 
 /**
  * Represents YML based implementation for single test.
@@ -93,7 +93,7 @@ public final class TestOf implements Test {
         );
         return new TestOutcomeOf(
             new StickyScalar<>(failed::isEmpty),
-            new UncheckedTernary<>(
+            new If<>(
                 failed::isEmpty,
                 this::messagePassed,
                 () -> this.messageFailed(output, failed)
@@ -108,9 +108,7 @@ public final class TestOf implements Test {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public List<String> messagePassed() {
         return new ListOf<>(
-            new PlainText(
-                "> %s %s", this.assume, new GreenText("PASSED")
-            ).text()
+            new TextOf("> %s %s", this.assume, new GreenText("PASSED")).text()
         );
     }
 
@@ -127,24 +125,20 @@ public final class TestOf implements Test {
         final List<YmlTagOutputPredicate> failed) {
         return new Joined<>(
             new ListOf<>(
-                new PlainText(
+                new TextOf(
                     "> %s %s", this.assume, new RedText("FAILED")
                 ).text(),
-                new PlainText(
-                    "  command: \"%s\"", this.cmd
-                ).text(),
-                new PlainText(
-                    "  output:  \"%s\"", output
-                ).text(),
+                new TextOf("  command: \"%s\"", this.cmd).text(),
+                new TextOf("  output:  \"%s\"", output).text(),
                 "  expected output:"
             ),
             new Mapped<>(
-                o -> new PlainText("    - %s", o).text(),
+                o -> new TextOf("    - %s", o).text(),
                 this.expected
             ),
             new ListOf<>("  mismatch:"),
             new Mapped<>(
-                o -> new PlainText("    - %s", o).text(),
+                o -> new TextOf("    - %s", o).text(),
                 failed
             )
         );

@@ -43,12 +43,10 @@ public final class LogoTest {
     @Test
     public void byLines() {
         final Logo logo = new Logo("1.0");
-        new StdOutputOf().print(
-            logo.byLines()
-        );
+        new StdOutputOf().print(logo);
         MatcherAssert.assertThat(
-            logo.byLines(),
-            Matchers.hasSize(11)
+            logo,
+            Matchers.iterableWithSize(11)
         );
     }
 

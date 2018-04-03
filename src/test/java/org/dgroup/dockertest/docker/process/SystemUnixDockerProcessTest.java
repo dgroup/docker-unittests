@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.docker.process;
 
+import java.io.IOException;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.hamcrest.MatcherAssert;
@@ -50,6 +51,15 @@ public final class SystemUnixDockerProcessTest {
             ).execute().asText(),
             Matchers.containsString("wikipedia")
         );
+    }
+
+    @Test(expected = DockerProcessExecutionException.class)
+    public void exceptionThrown() throws DockerProcessExecutionException {
+        new SystemUnixDockerProcess(
+            () -> () -> {
+                throw new IOException("Shit happens");
+            }
+        ).execute();
     }
 
 }

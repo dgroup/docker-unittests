@@ -29,10 +29,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.docker.output.TextCmdOutput;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -106,27 +104,6 @@ public final class StdOutputOfTest {
     }
 
     @Test
-    public void printIllegalYmlFileFormatException()
-        throws UnsupportedEncodingException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final StdOutput out = new StdOutputOf(
-            new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
-            ".."
-        );
-        out.print(
-            ".guides/image-tests.yml",
-            new IllegalYmlFileFormatException(new Exception("Shit happens."))
-        );
-        MatcherAssert.assertThat(
-            new String(baos.toByteArray(), StandardCharsets.UTF_8),
-            Matchers.equalTo("" +
-                "..YML file `.guides/image-tests.yml` has the wrong format:\n" +
-                "....java.lang.Exception: Shit happens.\n"
-            )
-        );
-    }
-
-    @Test
     public void printException()
         throws UnsupportedEncodingException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -149,24 +126,6 @@ public final class StdOutputOfTest {
                 "..org.dgroup.dockertest.test.output.std.StdOutputOfTest." +
                 "printException(StdOutputOfTest.java:"
             )
-        );
-    }
-
-    @Test
-    public void printCmdOutput() throws UnsupportedEncodingException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final StdOutput out = new StdOutputOf(
-            new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
-            ".."
-        );
-        out.print(
-            new TextCmdOutput(
-                "line 1\nline 2\nline 3"
-            )
-        );
-        MatcherAssert.assertThat(
-            new String(baos.toByteArray(), StandardCharsets.UTF_8),
-            Matchers.equalTo("..line 1\n..line 2\n..line 3\n\n")
         );
     }
 

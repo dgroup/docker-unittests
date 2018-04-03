@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.cactoos.list.ListOf;
@@ -35,7 +36,7 @@ import org.dgroup.dockertest.test.TestOf;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.text.TextFile;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
+import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.dgroup.dockertest.yml.YmlString;
 
 /**
@@ -51,15 +52,15 @@ public final class Args {
     /**
      * Docker image. Specified by user from shell.
      */
-    private final Arg image;
+    private final Arg<String> image;
     /**
-     * YML file (with tests). Specified by user from shell.
+     * Path to YML file (with tests). Specified by user from shell.
      */
-    private final Arg file;
+    private final Arg<String> file;
     /**
      * Supported outputs formats. Specified by user from shell.
      */
-    private final OutputArg outputs;
+    private final Arg<Set<Output>> outputs;
     /**
      * Standard output for application progress.
      */
@@ -84,7 +85,7 @@ public final class Args {
         this(
             new ArgOf("-i", args, "Docker image wasn't specified."),
             new ArgOf("-f", args, "YML file with tests wasn't specified."),
-            new OutputArgOf(args),
+            new OutputOf(args),
             std
         );
     }
@@ -98,9 +99,9 @@ public final class Args {
      * @checkstyle ParameterNumberCheck (5 lines)
      */
     public Args(
-        final Arg image,
-        final Arg file,
-        final OutputArg outputs,
+        final Arg<String> image,
+        final Arg<String> file,
+        final Arg<Set<Output>> outputs,
         final StdOutput std
     ) {
         this.image = image;
@@ -126,11 +127,11 @@ public final class Args {
      * @return List of tests to be executed for output from docker container.
      * @throws CmdArgNotFoundException in case if argument
      *  wasn't specified by user.
-     * @throws IllegalYmlFileFormatException in case if YML file
+     * @throws IllegalYmlFormatException in case if YML file
      *  has wrong/corrupted format.
      */
     public List<Test> tests() throws CmdArgNotFoundException,
-        IllegalYmlFileFormatException {
+        IllegalYmlFormatException {
         return new StickyList<>(
             new Mapped<>(
                 ymlTagTest -> new TestOf(
@@ -153,12 +154,22 @@ public final class Args {
      * Supported outputs formats.
      * @return All selected by user outputs.
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public Set<Output> selectedByUserOutput() {
-        return this.outputs.asSet();
+        final Set<Output> outs = new LinkedHashSet<>();
+        outs.add(this.std);
+        try {
+            outs.addAll(this.outputs.value());
+        } catch (final CmdArgNotFoundException exp) {
+            // @checkstyle MethodBodyCommentsCheck (2 lines)
+            // Nothing was specified by user.
+            // Only default std output will be used instead.
+        }
+        return outs;
     }
 
     /**
-     * Name of YML file (with tests).
+     * Path to YML file (with tests).
      *
      * @return YML filename specified by user.
      * @throws CmdArgNotFoundException in case if filename

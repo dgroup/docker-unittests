@@ -24,14 +24,10 @@
 package org.dgroup.dockertest.test.output.std;
 
 import java.util.List;
-import org.cactoos.iterable.IterableOf;
-import org.cactoos.list.Joined;
-import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.cactoos.collection.Mapped;
+import org.dgroup.dockertest.scalar.If;
+import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.text.PlainText;
-import org.dgroup.dockertest.yml.IllegalYmlFileFormatException;
 
 /**
  * Standard output for application progress.
@@ -50,59 +46,77 @@ public interface StdOutput extends Output {
 
     /**
      * Print text to single line.
+     * @param header Text to print as header
      * @param msg Text to print
      */
-    default void print(final Object msg) {
-        this.print(msg.toString());
-    }
+    void print(final String header, final Object... msg);
 
     /**
-     * Print message.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * Print text to single line.
+     * @param msg Text to print
      */
-    default void print(final String pattern, final Object... args) {
-        this.print(
-            new PlainText(pattern, args).text()
-        );
-    }
-
-    /**
-     * Print output from docker container to standard output.
-     * @param output From docker container.
-     */
-    void print(final CmdOutput output);
+    void print(final Iterable<String> msg);
 
     /**
      * Print app exception.
      * @param msg App exception message
      * @param exp App exception details
      */
-    default void print(final String msg, final Exception exp) {
-        this.print(
-            new Joined<>(
-                new ListOf<>(msg),
-                new Mapped<>(
-                    StackTraceElement::toString,
-                    new IterableOf<>(exp.getStackTrace())
-                )
-            )
-        );
-    }
+    void print(final String msg, final Exception exp);
 
     /**
-     * Print format details in case corrupted yml file.
-     * @param file Name of corrupted yml file.
-     * @param exp Exception received during parsing yml tree.
+     * Fake instance for unit-testing purposes.
+     * @checkstyle HiddenFieldCheck (50 lines)
+     * @checkstyle JavadocMethodCheck (50 lines)
+     * @checkstyle JavadocVariableCheck (10 lines)
      */
-    void print(final String file, final IllegalYmlFileFormatException exp);
+    @SuppressWarnings("PMD.TooManyMethods")
+    final class Fake implements StdOutput {
 
-    /**
-     * Print all messages separately, each on new line.
-     * @param messages For separately printing.
-     */
-    default void print(final List<String> messages) {
-        messages.forEach(this::print);
+        private final List<String> lines;
+
+        public Fake(final List<String> lines) {
+            this.lines = lines;
+        }
+
+        @Override
+        public void print(final String msg) {
+            this.lines.add(msg);
+        }
+
+        @Override
+        public void print(final String header, final Object... lines) {
+            this.print(header);
+            this.print(new Mapped<>(Object::toString, lines));
+        }
+
+        @Override
+        public void print(final Iterable<String> messages) {
+            for (final String msg : messages) {
+                this.print(msg);
+            }
+        }
+
+        @Override
+        public void print(final String msg, final Exception exp) {
+            this.print(msg);
+            this.print(exp.toString());
+        }
+
+        @Override
+        public void print(final TestingOutcome outcome) {
+            this.print(
+                new If<>(
+                    outcome.successful(),
+                    "Testing successfully completed.",
+                    "Testing failed."
+                ).value()
+            );
+        }
+
+        public List<String> details() {
+            return this.lines;
+        }
     }
 
 }
