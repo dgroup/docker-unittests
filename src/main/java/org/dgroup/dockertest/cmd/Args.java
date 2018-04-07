@@ -26,10 +26,10 @@ package org.dgroup.dockertest.cmd;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
-import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.docker.process.DockerProcessOf;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestOf;
@@ -45,6 +45,7 @@ import org.dgroup.dockertest.yml.YmlString;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Split class in order to prevent increasing of lines.
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class Args {
@@ -62,9 +63,16 @@ public final class Args {
      */
     private final Arg<Set<Output>> outputs;
     /**
+     * Timeout for each test.
+     */
+    private final Arg<Timeout> tmt;
+    /**
+     * Amount of threads for testing procedure.
+     */
+    private final Arg<Integer> threads;
+    /**
      * Standard output for application progress.
      */
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
     private StdOutput std;
 
     /**
@@ -86,6 +94,8 @@ public final class Args {
             new ArgOf("-i", args, "Docker image wasn't specified."),
             new ArgOf("-f", args, "YML file with tests wasn't specified."),
             new OutputOf(args),
+            new TimeoutPerThread(args),
+            new ConcurrentTreads(args),
             std
         );
     }
@@ -95,6 +105,8 @@ public final class Args {
      * @param image Docker image. Specified by user from shell.
      * @param file YML file (with tests). Specified by user from shell.
      * @param outputs Supported outputs formats. Specified by user from shell.
+     * @param tmt Timeout for each test.
+     * @param threads Amount of concurrent threads for testing procedure.
      * @param std Standard output for application progress.
      * @checkstyle ParameterNumberCheck (5 lines)
      */
@@ -102,11 +114,15 @@ public final class Args {
         final Arg<String> image,
         final Arg<String> file,
         final Arg<Set<Output>> outputs,
+        final Arg<Timeout> tmt,
+        final Arg<Integer> threads,
         final StdOutput std
     ) {
         this.image = image;
         this.file = file;
         this.outputs = outputs;
+        this.tmt = tmt;
+        this.threads = threads;
         this.std = std;
     }
 
@@ -180,10 +196,42 @@ public final class Args {
     }
 
     /**
-     * Standard output for application progress.
-     * @return Output.
+     * Amount of threads for testing procedure.
+     * @return Threads number.
+     * @checkstyle MagicNumberCheck (10 lines)
      */
-    public UncheckedScalar<StdOutput> stdOutput() {
-        return new UncheckedScalar<>(() -> this.std);
+    public int concurrentThreads() {
+        Integer trds;
+        try {
+            trds = this.threads.value();
+        } catch (final CmdArgNotFoundException exp) {
+            trds = 8;
+        }
+        return trds;
     }
+
+    /**
+     * Standard application output.
+     * @return Stdout.
+     */
+    public StdOutput standardOutput() {
+        return this.std;
+    }
+
+    /**
+     * Timeout for each test.
+     * @return Timeout.
+     * @todo #/DEV Move timeout configuration to yml file in order to define
+     *  unique timeout for each test.
+     */
+    public Timeout timeoutPerThread() {
+        Timeout timeout;
+        try {
+            timeout = this.tmt.value();
+        } catch (final CmdArgNotFoundException exp) {
+            timeout = new TimeoutOf(2, TimeUnit.MINUTES);
+        }
+        return timeout;
+    }
+
 }

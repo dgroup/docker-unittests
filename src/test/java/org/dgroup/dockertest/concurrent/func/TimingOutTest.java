@@ -21,39 +21,37 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.concurrent.func;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.cmd.Timeout;
+import org.dgroup.dockertest.concurrent.SimplifiedFuture;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Represents outcome for all tests.
+ * Unit tests for class {@link TimingOut}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class TimingOutTest {
 
-    /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
-     */
-    boolean successful();
+    @Test(timeout = 2 * 1000)
+    public void mapCallableToFuture() throws Exception {
+        MatcherAssert.assertThat(
+            new TimingOut<Integer>(new Timeout.No())
+                .apply(
+                    new SimplifiedFuture.Fake<Integer>().apply(
+                        () -> 2 * 2
+                    )
+                ),
+            Matchers.equalTo(4)
+        );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

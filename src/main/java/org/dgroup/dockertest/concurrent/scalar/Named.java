@@ -21,69 +21,52 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.concurrent.scalar;
 
-import java.util.Collection;
-import org.cactoos.list.ListOf;
-import org.cactoos.text.UncheckedText;
+import org.cactoos.Scalar;
+import org.dgroup.dockertest.text.Text;
 
 /**
- * Represents a formatted {@link Text} which didn't throw the
- * exception and verify amount of arguments passed to pattern.
+ * Rename the {@link Thread} within the particular pattern.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TextOf implements Text {
+public final class Named implements Scalar<Thread> {
 
     /**
-     * String pattern for formatting.
+     * Renaming pattern.
      */
-    private final String pattern;
+    private final Scalar<Text> pattern;
     /**
-     * Arguments, which should be used for patern.
+     * Origin.
      */
-    private final Collection<Object> args;
+    private final Scalar<Thread> thread;
 
     /**
      * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * @param pattern For renaming.
+     * @param thread Origin.
      */
-    public TextOf(final String pattern, final Object... args) {
-        this(pattern, new ListOf<>(args));
+    public Named(final Text pattern, final Scalar<Thread> thread) {
+        this(() -> pattern, thread);
     }
 
     /**
      * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * @param pattern For renaming.
+     * @param thread Origin.
      */
-    public TextOf(final String pattern, final Collection<Object> args) {
+    public Named(final Scalar<Text> pattern, final Scalar<Thread> thread) {
         this.pattern = pattern;
-        this.args = args;
+        this.thread = thread;
     }
 
     @Override
-    public String text() {
-        new OccuredIn("%s", this.pattern).times(
-            this.args.size(),
-            String.format(
-                "Wrong amount of arguments(%s) for pattern '%s'.",
-                this.args.size(), this.pattern
-            )
-        );
-        return new UncheckedText(
-            new org.cactoos.text.FormattedText(
-                this.pattern, this.args
-            )
-        ).asString();
+    public Thread value() throws Exception {
+        final Thread trd = this.thread.value();
+        trd.setName(this.pattern.value().text());
+        return trd;
     }
-
-    @Override
-    public String toString() {
-        return this.text();
-    }
-
 }

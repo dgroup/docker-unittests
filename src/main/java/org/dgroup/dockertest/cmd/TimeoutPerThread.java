@@ -21,39 +21,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Represents outcome for all tests.
+ * Each test will be executed in separate thread.
+ * User may specify the timeout(in seconds) for each test in command line args:
+ *  {@code --timeout-per-test 120}.
+ *
+ * In case if argument is missing, then {@link CmdArgNotFoundException}
+ *  will be thrown.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class TimeoutPerThread extends ArgEnvelope<Timeout> {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     * @checkstyle IndentationCheck (10 lines)
      */
-    boolean successful();
+    public TimeoutPerThread(final List<String> args) {
+        super(
+            "--timeout-per-test",
+            args,
+            arg -> new TimeoutOf(arg, TimeUnit.SECONDS)
+        );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

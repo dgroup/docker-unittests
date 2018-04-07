@@ -21,39 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
-
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
 
 /**
- * Represents outcome for all tests.
+ * Scalars, related to command-line arguments.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
-
-    /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
-     */
-    boolean successful();
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
-}
+package org.dgroup.dockertest.cmd.scalar;

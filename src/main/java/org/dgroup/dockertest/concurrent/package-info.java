@@ -21,26 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
-
-import junit.framework.TestCase;
-import org.junit.Test;
 
 /**
- * Unit tests for {@link StringOccurrences}.
+ * Classes related to concurrent execution of tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public class StringOccurrencesTest {
-
-    @Test
-    public final void equalTo() {
-        TestCase.assertTrue(
-            new StringOccurrences("Hey %s. My name is %s", "%s")
-                .equalTo(2)
-        );
-    }
-}
+package org.dgroup.dockertest.concurrent;

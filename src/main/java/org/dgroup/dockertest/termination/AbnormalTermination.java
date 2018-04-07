@@ -100,7 +100,7 @@ public final class AbnormalTermination implements Termination {
         this.std.print(
             new TextOf(
                 "%s testing scenarios found.", new YellowText(0)
-            ).text()
+            )
         );
     }
 

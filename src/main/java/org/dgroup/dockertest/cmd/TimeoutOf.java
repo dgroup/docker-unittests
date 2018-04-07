@@ -21,69 +21,75 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.cmd;
 
-import java.util.Collection;
-import org.cactoos.list.ListOf;
-import org.cactoos.text.UncheckedText;
+import java.util.concurrent.TimeUnit;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Represents a formatted {@link Text} which didn't throw the
- * exception and verify amount of arguments passed to pattern.
+ * Timeout.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TextOf implements Text {
+public final class TimeoutOf implements Timeout {
 
     /**
-     * String pattern for formatting.
+     * Origin timeout.
      */
-    private final String pattern;
+    private final Scalar<Long> tmt;
     /**
-     * Arguments, which should be used for patern.
+     * Measure unit.
      */
-    private final Collection<Object> args;
-
-    /**
-     * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
-     */
-    public TextOf(final String pattern, final Object... args) {
-        this(pattern, new ListOf<>(args));
-    }
+    private final Scalar<TimeUnit> unit;
 
     /**
      * Ctor.
-     * @param pattern Template.
-     * @param args Arguments for template above.
+     * @param tmt Timeout.
+     * @param unit Unit of measurement.
      */
-    public TextOf(final String pattern, final Collection<Object> args) {
-        this.pattern = pattern;
-        this.args = args;
+    public TimeoutOf(final String tmt, final TimeUnit unit) {
+        this(() -> Long.valueOf(tmt), () -> unit);
+    }
+
+    /**
+     * Ctor.
+     * @param tmt Timeout.
+     * @param unit Unit of measurement.
+     */
+    public TimeoutOf(final Integer tmt, final TimeUnit unit) {
+        this(() -> Long.valueOf(tmt), () -> unit);
+    }
+
+    /**
+     * Ctor.
+     * @param tmt Timeout.
+     * @param unit Unit of measurement.
+     */
+    public TimeoutOf(final Long tmt, final TimeUnit unit) {
+        this(() -> tmt, () -> unit);
+    }
+
+    /**
+     * Ctor.
+     * @param tmt Timeout.
+     * @param unit Unit of measurement.
+     */
+    public TimeoutOf(final Scalar<Long> tmt, final Scalar<TimeUnit> unit) {
+        this.tmt = tmt;
+        this.unit = unit;
     }
 
     @Override
-    public String text() {
-        new OccuredIn("%s", this.pattern).times(
-            this.args.size(),
-            String.format(
-                "Wrong amount of arguments(%s) for pattern '%s'.",
-                this.args.size(), this.pattern
-            )
-        );
-        return new UncheckedText(
-            new org.cactoos.text.FormattedText(
-                this.pattern, this.args
-            )
-        ).asString();
+    public Long timeout() {
+        return new UncheckedScalar<>(this.tmt).value();
     }
 
     @Override
-    public String toString() {
-        return this.text();
+    public TimeUnit measure() {
+        return new UncheckedScalar<>(this.unit).value();
     }
 
 }

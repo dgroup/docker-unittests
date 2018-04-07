@@ -21,39 +21,38 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.concurrent.func;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.concurrent.Future;
+import org.cactoos.Func;
+import org.dgroup.dockertest.cmd.Timeout;
 
 /**
- * Represents outcome for all tests.
+ * Fetch result from {@link Future} within particular timeout.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <X> Type of item.
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class TimingOut<X> implements Func<Future<X>, X> {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Origin timeout.
      */
-    boolean successful();
+    private final Timeout timeout;
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * Ctor.
+     * @param timeout For fetching of the result.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    public TimingOut(final Timeout timeout) {
+        this.timeout = timeout;
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
+    @Override
+    public X apply(final Future<X> future) throws Exception {
+        return future.get(this.timeout.timeout(), this.timeout.measure());
+    }
+
 }

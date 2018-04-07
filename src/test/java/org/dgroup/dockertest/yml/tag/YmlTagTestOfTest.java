@@ -115,9 +115,8 @@ public final class YmlTagTestOfTest {
                 new YmlTag.Fake("", "curl 7.")
             ).value(),
             Matchers.equalTo(
-                "tag `test`, " +
-                    "assume `curl version is 7.xxx`, " +
-                    "cmd `curl --version`, " +
+                "tag `test`, assume `curl version is 7.xxx`, cmd `curl " +
+                    "--version`, " +
                     "output `curl 7.`"
             )
         );

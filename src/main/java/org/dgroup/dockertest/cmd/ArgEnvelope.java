@@ -28,8 +28,10 @@ import org.cactoos.Func;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.cmd.scalar.ArgAt;
+import org.dgroup.dockertest.cmd.scalar.ArgIn;
 import org.dgroup.dockertest.scalar.ConditionNotSatisfiedException;
-import org.dgroup.dockertest.scalar.If;
+import org.dgroup.dockertest.scalar.Mapped;
 import org.dgroup.dockertest.scalar.StrictIf;
 import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
@@ -41,6 +43,7 @@ import org.dgroup.dockertest.text.TextOf;
  * @version $Id$
  * @param <T> Type of item.
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 class ArgEnvelope<T> implements Arg<T> {
 
@@ -66,15 +69,12 @@ class ArgEnvelope<T> implements Arg<T> {
      * Ctor.
      * @param label Name of command-line argument.
      * @param args All command-line arguments.
-     * @param func Convert string argument value to instance of {@code <T>}.
+     * @param fnc To convert string argument value to instance of {@code <T>}.
      */
-    ArgEnvelope(
-        final String label,
-        final List<String> args,
-        final Func<String, T> func
-    ) {
+    ArgEnvelope(final String label, final List<String> args,
+        final Func<String, T> fnc) {
         this(
-            label, args, func,
+            label, args, fnc,
             new TextOf("Argument `%s` wasn't specified", label)
         );
     }
@@ -83,39 +83,17 @@ class ArgEnvelope<T> implements Arg<T> {
      * Ctor.
      * @param label Name of command-line argument.
      * @param args All command-line arguments.
-     * @param func Convert string argument value to instance of {@code <T>}.
+     * @param fnc To convert string argument value to instance of {@code <T>}.
      * @param error Error message in case if argument wasn't specified by the
      *  user.
      * @checkstyle ParameterNumberCheck (10 lines)
-     * @checkstyle TrailingCommentCheck (10 lines)
      */
-    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod") // It's PMD bug
-    ArgEnvelope(
-        final String label,
-        final List<String> args,
-        final Func<String, T> func,
-        final Text error
-    ) {
+    ArgEnvelope(final String label, final List<String> args,
+        final Func<String, T> fnc, final Text error) {
         this(
             label,
-            new StickyScalar<>(
-                () -> func.apply(args.get(args.indexOf(label) + 1))
-            ),
-            new StickyScalar<>(
-                () -> {
-                    final int index = args.indexOf(label);
-                    return new If<>(
-                        () -> index >= 0 && args.size() > 1,
-                        () -> {
-                            final String arg = args.get(index + 1);
-                            return arg != null
-                                && !arg.trim().isEmpty()
-                                && arg.charAt(0) != '-';
-                        },
-                        () -> false
-                    ).value();
-                }
-            ),
+            new StickyScalar<>(new Mapped<>(fnc, new ArgAt(label, args))),
+            new StickyScalar<>(new ArgIn(label, args)),
             error
         );
     }

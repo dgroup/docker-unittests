@@ -21,50 +21,45 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.cmd.scalar;
 
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import java.util.List;
+import org.cactoos.Scalar;
+import org.cactoos.iterable.ItemAt;
 
 /**
- * Unit tests for class {@link ArgOf}.
+ * Find particular argument in command-line arguments specified by the user.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle AvoidDuplicateLiterals (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class ArgOfTest {
+public final class ArgAt implements Scalar<String> {
 
-    @Test
-    public void specified() {
-        MatcherAssert.assertThat(
-            new ArgOf(
-                "-o",
-                new ListOf<>("-o", "std"),
-                "Argument `-o` wasn't found"
-            ).specifiedByUser(),
-            Matchers.equalTo(true)
-        );
+    /**
+     * Name of particular cmd argument.
+     */
+    private final String arg;
+    /**
+     * All command-line arguments specified by the user.
+     */
+    private final List<String> args;
+
+    /**
+     * Ctor.
+     * @param arg Name of particular cmd argument.
+     * @param args All command-line arguments specified by the user.
+     */
+    public ArgAt(final String arg, final List<String> args) {
+        this.arg = arg;
+        this.args = args;
     }
 
-    @Test
-    public void notSpecified() {
-        MatcherAssert.assertThat(
-            new ArgOf(
-                "-o",
-                new ListOf<>(
-                    "-f", "single-test.yml",
-                    "-i", "alpine:jdk9"
-                ),
-                "Argument `-o` wasn't found"
-            ).specifiedByUser(),
-            Matchers.equalTo(false)
-        );
+    @Override
+    public String value() throws Exception {
+        return new ItemAt<>(
+            this.args.indexOf(this.arg) + 1,
+            this.args
+        ).value();
     }
-
 }

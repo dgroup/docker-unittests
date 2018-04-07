@@ -23,11 +23,13 @@
  */
 package org.dgroup.dockertest.test.output.std;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.cactoos.collection.Mapped;
 import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
+import org.dgroup.dockertest.text.Text;
 
 /**
  * Standard output for application progress.
@@ -36,7 +38,14 @@ import org.dgroup.dockertest.test.output.Output;
  * @version $Id$
  * @since 0.1.0
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public interface StdOutput extends Output {
+
+    /**
+     * Print text to single line.
+     * @param msg Text to print
+     */
+    void print(final Text msg);
 
     /**
      * Print text to single line.
@@ -46,10 +55,10 @@ public interface StdOutput extends Output {
 
     /**
      * Print text to single line.
-     * @param header Text to print as header
-     * @param msg Text to print
+     * @param header Text to print as header.
+     * @param lines Text to print as separate lines.
      */
-    void print(final String header, final Object... msg);
+    void print(final String header, final Object... lines);
 
     /**
      * Print text to single line.
@@ -67,16 +76,28 @@ public interface StdOutput extends Output {
     /**
      * Fake instance for unit-testing purposes.
      * @checkstyle HiddenFieldCheck (50 lines)
-     * @checkstyle JavadocMethodCheck (50 lines)
+     * @checkstyle JavadocMethodCheck (100 lines)
      * @checkstyle JavadocVariableCheck (10 lines)
      */
-    @SuppressWarnings("PMD.TooManyMethods")
     final class Fake implements StdOutput {
 
         private final List<String> lines;
 
+        /**
+         * Ctor.
+         * @checkstyle ConditionalRegexpMultilineCheck (5 lines)
+         */
+        public Fake() {
+            this(new ArrayList<>());
+        }
+
         public Fake(final List<String> lines) {
             this.lines = lines;
+        }
+
+        @Override
+        public void print(final Text msg) {
+            this.lines.add(msg.text());
         }
 
         @Override

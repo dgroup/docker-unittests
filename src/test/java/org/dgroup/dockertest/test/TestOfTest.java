@@ -23,16 +23,11 @@
  */
 package org.dgroup.dockertest.test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.process.DockerProcess;
-import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import org.dgroup.dockertest.test.output.std.StdOutput.Fake;
 import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,7 +40,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
@@ -56,50 +50,26 @@ import org.junit.Test;
 public final class TestOfTest {
 
     @Test
-    public void passedMsg() {
-        MatcherAssert.assertThat(
-            new TestOf(
-                "curl version is 7.xxx",
-                "curl --version",
-                new ListOf<>(),
-                new DockerProcess.Fake(new CmdOutput.Fake(""))
-            ).messagePassed(),
-            Matchers.<List<String>>allOf(
-                Matchers.hasSize(1),
-                Matchers.hasItem(
-                    "> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m"
-                )
-            )
-        );
-    }
-
-    @Test
-    public void failedMsg() {
+    public void failedMsg() throws DockerProcessExecutionException {
         MatcherAssert.assertThat(
             new TestOf(
                 "curl version is 7.xxx",
                 "curl --version",
                 new ListOf<>(
                     new YmlTagOutputPredicateOf(
-                        "startsWith", "curl 7.",
-                        new UncheckedBiFunc<>(String::startsWith)
+                        "startsWith", "curl 7.", String::startsWith
                     ),
                     new YmlTagOutputPredicateOf(
-                        "equals", "OpenSSL/1.0.2m",
-                        new UncheckedBiFunc<>(String::equals)
+                        "equals", "OpenSSL/1.0.2m", String::equals
                     )
                 ),
-                new DockerProcess.Fake(new CmdOutput.Fake(""))
-            ).messageFailed(
-                "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 " +
-                    "OpenSSL/1.0.2m zlib/1.2.8",
-                new ListOf<>(
-                    new YmlTagOutputPredicateOf(
-                        "equals", "OpenSSL/1.0.2m",
-                        new UncheckedBiFunc<>(String::equals)
+                new DockerProcess.Fake(
+                    new CmdOutput.Fake(
+                        "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 " +
+                            "OpenSSL/1.0.2m zlib/1.2.8"
                     )
                 )
-            ),
+            ).execute().message(),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(8),
                 Matchers.hasItems(
@@ -117,17 +87,33 @@ public final class TestOfTest {
         );
     }
 
-    @Test(expected = NoScenariosFoundException.class)
-    public void noScenariosFound() throws TestingFailedException {
-        new TestsOf(
-            new TestingOutcomeOf(
-                new ListOf<>(),
-                new HashSet<>()
-            ),
-            new UncheckedScalar<>(
-                () -> new Fake(new ArrayList<>(10))
+    @Test
+    public void passedMsg() throws DockerProcessExecutionException {
+        MatcherAssert.assertThat(
+            new TestOf(
+                "curl version is 7.xxx",
+                "curl --version",
+                new ListOf<>(
+                    new YmlTagOutputPredicateOf(
+                        "startsWith", "curl 7.", String::startsWith
+                    ),
+                    new YmlTagOutputPredicateOf(
+                        "endsWith", "7.57.0 ", String::endsWith
+                    )
+                ),
+                new DockerProcess.Fake(
+                    new CmdOutput.Fake(
+                        "curl 7.57.0 (x86_64-pc-linux-gnu) libcurl/7.57.0 "
+                    )
+                )
+            ).execute().message(),
+            Matchers.<List<String>>allOf(
+                Matchers.hasSize(1),
+                Matchers.hasItem(
+                    "> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m"
+                )
             )
-        ).execute();
+        );
     }
 
 }

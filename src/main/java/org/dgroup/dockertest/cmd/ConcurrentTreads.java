@@ -21,39 +21,26 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.List;
 
 /**
- * Represents outcome for all tests.
+ * Command line argument which represents amount of concurrent threads for
+ *  testing procedure.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class ConcurrentTreads extends ArgEnvelope<Integer> {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Ctor.
+     * @param args Command-line arguments specified by user.
      */
-    boolean successful();
+    public ConcurrentTreads(final List<String> args) {
+        super("--threads", args, Integer::valueOf);
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
-
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

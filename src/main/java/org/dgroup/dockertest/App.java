@@ -24,14 +24,16 @@
 package org.dgroup.dockertest;
 
 import java.io.UncheckedIOException;
+import java.util.Set;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
+import org.dgroup.dockertest.concurrent.ConcurrentTests;
 import org.dgroup.dockertest.exception.RootCauseOf;
 import org.dgroup.dockertest.termination.AbnormalTermination;
 import org.dgroup.dockertest.termination.Termination;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.TestsOf;
+import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
@@ -42,7 +44,6 @@ import org.dgroup.dockertest.yml.IllegalYmlFormatException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #76 Daily stream cleaning for 1.0-beta release.
  * @checkstyle HideUtilityClassConstructorCheck (10 lines)
  */
 @SuppressWarnings("PMD.UseUtilityClass")
@@ -56,9 +57,10 @@ public final class App {
         final StdOutput std = new StdOutputOf(System.out, "    ");
         final Args args = new Args(std, arguments);
         final Termination termination = new AbnormalTermination(std, args);
-        try {
-            std.print(new Logo("1.0"));
-            new TestsOf(args).execute();
+        final Set<Output> outputs = args.selectedByUserOutput();
+        try (ConcurrentTests concurrently = new ConcurrentTests(args)) {
+            concurrently.execute(args.tests())
+                .reportTheResults(outputs);
         } catch (final NoScenariosFoundException ex) {
             termination.dueTo(ex);
         } catch (final TestingFailedException ex) {

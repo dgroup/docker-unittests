@@ -27,8 +27,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import org.hamcrest.MatcherAssert;
@@ -59,11 +57,8 @@ public final class StdOutputOfTest {
         );
         out.print(
             new TestingOutcomeOf(
-                new ListOf<>(
-                    new TestOutcomeOf(true, "java version is 1.9"),
-                    new TestOutcomeOf(true, "curl version is 7.xxx")
-                ),
-                Collections.emptySet()
+                new TestOutcomeOf(true, "java version is 1.9"),
+                new TestOutcomeOf(true, "curl version is 7.xxx")
             )
         );
         MatcherAssert.assertThat(
@@ -86,11 +81,8 @@ public final class StdOutputOfTest {
         );
         out.print(
             new TestingOutcomeOf(
-                new ListOf<>(
-                    new TestOutcomeOf(false, "java version is 1.9"),
-                    new TestOutcomeOf(true, "curl version is 7.xxx")
-                ),
-                Collections.emptySet()
+                new TestOutcomeOf(false, "java version is 1.9"),
+                new TestOutcomeOf(true, "curl version is 7.xxx")
             )
         );
         MatcherAssert.assertThat(

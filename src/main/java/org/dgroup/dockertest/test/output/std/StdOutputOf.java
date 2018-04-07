@@ -88,6 +88,11 @@ public final class StdOutputOf implements StdOutput {
     }
 
     @Override
+    public void print(final Text msg) {
+        this.print(msg.text());
+    }
+
+    @Override
     public void print(final String msg) {
         this.print(new ListOf<>(msg));
     }

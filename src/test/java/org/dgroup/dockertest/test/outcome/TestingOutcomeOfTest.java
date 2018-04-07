@@ -23,9 +23,7 @@
  */
 package org.dgroup.dockertest.test.outcome;
 
-import java.util.HashSet;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.Output;
 import org.junit.Test;
@@ -43,14 +41,10 @@ public final class TestingOutcomeOfTest {
     @Test(expected = TestingFailedException.class)
     public void reportTheResults() throws TestingFailedException {
         new TestingOutcomeOf(
-            () -> new ListOf<>(
-                new TestOutcomeOf(false, "curl version is 73402342124234234")
-            ),
-            new UncheckedScalar<>(() -> false),
-            new HashSet<>(
-                new ListOf<>(new Output.Fake())
-            )
-        ).reportTheResults();
+            new TestOutcomeOf(false, "curl version is 73402342124234234")
+        ).reportTheResults(
+            new ListOf<>(new Output.Fake())
+        );
     }
 
 }

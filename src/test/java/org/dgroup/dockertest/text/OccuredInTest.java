@@ -21,39 +21,40 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.text;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Represents outcome for all tests.
+ * Unit tests for {@link OccuredIn}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle IndentationCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class OccuredInTest {
 
-    /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
-     */
-    boolean successful();
+    @Test
+    public void equalTo() {
+        MatcherAssert.assertThat(
+            new OccuredIn("%s", "Hey %s. My name is %s")
+                .apply(2),
+            Matchers.equalTo(true)
+        );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    @Test(expected = IllegalArgumentException.class)
+    public void argumentsMismatch() {
+        new OccuredIn(".", "The text without expected symbol")
+            .times(
+                3,
+                "Exception: The '.' should has 3 occurrences but its not true"
+            );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

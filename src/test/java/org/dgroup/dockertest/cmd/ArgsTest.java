@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import java.util.concurrent.TimeUnit;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.hamcrest.MatcherAssert;
@@ -36,6 +37,7 @@ import org.junit.Test;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -59,6 +61,62 @@ public final class ArgsTest {
                 new StdOutput.Fake(new ListOf<>())
             ).selectedByUserOutput().iterator().next(),
             IsInstanceOf.instanceOf(StdOutput.Fake.class)
+        );
+    }
+
+    @Test
+    public void timeoutPerEachTest() {
+        final Timeout timeout = new Args(
+            new StdOutput.Fake(new ListOf<>()),
+            "--timeout-per-test", "120"
+        ).timeoutPerThread();
+        MatcherAssert.assertThat(
+            "Timeout value is 120",
+            timeout.timeout(),
+            Matchers.equalTo(120L)
+        );
+        MatcherAssert.assertThat(
+            "Timeout measuring are in seconds",
+            timeout.measure(),
+            Matchers.equalTo(TimeUnit.SECONDS)
+        );
+    }
+
+    @Test
+    public void defaultTimeoutPerEachTest() {
+        final Timeout timeout = new Args(
+            new StdOutput.Fake(new ListOf<>())
+        ).timeoutPerThread();
+        MatcherAssert.assertThat(
+            "Timeout value is 2",
+            timeout.timeout(),
+            Matchers.equalTo(2L)
+        );
+        MatcherAssert.assertThat(
+            "Timeout measuring are in minutes",
+            timeout.measure(),
+            Matchers.equalTo(TimeUnit.MINUTES)
+        );
+    }
+
+    @Test
+    public void amountOfThreadsForTheTesting() {
+        MatcherAssert.assertThat(
+            new Args(
+                new StdOutput.Fake(new ListOf<>()),
+                "--threads", "12"
+            ).concurrentThreads(),
+            Matchers.equalTo(12)
+        );
+    }
+
+    @Test
+    public void defaultAmountOfThreadsForTheTesting() {
+        MatcherAssert.assertThat(
+            new Args(
+                new StdOutput.Fake(new ListOf<>())
+            ).concurrentThreads(),
+            Matchers.equalTo(8)
         );
     }
 

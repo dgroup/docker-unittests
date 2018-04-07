@@ -21,39 +21,34 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.concurrent;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 /**
- * Represents outcome for all tests.
+ * Fake instance of {@link java.util.concurrent.ExecutorService} for unit
+ *  testing purposes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class ExcsrvFake extends ExcsrvEnvelope {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Ctor.
      */
-    boolean successful();
+    public ExcsrvFake() {
+        this(new SimplifiedFuture.Fake());
+    }
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * Ctor.
+     * @param fnc To map the {@link Callable} to the {@link Future}.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    public ExcsrvFake(final SimplifiedFuture fnc) {
+        super(fnc);
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

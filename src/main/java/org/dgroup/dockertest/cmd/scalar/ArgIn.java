@@ -21,39 +21,52 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.cmd.scalar;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.List;
+import org.cactoos.Scalar;
+import org.dgroup.dockertest.scalar.If;
 
 /**
- * Represents outcome for all tests.
+ * Check that argument was specified by the user or not.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class ArgIn implements Scalar<Boolean> {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Name of particular cmd argument.
      */
-    boolean successful();
+    private final String arg;
+    /**
+     * All command-line arguments specified by the user.
+     */
+    private final List<String> args;
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * Ctor.
+     * @param arg Name of particular cmd argument.
+     * @param args All command-line arguments specified by the user.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    public ArgIn(final String arg, final List<String> args) {
+        this.arg = arg;
+        this.args = args;
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
+    @Override
+    public Boolean value() {
+        final int index = this.args.indexOf(this.arg);
+        return new If<>(
+            () -> index >= 0 && this.args.size() > 1,
+            () -> {
+                final String val = this.args.get(index + 1);
+                return val != null && !val.trim().isEmpty()
+                    && val.charAt(0) != '-';
+            },
+            () -> false
+        ).value();
+    }
+
 }

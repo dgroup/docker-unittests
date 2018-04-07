@@ -21,61 +21,44 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.scalar;
+
+import org.cactoos.Func;
+import org.cactoos.Scalar;
 
 /**
- * Represents occurrences in string.
+ * Map function for particular {@link Scalar}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <X> Type of input
+ * @param <Y> Type of output
  * @since 1.0
  */
-public final class StringOccurrences {
+public final class Mapped<X, Y> implements Scalar<Y> {
 
     /**
-     * Original string.
+     * Origin function.
      */
-    private final String origin;
+    private final Func<X, Y> fnc;
     /**
-     * String which we want to find.
+     * Input scalar.
      */
-    private final String search;
+    private final Scalar<X> arg;
 
     /**
      * Ctor.
-     * @param origin Base string.
-     * @param search Search string.
+     * @param fnc Origin function.
+     * @param arg Input scalar.
      */
-    public StringOccurrences(final String origin, final String search) {
-        this.origin = origin;
-        this.search = search;
+    public Mapped(final Func<X, Y> fnc, final Scalar<X> arg) {
+        this.fnc = fnc;
+        this.arg = arg;
     }
 
-    /**
-     * Compare the occurrences with.
-     * @param occurrences Amount {@code this.search} in {@code this.base}.
-     * @return True in case amount mismatch.
-     */
-    public boolean nonEqualTo(final int occurrences) {
-        return !this.equalTo(occurrences);
+    @Override
+    public Y value() throws Exception {
+        return this.fnc.apply(this.arg.value());
     }
 
-    /**
-     * Compare the occurrences with.
-     * @param occurrences Amount {@code this.search} in {@code this.base}.
-     * @return True in case equal amount.
-     * @checkstyle IllegalTokenCheck (10 lines)
-     */
-    public boolean equalTo(final int occurrences) {
-        int last = 0;
-        int count = 0;
-        while (last != -1) {
-            last = this.origin.indexOf(this.search, last);
-            if (last != -1) {
-                count++;
-                last += this.search.length();
-            }
-        }
-        return count == occurrences;
-    }
 }

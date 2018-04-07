@@ -21,39 +21,50 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Represents outcome for all tests.
+ * Unit tests for class {@link ArgOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle AvoidDuplicateLiterals (500 lines)
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class ArgAtTest {
 
-    /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
-     */
-    boolean successful();
+    @Test
+    public void specified() {
+        MatcherAssert.assertThat(
+            new ArgOf(
+                "-o",
+                new ListOf<>("-o", "std"),
+                "Argument `-o` wasn't found"
+            ).specifiedByUser(),
+            Matchers.equalTo(true)
+        );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    @Test
+    public void notSpecified() {
+        MatcherAssert.assertThat(
+            new ArgOf(
+                "-o",
+                new ListOf<>(
+                    "-f", "single-test.yml",
+                    "-i", "alpine:jdk9"
+                ),
+                "Argument `-o` wasn't found"
+            ).specifiedByUser(),
+            Matchers.equalTo(false)
+        );
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
 }

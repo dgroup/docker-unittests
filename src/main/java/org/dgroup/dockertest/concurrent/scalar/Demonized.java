@@ -21,39 +21,37 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.concurrent.scalar;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import org.cactoos.Scalar;
 
 /**
- * Represents outcome for all tests.
+ * Make the {@link Thread} as daemon.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public final class Demonized implements Scalar<Thread> {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Origin.
      */
-    boolean successful();
+    private final Scalar<Thread> thread;
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * Ctor.
+     * @param thread Origin.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    public Demonized(final Scalar<Thread> thread) {
+        this.thread = thread;
+    }
 
-    /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
-     */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
+    @Override
+    public Thread value() throws Exception {
+        final Thread trd = this.thread.value();
+        trd.setDaemon(true);
+        return trd;
+    }
+
 }

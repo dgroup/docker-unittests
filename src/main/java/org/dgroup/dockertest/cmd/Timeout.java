@@ -21,39 +21,46 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.test.outcome;
+package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.test.TestingFailedException;
-import org.dgroup.dockertest.test.output.Output;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Represents outcome for all tests.
+ * Timeout with units and value.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface TestingOutcome extends Iterable<TestOutcome> {
+public interface Timeout {
 
     /**
-     * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * Timeout.
+     * @return Value.
      */
-    boolean successful();
+    Long timeout();
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * Timeout unit.
+     * @return Nanoseconds, milliseconds, seconds, etc.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    TimeUnit measure();
 
     /**
-     * Print testing outcome to specified outputs.
-     * @param outputs Selected by user output formats.
-     * @throws TestingFailedException in case if at least one test is failed.
+     * No timeout implementation.
+     * Originally, implemented for unit testing purposes.
      */
-    void reportTheResults(final Iterable<Output> outputs)
-        throws TestingFailedException;
+    class No implements Timeout {
+
+        @Override
+        public Long timeout() {
+            return 0L;
+        }
+
+        @Override
+        public TimeUnit measure() {
+            return TimeUnit.MILLISECONDS;
+        }
+    }
+
 }

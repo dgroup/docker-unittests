@@ -21,14 +21,18 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.concurrent;
 
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.text.Joined;
+import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link Before}.
+ * Unit tests for class {@link Demons}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -36,19 +40,36 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class BeforeTest {
+public final class DemonsTest {
 
     @Test
-    public void text() throws CuttingException {
+    public void newThread() {
+        final Demons demons = new Demons("dt-%s");
         MatcherAssert.assertThat(
-            new Before("contains=echo}", "=").text(),
-            Matchers.equalTo("contains")
+            "3 runnable were converted to 3 daemon threads with `dt-%s` name",
+            new Joined(
+                new Mapped<>(
+                    trd -> new TextOf(
+                        "%s-%s", trd.getName(), trd.isDaemon()
+                    ).text(),
+                    new Mapped<>(
+                        demons::newThread,
+                        new ListOf<>(
+                            () -> {
+                            },
+                            () -> {
+                            },
+                            () -> {
+                            }
+                        )
+                    )
+                ),
+                ";"
+            ).text().matches(
+                "^dt-\\d-true;dt-\\d-true;dt-\\d-true$"
+            ),
+            Matchers.equalTo(true)
         );
-    }
-
-    @Test(expected = CuttingException.class)
-    public void searchStringNotFound() throws CuttingException {
-        new Before(() -> "contains=echo}", "absent-text").text();
     }
 
 }
