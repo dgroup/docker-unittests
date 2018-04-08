@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.cmd.Args;
@@ -109,6 +110,17 @@ public final class ConcurrentTests implements AutoCloseable {
         this.exec = exc;
         this.thread = thrd;
         this.swn = swn;
+    }
+
+    /**
+     * Execute the testing.
+     * @param tasks To be executed concurrently.
+     * @return Testing results.
+     * @throws TestingFailedException in case when at least one test is failed.
+     */
+    public TestingOutcome execute(final Test... tasks)
+        throws TestingFailedException {
+        return this.execute(new ListOf<>(tasks));
     }
 
     /**

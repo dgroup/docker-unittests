@@ -23,8 +23,11 @@
  */
 package org.dgroup.dockertest.test;
 
+import org.dgroup.dockertest.cmd.Timeout;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
+import org.dgroup.dockertest.test.outcome.TestOutcomeOf;
+import org.dgroup.dockertest.text.TextOf;
 
 /**
  * Represents single unit test for the docker image.
@@ -42,4 +45,43 @@ public interface Test {
      *  on docker side.
      */
     TestOutcome execute() throws DockerProcessExecutionException;
+
+    /**
+     * Fake implementation of {@link Test} for unit testing purposes.
+     */
+    final class Sleeping implements Test {
+
+        /**
+         * Timeout.
+         */
+        private final Timeout tmt;
+
+        /**
+         * Ctor.
+         * @param tmt Timeout for sleeping period.
+         */
+        public Sleeping(final Timeout tmt) {
+            this.tmt = tmt;
+        }
+
+        @Override
+        public TestOutcome execute() throws DockerProcessExecutionException {
+            try {
+                this.tmt.measure().sleep(this.tmt.timeout());
+            } catch (final InterruptedException exp) {
+                throw new DockerProcessExecutionException(exp);
+            }
+            return new TestOutcomeOf(
+                true,
+                new TextOf(
+                    "[%s:%s] Slept %s %s.",
+                    Thread.currentThread().getName(),
+                    Integer.toHexString(this.hashCode()),
+                    this.tmt.timeout(),
+                    this.tmt.measure()
+                ).text()
+            );
+        }
+    }
+
 }

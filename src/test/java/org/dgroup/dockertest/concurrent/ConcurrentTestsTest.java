@@ -25,19 +25,19 @@ package org.dgroup.dockertest.concurrent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.cmd.Args;
 import org.dgroup.dockertest.cmd.Timeout;
+import org.dgroup.dockertest.cmd.TimeoutOf;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.test.Test.Sleeping;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,63 +47,94 @@ import org.junit.runner.RunWith;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocVariableCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @RunWith(OnlyWithinInstalledDocker.class)
 public final class ConcurrentTestsTest {
 
-    private final String path =
-        new TextOf("docs%simage-tests.yml", File.separator).text();
-    private final StdOutput.Fake out =
-        new StdOutput.Fake(new ArrayList<>(12));
-
-    @Before
-    public void printPathToFileWithTestingScenarios() {
-        this.out.details().clear();
-        this.out.print(new TextOf("File: %s.", this.path));
-    }
-
-    @After
-    public void flushToStd() {
-        new StdOutputOf().print(this.out.details());
-    }
-
     @Test
     public void executeConcurrentlySmoke() throws Exception {
+        final String path = new TextOf("docs%simage-tests.yml", File.separator)
+            .text();
+        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
         final Args args = new Args(
-            this.out,
-            "-f", this.path,
+            out,
+            "-f", path,
             "-i", "openjdk:9.0.1-11"
         );
+        out.print(new TextOf("File: %s.", path));
         try (ConcurrentTests concurrently = new ConcurrentTests(args)) {
             concurrently.execute(args.tests())
-                .reportTheResults(this.out);
+                .reportTheResults(out);
         }
         MatcherAssert.assertThat(
-            this.out.details(),
+            out.details(),
+            Matchers.hasItem("Testing successfully completed.")
+        );
+    }
+
+    @Test(timeout = 20 * 1000)
+    public void executeConcurrently() throws Exception {
+        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
+        final Args args = new Args(out, "--threads", "5");
+        MatcherAssert.assertThat(
+            args.concurrentThreads(), Matchers.equalTo(5)
+        );
+        try (ConcurrentTests concurrently = new ConcurrentTests(args)) {
+            concurrently.execute(
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
+                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS))
+            )
+                .reportTheResults(out);
+        }
+        MatcherAssert.assertThat(
+            "15 tasks (5 seconds each) within 5 threads should take less then" +
+                " 20 seconds",
+            out.details(),
             Matchers.hasItem("Testing successfully completed.")
         );
     }
 
     @Test
     public void executeConsequentially() throws Exception {
+        final String path = new TextOf("docs%simage-tests.yml", File.separator)
+            .text();
+        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
+        out.print(new TextOf("File: %s.", path));
         new ConcurrentTests(
-            this.out,
+            out,
             ExcsrvFake::new,
             new Timeout.No(),
             new Timeout.No()
         ).execute(
             new Args(
-                this.out,
-                "-f", this.path,
+                out,
+                "-f", path,
                 "-i", "openjdk:9.0.1-11"
             ).tests()
-        ).reportTheResults(this.out);
+        ).reportTheResults(out);
         MatcherAssert.assertThat(
-            this.out.details(),
+            out.details(),
             Matchers.hasItem("Testing successfully completed.")
         );
     }
