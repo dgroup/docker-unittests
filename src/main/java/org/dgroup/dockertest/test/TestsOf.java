@@ -21,30 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.test;
 
-import java.util.Set;
-import org.dgroup.dockertest.test.output.Output;
-import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.cactoos.collection.CollectionEnvelope;
+import org.cactoos.iterable.Mapped;
+import org.cactoos.list.StickyList;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.docker.process.DockerProcessOf;
+import org.dgroup.dockertest.text.TextFile;
+import org.dgroup.dockertest.yml.YmlString;
 
 /**
- * Represents a command line argument {@code -o} for output format.
- * Available formats are standard out, html and xml.
- *
- * For example {@code -o std|xml|html} will print testing results
- * to standard output, xml and html file.
- *
- * If case if argument is absent then standard output will be used.
+ * Tests to be executed.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface OutputArg extends Arg {
+public final class TestsOf extends CollectionEnvelope<Test> {
 
     /**
-     * Give all outputs specified by user as a set.
-     * @return Selected outputs by user or default {@link StdOutput}.
+     * Ctor.
+     * @param image The name of the docker image.
+     * @param file The name of the YML file with tests.
      */
-    Set<Output> asSet();
+    public TestsOf(final Arg<String> image, final Arg<String> file) {
+        super(() -> new StickyList<>(
+            new Mapped<>(
+                ymlTagTest -> new TestOf(
+                    ymlTagTest.assume(),
+                    ymlTagTest.cmd(),
+                    ymlTagTest.output(),
+                    new DockerProcessOf(
+                        image.value(),
+                        ymlTagTest.containerCommandAsArray()
+                    )
+                ),
+                new YmlString(
+                    new TextFile(file.value())
+                ).asTests()
+            )
+        ));
+    }
+
 }

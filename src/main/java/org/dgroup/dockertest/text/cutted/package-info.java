@@ -23,10 +23,10 @@
  */
 
 /**
- * Unit-tests for package {@link org.dgroup.dockertest.termination}.
+ * Classes which simplify the text cutting.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-package org.dgroup.dockertest.termination;
+package org.dgroup.dockertest.text.cutted;

@@ -25,10 +25,10 @@ package org.dgroup.dockertest.concurrent;
 
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.hamcrest.True;
 import org.dgroup.dockertest.text.Joined;
 import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -68,7 +68,7 @@ public final class DemonsTest {
             ).text().matches(
                 "^dt-\\d-true;dt-\\d-true;dt-\\d-true$"
             ),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 

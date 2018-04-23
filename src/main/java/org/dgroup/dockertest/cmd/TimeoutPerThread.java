@@ -25,14 +25,16 @@ package org.dgroup.dockertest.cmd;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.concurrent.Timeout;
+import org.dgroup.dockertest.concurrent.TimeoutOf;
 
 /**
  * Each test will be executed in separate thread.
  * User may specify the timeout(in seconds) for each test in command line args:
  *  {@code --timeout-per-test 120}.
  *
- * In case if argument is missing, then {@link CmdArgNotFoundException}
- *  will be thrown.
+ * In case if the argument is missing, the default timeout is 5 minutes.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -43,14 +45,24 @@ public final class TimeoutPerThread extends ArgEnvelope<Timeout> {
     /**
      * Ctor.
      * @param args Command-line arguments specified by user.
-     * @checkstyle IndentationCheck (10 lines)
+     */
+    public TimeoutPerThread(final String... args) {
+        this(new ListOf<>(args));
+    }
+
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     * @checkstyle MagicNumberCheck (10 lines)
      */
     public TimeoutPerThread(final List<String> args) {
-        super(
-            "--timeout-per-test",
-            args,
-            arg -> new TimeoutOf(arg, TimeUnit.SECONDS)
-        );
+        super(() -> new Alternative<>(
+            new Mapped<>(
+                arg -> new TimeoutOf(arg, TimeUnit.SECONDS),
+                new ArgOf("--timeout-per-test", args)
+            ),
+            () -> new TimeoutOf(5, TimeUnit.MINUTES)
+        ));
     }
 
 }

@@ -25,11 +25,11 @@ package org.dgroup.dockertest.test.output.std;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.cactoos.collection.Mapped;
 import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.text.Text;
+import org.dgroup.dockertest.text.TextOf;
 
 /**
  * Standard output for application progress.
@@ -43,26 +43,26 @@ public interface StdOutput extends Output {
 
     /**
      * Print text to single line.
-     * @param msg Text to print
+     * @param msg The text to print
      */
     void print(final Text msg);
 
     /**
      * Print text to single line.
-     * @param msg Text to print
+     * @param msg The text to print
      */
     void print(final String msg);
 
     /**
      * Print text to single line.
-     * @param header Text to print as header.
-     * @param lines Text to print as separate lines.
+     * @param pattern For the {@link TextOf}.
+     * @param args For the {@link TextOf}.
      */
-    void print(final String header, final Object... lines);
+    void print(final String pattern, final Object... args);
 
     /**
      * Print text to single line.
-     * @param msg Text to print
+     * @param msg The text to print.
      */
     void print(final Iterable<String> msg);
 
@@ -75,12 +75,13 @@ public interface StdOutput extends Output {
 
     /**
      * Fake instance for unit-testing purposes.
-     * @checkstyle HiddenFieldCheck (50 lines)
      * @checkstyle JavadocMethodCheck (100 lines)
-     * @checkstyle JavadocVariableCheck (10 lines)
      */
     final class Fake implements StdOutput {
 
+        /**
+         * Fake application output.
+         */
         private final List<String> lines;
 
         /**
@@ -106,9 +107,8 @@ public interface StdOutput extends Output {
         }
 
         @Override
-        public void print(final String header, final Object... lines) {
-            this.print(header);
-            this.print(new Mapped<>(Object::toString, lines));
+        public void print(final String header, final Object... args) {
+            this.print(new TextOf(header, args));
         }
 
         @Override

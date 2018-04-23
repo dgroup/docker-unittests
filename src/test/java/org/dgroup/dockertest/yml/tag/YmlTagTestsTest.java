@@ -45,8 +45,8 @@ public final class YmlTagTestsTest {
     public void tagTestsIsMissing() {
         new Assert().thatThrowableMessageEndingWith(
             () -> new YmlResource("tag-tests-is-missing.yml").scenarios(),
-            "IllegalYmlFormatException: " +
-                "mapping values are not allowed here\n" +
+            "tag-tests-is-missing.yml` has the wrong format:\n" +
+                " mapping values are not allowed here\n" +
                 " in 'string', line 3, column 9:\n" +
                 "      - test:\n" +
                 "            ^\n"

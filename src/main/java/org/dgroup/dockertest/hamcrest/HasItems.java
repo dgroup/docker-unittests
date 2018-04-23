@@ -21,20 +21,59 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.cmd;
+package org.dgroup.dockertest.hamcrest;
 
-import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import java.util.Collection;
+import org.cactoos.list.ListOf;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Print help information
- * to {@link StdOutputOf}
- * in case {@code -help, --help} or no-arguments specified.
+ * Hamcrest matcher to verify the structure of the collection.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
- * @todo #10:2h Implement help command
+ * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HelpArg {
+public final class HasItems<T> extends
+    TypeSafeDiagnosingMatcher<Collection<T>> {
+
+    /**
+     * Expected value.
+     */
+    private final Collection<T> expected;
+
+    /**
+     * Ctor.
+     * @param expected Value within unit test.
+     */
+    public HasItems(final T... expected) {
+        this(new ListOf<>(expected));
+    }
+
+    /**
+     * Ctor.
+     * @param expected Value within unit test.
+     */
+    @SuppressWarnings("PMD.CallSuperInConstructor")
+    public HasItems(final Collection<T> expected) {
+        this.expected = expected;
+    }
+
+    @Override
+    public void describeTo(final Description dsc) {
+        new Describe<T>().exec(this.expected, dsc);
+    }
+
+    @Override
+    protected boolean matchesSafely(
+        final Collection<T> actual,
+        final Description dsc
+    ) {
+        new Describe<T>().exec(actual, dsc);
+        return actual.containsAll(this.expected);
+    }
 
 }

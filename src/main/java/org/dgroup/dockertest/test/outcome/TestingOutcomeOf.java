@@ -31,6 +31,8 @@ import org.cactoos.list.ListOf;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.Output;
 
@@ -92,13 +94,13 @@ public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
     }
 
     @Override
-    public void reportTheResults(final Output... outputs)
+    public void report(final Output... outputs)
         throws TestingFailedException {
-        this.reportTheResults(new ListOf<>(outputs));
+        this.report(new ListOf<>(outputs));
     }
 
     @Override
-    public void reportTheResults(final Iterable<Output> outputs)
+    public void report(final Iterable<Output> outputs)
         throws TestingFailedException {
         new UncheckedScalar<>(
             new And(
@@ -108,6 +110,16 @@ public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
         ).value();
         if (!this.successful()) {
             throw new TestingFailedException();
+        }
+    }
+
+    @Override
+    public void report(final Arg<Collection<Output>> outs)
+        throws TestingFailedException {
+        try {
+            this.report(outs.value());
+        } catch (final CmdArgNotFoundException exp) {
+            throw new TestingFailedException(exp);
         }
     }
 

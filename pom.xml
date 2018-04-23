@@ -39,6 +39,7 @@
         <mvn.compiler.version>3.7.0</mvn.compiler.version>
         <mvn.jar.version>3.0.2</mvn.jar.version>
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
+        <mvn.resources.version>3.0.2</mvn.resources.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
@@ -65,7 +66,7 @@
         <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
         <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
         <code.coverage.limit.line>0.55</code.coverage.limit.line>
-        <sonar.coverage.exclusions>**/RuntimeOf.java,**/App.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/RuntimeOf.java,**/HasValue.java,**/HasValues.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -125,13 +126,13 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest-all.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -145,6 +146,27 @@
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${mvn.resources.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -175,13 +197,6 @@
             </plugin>
         </plugins>
 
-        <resources>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-
     </build>
 
     <scm>
@@ -206,6 +221,7 @@
                             <excludes combine.children="append">
                                 <exclude>xml:/src/main/resources/logback.xml</exclude>
                                 <exclude>xml:/src/test/resources/logback-test.xml</exclude>
+                                <exclude>checkstyle:/src/main/resources/help.info</exclude>
                                 <exclude>dependencies:org.cactoos:cactoos</exclude>
                                 <exclude>dependencies:org.fusesource.jansi:jansi</exclude>
                                 <exclude>dependencies:org.yaml:snakeyaml</exclude>
@@ -240,7 +256,8 @@
                                 <exclude>org/dgroup/dockertest/**/*Exception.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/*/*Fake*.*</exclude>
                                 <exclude>org/dgroup/dockertest/**/*Envelope.*</exclude>
-                                <exclude>org/dgroup/dockertest/App.*</exclude>
+                                <exclude>org/dgroup/dockertest/cmd/HasValue.*</exclude>
+                                <exclude>org/dgroup/dockertest/cmd/HasValues.*</exclude>
                                 <exclude>org/dgroup/dockertest/termination/RuntimeOf.*</exclude>
                             </excludes>
                         </configuration>

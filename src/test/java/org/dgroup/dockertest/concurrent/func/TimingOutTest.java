@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.concurrent.func;
 
-import org.dgroup.dockertest.cmd.Timeout;
 import org.dgroup.dockertest.concurrent.SimplifiedFuture;
+import org.dgroup.dockertest.concurrent.Timeout;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public final class TimingOutTest {
     @Test(timeout = 2 * 1000)
     public void mapCallableToFuture() throws Exception {
         MatcherAssert.assertThat(
-            new TimingOut<Integer>(new Timeout.No())
+            new TimingOut<Integer>(Timeout.No::new)
                 .apply(
                     new SimplifiedFuture.Fake<Integer>().apply(
                         () -> 2 * 2

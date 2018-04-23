@@ -23,6 +23,8 @@
  */
 package org.dgroup.dockertest.test.outcome;
 
+import java.util.Collection;
+import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.Output;
 
@@ -37,7 +39,7 @@ public interface TestingOutcome extends Iterable<TestOutcome> {
 
     /**
      * Checking all tests outcome for passed scenario's.
-     * @return True in passed scenario's found.
+     * @return The false, in the case, when failed scenarios found.
      */
     boolean successful();
 
@@ -46,14 +48,21 @@ public interface TestingOutcome extends Iterable<TestOutcome> {
      * @param outputs Selected by user output formats.
      * @throws TestingFailedException in case if at least one test is failed.
      */
-    void reportTheResults(final Output ... outputs)
-        throws TestingFailedException;
+    void report(final Output... outputs) throws TestingFailedException;
 
     /**
      * Print testing outcome to specified outputs.
      * @param outputs Selected by user output formats.
      * @throws TestingFailedException in case if at least one test is failed.
      */
-    void reportTheResults(final Iterable<Output> outputs)
+    void report(final Iterable<Output> outputs) throws TestingFailedException;
+
+    /**
+     * Print testing outcome to specified outputs.
+     * @param outputs Selected by user output formats.
+     * @throws TestingFailedException in case if at least one test is failed.
+     */
+    void report(final Arg<Collection<Output>> outputs)
         throws TestingFailedException;
+
 }

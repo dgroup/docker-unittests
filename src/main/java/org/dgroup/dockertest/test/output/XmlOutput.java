@@ -41,4 +41,14 @@ public final class XmlOutput implements Output {
     public void print(final TestingOutcome outcome) {
         throw new UnsupportedOperationException("#print()");
     }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof XmlOutput;
+    }
 }

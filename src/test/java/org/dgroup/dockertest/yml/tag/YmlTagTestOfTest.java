@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
@@ -94,15 +93,12 @@ public final class YmlTagTestOfTest {
     @Test
     public void escapedSymbols()
         throws IllegalYmlFormatException, NoScenariosFoundException {
-        final YmlTagOutputPredicate output = new YmlResource(
-            "with-escaped-symbols-in-3-tests.yml"
-        ).scenario(3).output().get(1);
         MatcherAssert.assertThat(
-            "Tag `tests/test[3]/output` has 2nd statement `startsWith`",
-            new ListOf<>(
-                output.comparingType(), output.expectedValue()
-            ),
-            Matchers.hasItems("contains", "Protocols: \\{")
+            "Tag `tests/test[3]/output` has 2nd statement `contains`",
+            new YmlResource(
+                "with-escaped-symbols-in-3-tests.yml"
+            ).scenario(3).output().get(1),
+            new YmlTagOutputPredicate.Is("contains", "Protocols: \\{")
         );
     }
 

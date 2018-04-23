@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -41,18 +41,8 @@ public final class SplittedTest {
     @Test
     public void asCollection() {
         MatcherAssert.assertThat(
-            new Splitted("Line 1\nLine 2\n", "\n"),
-            Matchers.hasItems(
-                "Line 1", "Line 2"
-            )
-        );
-    }
-
-    @Test
-    public void asArray() {
-        MatcherAssert.assertThat(
-            new Splitted("Line 1\nLine 2\n", "\n").toArray(),
-            Matchers.arrayContaining("Line 1", "Line 2")
+            new Splitted("Line1\nLine2\n", "\n"),
+            new HasItems<>("Line1", "Line2")
         );
     }
 
@@ -60,9 +50,7 @@ public final class SplittedTest {
     public void defaultDelimiter() {
         MatcherAssert.assertThat(
             new Splitted("text1 text2"),
-            Matchers.hasItems(
-                "text1", "text2"
-            )
+            new HasItems<>("text1", "text2")
         );
     }
 

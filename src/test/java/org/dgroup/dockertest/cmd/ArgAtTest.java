@@ -24,8 +24,9 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.hamcrest.False;
+import org.dgroup.dockertest.hamcrest.True;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -48,7 +49,7 @@ public final class ArgAtTest {
                 new ListOf<>("-o", "std"),
                 "Argument `-o` wasn't found"
             ).specifiedByUser(),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 
@@ -63,7 +64,7 @@ public final class ArgAtTest {
                 ),
                 "Argument `-o` wasn't found"
             ).specifiedByUser(),
-            Matchers.equalTo(false)
+            new False()
         );
     }
 

@@ -23,7 +23,7 @@
  */
 
 /**
- * Classes which simplify the work with asText/string variables.
+ * Classes which simplify the work with text/string variables.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

@@ -23,8 +23,10 @@
  */
 package org.dgroup.dockertest.text;
 
+import java.util.Iterator;
 import org.cactoos.Scalar;
 import org.cactoos.iterable.IterableOf;
+import org.cactoos.iterable.Mapped;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.scalar.If;
 
@@ -39,7 +41,7 @@ import org.dgroup.dockertest.scalar.If;
 public final class Joined implements Text {
 
     /**
-     * All string values for joining.
+     * Text values for joining.
      */
     private final Iterable<String> values;
     /**
@@ -49,37 +51,54 @@ public final class Joined implements Text {
 
     /**
      * Ctor.
-     * @param values For joining.
+     * @param vls Values for joining.
      */
-    public Joined(final String... values) {
-        this(new IterableOf<>(values));
+    public Joined(final String... vls) {
+        this(new IterableOf<>(vls));
     }
 
     /**
      * Ctor.
-     * @param values For joining.
+     * @param vls Values for joining.
      */
-    public Joined(final Iterable<String> values) {
-        this(values, " ");
+    public Joined(final Text... vls) {
+        this(new Mapped<>(Text::text, vls));
     }
 
     /**
      * Ctor.
-     * @param values For joining.
-     * @param dlmtr Common delimiter for values above.
+     * @param vls Values for joining.
      */
-    public Joined(final Iterable<String> values, final String dlmtr) {
-        this(values, new If<>(dlmtr == null, "", () -> dlmtr));
+    public Joined(final Iterable<String> vls) {
+        this(vls, " ");
     }
 
     /**
      * Ctor.
-     * @param values For joining.
-     * @param dlmtr Common delimiter for values above.
+     * @param vls Values for joining.
+     * @param dtr Common delimiter for values above.
      */
-    public Joined(final Iterable<String> values, final Scalar<String> dlmtr) {
-        this.values = values;
-        this.delimiter = dlmtr;
+    public Joined(final Iterable<String> vls, final String dtr) {
+        this(vls, new If<>(dtr == null, "", () -> dtr));
+    }
+
+    /**
+     * Ctor.
+     * @param vls Values for joining.
+     * @param dtr Common delimiter for values above.
+     */
+    public Joined(final Iterator<String> vls, final String dtr) {
+        this(new IterableOf<>(vls), dtr);
+    }
+
+    /**
+     * Ctor.
+     * @param vls Values for joining.
+     * @param dtr Common delimiter for values above.
+     */
+    public Joined(final Iterable<String> vls, final Scalar<String> dtr) {
+        this.values = vls;
+        this.delimiter = dtr;
     }
 
     @Override

@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.docker.output;
 
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -40,12 +40,8 @@ public final class TextCmdOutputTest {
     @Test
     public void byLines() {
         MatcherAssert.assertThat(
-            new TextCmdOutput(
-                "line 1\nline 2\nline 3"
-            ).byLines(),
-            Matchers.hasItems(
-                "line 1", "line 2", "line 3"
-            )
+            new TextCmdOutput("line1\nline2\nline3").byLines(),
+            new HasItems<>("line1", "line2", "line3")
         );
     }
 

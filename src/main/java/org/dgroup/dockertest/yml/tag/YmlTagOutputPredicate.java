@@ -23,7 +23,10 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
+import org.cactoos.Func;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Represents yml tag
@@ -58,4 +61,107 @@ public interface YmlTagOutputPredicate {
      */
     boolean test(final String actual) throws IllegalYmlFormatException;
 
+    /**
+     * Fake implementation for the unit test purposes.
+     * @checkstyle JavadocMethodCheck (50 lines)
+     * @checkstyle JavadocVariableCheck (50 lines)
+     */
+    final class Fake implements YmlTagOutputPredicate {
+
+        private final String type;
+        private final String expected;
+        private final Func<String, Boolean> fnc;
+
+        public Fake(final String type, final String expected) {
+            this(type, expected, actual -> true);
+        }
+
+        public Fake(final String type, final String expected,
+            final Func<String, Boolean> fnc) {
+            this.type = type;
+            this.expected = expected;
+            this.fnc = fnc;
+        }
+
+        @Override
+        public String comparingType() {
+            return this.type;
+        }
+
+        @Override
+        public String expectedValue() {
+            return this.expected;
+        }
+
+        @Override
+        @SuppressWarnings("PMD.AvoidCatchingGenericException")
+        public boolean test(final String actual)
+            throws IllegalYmlFormatException {
+            // @checkstyle IllegalCatchCheck (5 lines)
+            try {
+                return this.fnc.apply(actual);
+            } catch (final Exception exp) {
+                throw new IllegalYmlFormatException(exp);
+            }
+        }
+    }
+
+    /**
+     * Hamcrest matcher to test the code which returns
+     *  {@link YmlTagOutputPredicate}.
+     *
+     * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
+     */
+    final class Is extends TypeSafeDiagnosingMatcher<YmlTagOutputPredicate> {
+
+        /**
+         * Expected YML output predicate (contains, equals, startsWith, etc).
+         */
+        private final YmlTagOutputPredicate expected;
+
+        /**
+         * Ctor.
+         * @param type The expected YML output predicate type.
+         * @param value The expected YML output predicate value.
+         */
+        public Is(final String type, final String value) {
+            this(new Fake(type, value));
+        }
+
+        /**
+         * Ctor.
+         * @param expected YML predicate.
+         */
+        @SuppressWarnings("PMD.CallSuperInConstructor")
+        public Is(final YmlTagOutputPredicate expected) {
+            this.expected = expected;
+        }
+
+        @Override
+        public void describeTo(final Description dsc) {
+            this.describe(dsc, this.expected);
+        }
+
+        @Override
+        protected boolean matchesSafely(final YmlTagOutputPredicate act,
+            final Description dsc) {
+            this.describe(dsc, act);
+            return act.comparingType().equals(this.expected.comparingType())
+                && act.expectedValue().equals(this.expected.expectedValue());
+        }
+
+        /**
+         * Describe YML tag output predicate in Hamcrest terms.
+         * @param dsc The hamcrest description for unit test AR/ER values.
+         * @param prd The origin YML output predicate.
+         * @checkstyle NonStaticMethodCheck (10 lines)
+         */
+        private void describe(final Description dsc,
+            final YmlTagOutputPredicate prd) {
+            dsc.appendText("comparing type=")
+                .appendValue(prd.comparingType())
+                .appendText(", value=")
+                .appendValue(prd.expectedValue());
+        }
+    }
 }

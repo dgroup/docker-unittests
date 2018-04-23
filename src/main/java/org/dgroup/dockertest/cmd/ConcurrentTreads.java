@@ -24,10 +24,13 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
- * Command line argument which represents amount of concurrent threads for
+ * Command line argument which represents quantity of concurrent threads for
  *  testing procedure.
+ *
+ * In case if the argument is missing, the default value is 8.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -39,8 +42,23 @@ public final class ConcurrentTreads extends ArgEnvelope<Integer> {
      * Ctor.
      * @param args Command-line arguments specified by user.
      */
+    public ConcurrentTreads(final String... args) {
+        this(new ListOf<>(args));
+    }
+
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     * @checkstyle IndentationCheck (10 lines)
+     * @checkstyle MagicNumberCheck (10 lines)
+     */
     public ConcurrentTreads(final List<String> args) {
-        super("--threads", args, Integer::valueOf);
+        super(
+            () -> new Alternative<>(
+                new Mapped<>(Integer::valueOf, new ArgOf("--threads", args)),
+                () -> 8
+            )
+        );
     }
 
 }

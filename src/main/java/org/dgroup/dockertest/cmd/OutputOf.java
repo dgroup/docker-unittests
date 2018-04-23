@@ -23,15 +23,17 @@
  */
 package org.dgroup.dockertest.cmd;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import org.cactoos.Func;
+import org.cactoos.collection.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.XmlOutput;
@@ -46,49 +48,59 @@ import org.dgroup.dockertest.text.Splitted;
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class OutputOf extends ArgEnvelope<Set<Output>> {
+public final class OutputOf extends ArgEnvelope<Collection<Output>> {
 
     /**
      * Ctor.
-     * @param args Outputs selected by user.
+     * @param std Standard application output.
+     * @param args Command-line arguments specified by the user.
      */
-    public OutputOf(final List<String> args) {
+    public OutputOf(final Output std, final String... args) {
+        this(std, new ListOf<>(args));
+    }
+
+    /**
+     * Ctor.
+     * @param std Standard application output.
+     * @param args Command-line arguments specified by the user.
+     */
+    public OutputOf(final Output std, final List<String> args) {
         this(
-            "-o", args, "\\|",
-            new MapOf<>(
-                new MapEntry<>("xml", new XmlOutput()),
-                new MapEntry<>("html", new HtmlOutput())
-            )
+            std,
+            new ArgOf("-o", args),
+            arg -> {
+                final Map<String, Output> supported = new MapOf<>(
+                    new MapEntry<>("xml", new XmlOutput()),
+                    new MapEntry<>("html", new HtmlOutput())
+                );
+                final Splitted specified = new Splitted(arg, "\\|");
+                return new HashSet<>(
+                    new Filtered<>(
+                        Objects::nonNull,
+                        new Mapped<>(supported::get, specified)
+                    )
+                );
+            }
         );
     }
 
     /**
      * Ctor.
-     * @param label Associated with command-line output argument.
-     * @param args All command-line arguments specified by user.
-     * @param delimiter For splitting value specified by user.
-     * @param supported Supported output formats.
-     * @checkstyle IndentationCheck (30 lines)
-     * @checkstyle ParameterNumberCheck (10 lines)
+     * @param std Standard application output.
+     * @param arg Command-line argument specified by the user.
+     * @param fnc Function to map string to the {@code Collection<Output>}.
+     * @checkstyle IndentationCheck (15 lines)
      */
     public OutputOf(
-        final String label,
-        final List<String> args,
-        final String delimiter,
-        final Map<String, Output> supported
+        final Output std,
+        final Arg<String> arg,
+        final Func<String, Collection<Output>> fnc
     ) {
         super(
-            label, args,
-            arg -> {
-                final Splitted specified = new Splitted(arg, delimiter);
-                return new HashSet<>(
-                    new If<List<Output>>(
-                        () -> supported.keySet().containsAll(specified),
-                        () -> new Mapped<>(supported::get, specified),
-                        ListOf::new
-                    ).value()
-                );
-            }
+            () -> new Alternative<>(
+                new org.dgroup.dockertest.cmd.Mapped<>(fnc, arg),
+                () -> new ListOf<>(std)
+            )
         );
     }
 

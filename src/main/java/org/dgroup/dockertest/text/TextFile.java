@@ -30,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import org.cactoos.Scalar;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
+import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 import org.cactoos.text.TextOf;
 
 /**
@@ -74,7 +76,7 @@ public final class TextFile {
      * @param charset Origin file charset for reading.
      */
     public TextFile(final String path, final Charset charset) {
-        this(() -> new File(path), charset);
+        this(new StickyScalar<>(() -> new File(path)), charset);
     }
 
     /**
@@ -105,6 +107,14 @@ public final class TextFile {
         } catch (final Exception exp) {
             throw new IOException(exp);
         }
+    }
+
+    /**
+     * Absolute path to the file.
+     * @return The path.
+     */
+    public String path() {
+        return new UncheckedScalar<>(this.origin).value().getAbsolutePath();
     }
 
 }

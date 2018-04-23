@@ -25,24 +25,25 @@ package org.dgroup.dockertest.concurrent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
-import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.Timeout;
-import org.dgroup.dockertest.cmd.TimeoutOf;
-import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.ConcurrentTreads;
+import org.dgroup.dockertest.cmd.TimeoutPerThread;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.dgroup.dockertest.test.Test.Sleeping;
-import org.dgroup.dockertest.test.TestingFailedException;
+import org.dgroup.dockertest.test.TestsOf;
 import org.dgroup.dockertest.test.output.std.StdOutput;
+import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Unit tests for class {@link ConcurrentTests}.
+ * Unit tests for class {@link Concurrent}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -57,37 +58,18 @@ import org.junit.runner.RunWith;
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @RunWith(OnlyWithinInstalledDocker.class)
-public final class ConcurrentTestsTest {
-
-    @Test
-    public void executeConcurrentlySmoke() throws Exception {
-        final String path = new TextOf("docs%simage-tests.yml", File.separator)
-            .text();
-        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
-        final Args args = new Args(
-            out,
-            "-f", path,
-            "-i", "openjdk:9.0.1-11"
-        );
-        out.print(new TextOf("File: %s.", path));
-        try (ConcurrentTests concurrently = new ConcurrentTests(args)) {
-            concurrently.execute(args.tests())
-                .reportTheResults(out);
-        }
-        MatcherAssert.assertThat(
-            out.details(),
-            Matchers.hasItem("Testing successfully completed.")
-        );
-    }
+public final class ConcurrentTest {
 
     @Test(timeout = 20 * 1000)
     public void executeConcurrently() throws Exception {
         final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
-        final Args args = new Args(out, "--threads", "5");
-        MatcherAssert.assertThat(
-            args.concurrentThreads(), Matchers.equalTo(5)
+        final List<String> args = new ListOf<>(
+            "--threads", "5",
+            "--timeout-per-test", "10"
         );
-        try (ConcurrentTests concurrently = new ConcurrentTests(args)) {
+        final Arg<Timeout> tmt = new TimeoutPerThread(args);
+        final Arg<Integer> threads = new ConcurrentTreads(args);
+        try (Concurrent concurrently = new Concurrent(tmt, threads)) {
             concurrently.execute(
                 new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
                 new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
@@ -104,50 +86,33 @@ public final class ConcurrentTestsTest {
                 new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
                 new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
                 new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS))
-            )
-                .reportTheResults(out);
+            ).report(out);
         }
         MatcherAssert.assertThat(
             "15 tasks (5 seconds each) within 5 threads should take less then" +
                 " 20 seconds",
             out.details(),
-            Matchers.hasItem("Testing successfully completed.")
+            new HasItems<>("Testing successfully completed.")
         );
     }
 
     @Test
     public void executeConsequentially() throws Exception {
-        final String path = new TextOf("docs%simage-tests.yml", File.separator)
-            .text();
+        final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
         out.print(new TextOf("File: %s.", path));
-        new ConcurrentTests(
-            out,
-            ExcsrvFake::new,
-            new Timeout.No(),
-            new Timeout.No()
+        new Concurrent(
+            new Arg.Fake<>("-timeout", new TimeoutOf(5, TimeUnit.SECONDS)),
+            new Arg.Fake<>("-threads", 1)
         ).execute(
-            new Args(
-                out,
-                "-f", path,
-                "-i", "openjdk:9.0.1-11"
-            ).tests()
-        ).reportTheResults(out);
+            new TestsOf(
+                new Arg.Fake<>("-i", "openjdk:9.0.1-11"),
+                new Arg.Fake<>("-f", path.text())
+            )
+        ).report(out);
         MatcherAssert.assertThat(
             out.details(),
-            Matchers.hasItem("Testing successfully completed.")
-        );
-    }
-
-    @Test(expected = NoScenariosFoundException.class)
-    public void noScenariosFound() throws TestingFailedException {
-        new ConcurrentTests(
-            new StdOutput.Fake(),
-            ExcsrvFake::new,
-            new Timeout.No(),
-            new Timeout.No()
-        ).execute(
-            new ListOf<>()
+            new HasItems<>("Testing successfully completed.")
         );
     }
 

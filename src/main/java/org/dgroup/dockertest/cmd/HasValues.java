@@ -23,73 +23,57 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import java.util.concurrent.TimeUnit;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import java.util.Collection;
+import org.cactoos.list.ListOf;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Timeout.
+ * Hamcrest matcher to verify the collection value of {@link Arg}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
+ * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class TimeoutOf implements Timeout {
+public final class HasValues<T> extends
+    TypeSafeDiagnosingMatcher<Arg<Collection<T>>> {
 
     /**
-     * Origin timeout.
+     * Expected value.
      */
-    private final Scalar<Long> tmt;
-    /**
-     * Measure unit.
-     */
-    private final Scalar<TimeUnit> unit;
+    private final Collection<T> expected;
 
     /**
      * Ctor.
-     * @param tmt Timeout.
-     * @param unit Unit of measurement.
+     * @param expected Value within unit test.
      */
-    public TimeoutOf(final String tmt, final TimeUnit unit) {
-        this(() -> Long.valueOf(tmt), () -> unit);
+    public HasValues(final T... expected) {
+        this(new ListOf<>(expected));
     }
 
     /**
      * Ctor.
-     * @param tmt Timeout.
-     * @param unit Unit of measurement.
+     * @param expected Value within unit test.
      */
-    public TimeoutOf(final Integer tmt, final TimeUnit unit) {
-        this(() -> Long.valueOf(tmt), () -> unit);
-    }
-
-    /**
-     * Ctor.
-     * @param tmt Timeout.
-     * @param unit Unit of measurement.
-     */
-    public TimeoutOf(final Long tmt, final TimeUnit unit) {
-        this(() -> tmt, () -> unit);
-    }
-
-    /**
-     * Ctor.
-     * @param tmt Timeout.
-     * @param unit Unit of measurement.
-     */
-    public TimeoutOf(final Scalar<Long> tmt, final Scalar<TimeUnit> unit) {
-        this.tmt = tmt;
-        this.unit = unit;
+    @SuppressWarnings("PMD.CallSuperInConstructor")
+    public HasValues(final Collection<T> expected) {
+        this.expected = expected;
     }
 
     @Override
-    public Long timeout() {
-        return new UncheckedScalar<>(this.tmt).value();
+    public void describeTo(final Description dsc) {
+        dsc.appendValue(this.expected);
     }
 
     @Override
-    public TimeUnit measure() {
-        return new UncheckedScalar<>(this.unit).value();
+    protected boolean matchesSafely(final Arg<Collection<T>> item,
+        final Description dsc) {
+        final Collection<T> actual = new Unchecked<>(item).value();
+        dsc.appendValue(actual);
+        return this.expected.size() == actual.size()
+            && this.expected.containsAll(actual);
     }
 
 }

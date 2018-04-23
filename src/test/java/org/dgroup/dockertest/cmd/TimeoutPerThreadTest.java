@@ -24,43 +24,42 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.concurrent.TimeUnit;
+import org.dgroup.dockertest.concurrent.TimeoutOf;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Timeout with units and value.
+ * Unit tests for class {@link TimeoutPerThread}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public interface Timeout {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class TimeoutPerThreadTest {
 
-    /**
-     * Timeout.
-     * @return Value.
-     */
-    Long timeout();
+    @Test
+    public void timeoutPerEachTest() {
+        MatcherAssert.assertThat(
+            "Timeout value is 120 seconds.",
+            new TimeoutPerThread("--timeout-per-test", "120"),
+            new HasValue<>(
+                new TimeoutOf(120, TimeUnit.SECONDS)
+            )
+        );
+    }
 
-    /**
-     * Timeout unit.
-     * @return Nanoseconds, milliseconds, seconds, etc.
-     */
-    TimeUnit measure();
-
-    /**
-     * No timeout implementation.
-     * Originally, implemented for unit testing purposes.
-     */
-    class No implements Timeout {
-
-        @Override
-        public Long timeout() {
-            return 0L;
-        }
-
-        @Override
-        public TimeUnit measure() {
-            return TimeUnit.MILLISECONDS;
-        }
+    @Test
+    public void defaultTimeoutPerEachTest() {
+        MatcherAssert.assertThat(
+            "Default timeout per each test is 5 minutes.",
+            new TimeoutPerThread(),
+            new HasValue<>(
+                new TimeoutOf(5, TimeUnit.MINUTES)
+            )
+        );
     }
 
 }

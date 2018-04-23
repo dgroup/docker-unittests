@@ -26,6 +26,7 @@ package org.dgroup.dockertest;
 import java.io.File;
 import java.io.IOException;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public final class  YmlResourceTest {
                     .text()
                     .split("\n")
             ),
-            Matchers.hasItems(
+            new HasItems<>(
                 "version: 1",
                 "",
                 "tests:",

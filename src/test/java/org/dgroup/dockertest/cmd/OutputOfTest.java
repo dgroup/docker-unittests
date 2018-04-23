@@ -23,15 +23,11 @@
  */
 package org.dgroup.dockertest.cmd;
 
-import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
+import org.dgroup.dockertest.hamcrest.True;
 import org.dgroup.dockertest.test.output.HtmlOutput;
 import org.dgroup.dockertest.test.output.XmlOutput;
-import org.hamcrest.Matcher;
+import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
 /**
@@ -48,33 +44,28 @@ public final class OutputOfTest {
     @Test
     public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
-            new OutputOf(
-                new ListOf<>()
-            ).specifiedByUser(),
-            Matchers.equalTo(false)
+            new OutputOf(new StdOutputOf()).specifiedByUser(),
+            new True()
         );
     }
 
     @Test
-    public void specifiedOutput() throws CmdArgNotFoundException {
+    public void specifiedOutput() {
         MatcherAssert.assertThat(
             new OutputOf(
-                new ListOf<>("-o", "xml|html")
-            ).value(),
-            instanceOfInAnyOrder(
+                new StdOutputOf(), "-o", "xml|html"
+            ),
+            new HasValues<>(
                 new XmlOutput(), new HtmlOutput()
             )
         );
     }
 
-    private <T> Matcher<Iterable<? extends T>> instanceOfInAnyOrder(
-        final T... items
-    ) {
-        return new IsIterableContainingInAnyOrder<>(
-            new Mapped<>(
-                i -> IsInstanceOf.instanceOf(i.getClass()),
-                new ListOf<>(items)
-            )
+    @Test
+    public void defaultOutput() {
+        MatcherAssert.assertThat(
+            new OutputOf(new StdOutputOf(), ""),
+            new HasValues<>(new StdOutputOf())
         );
     }
 

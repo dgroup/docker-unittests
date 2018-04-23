@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.test.output.std;
 
 import java.io.PrintStream;
+import java.util.Objects;
 import org.cactoos.Proc;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Joined;
@@ -98,14 +99,8 @@ public final class StdOutputOf implements StdOutput {
     }
 
     @Override
-    public void print(final String header, final Object... lines) {
-        this.print(header);
-        this.print(
-            new Mapped<>(
-                msg -> new TextOf("%s%s", this.indent, msg).text(),
-                new ListOf<>(lines)
-            )
-        );
+    public void print(final String pattern, final Object... args) {
+        this.print(new TextOf(pattern, args));
     }
 
     @Override
@@ -126,6 +121,25 @@ public final class StdOutputOf implements StdOutput {
         for (final String msg : messages) {
             this.out.printf("%s%s%n", this.indent, msg);
         }
+    }
+
+    @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final StdOutputOf that = (StdOutputOf) other;
+        return Objects.equals(this.indent, that.indent)
+            && Objects.equals(this.out, that.out);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.indent, this.out);
     }
 
     /**

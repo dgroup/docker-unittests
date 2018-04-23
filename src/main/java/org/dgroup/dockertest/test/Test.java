@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.dgroup.dockertest.cmd.Timeout;
+import org.dgroup.dockertest.concurrent.Timeout;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestOutcomeOf;

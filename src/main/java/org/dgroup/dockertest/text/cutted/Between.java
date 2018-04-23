@@ -21,11 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.text.cutted;
 
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
 import org.dgroup.dockertest.scalar.If;
+import org.dgroup.dockertest.text.CuttingException;
+import org.dgroup.dockertest.text.Text;
 
 /**
  * Cut text between left and right borders.
@@ -97,7 +99,7 @@ public final class Between {
     /**
      * Cut text between left and first occurrence of right border.
      * @param right Border for cutting.
-     * @return Text
+     * @return The text
      * @throws CuttingException in case of errors or wrong input data.
      */
     public String first(final String right) throws CuttingException {
@@ -111,7 +113,7 @@ public final class Between {
     /**
      * Cut text between left and last occurrence of right border.
      * @param right Border for cutting.
-     * @return Text
+     * @return The text
      * @throws CuttingException in case of errors or wrong input data.
      */
     public String last(final String right) throws CuttingException {

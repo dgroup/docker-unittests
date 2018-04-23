@@ -24,10 +24,10 @@
 package org.dgroup.dockertest.text.highlighted;
 
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -48,7 +48,7 @@ public final class HighlightedTextTest {
                 new RedText("FAILED").text(),
                 new GreenText("PASSED").text()
             ),
-            Matchers.hasItems(
+            new HasItems<>(
                 "\u001B[91;1mFAILED\u001B[m",
                 "\u001B[92;1mPASSED\u001B[m"
             )

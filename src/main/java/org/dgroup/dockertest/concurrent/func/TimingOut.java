@@ -25,7 +25,9 @@ package org.dgroup.dockertest.concurrent.func;
 
 import java.util.concurrent.Future;
 import org.cactoos.Func;
-import org.dgroup.dockertest.cmd.Timeout;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.concurrent.Timeout;
 
 /**
  * Fetch result from {@link Future} within particular timeout.
@@ -40,19 +42,20 @@ public final class TimingOut<X> implements Func<Future<X>, X> {
     /**
      * Origin timeout.
      */
-    private final Timeout timeout;
+    private final Scalar<Timeout> timeout;
 
     /**
      * Ctor.
      * @param timeout For fetching of the result.
      */
-    public TimingOut(final Timeout timeout) {
+    public TimingOut(final Scalar<Timeout> timeout) {
         this.timeout = timeout;
     }
 
     @Override
     public X apply(final Future<X> future) throws Exception {
-        return future.get(this.timeout.timeout(), this.timeout.measure());
+        final Timeout tmt = new UncheckedScalar<>(this.timeout).value();
+        return future.get(tmt.timeout(), tmt.measure());
     }
 
 }

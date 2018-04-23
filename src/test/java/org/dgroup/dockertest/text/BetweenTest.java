@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.dgroup.dockertest.text.cutted.Between;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

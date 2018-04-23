@@ -47,4 +47,12 @@ public class TestingFailedException extends Exception {
         super(msg);
     }
 
+    /**
+     * Ctor.
+     * @param exp Error message.
+     */
+    public TestingFailedException(final Exception exp) {
+        super(exp);
+    }
+
 }

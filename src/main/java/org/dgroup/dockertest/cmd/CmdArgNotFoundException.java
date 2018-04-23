@@ -37,14 +37,6 @@ public class CmdArgNotFoundException extends Exception {
 
     /**
      * Ctor.
-     * @param msg Detailed description with missing argument.
-     */
-    public CmdArgNotFoundException(final String msg) {
-        super(msg);
-    }
-
-    /**
-     * Ctor.
      * @param cause Origin.
      */
     public CmdArgNotFoundException(final Exception cause) {
@@ -57,15 +49,6 @@ public class CmdArgNotFoundException extends Exception {
      */
     public CmdArgNotFoundException(final Text msg) {
         super(msg.text());
-    }
-
-    /**
-     * Ctor.
-     * @param msg Detailed description with missing argument.
-     * @param cause Origin.
-     */
-    public CmdArgNotFoundException(final Text msg, final Exception cause) {
-        super(msg.text(), cause);
     }
 
 }

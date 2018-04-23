@@ -28,6 +28,7 @@ import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.CmdOutput;
 import org.dgroup.dockertest.docker.process.DockerProcess;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.dgroup.dockertest.yml.tag.YmlTagOutputPredicateOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -72,7 +73,7 @@ public final class TestOfTest {
             ).execute().message(),
             Matchers.<List<String>>allOf(
                 Matchers.hasSize(8),
-                Matchers.hasItems(
+                new HasItems<>(
                     "> curl version is 7.xxx \u001B[91;1mFAILED\u001B[m",
                     "  command: \"curl --version\"",
                     "  output:  \"curl 7.57.0 (x86_64-pc-linux-gnu) " +
@@ -107,9 +108,9 @@ public final class TestOfTest {
                     )
                 )
             ).execute().message(),
-            Matchers.<List<String>>allOf(
+            Matchers.allOf(
                 Matchers.hasSize(1),
-                Matchers.hasItem(
+                new HasItems<>(
                     "> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m"
                 )
             )

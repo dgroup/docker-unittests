@@ -21,10 +21,11 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.text;
+package org.dgroup.dockertest.text.cutted;
 
 import org.cactoos.Scalar;
 import org.dgroup.dockertest.scalar.If;
+import org.dgroup.dockertest.text.CuttingException;
 
 /**
  * Cutted text.
@@ -94,7 +95,7 @@ public final class Cutted {
 
     /**
      * Cutted text.
-     * @return Text.
+     * @return The text.
      * @throws CuttingException in case of wrong input data
      * @checkstyle IllegalCatchCheck (30 lines)
      */
@@ -119,7 +120,7 @@ public final class Cutted {
     /**
      * Check that position belongs to the current string range.
      * @param position Of character.
-     * @return True if position within range.
+     * @return The true if position within range.
      * @throws CuttingException in case if position can't be found.
      * @checkstyle IllegalCatchCheck (20 lines)
      */

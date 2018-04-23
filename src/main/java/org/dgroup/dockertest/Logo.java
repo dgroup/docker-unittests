@@ -53,7 +53,7 @@ public final class Logo implements Iterable<String> {
 
     /**
      * App version and docker logo as string.
-     * @return Logo.
+     * @return The logo.
      * @checkstyle AddEmptyString (50 lines)
      * @checkstyle OperatorWrapCheck (50 lines)
      * @checkstyle RegexpSinglelineCheck (50 lines)
@@ -80,7 +80,7 @@ public final class Logo implements Iterable<String> {
 
     /**
      * Give app version.
-     * @return Version.
+     * @return The version.
      */
     public String appVersion() {
         return this.version;

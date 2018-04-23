@@ -25,8 +25,8 @@ package org.dgroup.dockertest.docker.process;
 
 import org.dgroup.dockertest.OnlyWithinInstalledDocker;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -49,7 +49,7 @@ public final class DockerProcessOfTest {
                 "openjdk:9.0.1-11",
                 "java", "-version"
             ).execute().byLines(),
-            Matchers.hasItems(
+            new HasItems<>(
                 "openjdk version \"9.0.1\"",
                 "OpenJDK Runtime Environment (build 9.0.1+11-Debian-1)",
                 "OpenJDK 64-Bit Server VM (build 9.0.1+11-Debian-1, mixed mode)"

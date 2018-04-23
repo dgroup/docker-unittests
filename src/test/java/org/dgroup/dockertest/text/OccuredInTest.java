@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.dgroup.dockertest.hamcrest.True;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -34,7 +34,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle IndentationCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class OccuredInTest {
@@ -42,19 +41,15 @@ public final class OccuredInTest {
     @Test
     public void equalTo() {
         MatcherAssert.assertThat(
-            new OccuredIn("%s", "Hey %s. My name is %s")
-                .apply(2),
-            Matchers.equalTo(true)
+            new OccuredIn("%s", "Hey %s. My name is %s").apply(2),
+            new True()
         );
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void argumentsMismatch() {
         new OccuredIn(".", "The text without expected symbol")
-            .times(
-                3,
-                "Exception: The '.' should has 3 occurrences but its not true"
-            );
+            .times(3, "The '.' should has 3 occurrences but its not true");
     }
 
 }

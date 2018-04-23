@@ -23,7 +23,7 @@
  */
 package org.dgroup.dockertest.concurrent;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -31,18 +31,12 @@ import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.Timeout;
-import org.dgroup.dockertest.cmd.TimeoutOf;
+import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.concurrent.func.TimingOut;
-import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.Test;
-import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.TextOf;
-import org.dgroup.dockertest.text.highlighted.GreenText;
 
 /**
  * Allows to execute tests and print results.
@@ -52,12 +46,8 @@ import org.dgroup.dockertest.text.highlighted.GreenText;
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
-public final class ConcurrentTests implements AutoCloseable {
+public final class Concurrent implements AutoCloseable {
 
-    /**
-     * Standard output for printing application progress.
-     */
-    private final StdOutput std;
     /**
      * Instance of executor service for concurrent execution.
      */
@@ -65,32 +55,36 @@ public final class ConcurrentTests implements AutoCloseable {
     /**
      * Timeout per single thread dedicated to task(test) execution.
      */
-    private final Timeout thread;
+    private final Scalar<Timeout> thread;
     /**
-     * Timeout for shutdown of executor service.
+     * Timeout for graceful shutdown of executor service.
      */
-    private final Timeout swn;
+    private final Scalar<Timeout> graceful;
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by the user.
+     * @param trd Timeout per each thread.
+     * @param cct Quantity of concurrent threads to be used for testing.
+     * @todo #/DEV Move timeout configuration to yml file in order to define
+     *  unique timeout for each test.
      * @checkstyle MagicNumberCheck (15 lines)
      */
-    public ConcurrentTests(final Args args) {
+    public Concurrent(final Arg<Timeout> trd, final Arg<Integer> cct) {
         this(
-            args.standardOutput(),
             () -> Executors.newFixedThreadPool(
-                args.concurrentThreads(),
+                new If<>(cct::specifiedByUser, cct::value, () -> 8).value(),
                 new Demons("Test-%s")
             ),
-            args.timeoutPerThread(),
-            new TimeoutOf(5, TimeUnit.SECONDS)
+            new If<>(
+                trd::specifiedByUser, trd::value,
+                () -> new TimeoutOf(10, TimeUnit.MINUTES)
+            ),
+            () -> new TimeoutOf(5, TimeUnit.SECONDS)
         );
     }
 
     /**
      * Ctor.
-     * @param std Standard output for printing application progress.
      * @param exc Instance of executor service for concurrent execution.
      * @param thrd Timeout per single thread dedicated to task(test) execution.
      * @param swn Timeout for shutdown of executor service.
@@ -98,47 +92,29 @@ public final class ConcurrentTests implements AutoCloseable {
      *  should be used within try-with-resource block. It means that timeout
      *  will be used once all tasks are already completed, therefore, it doesn't
      *  require long timings.
-     * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public ConcurrentTests(
-        final StdOutput std,
-        final Scalar<ExecutorService> exc,
-        final Timeout thrd,
-        final Timeout swn
-    ) {
-        this.std = std;
+    public Concurrent(final Scalar<ExecutorService> exc,
+        final Scalar<Timeout> thrd, final Scalar<Timeout> swn) {
         this.exec = exc;
         this.thread = thrd;
-        this.swn = swn;
+        this.graceful = swn;
     }
 
     /**
      * Execute the testing.
      * @param tasks To be executed concurrently.
-     * @return Testing results.
-     * @throws TestingFailedException in case when at least one test is failed.
+     * @return The testing results.
      */
-    public TestingOutcome execute(final Test... tasks)
-        throws TestingFailedException {
+    public TestingOutcome execute(final Test... tasks) {
         return this.execute(new ListOf<>(tasks));
     }
 
     /**
      * Execute the testing.
      * @param tasks To be executed concurrently.
-     * @return Testing results.
-     * @throws TestingFailedException in case when at least one test is failed.
+     * @return The testing results.
      */
-    public TestingOutcome execute(final List<Test> tasks)
-        throws TestingFailedException {
-        if (tasks.isEmpty()) {
-            throw new NoScenariosFoundException();
-        }
-        this.std.print(
-            new TextOf(
-                "Found scenarios: %s.%n", new GreenText(tasks.size())
-            )
-        );
+    public TestingOutcome execute(final Collection<Test> tasks) {
         return new TestingOutcomeOf(
             new Mapped<>(
                 new TimingOut<>(this.thread),
@@ -155,7 +131,8 @@ public final class ConcurrentTests implements AutoCloseable {
         final ExecutorService exc = new UncheckedScalar<>(this.exec).value();
         try {
             exc.shutdown();
-            if (!exc.awaitTermination(this.swn.timeout(), this.swn.measure())) {
+            final Timeout gfl = new UncheckedScalar<>(this.graceful).value();
+            if (!exc.awaitTermination(gfl.timeout(), gfl.measure())) {
                 exc.shutdownNow();
             }
         } catch (final InterruptedException exp) {

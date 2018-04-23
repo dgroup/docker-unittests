@@ -23,8 +23,8 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import org.dgroup.dockertest.text.Between;
 import org.dgroup.dockertest.text.TextOf;
+import org.dgroup.dockertest.text.cutted.Between;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**

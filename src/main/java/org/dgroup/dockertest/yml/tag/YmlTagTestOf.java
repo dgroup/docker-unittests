@@ -25,9 +25,9 @@ package org.dgroup.dockertest.yml.tag;
 
 import java.util.List;
 import org.cactoos.Scalar;
-import org.dgroup.dockertest.text.Between;
 import org.dgroup.dockertest.text.Splitted;
 import org.dgroup.dockertest.text.TextOf;
+import org.dgroup.dockertest.text.cutted.Between;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**

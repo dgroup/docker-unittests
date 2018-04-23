@@ -42,7 +42,7 @@ public final class TestingOutcomeOfTest {
     public void reportTheResults() throws TestingFailedException {
         new TestingOutcomeOf(
             new TestOutcomeOf(false, "curl version is 73402342124234234")
-        ).reportTheResults(
+        ).report(
             new ListOf<>(new Output.Fake())
         );
     }
