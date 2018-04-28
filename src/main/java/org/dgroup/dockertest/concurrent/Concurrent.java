@@ -54,7 +54,7 @@ public final class Concurrent implements AutoCloseable {
     /**
      * Logger in order to report about the unsuccessful graceful shutdown.
      */
-    private final static Logger LOG = LoggerFactory.getLogger(Concurrent.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Concurrent.class);
 
     /**
      * Instance of executor service for concurrent execution.
