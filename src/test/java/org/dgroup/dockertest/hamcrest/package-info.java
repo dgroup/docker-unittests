@@ -21,38 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.hamcrest;
-
-import java.util.Collection;
-import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
 
 /**
- * Hamcrest matcher to verify the structure of the collection.
+ * Unit tests for the package {@link org.dgroup.dockertest.hamcrest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <X> Type of item.
  * @since 1.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasItems<X> extends HamcrestCollectionEnvelope<X> {
-
-    /**
-     * Ctor.
-     * @param expected Value within unit test.
-     */
-    @SafeVarargs
-    public HasItems(final X... expected) {
-        this(() -> new ListOf<>(expected));
-    }
-
-    /**
-     * Ctor.
-     * @param expected Value within unit test.
-     */
-    public HasItems(final Scalar<Collection<X>> expected) {
-        super((exp, act) -> act.containsAll(exp), expected);
-    }
-
-}
+package org.dgroup.dockertest.hamcrest;

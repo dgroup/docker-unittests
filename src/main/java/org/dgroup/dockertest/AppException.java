@@ -25,6 +25,7 @@ package org.dgroup.dockertest;
 
 import java.util.Collection;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.text.Splitted;
 import org.dgroup.dockertest.text.Text;
 
 /**
@@ -78,8 +79,8 @@ public final class AppException extends Exception {
      * @param exit Application exit code to be print to the user.
      * @param cause The original root cause to be print to the user.
      */
-    public AppException(final Integer exit, final Exception cause) {
-        this(exit, cause.getMessage());
+    public AppException(final Integer exit, final Throwable cause) {
+        this(exit, new Splitted(cause.getMessage(), "\n"));
     }
 
     /**

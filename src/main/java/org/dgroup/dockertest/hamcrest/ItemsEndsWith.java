@@ -25,34 +25,44 @@ package org.dgroup.dockertest.hamcrest;
 
 import java.util.Collection;
 import org.cactoos.Scalar;
+import org.cactoos.iterator.LengthOf;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.iterator.Duplex;
 
 /**
- * Hamcrest matcher to verify the structure of the collection.
+ * Hamcrest matcher to compare two collections of {@link String} and ensure that
+ *  the elements from collection A ends with elements from collection B.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <X> Type of item.
  * @since 1.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasItems<X> extends HamcrestCollectionEnvelope<X> {
+public final class ItemsEndsWith extends
+    HamcrestCollectionEnvelope<String> {
 
     /**
      * Ctor.
-     * @param expected Value within unit test.
+     * @param expected The expected ending of the actual elements.
      */
-    @SafeVarargs
-    public HasItems(final X... expected) {
+    public ItemsEndsWith(final String... expected) {
         this(() -> new ListOf<>(expected));
     }
 
     /**
      * Ctor.
-     * @param expected Value within unit test.
+     * @param expected The expected ending of the actual elements.
+     * @checkstyle IndentationCheck (10 lines)
      */
-    public HasItems(final Scalar<Collection<X>> expected) {
-        super((exp, act) -> act.containsAll(exp), expected);
+    public ItemsEndsWith(final Scalar<Collection<String>> expected) {
+        super(
+            (exp, act) -> new LengthOf(
+                new Duplex<>(
+                    (eval, aval) -> aval.endsWith(eval),
+                    exp, act
+                )
+            ).value() > 0,
+            expected
+        );
     }
 
 }

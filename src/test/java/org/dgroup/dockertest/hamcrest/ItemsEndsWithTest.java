@@ -23,36 +23,43 @@
  */
 package org.dgroup.dockertest.hamcrest;
 
-import java.util.Collection;
-import org.cactoos.Scalar;
+import java.util.NoSuchElementException;
 import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.hamcrest.StringDescription;
+import org.junit.Test;
 
 /**
- * Hamcrest matcher to verify the structure of the collection.
+ * Unit tests for class {@link ItemsEndsWith}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <X> Type of item.
  * @since 1.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class HasItems<X> extends HamcrestCollectionEnvelope<X> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class ItemsEndsWithTest {
 
-    /**
-     * Ctor.
-     * @param expected Value within unit test.
-     */
-    @SafeVarargs
-    public HasItems(final X... expected) {
-        this(() -> new ListOf<>(expected));
+    @Test
+    public void elementsEndsWith() {
+        MatcherAssert.assertThat(
+            new ItemsEndsWith("=", "-", "|").matchesSafely(
+                new ListOf<>(".=", ".-", ".|"),
+                new StringDescription()
+            ),
+            Matchers.equalTo(true)
+        );
     }
 
-    /**
-     * Ctor.
-     * @param expected Value within unit test.
-     */
-    public HasItems(final Scalar<Collection<X>> expected) {
-        super((exp, act) -> act.containsAll(exp), expected);
+    @Test(expected = NoSuchElementException.class)
+    public void noCorrelationBetweenElementsAtTheSamePosition() {
+        MatcherAssert.assertThat(
+            new ItemsEndsWith("=", "-", "|").matchesSafely(
+                new ListOf<>(".=", ".-", ".|+"),
+                new StringDescription()
+            ),
+            Matchers.equalTo(false)
+        );
     }
-
 }

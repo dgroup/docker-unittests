@@ -38,8 +38,6 @@ import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Allows to execute tests and print results.
@@ -50,11 +48,6 @@ import org.slf4j.LoggerFactory;
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 public final class Concurrent implements AutoCloseable {
-
-    /**
-     * Logger in order to report about the unsuccessful graceful shutdown.
-     */
-    private static final Logger LOG = LoggerFactory.getLogger(Concurrent.class);
 
     /**
      * Instance of executor service for concurrent execution.
@@ -146,7 +139,7 @@ public final class Concurrent implements AutoCloseable {
                 exc.shutdownNow();
             }
         } catch (final InterruptedException exp) {
-            LOG.warn("Can't shutdown the executor gracefully.", exp);
+            Thread.currentThread().interrupt();
             exc.shutdownNow();
         }
     }

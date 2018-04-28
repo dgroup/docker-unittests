@@ -140,10 +140,10 @@ public final class App {
         } catch (final UncheckedIOException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
             if (cause instanceof IllegalYmlFormatException) {
-                throw new AppException(-2, cause.getMessage());
+                throw new AppException(-2, cause);
             }
             if (cause instanceof CmdArgNotFoundException) {
-                throw new AppException(-3, cause.getMessage());
+                throw new AppException(-3, cause);
             }
             throw new AppException(
                 -4, new TextOf("App failed due to unexpected error: %s", cause)
