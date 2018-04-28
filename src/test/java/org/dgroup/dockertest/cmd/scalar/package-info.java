@@ -21,48 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
-
-import java.io.IOException;
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.Process;
-import org.dgroup.dockertest.docker.ProcessOf;
-import org.dgroup.dockertest.docker.output.CmdOutputOf;
 
 /**
- * Represents an instance of docker process on Unix-related systems.
+ * Unit tests for the package {@link org.dgroup.dockertest.cmd.scalar}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
-
-    /**
-     * Ctor.
-     * @param cmd Docker container command.
-     */
-    public SystemUnixDockerProcess(final List<String> cmd) {
-        this(() -> new ProcessOf(cmd));
-    }
-
-    /**
-     * Ctor.
-     * @param process System process associated with docker container.
-     */
-    public SystemUnixDockerProcess(final Scalar<Process> process) {
-        super(() -> {
-            try {
-                return new CmdOutputOf(
-                    new UncheckedScalar<>(process).value().execute()
-                );
-            } catch (final IOException ex) {
-                throw new DockerProcessExecutionException(ex);
-            }
-        });
-    }
-
-}
+package org.dgroup.dockertest.cmd.scalar;

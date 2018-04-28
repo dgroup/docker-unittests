@@ -68,19 +68,20 @@ public interface Test {
         public TestOutcome execute() throws DockerProcessExecutionException {
             try {
                 this.tmt.measure().sleep(this.tmt.timeout());
+                return new TestOutcomeOf(
+                    true,
+                    new TextOf(
+                        "[%s:%s] Slept %s %s.",
+                        Thread.currentThread().getName(),
+                        Integer.toHexString(this.hashCode()),
+                        this.tmt.timeout(),
+                        this.tmt.measure()
+                    ).text()
+                );
             } catch (final InterruptedException exp) {
+                Thread.currentThread().interrupt();
                 throw new DockerProcessExecutionException(exp);
             }
-            return new TestOutcomeOf(
-                true,
-                new TextOf(
-                    "[%s:%s] Slept %s %s.",
-                    Thread.currentThread().getName(),
-                    Integer.toHexString(this.hashCode()),
-                    this.tmt.timeout(),
-                    this.tmt.measure()
-                ).text()
-            );
         }
     }
 

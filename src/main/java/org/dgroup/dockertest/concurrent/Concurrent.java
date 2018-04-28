@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
+import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.concurrent.func.TimingOut;
@@ -37,6 +38,7 @@ import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
+import org.slf4j.LoggerFactory;
 
 /**
  * Allows to execute tests and print results.
@@ -71,9 +73,11 @@ public final class Concurrent implements AutoCloseable {
      */
     public Concurrent(final Arg<Timeout> trd, final Arg<Integer> cct) {
         this(
-            () -> Executors.newFixedThreadPool(
-                new If<>(cct::specifiedByUser, cct::value, () -> 8).value(),
-                new Demons("Test-%s")
+            new StickyScalar<>(
+                () -> Executors.newFixedThreadPool(
+                    new If<>(cct::specifiedByUser, cct::value, () -> 8).value(),
+                    new Demons("Test-%s")
+                )
             ),
             new If<>(
                 trd::specifiedByUser, trd::value,
@@ -136,6 +140,9 @@ public final class Concurrent implements AutoCloseable {
                 exc.shutdownNow();
             }
         } catch (final InterruptedException exp) {
+            LoggerFactory.getLogger(Concurrent.class).warn(
+                "Can't shutdown the executor gracefully.", exp
+            );
             exc.shutdownNow();
         }
     }

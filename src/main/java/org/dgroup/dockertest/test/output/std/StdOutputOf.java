@@ -150,9 +150,9 @@ public final class StdOutputOf implements StdOutput {
         this.out.println();
         this.print(
             new If<Text>(
-                status,
-                new GreenText("Testing successful."),
-                new RedText("Testing failed.")
+                () -> status,
+                () -> new GreenText("Testing successful."),
+                () -> new RedText("Testing failed.")
             ).value().text()
         );
         this.out.println();

@@ -21,48 +21,47 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
+package org.dgroup.dockertest.cmd.scalar;
 
-import java.io.IOException;
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.Process;
-import org.dgroup.dockertest.docker.ProcessOf;
-import org.dgroup.dockertest.docker.output.CmdOutputOf;
+import org.cactoos.ScalarHasValue;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Represents an instance of docker process on Unix-related systems.
+ * Unit tests for class {@link ArgIn}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class ArgInTest {
 
-    /**
-     * Ctor.
-     * @param cmd Docker container command.
-     */
-    public SystemUnixDockerProcess(final List<String> cmd) {
-        this(() -> new ProcessOf(cmd));
+    @Test
+    public void inCmdArgs() {
+        MatcherAssert.assertThat(
+            new ArgIn(
+                "-f",
+                new ListOf<>(
+                    "-f", "test.yml",
+                    "-i", "openjdk:9"
+                )
+            ),
+            new ScalarHasValue<>(true)
+        );
     }
 
-    /**
-     * Ctor.
-     * @param process System process associated with docker container.
-     */
-    public SystemUnixDockerProcess(final Scalar<Process> process) {
-        super(() -> {
-            try {
-                return new CmdOutputOf(
-                    new UncheckedScalar<>(process).value().execute()
-                );
-            } catch (final IOException ex) {
-                throw new DockerProcessExecutionException(ex);
-            }
-        });
+    @Test
+    public void outOfCmdArgs() {
+        MatcherAssert.assertThat(
+            new ArgIn(
+                "-f",
+                new ListOf<>("-f", "-i", "openjdk:9")
+            ),
+            new ScalarHasValue<>(false)
+        );
     }
 
 }

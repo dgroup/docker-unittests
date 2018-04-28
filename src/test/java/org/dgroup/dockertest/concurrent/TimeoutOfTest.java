@@ -21,48 +21,37 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
+package org.dgroup.dockertest.concurrent;
 
-import java.io.IOException;
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.Process;
-import org.dgroup.dockertest.docker.ProcessOf;
-import org.dgroup.dockertest.docker.output.CmdOutputOf;
+import java.util.concurrent.TimeUnit;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Represents an instance of docker process on Unix-related systems.
+ * Unit tests for class {@link TimeoutOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class SystemUnixDockerProcess extends DockerProcessEnvelope {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class TimeoutOfTest {
 
-    /**
-     * Ctor.
-     * @param cmd Docker container command.
-     */
-    public SystemUnixDockerProcess(final List<String> cmd) {
-        this(() -> new ProcessOf(cmd));
+    @Test
+    public void timeout() {
+        MatcherAssert.assertThat(
+            new TimeoutOf("2", TimeUnit.MINUTES),
+            new Timeout.Is(2, TimeUnit.MINUTES)
+        );
     }
 
-    /**
-     * Ctor.
-     * @param process System process associated with docker container.
-     */
-    public SystemUnixDockerProcess(final Scalar<Process> process) {
-        super(() -> {
-            try {
-                return new CmdOutputOf(
-                    new UncheckedScalar<>(process).value().execute()
-                );
-            } catch (final IOException ex) {
-                throw new DockerProcessExecutionException(ex);
-            }
-        });
+    @Test
+    public void asString() {
+        MatcherAssert.assertThat(
+            new TimeoutOf("5", TimeUnit.MINUTES).toString(),
+            new IsEqual<>("5 MINUTES")
+        );
     }
-
 }

@@ -69,33 +69,51 @@ public interface Timeout {
      * Hamcrest matcher for unit testing purposes.
      * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
      */
-    final class HasValue extends TypeSafeDiagnosingMatcher<Timeout> {
+    final class Is extends TypeSafeDiagnosingMatcher<Timeout> {
 
         /**
-         * Origin.
+         * The timeout.
          */
-        private final Timeout tmt;
+        private final long tmt;
+        /**
+         * The timeout unit.
+         */
+        private final TimeUnit unit;
 
         /**
          * Ctor.
-         * @param tmt Origin.
+         * @param tmt The timeout.
+         * @param unit The timeout unit.
          */
         @SuppressWarnings("PMD.CallSuperInConstructor")
-        public HasValue(final Timeout tmt) {
+        public Is(final int tmt, final TimeUnit unit) {
+            this(Long.valueOf(tmt), unit);
+        }
+
+        /**
+         * Ctor.
+         * @param tmt The timeout.
+         * @param unit The timeout unit.
+         */
+        @SuppressWarnings("PMD.CallSuperInConstructor")
+        public Is(final long tmt, final TimeUnit unit) {
             this.tmt = tmt;
+            this.unit = unit;
         }
 
         @Override
         public void describeTo(final Description dsc) {
-            dsc.appendValue(this.tmt.toString());
+            dsc.appendValue(this.tmt)
+                .appendText(" ")
+                .appendValue(this.unit);
         }
 
         @Override
         protected boolean matchesSafely(final Timeout itm,
             final Description dsc) {
             dsc.appendValue(itm.toString());
-            return itm.timeout().equals(this.tmt.timeout())
-                && itm.measure().equals(this.tmt.measure());
+            return itm.timeout().equals(this.tmt)
+                && itm.measure().equals(this.unit);
         }
     }
 

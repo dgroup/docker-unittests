@@ -70,15 +70,6 @@ public final class TimeoutOf implements Timeout {
      * @param tmt Timeout.
      * @param unit Unit of measurement.
      */
-    public TimeoutOf(final Long tmt, final TimeUnit unit) {
-        this(() -> tmt, () -> unit);
-    }
-
-    /**
-     * Ctor.
-     * @param tmt Timeout.
-     * @param unit Unit of measurement.
-     */
     public TimeoutOf(final Scalar<Long> tmt, final Scalar<TimeUnit> unit) {
         this.tmt = tmt;
         this.unit = unit;
