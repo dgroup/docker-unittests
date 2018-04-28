@@ -26,13 +26,12 @@ package org.dgroup.dockertest;
 import java.util.Collection;
 import org.cactoos.list.ListOf;
 import org.dgroup.dockertest.text.Text;
-import org.dgroup.dockertest.text.TextOf;
 
 /**
  * Application error.
  *
  * Always has the error code which supposed to be exposed to the external
- *  parent process like bash shell, etc.
+ *  parent process like CLI, bash shell, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -51,7 +50,7 @@ public final class AppException extends Exception {
 
     /**
      * Ctor.
-     * @param msg Message.
+     * @param msg The message to be print to the user.
      */
     public AppException(final String msg) {
         this(0, msg);
@@ -59,17 +58,16 @@ public final class AppException extends Exception {
 
     /**
      * Ctor.
-     * @param pattern For the {@link TextOf}.
-     * @param args For the {@link TextOf}.
+     * @param msg The message to be print to the user.
      */
-    public AppException(final String pattern, final Object... args) {
-        this(0, new TextOf(pattern, args).text());
+    public AppException(final Text msg) {
+        this(0, msg.text());
     }
 
     /**
      * Ctor.
-     * @param exit Application exit code.
-     * @param msg The message.
+     * @param exit Application exit code to be print to the user.
+     * @param msg The message to be print to the user.
      */
     public AppException(final Integer exit, final Text msg) {
         this(exit, msg.text());
@@ -77,8 +75,8 @@ public final class AppException extends Exception {
 
     /**
      * Ctor.
-     * @param exit Application exit code.
-     * @param cause Original.
+     * @param exit Application exit code to be print to the user.
+     * @param cause The original root cause to be print to the user.
      */
     public AppException(final Integer exit, final Exception cause) {
         this(exit, cause.getMessage());
@@ -86,8 +84,8 @@ public final class AppException extends Exception {
 
     /**
      * Ctor.
-     * @param exit Application exit code.
-     * @param msg The message.
+     * @param exit Application exit code to be print to the user.
+     * @param msg The message to be print to the user.
      */
     public AppException(final Integer exit, final String msg) {
         this(exit, new ListOf<>(msg));
@@ -95,8 +93,8 @@ public final class AppException extends Exception {
 
     /**
      * Ctor.
-     * @param exit Application exit code.
-     * @param msg The message.
+     * @param exit Application exit code to be print to the user.
+     * @param msg The message to be print to the user.
      */
     public AppException(final Integer exit, final Collection<String> msg) {
         super();

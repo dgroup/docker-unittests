@@ -52,7 +52,7 @@ public final class AppTest {
     public void run() throws AppException {
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
-        std.print("File: %s.", path);
+        std.print(new TextOf("File: %s.", path));
         new App(
             new ListOf<>(
                 "-f", path.text(),
@@ -71,7 +71,7 @@ public final class AppTest {
     public void dueToIllegalYmlFormatException() {
         final StdOutput std = new StdOutput.Fake(new ArrayList<>(10));
         final String path = new YmlResource("tag-tests-is-missing.yml").path();
-        std.print("File: %s.", path);
+        std.print(new TextOf("File: %s.", path));
         try {
             new App(
                 new ListOf<>("-f", path, "-i", "openjdk:9.0.1-11"),

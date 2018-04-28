@@ -125,11 +125,15 @@ public final class App {
             }
             if (tests.isEmpty()) {
                 throw new AppException(
-                    "%s testing scenarios found.", new YellowText(0)
+                    new TextOf(
+                        "%s testing scenarios found.", new YellowText(0)
+                    )
                 );
             }
             this.std.print(new Logo("1.0"));
-            this.std.print("Found scenarios: %s.", new GreenText(tests.size()));
+            this.std.print(
+                new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
+            );
             ctly.execute(tests).report(out);
         } catch (final TestingFailedException ex) {
             throw new AppException(-1, ex);

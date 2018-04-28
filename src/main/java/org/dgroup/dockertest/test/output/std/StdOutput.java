@@ -29,7 +29,6 @@ import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.text.Text;
-import org.dgroup.dockertest.text.TextOf;
 
 /**
  * Standard output for application progress.
@@ -52,13 +51,6 @@ public interface StdOutput extends Output {
      * @param msg The text to print
      */
     void print(final String msg);
-
-    /**
-     * Print text to single line.
-     * @param pattern For the {@link TextOf}.
-     * @param args For the {@link TextOf}.
-     */
-    void print(final String pattern, final Object... args);
 
     /**
      * Print text to single line.
@@ -104,11 +96,6 @@ public interface StdOutput extends Output {
         @Override
         public void print(final String msg) {
             this.lines.add(msg);
-        }
-
-        @Override
-        public void print(final String header, final Object... args) {
-            this.print(new TextOf(header, args));
         }
 
         @Override

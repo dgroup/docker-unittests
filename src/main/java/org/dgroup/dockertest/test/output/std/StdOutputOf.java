@@ -36,7 +36,6 @@ import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.text.Text;
-import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
 
@@ -96,11 +95,6 @@ public final class StdOutputOf implements StdOutput {
     @Override
     public void print(final String msg) {
         this.print(new ListOf<>(msg));
-    }
-
-    @Override
-    public void print(final String pattern, final Object... args) {
-        this.print(new TextOf(pattern, args));
     }
 
     @Override
