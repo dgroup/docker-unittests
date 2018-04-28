@@ -87,7 +87,7 @@ public interface Timeout {
          */
         @SuppressWarnings("PMD.CallSuperInConstructor")
         public Is(final int tmt, final TimeUnit unit) {
-            this(Long.valueOf(tmt), unit);
+            this((long) tmt, unit);
         }
 
         /**
