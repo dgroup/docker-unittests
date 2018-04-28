@@ -51,6 +51,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class Concurrent implements AutoCloseable {
 
+    /**
+     * Logger in order to report about the unsuccessful graceful shutdown.
+     */
     private final static Logger LOG = LoggerFactory.getLogger(Concurrent.class);
 
     /**
