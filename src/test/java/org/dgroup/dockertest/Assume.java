@@ -21,50 +21,50 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
+package org.dgroup.dockertest;
 
-import java.io.UncheckedIOException;
 import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.docker.output.CmdOutput;
+import org.dgroup.dockertest.exception.Stacktrace;
+import org.dgroup.dockertest.hamcrest.True;
+import org.junit.AssumptionViolatedException;
 
 /**
- * Envelope for {@link DockerProcess}.
+ * Soft assertions within unit tests.
+ *
+ * Each "soft" assert may thrown the {@link AssumptionViolatedException}.
+ *  As the result the unit test will be ignored and not failed. This is a useful
+ *  feature for the tests dependent on environment.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle NonStaticMethodCheck (200 lines)
  */
-class DockerProcessEnvelope implements DockerProcess {
+public final class Assume {
 
     /**
-     * Origin.
+     * Check that condition is {@code true}.
+     * @param cnd The condition to be checked.
+     * @throws AssumptionViolatedException in case if the condition is false.
      */
-    private final Scalar<DockerProcess> origin;
-
-    /**
-     * Ctor.
-     * @param origin Origin.
-     */
-    DockerProcessEnvelope(final DockerProcess origin) {
-        this(() -> origin);
+    public void that(final Boolean cnd) {
+        this.that(() -> cnd);
     }
 
     /**
-     * Ctor.
-     * @param origin Origin.
+     * Check that condition is {@code true}.
+     * @param cnd The condition to be checked.
+     * @throws AssumptionViolatedException in case if the condition is false.
+     * @checkstyle IllegalCatchCheck (10 lines)
      */
-    DockerProcessEnvelope(final Scalar<DockerProcess> origin) {
-        this.origin = origin;
-    }
-
-    @Override
-    public CmdOutput execute() throws DockerProcessExecutionException {
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public void that(final Scalar<Boolean> cnd) {
         try {
-            return new UncheckedScalar<>(this.origin).value().execute();
-        } catch (final UncheckedIOException exp) {
-            throw new DockerProcessExecutionException(exp);
+            org.junit.Assume.assumeThat(cnd.value(), new True());
+        } catch (final Exception cause) {
+            org.junit.Assume.assumeThat(
+                new Stacktrace(cause).fullMessage(), false, new True()
+            );
         }
     }
 }

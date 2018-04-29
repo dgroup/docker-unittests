@@ -21,38 +21,59 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest;
+package org.dgroup.dockertest.exception;
 
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.InitializationError;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Allows to run particular tests within installed docker only.
+ * Exception stacktrace.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class OnlyWithinInstalledDocker extends BlockJUnit4ClassRunner {
+public final class Stacktrace {
+
+    /**
+     * The text.
+     */
+    private final UncheckedScalar<String> txt;
 
     /**
      * Ctor.
-     *
-     * @param klass Test class.
-     * @throws InitializationError if the test class is malformed.
+     * @param cause The original root cause.
      */
-    public OnlyWithinInstalledDocker(final Class<?> klass)
-        throws InitializationError {
-        super(klass);
+    public Stacktrace(final Throwable cause) {
+        this(
+            new StickyScalar<>(
+                () -> {
+                    final StringWriter swr = new StringWriter();
+                    final PrintWriter pwr = new PrintWriter(swr, true);
+                    cause.printStackTrace(pwr);
+                    return swr.getBuffer().toString();
+                }
+            )
+        );
     }
 
-    @Override
-    public void run(final RunNotifier notifier) {
-        final String active = System.getProperty("docker_installed");
-        if ("yes".equalsIgnoreCase(active) || "true".equalsIgnoreCase(active)) {
-            super.run(notifier);
-        }
+    /**
+     * Ctor.
+     * @param txt The stacktrace as text.
+     */
+    public Stacktrace(final Scalar<String> txt) {
+        this.txt = new UncheckedScalar<>(txt);
+    }
+
+    /**
+     * The message including the stacktrace.
+     * @return The stacktrace.
+     */
+    public String fullMessage() {
+        return this.txt.value();
     }
 
 }

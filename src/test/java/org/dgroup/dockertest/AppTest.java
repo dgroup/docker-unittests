@@ -35,7 +35,6 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * Unit tests for class {@link App}.
@@ -48,11 +47,11 @@ import org.junit.runner.RunWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-@RunWith(OnlyWithinInstalledDocker.class)
 public final class AppTest {
 
     @Test
     public void run() throws AppException {
+        new Assume().that(new ExecuteWithinInstalledDocker());
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
         std.print(new TextOf("File: %s.", path));

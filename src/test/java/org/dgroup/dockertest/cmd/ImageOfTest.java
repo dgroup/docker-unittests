@@ -21,17 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.docker.process;
+package org.dgroup.dockertest.cmd;
 
-import org.dgroup.dockertest.Assume;
-import org.dgroup.dockertest.ExecuteWithinInstalledDocker;
-import org.dgroup.dockertest.docker.DockerProcessExecutionException;
-import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link DockerProcessOf}.
+ * Unit tests for class {@link ImageOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -39,21 +35,13 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class DockerProcessOfTest {
+public final class ImageOfTest {
 
     @Test
-    public void execute() throws DockerProcessExecutionException {
-        new Assume().that(new ExecuteWithinInstalledDocker());
+    public void value() {
         MatcherAssert.assertThat(
-            new DockerProcessOf(
-                "openjdk:9.0.1-11",
-                "java", "-version"
-            ).execute().byLines(),
-            new HasItems<>(
-                "openjdk version \"9.0.1\"",
-                "OpenJDK Runtime Environment (build 9.0.1+11-Debian-1)",
-                "OpenJDK 64-Bit Server VM (build 9.0.1+11-Debian-1, mixed mode)"
-            )
+            new ImageOf("-i", "openjdk:9"),
+            new HasValue<>("openjdk:9")
         );
     }
 

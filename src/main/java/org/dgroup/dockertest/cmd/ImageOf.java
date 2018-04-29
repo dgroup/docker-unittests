@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
  * Docker image specified by the user from shell.
@@ -33,6 +34,15 @@ import java.util.List;
  * @since 1.0
  */
 public final class ImageOf extends ArgEnvelope<String> {
+
+    /**
+     * Ctor.
+     * @param label The marker of the argument for the docker image.
+     * @param image The name of the docker image.
+     */
+    public ImageOf(final String label, final String image) {
+        this(new ListOf<>(label, image));
+    }
 
     /**
      * Ctor.

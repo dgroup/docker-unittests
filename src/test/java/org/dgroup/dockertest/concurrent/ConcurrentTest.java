@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.list.ListOf;
-import org.dgroup.dockertest.OnlyWithinInstalledDocker;
+import org.dgroup.dockertest.Assume;
+import org.dgroup.dockertest.ExecuteWithinInstalledDocker;
 import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.cmd.ConcurrentTreads;
 import org.dgroup.dockertest.cmd.TimeoutPerThread;
@@ -40,7 +41,6 @@ import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * Unit tests for class {@link Concurrent}.
@@ -57,7 +57,6 @@ import org.junit.runner.RunWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-@RunWith(OnlyWithinInstalledDocker.class)
 public final class ConcurrentTest {
 
     @Test(timeout = 20 * 1000)
@@ -98,6 +97,7 @@ public final class ConcurrentTest {
 
     @Test
     public void executeConsequentially() throws Exception {
+        new Assume().that(new ExecuteWithinInstalledDocker());
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
         out.print(new TextOf("File: %s.", path));
