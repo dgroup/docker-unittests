@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.cmd;
 
 import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
  * Argument that doesn't throw the checked {@link Exception}.
@@ -58,7 +59,7 @@ public final class Unchecked<T> implements Arg<T> {
 
     @Override
     public String name() {
-        return new Unchecked<>(this.origin).name();
+        return new UncheckedScalar<>(this.origin).value().name();
     }
 
     @Override
@@ -74,7 +75,7 @@ public final class Unchecked<T> implements Arg<T> {
 
     @Override
     public boolean specifiedByUser() {
-        return new Unchecked<>(this.origin).specifiedByUser();
+        return new UncheckedScalar<>(this.origin).value().specifiedByUser();
     }
 
 }

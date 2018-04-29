@@ -32,22 +32,23 @@ import java.util.concurrent.Future;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <X> Type of item.
  * @since 1.0
  */
-public final class ExcsrvFake extends ExcsrvEnvelope {
+public final class ExcsrvFake<X> extends ExcsrvEnvelope<X> {
 
     /**
      * Ctor.
      */
     public ExcsrvFake() {
-        this(new SimplifiedFuture.Fake());
+        this(new SimplifiedFuture.Fake<>());
     }
 
     /**
      * Ctor.
-     * @param fnc To map the {@link Callable} to the {@link Future}.
+     * @param fnc The function to map the {@link Callable} to the {@link Future}
      */
-    public ExcsrvFake(final SimplifiedFuture fnc) {
+    public ExcsrvFake(final SimplifiedFuture<X> fnc) {
         super(fnc);
     }
 

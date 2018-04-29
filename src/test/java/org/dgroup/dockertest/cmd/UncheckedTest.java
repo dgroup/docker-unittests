@@ -21,56 +21,73 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.dgroup.dockertest.concurrent.func;
+package org.dgroup.dockertest.cmd;
 
-import java.util.concurrent.TimeUnit;
-import org.dgroup.dockertest.concurrent.ExcsrvFake;
-import org.dgroup.dockertest.concurrent.SimplifiedFuture;
-import org.dgroup.dockertest.concurrent.Timeout;
-import org.dgroup.dockertest.concurrent.TimeoutOf;
-import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TimingOut}.
+ * Unit tests for class {@link Unchecked}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TimingOutTest {
+public final class UncheckedTest {
 
-    @Test(timeout = 2 * 1000)
-    public void mapCallableToFuture() throws Exception {
+    @Test
+    public void name() {
         MatcherAssert.assertThat(
-            new TimingOut<Integer>(Timeout.No::new)
-                .apply(
-                    new SimplifiedFuture.Fake<Integer>().apply(
-                        () -> 2 * 2
-                    )
-                ),
-            Matchers.equalTo(4)
+            new Unchecked<>(
+                () -> new Arg.Fake<>("-f", "test.yml")
+            ).name(),
+            Matchers.equalTo("-f")
         );
     }
 
     @Test
-    public void applyFunctionToTheFutureFromExecutorService() throws Exception {
+    public void value() {
         MatcherAssert.assertThat(
-            new TimingOut<TestOutcome>(
-                () -> new TimeoutOf(3, TimeUnit.SECONDS)
-            ).apply(
-                new ExcsrvFake<>().submit(
-                    () -> new org.dgroup.dockertest.test.Test.Sleeping(
-                        new TimeoutOf(2, TimeUnit.SECONDS)
-                    ).execute()
-                )
-            ).message().iterator().next(),
-            Matchers.containsString("Slept 2 SECONDS")
+            new Unchecked<>(
+                () -> new Arg.Fake<>("-f", "test.yml")
+            ).value(),
+            Matchers.equalTo("test.yml")
         );
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void noValue() {
+        new Unchecked<>(
+            () -> new Arg<String>() {
+                @Override
+                public String name() {
+                    return "-f";
+                }
+
+                @Override
+                public String value() throws CmdArgNotFoundException {
+                    throw new CmdArgNotFoundException(this::name);
+                }
+
+                @Override
+                public boolean specifiedByUser() {
+                    return false;
+                }
+            }
+        ).value();
+    }
+
+    @Test
+    public void specifiedByUser() {
+        MatcherAssert.assertThat(
+            new Unchecked<>(
+                () -> new Arg.Fake<>("-f", "test.yml")
+            ).specifiedByUser(),
+            Matchers.equalTo(true)
+        );
+    }
+
 }

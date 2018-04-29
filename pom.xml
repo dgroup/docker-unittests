@@ -66,7 +66,14 @@
         <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
         <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
         <code.coverage.limit.line>0.55</code.coverage.limit.line>
-        <sonar.coverage.exclusions>**/RuntimeOf.java,**/HasValue.java,**/HasValues.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>
+            **/RuntimeOf.java,
+            **/HasValue.java,
+            **/HasValues.java,
+            **/*Exception.java,
+            **/*Fake*.java,**/*.Fake*.java,**/**.Fake*.java,
+            org/dgroup/dockertest/hamcrest/**.java
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
