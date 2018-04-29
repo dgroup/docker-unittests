@@ -35,6 +35,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Unit tests for class {@link App}.
@@ -47,6 +48,7 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@RunWith(OnlyWithinInstalledDocker.class)
 public final class AppTest {
 
     @Test
