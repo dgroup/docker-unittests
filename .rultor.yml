@@ -8,15 +8,14 @@ assets:
   secret.xml: "dgroup/mvn-secret-settings#docker-unittests.xml"
 
 merge:
+  env:
+      MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
   script:
     - mvn -Pqulice -Ddocker_installed=no clean package
 
-#deploy:
-#  env:
-#    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
-#  script:
-#    - "sudo bundle"
-#    - "mvn clean deploy -Prultor --settings ../settings.xml"
+deploy:
+  script:
+    - "mvn -Prelease -s ../secret.xml github-release:release"
 
 release:
   script: |
