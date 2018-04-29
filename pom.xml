@@ -29,7 +29,7 @@
 
     <groupId>org.dgroup.dockertest</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>1.0-alpha</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -68,11 +68,12 @@
         <code.coverage.limit.line>0.55</code.coverage.limit.line>
         <sonar.coverage.exclusions>
             **/RuntimeOf.java,
+            **/*Exception.java,
+            **/*Envelope.java,
             **/HasValue.java,
             **/HasValues.java,
-            **/*Exception.java,
+            org/dgroup/dockertest/hamcrest/*.java
             **/*Fake*.java,**/*.Fake*.java,**/**.Fake*.java,
-            org/dgroup/dockertest/hamcrest/**.java
         </sonar.coverage.exclusions>
     </properties>
 
