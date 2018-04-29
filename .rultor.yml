@@ -13,14 +13,9 @@ merge:
   script:
     - mvn -Pqulice -Ddocker_installed=no clean package
 
-deploy:
-  script: |
-    env
-    echo "Tag is $tag"
-    mvn -Prelease -s ../secret.xml github-release:release
-
 release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn -Pqulice -Ddocker_installed=no clean package
+    mvn -Pqulice clean package
+    mvn -Prelease -s ../secret.xml github-release:release
