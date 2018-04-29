@@ -73,7 +73,7 @@ public final class Splitted extends CollectionEnvelope<String> {
 
     /**
      * Convert splitted values to the string array.
-     * @return Splitted values.
+     * @return The splitted text.
      */
     public String[] toStringArray() {
         return this.toArray(new String[this.size()]);

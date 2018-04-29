@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.text;
 
+import org.dgroup.dockertest.text.cutted.Before;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -44,6 +45,11 @@ public final class BeforeTest {
             new Before("contains=echo}", "=").text(),
             Matchers.equalTo("contains")
         );
+    }
+
+    @Test(expected = CuttingException.class)
+    public void searchStringNotFound() throws CuttingException {
+        new Before(() -> "contains=echo}", "absent-text").text();
     }
 
 }

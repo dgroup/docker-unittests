@@ -24,13 +24,15 @@
 package org.dgroup.dockertest.test.outcome;
 
 import java.util.Collection;
-import java.util.Set;
 import org.cactoos.Proc;
 import org.cactoos.Scalar;
 import org.cactoos.collection.CollectionEnvelope;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.And;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.output.Output;
 
@@ -49,28 +51,27 @@ public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
      * Testing status.
      */
     private final UncheckedScalar<Boolean> passed;
-    /**
-     * Outputs for printing results.
-     */
-    private final Set<Output> outputs;
 
     /**
      * Ctor.
      * @param tests Collection of single test results.
-     * @param outs Available outputs for printing tests results.
      */
-    public TestingOutcomeOf(
-        final Collection<TestOutcome> tests,
-        final Set<Output> outs
-    ) {
+    public TestingOutcomeOf(final TestOutcome... tests) {
+        this(new ListOf<>(tests));
+    }
+
+    /**
+     * Ctor.
+     * @param tests Collection of single test results.
+     */
+    public TestingOutcomeOf(final Collection<TestOutcome> tests) {
         this(
             () -> tests,
             new UncheckedScalar<>(
                 new StickyScalar<>(
                     new And(TestOutcome::successful, tests)
                 )
-            ),
-            outs
+            )
         );
     }
 
@@ -78,16 +79,13 @@ public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
      * Ctor.
      * @param outcome Testing results
      * @param passed Status of the testing
-     * @param outs Available outputs for printing tests results.
      */
     public TestingOutcomeOf(
         final Scalar<Collection<TestOutcome>> outcome,
-        final UncheckedScalar<Boolean> passed,
-        final Set<Output> outs
+        final UncheckedScalar<Boolean> passed
     ) {
         super(outcome);
         this.passed = passed;
-        this.outputs = outs;
     }
 
     @Override
@@ -96,15 +94,32 @@ public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
     }
 
     @Override
-    public void reportTheResults() throws TestingFailedException {
+    public void report(final Output... outputs)
+        throws TestingFailedException {
+        this.report(new ListOf<>(outputs));
+    }
+
+    @Override
+    public void report(final Iterable<Output> outputs)
+        throws TestingFailedException {
         new UncheckedScalar<>(
             new And(
                 (Proc<Output>) output -> output.print(this),
-                this.outputs
+                outputs
             )
         ).value();
         if (!this.successful()) {
             throw new TestingFailedException();
+        }
+    }
+
+    @Override
+    public void report(final Arg<Collection<Output>> outs)
+        throws TestingFailedException {
+        try {
+            this.report(outs.value());
+        } catch (final CmdArgNotFoundException exp) {
+            throw new TestingFailedException(exp);
         }
     }
 

@@ -23,7 +23,6 @@
  */
 package org.dgroup.dockertest.yml;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.cactoos.Scalar;
@@ -51,7 +50,12 @@ public final class YmlString {
     /**
      * Ctor.
      * @param yml Tags defined in file with tests as string.
+     * @checkstyle IndentationCheck (20 lines)
+     * @checkstyle IllegalCatchCheck (25 lines)
      */
+    @SuppressWarnings({
+        "PMD.PreserveStackTrace", "PMD.AvoidCatchingGenericException"
+    })
     public YmlString(final TextFile yml) {
         this(
             new StickyScalar<>(
@@ -61,8 +65,11 @@ public final class YmlString {
                             .loadAs(yml.text(), Map.class)
                             .toString();
                         return text.substring(1, text.length() - 1);
-                    } catch (final IOException ex) {
-                        throw new IllegalYmlFormatException(ex);
+                    } catch (final Exception ex) {
+                        throw new IllegalYmlFormatException(
+                            "YML file `%s` has the wrong format:%n %s",
+                            yml.path(), ex.getMessage()
+                        );
                     }
                 }
             )
@@ -79,7 +86,7 @@ public final class YmlString {
 
     /**
      * Parsed yml tests as list.
-     * @return Yml tests.
+     * @return The yml tests.
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
@@ -94,7 +101,7 @@ public final class YmlString {
 
     /**
      * Load string with tests as yml tree.
-     * @return YML tree.
+     * @return The YML tree.
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      * @checkstyle IllegalCatchCheck (10 lines)

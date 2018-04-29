@@ -27,8 +27,8 @@ import java.util.List;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
-import org.dgroup.dockertest.text.Between;
 import org.dgroup.dockertest.text.Splitted;
+import org.dgroup.dockertest.text.cutted.Between;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**

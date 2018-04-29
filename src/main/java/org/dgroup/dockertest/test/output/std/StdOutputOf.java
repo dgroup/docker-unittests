@@ -24,6 +24,7 @@
 package org.dgroup.dockertest.test.output.std;
 
 import java.io.PrintStream;
+import java.util.Objects;
 import org.cactoos.Proc;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.Joined;
@@ -35,7 +36,6 @@ import org.dgroup.dockertest.scalar.If;
 import org.dgroup.dockertest.test.outcome.TestOutcome;
 import org.dgroup.dockertest.test.outcome.TestingOutcome;
 import org.dgroup.dockertest.text.Text;
-import org.dgroup.dockertest.text.TextOf;
 import org.dgroup.dockertest.text.highlighted.GreenText;
 import org.dgroup.dockertest.text.highlighted.RedText;
 
@@ -88,19 +88,13 @@ public final class StdOutputOf implements StdOutput {
     }
 
     @Override
-    public void print(final String msg) {
-        this.print(new ListOf<>(msg));
+    public void print(final Text msg) {
+        this.print(msg.text());
     }
 
     @Override
-    public void print(final String header, final Object... lines) {
-        this.print(header);
-        this.print(
-            new Mapped<>(
-                msg -> new TextOf("%s%s", this.indent, msg).text(),
-                new ListOf<>(lines)
-            )
-        );
+    public void print(final String msg) {
+        this.print(new ListOf<>(msg));
     }
 
     @Override
@@ -123,6 +117,25 @@ public final class StdOutputOf implements StdOutput {
         }
     }
 
+    @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final StdOutputOf that = (StdOutputOf) other;
+        return Objects.equals(this.indent, that.indent)
+            && Objects.equals(this.out, that.out);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.indent, this.out);
+    }
+
     /**
      * Print testing results based on status.
      * @param status Of testing.
@@ -131,9 +144,9 @@ public final class StdOutputOf implements StdOutput {
         this.out.println();
         this.print(
             new If<Text>(
-                status,
-                new GreenText("Testing successful."),
-                new RedText("Testing failed.")
+                () -> status,
+                () -> new GreenText("Testing successful."),
+                () -> new RedText("Testing failed.")
             ).value().text()
         );
         this.out.println();

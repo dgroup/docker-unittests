@@ -41,7 +41,7 @@ public interface YmlTagTest {
      * Exported from `assume` section {@code /tests/test/assume} for each test
      * defined in *.yml file.
      *
-     * @return Value for tag {@code /tests/test/assume}
+     * @return The value for tag {@code /tests/test/assume}
      * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
@@ -52,7 +52,7 @@ public interface YmlTagTest {
      * Exported from `cmd` section {@code /tests/test/cmd} for each test
      * defined in *.yml file.
      *
-     * @return Value for tag {@code /tests/test/cmd}
+     * @return The value for tag {@code /tests/test/cmd}
      * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
@@ -63,7 +63,7 @@ public interface YmlTagTest {
      * Exported from `cmd` section {@code /tests/test/cmd} for each test
      * defined in *.yml file.
      *
-     * @return Slitted docker command by spaces.
+     * @return The splitted docker command by the space.
      *  For example "java -version" became new String[]{"java", "-version"}.
      * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.

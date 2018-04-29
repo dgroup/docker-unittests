@@ -25,6 +25,7 @@ package org.dgroup.dockertest.yml.tag;
 
 import org.dgroup.dockertest.Assert;
 import org.dgroup.dockertest.YmlResource;
+import org.dgroup.dockertest.hamcrest.True;
 import org.dgroup.dockertest.test.NoScenariosFoundException;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.hamcrest.MatcherAssert;
@@ -65,7 +66,7 @@ public final class YmlTagOutputTest {
             version.matches(
                 "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
             ),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 
@@ -149,7 +150,7 @@ public final class YmlTagOutputTest {
                 .output()
                 .get(1)
                 .test("v8."),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 
@@ -174,7 +175,7 @@ public final class YmlTagOutputTest {
             new YmlResource("with-3-simple-tests.yml")
                 .scenario(2)
                 .output().get(2).test(".5.0"),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 
@@ -209,7 +210,7 @@ public final class YmlTagOutputTest {
             new YmlResource("with-3-simple-tests.yml")
                 .scenario(3)
                 .output().get(2).test(version),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 
@@ -222,7 +223,7 @@ public final class YmlTagOutputTest {
             new YmlResource("with-3-simple-tests.yml")
                 .scenario(2)
                 .output().get(0).test("v8.5.0"),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 

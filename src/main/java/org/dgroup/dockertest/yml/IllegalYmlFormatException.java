@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.yml;
 
+import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
 
 /**
@@ -43,6 +44,14 @@ public final class IllegalYmlFormatException extends Exception {
 
     /**
      * Ctor.
+     * @param msg Describes what exactly tag is wrong.
+     */
+    public IllegalYmlFormatException(final String msg) {
+        super(msg);
+    }
+
+    /**
+     * Ctor.
      * @param cause Original cause.
      */
     public IllegalYmlFormatException(final Throwable cause) {
@@ -52,26 +61,18 @@ public final class IllegalYmlFormatException extends Exception {
     /**
      * Ctor.
      * @param msg Describes what exactly tag is wrong.
-     */
-    public IllegalYmlFormatException(final TextOf msg) {
-        this(msg.toString());
-    }
-
-    /**
-     * Ctor.
-     * @param msg Describes what exactly tag is wrong.
-     */
-    public IllegalYmlFormatException(final String msg) {
-        super(msg);
-    }
-
-    /**
-     * Ctor.
-     * @param msg Describes what exactly tag is wrong.
      * @param cause Original cause.
      */
     public IllegalYmlFormatException(final String msg, final Throwable cause) {
         super(msg, cause);
+    }
+
+    /**
+     * Ctor.
+     * @param msg Describes what exactly tag is wrong.
+     */
+    public IllegalYmlFormatException(final Text msg) {
+        this(msg.text());
     }
 
     /**
@@ -88,7 +89,7 @@ public final class IllegalYmlFormatException extends Exception {
      * @param ptrn Template.
      * @param args Arguments for template above.
      */
-    private IllegalYmlFormatException(final String ptrn, final Object... args) {
+    public IllegalYmlFormatException(final String ptrn, final Object... args) {
         this(new TextOf(ptrn, args));
     }
 

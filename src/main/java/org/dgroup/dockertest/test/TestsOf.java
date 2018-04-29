@@ -23,89 +23,45 @@
  */
 package org.dgroup.dockertest.test;
 
-import org.cactoos.list.Mapped;
+import org.cactoos.collection.CollectionEnvelope;
+import org.cactoos.iterable.Mapped;
 import org.cactoos.list.StickyList;
-import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.cmd.Args;
-import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import org.dgroup.dockertest.test.outcome.TestingOutcome;
-import org.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import org.dgroup.dockertest.test.output.std.StdOutput;
-import org.dgroup.dockertest.text.TextOf;
-import org.dgroup.dockertest.text.highlighted.GreenText;
-import org.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.dgroup.dockertest.cmd.Arg;
+import org.dgroup.dockertest.docker.process.DockerProcessOf;
+import org.dgroup.dockertest.text.TextFile;
+import org.dgroup.dockertest.yml.YmlString;
 
 /**
- * Allows to execute tests and print results.
+ * Tests to be executed.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class TestsOf {
-
-    /**
-     * Testing results.
-     */
-    private final TestingOutcome tests;
-    /**
-     * Standard output for application progress.
-     */
-    private final UncheckedScalar<StdOutput> std;
+public final class TestsOf extends CollectionEnvelope<Test> {
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by user.
-     * @throws CmdArgNotFoundException in case if cmd argument is missing
-     *  or not specified by user.
-     * @throws IllegalYmlFormatException in case if YML file with tests
-     *  has wrong/incorrect format.
+     * @param image The name of the docker image.
+     * @param file The name of the YML file with tests.
      */
-    public TestsOf(final Args args)
-        throws CmdArgNotFoundException, IllegalYmlFormatException {
-        this(
-            new TestingOutcomeOf(
-                new StickyList<>(
-                    new Mapped<>(Test::execute, args.tests())
+    public TestsOf(final Arg<String> image, final Arg<String> file) {
+        super(() -> new StickyList<>(
+            new Mapped<>(
+                ymlTagTest -> new TestOf(
+                    ymlTagTest.assume(),
+                    ymlTagTest.cmd(),
+                    ymlTagTest.output(),
+                    new DockerProcessOf(
+                        image.value(),
+                        ymlTagTest.containerCommandAsArray()
+                    )
                 ),
-                args.selectedByUserOutput()
-            ),
-            args.stdOutput()
-        );
-    }
-
-    /**
-     * Ctor.
-     * @param tests Testing results.
-     * @param std Standard output for application progress.
-     */
-    public TestsOf(
-        final TestingOutcome tests,
-        final UncheckedScalar<StdOutput> std
-    ) {
-        this.tests = tests;
-        this.std = std;
-    }
-
-    /**
-     * Print tests results to selected outputs.
-     *
-     * @throws TestingFailedException in case when at least one test is failed.
-     * @todo #102:8h All tests should be executed concurrently and support
-     *  thread-pool configuration from command line.
-     */
-    public void execute() throws TestingFailedException {
-        if (this.tests.isEmpty()) {
-            throw new NoScenariosFoundException();
-        }
-        this.std.value().print(
-            new TextOf(
-                "Found scenarios: %s.%n",
-                new GreenText(this.tests.size())
-            ).text()
-        );
-        this.tests.reportTheResults();
+                new YmlString(
+                    new TextFile(file.value())
+                ).asTests()
+            )
+        ));
     }
 
 }

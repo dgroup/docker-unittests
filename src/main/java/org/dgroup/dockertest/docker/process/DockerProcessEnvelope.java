@@ -23,6 +23,7 @@
  */
 package org.dgroup.dockertest.docker.process;
 
+import java.io.UncheckedIOException;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
@@ -60,6 +61,10 @@ class DockerProcessEnvelope implements DockerProcess {
 
     @Override
     public CmdOutput execute() throws DockerProcessExecutionException {
-        return new UncheckedScalar<>(this.origin).value().execute();
+        try {
+            return new UncheckedScalar<>(this.origin).value().execute();
+        } catch (final UncheckedIOException exp) {
+            throw new DockerProcessExecutionException(exp);
+        }
     }
 }

@@ -23,10 +23,9 @@
  */
 package org.dgroup.dockertest.yml.tag;
 
-import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -46,19 +45,16 @@ public final class YmlTagOutputPredicateOfTest {
         MatcherAssert.assertThat(
             new ListOf<>(
                 new YmlTagOutputPredicateOf(
-                    "startsWith", "curl 7.",
-                    new UncheckedBiFunc<>(String::startsWith)
+                    "startsWith", "curl 7.", String::startsWith
                 ).asYmlString(),
                 new YmlTagOutputPredicateOf(
-                    "equals", "curl 7.57.0",
-                    new UncheckedBiFunc<>(String::equals)
+                    "equals", "curl 7.57.0", String::equals
                 ).asYmlString(),
                 new YmlTagOutputPredicateOf(
-                    "contains", "7.57",
-                    new UncheckedBiFunc<>(String::contains)
+                    "contains", "7.57", String::contains
                 ).asYmlString()
             ),
-            Matchers.hasItems(
+            new HasItems<>(
                 "startsWith: \"curl 7.\"",
                 "equals:     \"curl 7.57.0\"",
                 "contains:   \"7.57\""

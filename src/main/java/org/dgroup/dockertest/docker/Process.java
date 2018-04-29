@@ -36,7 +36,7 @@ public interface Process {
 
     /**
      * Execute one command.
-     * @return Instance of started OS dependent system process.
+     * @return The instance of started OS dependent system process.
      * @throws IOException if an I/O error occurs.
      */
     java.lang.Process execute() throws IOException;

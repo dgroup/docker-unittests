@@ -28,9 +28,9 @@ import org.cactoos.Func;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
-import org.dgroup.dockertest.scalar.ConditionNotSatisfiedException;
-import org.dgroup.dockertest.scalar.If;
-import org.dgroup.dockertest.scalar.StrictIf;
+import org.dgroup.dockertest.cmd.scalar.ArgAt;
+import org.dgroup.dockertest.cmd.scalar.ArgIn;
+import org.dgroup.dockertest.scalar.Mapped;
 import org.dgroup.dockertest.text.Text;
 import org.dgroup.dockertest.text.TextOf;
 
@@ -39,43 +39,28 @@ import org.dgroup.dockertest.text.TextOf;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
+ * @param <X> Type of item.
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-class ArgEnvelope<T> implements Arg<T> {
+class ArgEnvelope<X> implements Arg<X> {
 
     /**
-     * Name of command-line argument.
+     * Origin.
      */
-    private final String label;
-    /**
-     * Value of command-line argument.
-     */
-    private final Scalar<T> val;
-    /**
-     * Status of the argument(specified or not by user).
-     */
-    private final Scalar<Boolean> specified;
-    /**
-     * Error message in case if argument wasn't specified by the user, but app
-     *  trying to evaluate the argument value.
-     */
-    private final Text error;
+    private final Scalar<Arg<X>> origin;
 
     /**
      * Ctor.
      * @param label Name of command-line argument.
      * @param args All command-line arguments.
-     * @param func Convert string argument value to instance of {@code <T>}.
+     * @param fnc To convert string argument value to instance of {@code <X>}.
      */
-    ArgEnvelope(
-        final String label,
-        final List<String> args,
-        final Func<String, T> func
-    ) {
+    ArgEnvelope(final String label, final List<String> args,
+        final Func<String, X> fnc) {
         this(
-            label, args, func,
-            new TextOf("Argument `%s` wasn't specified", label)
+            label, args, fnc,
+            () -> new TextOf("Argument `%s` wasn't specified", label)
         );
     }
 
@@ -83,83 +68,63 @@ class ArgEnvelope<T> implements Arg<T> {
      * Ctor.
      * @param label Name of command-line argument.
      * @param args All command-line arguments.
-     * @param func Convert string argument value to instance of {@code <T>}.
-     * @param error Error message in case if argument wasn't specified by the
-     *  user.
-     * @checkstyle ParameterNumberCheck (10 lines)
-     * @checkstyle TrailingCommentCheck (10 lines)
+     * @param fnc To convert string argument value to instance of {@code <X>}.
+     * @param err Error message in case if argument is absent/missing.
+     * @checkstyle AnonInnerLengthCheck (30 lines)
+     * @checkstyle ParameterNumberCheck (5 lines)
      */
-    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod") // It's PMD bug
-    ArgEnvelope(
-        final String label,
-        final List<String> args,
-        final Func<String, T> func,
-        final Text error
-    ) {
+    ArgEnvelope(final String label, final List<String> args,
+        final Func<String, X> fnc, final Scalar<Text> err) {
         this(
-            label,
             new StickyScalar<>(
-                () -> func.apply(args.get(args.indexOf(label) + 1))
-            ),
-            new StickyScalar<>(
-                () -> {
-                    final int index = args.indexOf(label);
-                    return new If<>(
-                        () -> index >= 0 && args.size() > 1,
-                        () -> {
-                            final String arg = args.get(index + 1);
-                            return arg != null
-                                && !arg.trim().isEmpty()
-                                && arg.charAt(0) != '-';
-                        },
-                        () -> false
-                    ).value();
+                () -> new Arg<X>() {
+                    @Override
+                    public String name() {
+                        return label;
+                    }
+
+                    @Override
+                    public X value() throws CmdArgNotFoundException {
+                        if (!this.specifiedByUser()) {
+                            throw new CmdArgNotFoundException(
+                                new UncheckedScalar<>(err).value()
+                            );
+                        }
+                        return new UncheckedScalar<>(
+                            new Mapped<>(fnc, new ArgAt(label, args))
+                        ).value();
+                    }
+
+                    @Override
+                    public boolean specifiedByUser() {
+                        return new ArgIn(label, args).value();
+                    }
                 }
-            ),
-            error
+            )
         );
     }
 
     /**
      * Ctor.
-     * @param label Name of command-line argument.
-     * @param val Value of command-line argument.
-     * @param specified By user or not.
-     * @param error Error message in case if argument missing or not specified
-     *  by the user.
-     * @checkstyle ParameterNumberCheck (10 lines)
+     * @param origin Origin.
      */
-    ArgEnvelope(
-        final String label,
-        final Scalar<T> val,
-        final Scalar<Boolean> specified,
-        final Text error
-    ) {
-        this.label = label;
-        this.val = val;
-        this.specified = specified;
-        this.error = error;
+    ArgEnvelope(final Scalar<Arg<X>> origin) {
+        this.origin = origin;
     }
 
     @Override
     public String name() {
-        return this.label;
+        return new UncheckedScalar<>(this.origin).value().name();
     }
 
     @Override
-    public T value() throws CmdArgNotFoundException {
-        try {
-            return new StrictIf<>(
-                this.specified, this.val, this.error::text
-            ).value();
-        } catch (final ConditionNotSatisfiedException exp) {
-            throw new CmdArgNotFoundException(exp);
-        }
+    public X value() throws CmdArgNotFoundException {
+        return new UncheckedScalar<>(this.origin).value().value();
     }
 
     @Override
     public boolean specifiedByUser() {
-        return new UncheckedScalar<>(this.specified).value();
+        return new UncheckedScalar<>(this.origin).value().specifiedByUser();
     }
 
 }

@@ -31,11 +31,11 @@ import org.cactoos.list.Mapped;
 import org.cactoos.list.Sorted;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.dgroup.dockertest.text.Before;
-import org.dgroup.dockertest.text.Between;
 import org.dgroup.dockertest.text.Joined;
 import org.dgroup.dockertest.text.Splitted;
 import org.dgroup.dockertest.text.TextOf;
+import org.dgroup.dockertest.text.cutted.Before;
+import org.dgroup.dockertest.text.cutted.Between;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -91,7 +91,10 @@ public final class YmlTagOutput extends
                     throw new IllegalYmlFormatException(
                         new TextOf(
                             "Tag `output` has missing required child tag `%s`",
-                            new Joined(new Sorted<>(supported.keySet()), "|")
+                            new Joined(
+                                new Sorted<>(supported.keySet()),
+                                () -> "|"
+                            )
                         )
                     );
                 }

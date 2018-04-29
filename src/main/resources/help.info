@@ -1,0 +1,7 @@
+Usage: java [-options] -jar jarfile [args...]
+where args include:
+    -f        name of *.yml file with tests
+    -i	      docker image for testing
+    --threads size of thread pool to be used for testing
+    --timeout-per-test <seconds>
+              general timeout for all tests

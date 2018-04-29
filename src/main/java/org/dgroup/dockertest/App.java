@@ -24,16 +24,30 @@
 package org.dgroup.dockertest;
 
 import java.io.UncheckedIOException;
-import org.dgroup.dockertest.cmd.Args;
+import java.util.Collection;
+import java.util.List;
+import org.cactoos.list.ListOf;
+import org.dgroup.dockertest.cmd.Arg;
 import org.dgroup.dockertest.cmd.CmdArgNotFoundException;
+import org.dgroup.dockertest.cmd.ConcurrentTreads;
+import org.dgroup.dockertest.cmd.ImageOf;
+import org.dgroup.dockertest.cmd.OutputOf;
+import org.dgroup.dockertest.cmd.TimeoutPerThread;
+import org.dgroup.dockertest.cmd.YmlFileOf;
+import org.dgroup.dockertest.concurrent.Concurrent;
+import org.dgroup.dockertest.concurrent.Timeout;
 import org.dgroup.dockertest.exception.RootCauseOf;
-import org.dgroup.dockertest.termination.AbnormalTermination;
-import org.dgroup.dockertest.termination.Termination;
-import org.dgroup.dockertest.test.NoScenariosFoundException;
+import org.dgroup.dockertest.termination.Runtime;
+import org.dgroup.dockertest.termination.RuntimeOf;
+import org.dgroup.dockertest.test.Test;
 import org.dgroup.dockertest.test.TestingFailedException;
 import org.dgroup.dockertest.test.TestsOf;
+import org.dgroup.dockertest.test.output.Output;
 import org.dgroup.dockertest.test.output.std.StdOutput;
 import org.dgroup.dockertest.test.output.std.StdOutputOf;
+import org.dgroup.dockertest.text.TextOf;
+import org.dgroup.dockertest.text.highlighted.GreenText;
+import org.dgroup.dockertest.text.highlighted.YellowText;
 import org.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
@@ -42,38 +56,98 @@ import org.dgroup.dockertest.yml.IllegalYmlFormatException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #76 Daily stream cleaning for 1.0-beta release.
- * @checkstyle HideUtilityClassConstructorCheck (10 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-@SuppressWarnings("PMD.UseUtilityClass")
 public final class App {
 
     /**
-     * Start point.
-     * @param arguments YML file with tests and docker image name.
+     * Command-line arguments specified by the user from the shell.
      */
-    public static void main(final String... arguments) {
+    private final List<String> args;
+    /**
+     * Standard application output.
+     */
+    private final StdOutput std;
+
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by the user from the shell.
+     * @param std Standard application output.
+     */
+    public App(final List<String> args, final StdOutput std) {
+        this.args = args;
+        this.std = std;
+    }
+
+    /**
+     * Start point.
+     * @param args YML file with tests and docker image name.
+     */
+    public static void main(final String... args) {
         final StdOutput std = new StdOutputOf(System.out, "    ");
-        final Args args = new Args(std, arguments);
-        final Termination termination = new AbnormalTermination(std, args);
+        final Runtime rtm = new RuntimeOf();
         try {
-            std.print(new Logo("1.0"));
-            new TestsOf(args).execute();
-        } catch (final NoScenariosFoundException ex) {
-            termination.dueTo(ex);
+            new App(
+                new ListOf<>(args), std
+            ).start();
+        } catch (final AppException exp) {
+            std.print(exp.message());
+            rtm.shutdownWith(exp.exitCode());
+        }
+    }
+
+    /**
+     * Start the testing procedure:
+     * 1. Parse command-line arguments specified by the user;
+     * 2. Build tests from the YML file;
+     * 3. Detect the expected output formats like std, xml, html, etc.
+     * 4. Execute tests concurrently;
+     * 5. Report the results.
+     * @throws AppException in case of testing or other errors.
+     * @checkstyle MagicNumberCheck (100 lines)
+     * @checkstyle ExecutableStatementCountCheck (100 lines)
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    public void start() throws AppException {
+        if (this.args.isEmpty()) {
+            this.std.print(new Help());
+            return;
+        }
+        final Arg<String> file = new YmlFileOf(this.args);
+        final Arg<String> image = new ImageOf(this.args);
+        final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
+        final Arg<Integer> threads = new ConcurrentTreads(this.args);
+        final Arg<Collection<Output>> out = new OutputOf(this.std, this.args);
+        final Collection<Test> tests = new TestsOf(image, file);
+        try (final Concurrent ctly = new Concurrent(ttrd, threads)) {
+            if (!file.specifiedByUser()) {
+                throw new AppException("YML file with tests wasn't specified.");
+            }
+            if (tests.isEmpty()) {
+                throw new AppException(
+                    new TextOf(
+                        "%s testing scenarios found.", new YellowText(0)
+                    )
+                );
+            }
+            this.std.print(new Logo("1.0"));
+            this.std.print(
+                new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
+            );
+            ctly.execute(tests).report(out);
         } catch (final TestingFailedException ex) {
-            termination.dueTo(ex);
-        } catch (final CmdArgNotFoundException ex) {
-            termination.dueTo(ex);
-        } catch (final IllegalYmlFormatException ex) {
-            termination.dueTo(ex);
+            throw new AppException(-1, ex);
         } catch (final UncheckedIOException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
             if (cause instanceof IllegalYmlFormatException) {
-                termination.dueTo((IllegalYmlFormatException) cause);
-            } else {
-                termination.dueTo(ex);
+                throw new AppException(-2, cause);
             }
+            if (cause instanceof CmdArgNotFoundException) {
+                throw new AppException(-3, cause);
+            }
+            throw new AppException(
+                -4, new TextOf("App failed due to unexpected error: %s", cause)
+            );
         }
     }
 

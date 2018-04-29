@@ -26,9 +26,9 @@ package org.dgroup.dockertest.docker.process;
 import java.util.concurrent.TimeUnit;
 import org.dgroup.dockertest.docker.DockerProcessExecutionException;
 import org.dgroup.dockertest.docker.output.TextCmdOutput;
+import org.dgroup.dockertest.hamcrest.True;
 import org.dgroup.dockertest.text.Joined;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -59,7 +59,7 @@ public final class TimedTest {
             ).text().matches(
                 "^Some\\sdocker-related\\saction.\\sElapsed:\\s\\d\\.\\d+s$"
             ),
-            Matchers.equalTo(true)
+            new True()
         );
     }
 

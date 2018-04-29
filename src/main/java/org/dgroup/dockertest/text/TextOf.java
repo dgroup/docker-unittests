@@ -67,15 +67,13 @@ public final class TextOf implements Text {
 
     @Override
     public String text() {
-        if (new StringOccurrences(this.pattern, "%s")
-            .nonEqualTo(this.args.size())) {
-            throw new IllegalArgumentException(
-                String.format(
-                    "Wrong amount of arguments(%s) for pattern '%s'.",
-                    this.args.size(), this.pattern
-                )
-            );
-        }
+        new OccuredIn("%s", this.pattern).times(
+            this.args.size(),
+            String.format(
+                "Wrong amount of arguments(%s) for pattern '%s'.",
+                this.args.size(), this.pattern
+            )
+        );
         return new UncheckedText(
             new org.cactoos.text.FormattedText(
                 this.pattern, this.args

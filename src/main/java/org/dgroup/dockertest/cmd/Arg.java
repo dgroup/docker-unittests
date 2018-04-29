@@ -28,16 +28,16 @@ package org.dgroup.dockertest.cmd;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
+ * @param <X> Type of item.
  * @since 1.0
  */
-public interface Arg<T> {
+public interface Arg<X> {
 
     /**
      * Fetch name of command-line argument.
      *
      * For example, for {@code -f tests.yml} the name is {@code -f}.
-     * @return Argument name.
+     * @return The argument name.
      */
     String name();
 
@@ -47,42 +47,40 @@ public interface Arg<T> {
      * The value should be specified after the name.
      * For example, for {@code -f tests.yml} the value is {@code tests.yml}.
      *
-     * @return Argument value.
+     * @return The argument value.
      * @throws CmdArgNotFoundException in case if the argument wasn't
      *  specified by the user or arguments itself are empty.
      */
-    T value() throws CmdArgNotFoundException;
+    X value() throws CmdArgNotFoundException;
 
     /**
      * Verify existence of argument in the arguments specified by user.
-     * @return Existence of argument.
+     * @return The true, in the case, when the user specified the argument
+     *  from the shell.
      */
     boolean specifiedByUser();
 
     /**
      * Fake implementation for unit testing purposes.
+     * @param <X> Type of item.
      * @checkstyle JavadocMethodCheck (20 lines)
      * @checkstyle JavadocVariableCheck (20 lines)
      */
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    final class Fake implements Arg<String> {
+    final class Fake<X> implements Arg<X> {
 
         private final String name;
-        private final String value;
+        private final X value;
         private final Boolean specified;
 
-        public Fake() {
-            this("", "");
-        }
-
-        public Fake(final String nme, final String val) {
+        public Fake(final String nme, final X val) {
             this(nme, val, true);
         }
 
-        public Fake(final String nme, final String val, final Boolean spfd) {
-            this.name = nme;
-            this.value = val;
-            this.specified = spfd;
+        public Fake(final String name, final X value, final Boolean specified) {
+            this.name = name;
+            this.value = value;
+            this.specified = specified;
         }
 
         @Override
@@ -91,7 +89,7 @@ public interface Arg<T> {
         }
 
         @Override
-        public String value() {
+        public X value() {
             return this.value;
         }
 
