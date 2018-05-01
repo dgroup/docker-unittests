@@ -25,16 +25,22 @@
 
 <configuration>
 
-    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-    <appender name="console.log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="console.log"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%15thread] %-5level %class{36}.%M %3L - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%15thread] %-5level %class{36}.%M
+                %3L - %msg%n
+            </Pattern>
         </layout>
         <file>logs/console.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/console_%d{yyyy_MM_dd}.log</fileNamePattern> <!-- daily rollover -->
-            <maxHistory>30</maxHistory> <!-- keep 30 days' worth of history capped at 3GB total size -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/console_%d{yyyy_MM_dd}.log
+            </fileNamePattern> <!-- daily rollover -->
+            <maxHistory>30
+            </maxHistory> <!-- keep 30 days' worth of history capped at 3GB total size -->
             <totalSizeCap>10MB</totalSizeCap>
         </rollingPolicy>
         <append>true</append>
