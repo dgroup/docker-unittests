@@ -32,6 +32,15 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
+    <url>http://github.com/dgroup/docker-unittests</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/dgroup/docker-unittests/blob/master/license.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
         <!-- System, mvn plugins, etc -->
         <jdk.version>1.8</jdk.version>
