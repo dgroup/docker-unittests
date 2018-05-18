@@ -32,7 +32,10 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Testing of docker images during CI/CD process</description>
     <url>http://github.com/dgroup/docker-unittests</url>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -40,6 +43,22 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Yurii Dubinka</name>
+            <email>yurii.dubinka@gmail.com</email>
+            <organization>com.github.dgroup</organization>
+            <organizationUrl>http://github.com/dgroup</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git:github.com/dgroup/docker-unittests.git</connection>
+        <developerConnection>scm:git:ssh://github.com:dgroup/docker-unittests.git</developerConnection>
+        <url>http://github.com/dgroup/docker-unittests/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <!-- System, mvn plugins, etc -->
@@ -53,7 +72,6 @@
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
-        <findbugs.version>3.0.1</findbugs.version>
         <!-- General dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -185,7 +203,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -213,15 +230,7 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
-
-    <scm>
-        <url>https://github.com/dgroup/docker-unittests</url>
-        <connection>scm:git:https://github.com/dgroup/docker-unittests.git</connection>
-        <developerConnection>scm:git:https://github.com/dgroup/docker-unittests.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
 
     <profiles>
         <profile>
