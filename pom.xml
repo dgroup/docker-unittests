@@ -70,6 +70,8 @@
         <mvn.resources.version>3.0.2</mvn.resources.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
         <mvn.nexus.version>1.6.7</mvn.nexus.version>
+        <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
+        <mvn.source.version>2.2.1</mvn.source.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
@@ -226,6 +228,43 @@
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${mvn.nexus.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${mvn.source.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${mvn.javadoc.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -25,7 +25,6 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.test.NoScenariosFoundException;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,8 +57,7 @@ public final class YmlTagTestOfTest {
     }
 
     @Test
-    public void tagOutputStartsWith()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputStartsWith() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[1]/output` has 2nd statement `startsWith`",
             new YmlResource("with-single-test.yml")
@@ -91,8 +89,7 @@ public final class YmlTagTestOfTest {
      * @todo #DEV Implement escaping of chars which are using for split
      */
     @Test
-    public void escapedSymbols()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void escapedSymbols() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[3]/output` has 2nd statement `contains`",
             new YmlResource(

@@ -26,7 +26,6 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.hamcrest.True;
-import com.github.dgroup.dockertest.test.NoScenariosFoundException;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -105,8 +104,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputHasAllNecessaryYmlPredicates()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputHasAllNecessaryYmlPredicates() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
             new YmlResource("with-3-simple-tests.yml").scenario(2).output(),
@@ -115,8 +113,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputContains()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputContains() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`",
             new YmlResource("with-3-simple-tests.yml").scenario(2)
@@ -128,8 +125,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputStartsWith()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputStartsWith() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
             new YmlResource("with-3-simple-tests.yml")
@@ -140,8 +136,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputStartsWithHasExpectedValue()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputStartsWithHasExpectedValue() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 2nd statement `startsWith`" +
                 " and expected value is `v8.`",
@@ -155,8 +150,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputEndsWith() throws IllegalYmlFormatException,
-        NoScenariosFoundException {
+    public void tagOutputEndsWith() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
             new YmlResource("with-3-simple-tests.yml")
@@ -167,8 +161,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputEndsWithHasExpectedValue()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputEndsWithHasExpectedValue() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 3rd statement `endsWith`" +
                 " and expected value is `.5.0`",
@@ -180,8 +173,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputMatches()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputMatches() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[3]/output` has 4th statement `matches`",
             new YmlResource("with-3-simple-tests.yml")
@@ -192,8 +184,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputMatchesHasExpectedValue()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputMatchesHasExpectedValue() throws IllegalYmlFormatException {
         final String version = "curl 7.57.0 (x86_64-pc-linux-gnu) " +
             "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 " +
             "libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 " +
@@ -215,8 +206,7 @@ public final class YmlTagOutputTest {
     }
 
     @Test
-    public void tagOutputContainsHasExpectedValue()
-        throws IllegalYmlFormatException, NoScenariosFoundException {
+    public void tagOutputContainsHasExpectedValue() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 1st statement `contains`" +
                 " and expected value is `v8.5.0`",

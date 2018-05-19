@@ -23,19 +23,19 @@
  */
 package com.github.dgroup.dockertest;
 
-import com.github.dgroup.dockertest.test.NoScenariosFoundException;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.TextWithRepeatableArguments;
 import com.github.dgroup.dockertest.yml.YmlString;
 import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Represents an yml resource available in `src/test/resources/yml/test` dir.
@@ -157,13 +157,13 @@ public final class YmlResource {
      *
      * @param pos Scenario number.
      * @return One testing scenario.
-     * @throws NoScenariosFoundException in case if we can't find the scenarios
+     * @throws IllegalArgumentException in case if we can't find the scenarios
      *  due to empty/corrupted YML file.
      */
-    public YmlTagTest scenario(final int pos) throws NoScenariosFoundException {
+    public YmlTagTest scenario(final int pos) throws IllegalArgumentException {
         if (pos < 1 || pos > this.scenarios().size()) {
-            throw new NoScenariosFoundException(
-                new TextOf("Scenario with '%s' position not found", pos)
+            throw new IllegalArgumentException(
+                new TextOf("Scenario with '%s' position not found", pos).text()
             );
         }
         return this.scenarios().get(pos - 1);
