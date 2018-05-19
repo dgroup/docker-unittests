@@ -27,10 +27,38 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.dgroup.dockertest</groupId>
+    <groupId>com.github.dgroup</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>1.0-alpha</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Testing of docker images during CI/CD process</description>
+    <url>http://github.com/dgroup/docker-unittests</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/dgroup/docker-unittests/blob/master/license.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Yurii Dubinka</name>
+            <email>yurii.dubinka@gmail.com</email>
+            <organization>com.github.dgroup</organization>
+            <organizationUrl>http://github.com/dgroup</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git:github.com/dgroup/docker-unittests.git</connection>
+        <developerConnection>scm:git:ssh://github.com:dgroup/docker-unittests.git</developerConnection>
+        <url>http://github.com/dgroup/docker-unittests/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <!-- System, mvn plugins, etc -->
@@ -41,10 +69,12 @@
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <mvn.resources.version>3.0.2</mvn.resources.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
+        <mvn.nexus.version>1.6.7</mvn.nexus.version>
+        <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
+        <mvn.source.version>2.2.1</mvn.source.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
-        <findbugs.version>3.0.1</findbugs.version>
         <!-- General dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -66,7 +96,15 @@
         <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
         <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
         <code.coverage.limit.line>0.55</code.coverage.limit.line>
-        <sonar.coverage.exclusions>**/RuntimeOf.java,**/HasValue.java,**/HasValues.java,**/*Exception.java,**/*Fake*.java,**/*.Fake*.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>
+            **/RuntimeOf.java,
+            **/*Exception.java,
+            **/*Envelope.java,
+            **/HasValue.java,
+            **/HasValues.java,
+            org/dgroup/dockertest/hamcrest/*.java
+            **/*Fake*.java,**/*.Fake*.java,**/**.Fake*.java,
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -168,7 +206,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -179,7 +216,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.dgroup.dockertest.App</mainClass>
+                            <mainClass>com.github.dgroup.dockertest.App</mainClass>
                         </manifest>
                     </archive>
                     <finalName>${project.name}-${project.version}</finalName>
@@ -195,16 +232,59 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${mvn.nexus.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${mvn.source.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${mvn.javadoc.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
         </plugins>
-
     </build>
 
-    <scm>
-        <url>https://github.com/dgroup/docker-unittests</url>
-        <connection>scm:git:https://github.com/dgroup/docker-unittests.git</connection>
-        <developerConnection>scm:git:https://github.com/dgroup/docker-unittests.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <profiles>
         <profile>

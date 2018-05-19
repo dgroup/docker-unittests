@@ -11,8 +11,10 @@ merge:
   env:
       MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
   script:
-    - mvn -Pqulice -Ddocker_installed=no clean package
-
+    - mvn -Pqulice clean package
+deploy:
+  script: |
+    mvn clean deploy -Pqulice --errors --settings ../settings.xml
 release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
