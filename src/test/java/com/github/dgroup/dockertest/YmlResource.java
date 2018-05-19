@@ -29,13 +29,12 @@ import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.TextWithRepeatableArguments;
 import com.github.dgroup.dockertest.yml.YmlString;
 import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.StickyScalar;
-import org.cactoos.scalar.UncheckedScalar;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
  * Represents an yml resource available in `src/test/resources/yml/test` dir.
