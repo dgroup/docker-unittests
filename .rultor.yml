@@ -19,5 +19,4 @@ release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn -Pqulice clean package
-    mvn -Prelease -s ../secret.xml github-release:release
+    mvn -V -P qulice,github,ossrh -s ../secret.xml clean install

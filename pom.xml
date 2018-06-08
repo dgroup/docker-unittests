@@ -72,6 +72,7 @@
         <mvn.nexus.version>1.6.7</mvn.nexus.version>
         <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
         <mvn.source.version>2.2.1</mvn.source.version>
+        <mvn.gpg.version>1.5</mvn.gpg.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
@@ -430,7 +431,7 @@
         </profile>
 
         <profile>
-            <id>release</id>
+            <id>github</id>
             <build>
                 <plugins>
                     <plugin>
@@ -445,6 +446,28 @@
                                     <tag>v${project.version}</tag>
                                     <artifact>${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar</artifact>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${mvn.gpg.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
