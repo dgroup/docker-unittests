@@ -65,16 +65,16 @@ public final class Concurrent implements AutoCloseable {
     /**
      * Ctor.
      * @param trd Timeout per each thread.
-     * @param cct Quantity of concurrent threads to be used for testing.
+     * @param qtt Quantity of concurrent threads to be used for testing.
      * @todo #/DEV Move timeout configuration to yml file in order to define
      *  unique timeout for each test.
      * @checkstyle MagicNumberCheck (15 lines)
      */
-    public Concurrent(final Arg<Timeout> trd, final Arg<Integer> cct) {
+    public Concurrent(final Arg<Timeout> trd, final Arg<Integer> qtt) {
         this(
             new StickyScalar<>(
                 () -> Executors.newFixedThreadPool(
-                    new If<>(cct::specifiedByUser, cct::value, () -> 8).value(),
+                    new If<>(qtt::specifiedByUser, qtt::value, () -> 8).value(),
                     new Demons("Test-%s")
                 )
             ),
