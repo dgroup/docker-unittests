@@ -6,6 +6,7 @@ readers:
 
 assets:
   secret.xml: "dgroup/mvn-secret-settings#docker-unittests.xml"
+  9B6EC9DB.asc: "dgroup/mvn-secret-settings#9B6EC9DB.asc"
 
 merge:
   env:
