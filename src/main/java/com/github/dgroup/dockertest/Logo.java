@@ -24,6 +24,7 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.text.Splitted;
+import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.BlueText;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
@@ -61,10 +62,10 @@ public final class Logo implements Iterable<String> {
      */
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
-        final GreenText app = new GreenText(
+        final Text vsn = new GreenText(
             new TextOf("v%s", this.appVersion())
         );
-        final BlueText whale = new BlueText("" +
+        final Text whale = new BlueText("" +
             "                  ##         .            \n" +
             "            ## ## ##        ==            \n" +
             "         ## ## ## ##       ===            \n" +
@@ -74,8 +75,7 @@ public final class Logo implements Iterable<String> {
             "      \\    \\        __/             \n" +
             "       \\____\\______/   \n"
         );
-        return new TextOf("\nDocker testing tool (%s)\n%s", app, whale)
-            .text();
+        return new TextOf("\nDocker testing tool (%s)\n%s", vsn, whale).text();
     }
 
     /**

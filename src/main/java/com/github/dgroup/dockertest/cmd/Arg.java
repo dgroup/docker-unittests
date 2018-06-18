@@ -73,8 +73,8 @@ public interface Arg<X> {
         private final X value;
         private final Boolean specified;
 
-        public Fake(final String nme, final X val) {
-            this(nme, val, true);
+        public Fake(final String name, final X value) {
+            this(name, value, true);
         }
 
         public Fake(final String name, final X value, final Boolean specified) {

@@ -37,8 +37,7 @@ import org.cactoos.list.ListOf;
  * @version $Id$
  * @since 1.0
  */
-public final class ItemsEndsWith extends
-    HamcrestCollectionEnvelope<String> {
+public final class ItemsEndsWith extends HamcrestCollectionEnvelope<String> {
 
     /**
      * Ctor.
