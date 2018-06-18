@@ -5,8 +5,8 @@ readers:
   - "urn:github:1651114"
 
 assets:
-  secret.xml: "dgroup/mvn-secret-settings#docker-unittests.xml"
-  9B6EC9DB.asc: "dgroup/mvn-secret-settings#9B6EC9DB.asc"
+  settings.xml: "dgroup/mvn-secret-settings#settings.xml.asc"
+  9B6EC9DB.gpg: "dgroup/mvn-secret-settings#9B6EC9DB.gpg.asc"
 
 merge:
   env:
@@ -15,9 +15,9 @@ merge:
     - mvn -Pqulice clean package
 deploy:
   script: |
-    mvn clean deploy -Pqulice --errors --settings ../secret.xml
+    mvn clean deploy -Pqulice --errors --settings ../settings.xml
 release:
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn -V -P qulice,github,ossrh -s ../secret.xml clean install
+    mvn -V -P qulice,github,ossrh -s ../settings.xml clean install
