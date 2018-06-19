@@ -17,9 +17,7 @@ deploy:
   script: |
     mvn clean deploy -Pqulice --errors --settings ../settings.xml
 release:
-  env:
-    gpg.homedir: /home/r
   script: |
     mvn versions:set "-DnewVersion=$tag"
     git commit -am "$tag"
-    mvn -V -P qulice,github,ossrh -s ../settings.xml clean install
+    mvn -V -Dgpg.homedir="$HOME" -P qulice,github,ossrh -s ../settings.xml clean install
