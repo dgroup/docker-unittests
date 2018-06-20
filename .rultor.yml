@@ -5,8 +5,8 @@ readers:
   - "urn:github:1651114"
 
 assets:
-  settings.xml: "dgroup/mvn-secret-settings#settings.xml.asc"
-  9B6EC9DB.gpg: "dgroup/mvn-secret-settings#9B6EC9DB.gpg.asc"
+  settings.xml: "dgroup/mvn-secret-settings#settings.xml"
+  9B6EC9DB.gpg: "dgroup/mvn-secret-settings#9B6EC9DB.gpg"
 
 merge:
   env:
