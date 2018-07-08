@@ -6,7 +6,7 @@ readers:
 
 assets:
   settings.xml: "dgroup/mvn-secret-settings#settings.xml"
-  9B6EC9DB.gpg: "dgroup/mvn-secret-settings#9B6EC9DB.gpg"
+  pubring.gpg: "dgroup/mvn-secret-settings#pubring.gpg"
 
 merge:
   env:
