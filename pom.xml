@@ -69,7 +69,7 @@
         <mvn.assembly.version>3.1.0</mvn.assembly.version>
         <mvn.resources.version>3.0.2</mvn.resources.version>
         <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
-        <mvn.nexus.version>1.6.7</mvn.nexus.version>
+        <mvn.nexus.version>1.6.8</mvn.nexus.version>
         <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
         <mvn.source.version>2.2.1</mvn.source.version>
         <mvn.gpg.version>1.5</mvn.gpg.version>
@@ -232,17 +232,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${mvn.nexus.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -440,6 +429,11 @@
                         <version>${mvn.gh.release.version}</version>
                         <executions>
                             <execution>
+                                <id>github-release-artifacts</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>release</goal>
+                                </goals>
                                 <inherited>false</inherited>
                                 <configuration>
                                     <releaseName>v${project.version}</releaseName>
@@ -470,6 +464,17 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${mvn.nexus.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
