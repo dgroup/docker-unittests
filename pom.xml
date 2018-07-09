@@ -438,7 +438,7 @@
                                 <configuration>
                                     <releaseName>v${project.version}</releaseName>
                                     <tag>v${project.version}</tag>
-                                    <artifact>${project.build.directory}${file.separator}${project.name}-${project.version}.jar</artifact>
+                                    <artifact>${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar</artifact>
                                 </configuration>
                             </execution>
                         </executions>
