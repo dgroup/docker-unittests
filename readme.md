@@ -12,6 +12,7 @@
 <!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
+[![jpeek report](http://i.jpeek.org/com.github.dgroup/docker-unittests/badge.svg)](http://i.jpeek.org/com.github.dgroup/docker-unittests)
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![SQ passed](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
 [![SQ bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=bugs)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
