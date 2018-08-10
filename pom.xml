@@ -32,7 +32,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.artifactId}</name>
     <description>Testing of docker images during CI/CD process</description>
     <url>http://github.com/dgroup/docker-unittests</url>
 
@@ -209,32 +209,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${mvn.assembly.version}</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.github.dgroup.dockertest.App</mainClass>
-                        </manifest>
-                    </archive>
-                    <finalName>${project.name}-${project.version}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-a-jar-with-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>${mvn.source.version}</version>
                 <executions>
@@ -315,7 +289,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -386,8 +359,8 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>jacoco-site</id>
-                                <phase>test</phase>
+                                <id>jacoco-report</id>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
@@ -438,13 +411,39 @@
                                 <configuration>
                                     <releaseName>v${project.version}</releaseName>
                                     <tag>v${project.version}</tag>
-                                    <artifact>${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar</artifact>
+                                    <artifact>${project.build.directory}${file.separator}${project.artifactId}-app-${project.version}.jar</artifact>
                                 </configuration>
                             </execution>
                         </executions>
                         <configuration>
                             <repositoryId>https://github.com/dgroup/docker-unittests</repositoryId>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${mvn.assembly.version}</version>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.github.dgroup.dockertest.App</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>${project.name}-app-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-a-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
