@@ -23,12 +23,14 @@
  */
 package com.github.dgroup.dockertest;
 
+import com.github.dgroup.dockertest.io.Property;
 import com.github.dgroup.dockertest.text.Splitted;
-import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.BlueText;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import java.util.Iterator;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
  * Application logo.
@@ -42,18 +44,26 @@ public final class Logo implements Iterable<String> {
     /**
      * Application version.
      */
-    private final String version;
+    private final UncheckedScalar<String> version;
 
     /**
      * Ctor.
-     * @param version Application version.
      */
-    public Logo(final String version) {
-        this.version = version;
+    public Logo() {
+        this(new Property("build.version"));
+    }
+
+    /**
+     * Ctor.
+     * @param version The application version.
+     */
+    public Logo(final Scalar<String> version) {
+        this.version = new UncheckedScalar<>(version);
     }
 
     /**
      * App version and docker logo as string.
+     *
      * @return The logo.
      * @checkstyle AddEmptyString (50 lines)
      * @checkstyle OperatorWrapCheck (50 lines)
@@ -62,28 +72,20 @@ public final class Logo implements Iterable<String> {
      */
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
-        final Text vsn = new GreenText(
-            new TextOf("v%s", this.appVersion())
-        );
-        final Text whale = new BlueText("" +
-            "                  ##         .            \n" +
-            "            ## ## ##        ==            \n" +
-            "         ## ## ## ##       ===            \n" +
-            "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
-            "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
-            "     \\______ o          __/            \n" +
-            "      \\    \\        __/             \n" +
-            "       \\____\\______/   \n"
-        );
-        return new TextOf("\nDocker testing tool (%s)\n%s", vsn, whale).text();
-    }
-
-    /**
-     * Give app version.
-     * @return The version.
-     */
-    public String appVersion() {
-        return this.version;
+        return new TextOf(
+            "\nDocker testing tool (%s)\n%s",
+            new GreenText("v%s", this.version.value()),
+            new BlueText("" +
+                "                  ##         .            \n" +
+                "            ## ## ##        ==            \n" +
+                "         ## ## ## ##       ===            \n" +
+                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
+                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
+                "     \\______ o          __/            \n" +
+                "      \\    \\        __/             \n" +
+                "       \\____\\______/   \n"
+            )
+        ).text();
     }
 
     @Override

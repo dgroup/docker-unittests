@@ -25,20 +25,14 @@ package com.github.dgroup.dockertest.test;
 
 import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.docker.process.DockerProcess;
-import com.github.dgroup.dockertest.scalar.If;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
-import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.text.highlighted.GreenText;
-import com.github.dgroup.dockertest.text.highlighted.RedText;
+import com.github.dgroup.dockertest.yml.tag.UncheckedYmlTagTest;
 import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
-import java.util.List;
+import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import java.util.Collection;
 import org.cactoos.iterable.Filtered;
-import org.cactoos.list.Joined;
-import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
 import org.cactoos.list.StickyList;
-import org.cactoos.scalar.StickyScalar;
 
 /**
  * Represents YML based implementation for single test.
@@ -46,7 +40,6 @@ import org.cactoos.scalar.StickyScalar;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class TestOf implements Test {
 
@@ -55,93 +48,28 @@ public final class TestOf implements Test {
      */
     private final DockerProcess process;
     /**
-     * Name of testing scenario.
+     * Origin test to be executed within docker container.
      */
-    private final String assume;
-    /**
-     * Command to be executed inside of docker container.
-     */
-    private final String cmd;
-    /**
-     * Expected conditions which should be applied to output
-     *  from docker container.
-     */
-    private final List<YmlTagOutputPredicate> expected;
+    private final UncheckedYmlTagTest test;
 
     /**
      * Ctor.
-     * @param assume Name of testing scenario.
-     * @param cmd Command to be executed within docker container.
-     * @param expect Expected conditions which should be applied
-     *  to output from docker container.
+     * @param test Origin test to be executed within docker container.
      * @param proc Docker container where test be executed.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public TestOf(final String assume, final String cmd,
-        final List<YmlTagOutputPredicate> expect, final DockerProcess proc) {
-        this.assume = assume;
-        this.cmd = cmd;
-        this.expected = expect;
+    public TestOf(final YmlTagTest test, final DockerProcess proc) {
+        this.test = new UncheckedYmlTagTest(test);
         this.process = proc;
     }
 
     @Override
     public TestOutcome execute() throws DockerProcessExecutionException {
         final String output = this.process.execute().asText();
-        final List<YmlTagOutputPredicate> failed = new StickyList<>(
-            new Filtered<>(t -> !t.test(output), this.expected)
+        final Collection<YmlTagOutputPredicate> failed = new StickyList<>(
+            new Filtered<>(t -> !t.test(output), this.test.output())
         );
-        return new TestOutcomeOf(
-            new StickyScalar<>(failed::isEmpty),
-            new If<>(
-                failed::isEmpty,
-                this::messagePassed,
-                () -> this.messageFailed(output, failed)
-            ).value()
-        );
-    }
-
-    /**
-     * Return success test report for single test.
-     * @return Test report for single test.
-     */
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public List<String> messagePassed() {
-        return new ListOf<>(
-            new TextOf("> %s %s", this.assume, new GreenText("PASSED")).text()
-        );
-    }
-
-    /**
-     * Return failed test report for single test.
-     *
-     * @param output From docker container.
-     * @param failed Failed conditions which was applied to the output
-     *  from docker container.
-     * @return Test report for single test.
-     */
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public List<String> messageFailed(final String output,
-        final List<YmlTagOutputPredicate> failed) {
-        return new Joined<>(
-            new ListOf<>(
-                new TextOf(
-                    "> %s %s", this.assume, new RedText("FAILED")
-                ).text(),
-                new TextOf("  command: \"%s\"", this.cmd).text(),
-                new TextOf("  output:  \"%s\"", output).text(),
-                "  expected output:"
-            ),
-            new Mapped<>(
-                o -> new TextOf("    - %s", o).text(),
-                this.expected
-            ),
-            new ListOf<>("  mismatch:"),
-            new Mapped<>(
-                o -> new TextOf("    - %s", o).text(),
-                failed
-            )
-        );
+        return new TestOutcomeOf(this.test, output, failed);
     }
 
 }

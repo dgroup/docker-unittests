@@ -21,45 +21,41 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.test;
+package com.github.dgroup.dockertest.test.output.std;
 
-import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
-import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlString;
-import org.cactoos.collection.CollectionEnvelope;
-import org.cactoos.iterable.Mapped;
-import org.cactoos.list.StickyList;
+import com.github.dgroup.dockertest.hamcrest.HasItems;
+import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Tests to be executed.
+ * Unit tests for class {@link MsgPassed}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class TestsOf extends CollectionEnvelope<Test> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class MsgPassedTest {
 
-    /**
-     * Ctor.
-     * @param image The name of the docker image.
-     * @param file The name of the YML file with tests.
-     */
-    public TestsOf(final Arg<String> image, final Arg<String> file) {
-        super(() -> new StickyList<>(
-            new Mapped<>(
-                ymlTagTest -> new TestOf(
-                    ymlTagTest,
-                    new DockerProcessOf(
-                        image.value(),
-                        ymlTagTest.containerCommandAsArray()
-                    )
-                ),
-                new YmlString(
-                    new TextFile(file.value())
-                ).asTests()
+    @Test
+    public void passedMsg() {
+        MatcherAssert.assertThat(
+            new ListOf<>(
+                new MsgPassed(
+                    new TestOutcome.Fake(true, "curl version is 7.xxx")
+                )
+            ),
+            Matchers.allOf(
+                Matchers.hasSize(1),
+                new HasItems<>(
+                    "> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m"
+                )
             )
-        ));
+        );
     }
-
 }

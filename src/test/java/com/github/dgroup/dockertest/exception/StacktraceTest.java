@@ -44,7 +44,7 @@ public final class StacktraceTest {
         MatcherAssert.assertThat(
             new Stacktrace(
                 new Exception(new IOException("Shit happens"))
-            ).fullMessage(),
+            ).toString(),
             Matchers.startsWith(
                 "java.lang.Exception: java.io.IOException: Shit happens\n"
             )

@@ -23,9 +23,11 @@
  */
 package com.github.dgroup.dockertest.test.outcome;
 
-import java.util.List;
+import com.github.dgroup.dockertest.yml.tag.UncheckedYmlTagTest;
+import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import java.util.Collection;
 import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
 
 /**
@@ -38,47 +40,70 @@ import org.cactoos.scalar.UncheckedScalar;
 public final class TestOutcomeOf implements TestOutcome {
 
     /**
+     * The original test.
+     */
+    private final UncheckedYmlTagTest test;
+    /**
      * Status of test scenario.
      */
-    private final Scalar<Boolean> passed;
+    private final Collection<YmlTagOutputPredicate> failed;
     /**
      * The message/details regarding testing scenario.
      */
-    private final List<String> msg;
+    private final UncheckedScalar<String> raw;
 
     /**
      * Ctor.
-     * @param passed Status of test.
-     * @param msg Test details.
+     * @param test The test to be executed within docker container.
+     * @param raw The raw output from docker container.
+     * @param failed The failed output predicates.
      */
-    public TestOutcomeOf(final Boolean passed, final String... msg) {
-        this(() -> passed, new ListOf<>(msg));
+    public TestOutcomeOf(final YmlTagTest test, final String raw,
+        final Collection<YmlTagOutputPredicate> failed) {
+        this(test, () -> raw, failed);
     }
 
     /**
      * Ctor.
-     * @param passed Status of test.
-     * @param msg Test details.
+     * @param test The test to be executed within docker container.
+     * @param raw The raw output from docker container.
+     * @param failed The failed output predicates.
      */
-    public TestOutcomeOf(final Scalar<Boolean> passed, final List<String> msg) {
-        this.passed = passed;
-        this.msg = msg;
+    public TestOutcomeOf(final YmlTagTest test, final Scalar<String> raw,
+        final Collection<YmlTagOutputPredicate> failed) {
+        this.test = new UncheckedYmlTagTest(test);
+        this.raw = new UncheckedScalar<>(raw);
+        this.failed = failed;
     }
 
-    /**
-     * Status of testing scenario.
-     * @return True in case of absent failed scenarios.
-     */
+    @Override
     public boolean successful() {
-        return new UncheckedScalar<>(this.passed).value();
+        return this.failedConditions().isEmpty();
     }
 
-    /**
-     * Testing scenario details.
-     * @return Scenario details like passed/failed, docker cmd, output.
-     */
-    public List<String> message() {
-        return this.msg;
+    @Override
+    public String scenario() {
+        return this.test.assume();
+    }
+
+    @Override
+    public String cmd() {
+        return this.test.cmd();
+    }
+
+    @Override
+    public String rawOutput() {
+        return this.raw.value();
+    }
+
+    @Override
+    public Collection<YmlTagOutputPredicate> expectedConditions() {
+        return this.test.output();
+    }
+
+    @Override
+    public Collection<YmlTagOutputPredicate> failedConditions() {
+        return this.failed;
     }
 
 }

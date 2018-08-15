@@ -33,7 +33,7 @@ import com.github.dgroup.dockertest.cmd.YmlFileOf;
 import com.github.dgroup.dockertest.concurrent.Concurrent;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.exception.RootCauseOf;
-import com.github.dgroup.dockertest.termination.Runtime;
+import com.github.dgroup.dockertest.exception.Stacktrace;
 import com.github.dgroup.dockertest.termination.RuntimeOf;
 import com.github.dgroup.dockertest.test.Test;
 import com.github.dgroup.dockertest.test.TestingFailedException;
@@ -45,7 +45,6 @@ import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.YellowText;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import java.io.UncheckedIOException;
 import java.util.Collection;
 import java.util.List;
 import org.cactoos.list.ListOf;
@@ -81,18 +80,26 @@ public final class App {
 
     /**
      * Start point.
-     * @param args YML file with tests and docker image name.
+     * @param cargs The cmd arguments specified by the user from the shell.
+     * @see YmlFileOf
+     * @see ImageOf
+     * @see OutputOf
+     * @see ConcurrentTreads
      */
-    public static void main(final String... args) {
+    public static void main(final String... cargs) {
         final StdOutput std = new StdOutputOf(System.out, "    ");
-        final Runtime rtm = new RuntimeOf();
+        final List<String> args = new ListOf<>(cargs);
+        if (args.isEmpty()) {
+            std.print(new Help());
+            return;
+        }
         try {
-            new App(
-                new ListOf<>(args), std
-            ).start();
-        } catch (final AppException exp) {
-            std.print(exp.message());
-            rtm.shutdownWith(exp.exitCode());
+            new App(args, std).start();
+        } catch (final AppException cause) {
+            std.print(cause.message());
+            new RuntimeOf().shutdownWith(
+                cause.exitCode()
+            );
         }
     }
 
@@ -100,19 +107,18 @@ public final class App {
      * Start the testing procedure:
      * 1. Parse command-line arguments specified by the user;
      * 2. Build tests from the YML file;
-     * 3. Detect the expected output formats like std, xml, html, etc.
+     * 3. Detect the expected output formats like std, xml or html;
      * 4. Execute tests concurrently;
      * 5. Report the results.
      * @throws AppException in case of testing or other errors.
      * @checkstyle MagicNumberCheck (100 lines)
+     * @checkstyle IllegalCatchCheck (100 lines)
      * @checkstyle ExecutableStatementCountCheck (100 lines)
      */
-    @SuppressWarnings("PMD.PreserveStackTrace")
+    @SuppressWarnings({
+        "PMD.PreserveStackTrace",
+        "PMD.AvoidCatchingGenericException"})
     public void start() throws AppException {
-        if (this.args.isEmpty()) {
-            this.std.print(new Help());
-            return;
-        }
         final Arg<String> file = new YmlFileOf(this.args);
         final Arg<String> image = new ImageOf(this.args);
         final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
@@ -130,14 +136,14 @@ public final class App {
                     )
                 );
             }
-            this.std.print(new Logo("1.0"));
+            this.std.print(new Logo());
             this.std.print(
                 new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
             );
             ctly.execute(tests).report(out);
         } catch (final TestingFailedException ex) {
             throw new AppException(-1, ex);
-        } catch (final UncheckedIOException ex) {
+        } catch (final RuntimeException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
             if (cause instanceof IllegalYmlFormatException) {
                 throw new AppException(-2, cause);
@@ -146,7 +152,7 @@ public final class App {
                 throw new AppException(-3, cause);
             }
             throw new AppException(
-                -4, new TextOf("App failed due to unexpected error: %s", cause)
+                -4, new TextOf("App failed due to %s", new Stacktrace(cause))
             );
         }
     }

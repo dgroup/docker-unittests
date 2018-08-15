@@ -91,13 +91,10 @@ public final class OutputOf extends ArgEnvelope<Collection<Output>> {
      * @param fnc Function to map string to the {@code Collection<Output>}.
      * @checkstyle IndentationCheck (15 lines)
      */
-    public OutputOf(
-        final Output std,
-        final Arg<String> arg,
-        final Func<String, Collection<Output>> fnc
-    ) {
+    public OutputOf(final Output std,
+        final Arg<String> arg, final Func<String, Collection<Output>> fnc) {
         super(
-            () -> new Alternative<>(
+            () -> new Alternative<Collection<Output>>(
                 new com.github.dgroup.dockertest.cmd.Mapped<>(fnc, arg),
                 () -> new ListOf<>(std)
             )

@@ -27,6 +27,7 @@ import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
 import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
+import java.io.StringWriter;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
@@ -35,8 +36,8 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class OutputOfTest {
@@ -56,7 +57,8 @@ public final class OutputOfTest {
                 new StdOutputOf(), "-o", "xml|html"
             ),
             new HasValues<>(
-                new XmlOutput(), new HtmlOutput()
+                new XmlOutput("0.1.0", StringWriter::new),
+                new HtmlOutput()
             )
         );
     }

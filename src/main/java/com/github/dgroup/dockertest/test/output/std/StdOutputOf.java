@@ -80,7 +80,7 @@ public final class StdOutputOf implements StdOutput {
         this.printTestingStatus(
             new UncheckedScalar<>(
                 new And(
-                    (Proc<TestOutcome>) test -> this.print(test.message()),
+                    (Proc<TestOutcome>) this::print,
                     outcome
                 )
             ).value() && outcome.successful()
@@ -150,6 +150,21 @@ public final class StdOutputOf implements StdOutput {
             ).value().text()
         );
         this.out.println();
+    }
+
+    /**
+     * Print the test details.
+     * @param outcome The single test result.
+     * @todo #146:30m Split the raw output by lines.
+     */
+    private void print(final TestOutcome outcome) {
+        this.print(
+            new If<>(
+                outcome.successful(),
+                new MsgPassed(outcome),
+                new MsgFailed(outcome)
+            ).value()
+        );
     }
 
 }

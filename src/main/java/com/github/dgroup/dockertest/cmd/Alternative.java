@@ -50,6 +50,15 @@ public final class Alternative<X> implements Arg<X> {
      * @param src The original argument value.
      * @param alt The alternative argument value.
      */
+    public Alternative(final Arg<X> src, final X alt) {
+        this(src, () -> alt);
+    }
+
+    /**
+     * Ctor.
+     * @param src The original argument value.
+     * @param alt The alternative argument value.
+     */
     public Alternative(final Arg<X> src, final Scalar<X> alt) {
         this.origin = src;
         this.alt = alt;

@@ -21,45 +21,28 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.test;
+package com.github.dgroup.dockertest.io;
 
-import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
-import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlString;
-import org.cactoos.collection.CollectionEnvelope;
-import org.cactoos.iterable.Mapped;
-import org.cactoos.list.StickyList;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Tests to be executed.
+ * Unit tests for class {@link Property}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0.3
  */
-public final class TestsOf extends CollectionEnvelope<Test> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class PropertyTest {
 
-    /**
-     * Ctor.
-     * @param image The name of the docker image.
-     * @param file The name of the YML file with tests.
-     */
-    public TestsOf(final Arg<String> image, final Arg<String> file) {
-        super(() -> new StickyList<>(
-            new Mapped<>(
-                ymlTagTest -> new TestOf(
-                    ymlTagTest,
-                    new DockerProcessOf(
-                        image.value(),
-                        ymlTagTest.containerCommandAsArray()
-                    )
-                ),
-                new YmlString(
-                    new TextFile(file.value())
-                ).asTests()
-            )
-        ));
+    @Test
+    public void value() throws Exception {
+        MatcherAssert.assertThat(
+            new Property("test.properties", "app.version").value(),
+            Matchers.equalTo("1.0.3")
+        );
     }
-
 }

@@ -23,7 +23,22 @@
  */
 package com.github.dgroup.dockertest.test.output;
 
+import com.github.dgroup.dockertest.io.Property;
+import com.github.dgroup.dockertest.scalar.If;
+import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import java.io.FileWriter;
+import java.io.Writer;
+import org.cactoos.Scalar;
+import org.cactoos.io.BytesOf;
+import org.cactoos.io.LengthOf;
+import org.cactoos.io.OutputTo;
+import org.cactoos.io.TeeInput;
+import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.text.TextOf;
+import org.xembly.Directives;
+import org.xembly.Xembler;
 
 /**
  * Print testing results to xml file.
@@ -33,13 +48,92 @@ import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #23:4h Print testing output to xml file.
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class XmlOutput implements Output {
 
+    /**
+     * The version of XML report format.
+     */
+    private final String vrsn;
+    /**
+     * The path of XML report.
+     */
+    private final UncheckedScalar<Writer> out;
+
+    /**
+     * Ctor.
+     */
+    public XmlOutput() {
+        this(
+            new UncheckedScalar<>(new Property("output.xml.version")).value(),
+            new UncheckedScalar<>(new Property("output.xml.file")).value()
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param vrsn The version of XML report format.
+     * @param path The path of XML report.
+     */
+    public XmlOutput(final String vrsn, final String path) {
+        this(vrsn, () -> new FileWriter(path));
+    }
+
+    /**
+     * Ctor.
+     * @param vrsn The version of XML report format.
+     * @param out The writer for XML report.
+     */
+    public XmlOutput(final String vrsn, final Scalar<Writer> out) {
+        this.vrsn = vrsn;
+        this.out = new UncheckedScalar<>(out);
+    }
+
     @Override
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public void print(final TestingOutcome outcome) {
-        throw new UnsupportedOperationException("#print()");
+        final Directives report = new Directives()
+            .add("report")
+            .attr("format-version", this.vrsn)
+            .add("image").set("openjdk:9.0.1-11")
+            .up()
+            .add("tests")
+            .attr("overall-status", this.decode(outcome.successful()));
+        for (final TestOutcome test : outcome) {
+            report.add("test")
+                .add("scenario").set(test.scenario()).up()
+                .add("status").set(this.decode(test.successful())).up()
+                .add("expectedThatOutput");
+            for (final YmlTagOutputPredicate prd : test.expectedConditions()) {
+                report.add(prd.comparingType())
+                    .set(prd.expectedValue())
+                    .up();
+            }
+            report.up()
+                .add("docker")
+                .add("command").set(test.cmd()).up()
+                .add("output").set(test.rawOutput()).up()
+                .add("failed");
+            for (final YmlTagOutputPredicate prd : test.failedConditions()) {
+                report.add(prd.comparingType())
+                    .set(prd.expectedValue())
+                    .up();
+            }
+            report.up().up().up();
+        }
+        new UncheckedScalar<>(
+            new LengthOf(
+                new TeeInput(
+                    new BytesOf(
+                        new TextOf(
+                            new Xembler(report).xmlQuietly()
+                        )
+                    ),
+                    new OutputTo(this.out.value())
+                )
+            )
+        ).value();
     }
 
     @Override
@@ -50,5 +144,15 @@ public final class XmlOutput implements Output {
     @Override
     public boolean equals(final Object obj) {
         return obj instanceof XmlOutput;
+    }
+
+    /**
+     * Decode the {@code true/false} to {@code passed/failed}.
+     * @param status The origin.
+     * @return The decoded text.
+     * @checkstyle NonStaticMethodCheck (5 lines)
+     */
+    private String decode(final boolean status) {
+        return new If<>(status, "passed", "failed").value();
     }
 }
