@@ -155,7 +155,7 @@ public final class StdOutputOf implements StdOutput {
     /**
      * Print the test details.
      * @param outcome The single test result.
-     * @todo #146:30m Split the raw output by lines.
+     * @todo #146:30min Split the raw output by lines.
      */
     private void print(final TestOutcome outcome) {
         this.print(
