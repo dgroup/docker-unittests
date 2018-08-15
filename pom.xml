@@ -319,6 +319,8 @@
                                 <exclude>dependencies:com.github.docker-java:docker-java</exclude>
                                 <exclude>dependencies:junit:junit</exclude>
                                 <exclude>dependencies:org.assertj:assertj-core</exclude>
+                                <exclude>dependencies:com.jcabi.incubator:xembly</exclude>
+                                <exclude>dependencies:com.jcabi:jcabi-xml</exclude>
                                 <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>
