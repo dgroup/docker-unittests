@@ -25,6 +25,7 @@ package com.github.dgroup.dockertest.yml;
 
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
+import java.io.IOException;
 
 /**
  * Notify that *.yml file has a wrong structure.
@@ -33,7 +34,7 @@ import com.github.dgroup.dockertest.text.TextOf;
  * @version $Id$
  * @since 1.0
  */
-public final class IllegalYmlFormatException extends Exception {
+public final class IllegalYmlFormatException extends IOException {
 
     /**
      * Ctor.

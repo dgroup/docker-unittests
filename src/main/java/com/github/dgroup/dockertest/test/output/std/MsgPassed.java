@@ -21,56 +21,62 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.exception;
+package com.github.dgroup.dockertest.test.output.std;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.text.TextOf;
+import com.github.dgroup.dockertest.text.highlighted.GreenText;
+import java.util.Iterator;
 import org.cactoos.Scalar;
-import org.cactoos.scalar.StickyScalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Exception stacktrace.
+ * Message to standard output about passed testing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
+ * @since 1.0.3
  */
-public final class Stacktrace {
+public final class MsgPassed implements Iterable<String> {
 
     /**
-     * The text.
+     * The testing scenario name.
      */
-    private final UncheckedScalar<String> txt;
+    private final UncheckedScalar<String> scenario;
 
     /**
      * Ctor.
-     * @param cause The original root cause.
+     * @param outcome The single test result.
      */
-    public Stacktrace(final Throwable cause) {
-        this(
-            new StickyScalar<>(
-                () -> {
-                    final StringWriter swr = new StringWriter();
-                    final PrintWriter pwr = new PrintWriter(swr, true);
-                    cause.printStackTrace(pwr);
-                    return swr.getBuffer().toString();
-                }
-            )
-        );
+    public MsgPassed(final TestOutcome outcome) {
+        // @checkstyle RequireThisCheck (1 line)
+        this(outcome::scenario);
     }
 
     /**
      * Ctor.
-     * @param txt The stacktrace as text.
+     * @param scenario The testing scenario name.
      */
-    public Stacktrace(final Scalar<String> txt) {
-        this.txt = new UncheckedScalar<>(txt);
+    public MsgPassed(final String scenario) {
+        this(() -> scenario);
+    }
+
+    /**
+     * Ctor.
+     * @param scenario The testing scenario name.
+     */
+    public MsgPassed(final Scalar<String> scenario) {
+        this.scenario = new UncheckedScalar<>(scenario);
     }
 
     @Override
-    public String toString() {
-        return this.txt.value();
+    public Iterator<String> iterator() {
+        return new ListOf<>(
+            new TextOf(
+                "> %s %s", this.scenario.value(), new GreenText("PASSED")
+            ).text()
+        ).iterator();
     }
 
 }

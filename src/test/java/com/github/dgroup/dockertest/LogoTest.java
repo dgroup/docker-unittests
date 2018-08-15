@@ -42,7 +42,7 @@ public final class LogoTest {
 
     @Test
     public void byLines() {
-        final Logo logo = new Logo("1.0");
+        final Logo logo = new Logo(() -> "1.0");
         new StdOutputOf().print(logo);
         MatcherAssert.assertThat(
             logo,

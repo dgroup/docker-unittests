@@ -21,45 +21,57 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.test;
+package com.github.dgroup.dockertest.io;
 
-import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
-import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlString;
-import org.cactoos.collection.CollectionEnvelope;
-import org.cactoos.iterable.Mapped;
-import org.cactoos.list.StickyList;
+import org.cactoos.Scalar;
+import org.cactoos.io.ResourceOf;
+import org.cactoos.iterable.PropertiesOf;
 
 /**
- * Tests to be executed.
+ * Represents single property from classpath.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TestsOf extends CollectionEnvelope<Test> {
+public final class Property implements Scalar<String> {
+
+    /**
+     * The origin property value.
+     */
+    private final Scalar<String> origin;
 
     /**
      * Ctor.
-     * @param image The name of the docker image.
-     * @param file The name of the YML file with tests.
+     * @param property The name of the property from the build.properties file.
      */
-    public TestsOf(final Arg<String> image, final Arg<String> file) {
-        super(() -> new StickyList<>(
-            new Mapped<>(
-                ymlTagTest -> new TestOf(
-                    ymlTagTest,
-                    new DockerProcessOf(
-                        image.value(),
-                        ymlTagTest.containerCommandAsArray()
-                    )
-                ),
-                new YmlString(
-                    new TextFile(file.value())
-                ).asTests()
-            )
-        ));
+    public Property(final String property) {
+        this("build.properties", property);
     }
 
+    /**
+     * Ctor.
+     * @param path The path to the *.properties file within current classpath.
+     * @param property The name of the particular property.
+     */
+    public Property(final String path, final String property) {
+        this(
+            () -> new PropertiesOf(
+                new ResourceOf(path)
+            ).value().getProperty(property)
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param origin The origin property value.
+     */
+    Property(final Scalar<String> origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public String value() throws Exception {
+        return this.origin.value();
+    }
 }

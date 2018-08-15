@@ -25,6 +25,9 @@ package com.github.dgroup.dockertest.test.outcome;
 
 import com.github.dgroup.dockertest.test.TestingFailedException;
 import com.github.dgroup.dockertest.test.output.Output;
+import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import java.util.Collections;
 import org.cactoos.list.ListOf;
 import org.junit.Test;
 
@@ -34,14 +37,32 @@ import org.junit.Test;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TestingOutcomeOfTest {
 
     @Test(expected = TestingFailedException.class)
     public void reportTheResults() throws TestingFailedException {
         new TestingOutcomeOf(
-            new TestOutcomeOf(false, "curl version is 73402342124234234")
+            new TestOutcomeOf(
+                new YmlTagTest.Fake(
+                    "", "", Collections.emptyList()
+                ),
+                "curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0\n" +
+                    "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp \n" +
+                    "Features: AsynchDNS IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz HTTP2 UnixSockets HTTPS-proxy \n",
+                new ListOf<>(
+                    new YmlTagOutputPredicate.Fake(
+                        "startsWith", "curl 8000",
+                        input -> input.startsWith("curl 8000")
+                    )
+                )
+            )
         ).report(
             new ListOf<>(new Output.Fake())
         );

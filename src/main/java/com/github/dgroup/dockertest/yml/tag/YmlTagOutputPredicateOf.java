@@ -39,8 +39,7 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagOutputPredicateOf
-    implements YmlTagOutputPredicate {
+public final class YmlTagOutputPredicateOf implements YmlTagOutputPredicate {
 
     /**
      * Compare type: contains, equals, startsWith, endsWith, matches.

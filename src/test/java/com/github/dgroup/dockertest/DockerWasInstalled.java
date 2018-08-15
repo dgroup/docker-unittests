@@ -39,7 +39,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @since 1.0
  */
-public final class ExecuteWithinInstalledDocker implements Scalar<Boolean> {
+public final class DockerWasInstalled implements Scalar<Boolean> {
 
     /**
      * The condition that docker is installed to the env.
@@ -50,7 +50,7 @@ public final class ExecuteWithinInstalledDocker implements Scalar<Boolean> {
      * Ctor.
      * @checkstyle ReturnCountCheck (20 lines)
      */
-    public ExecuteWithinInstalledDocker() {
+    public DockerWasInstalled() {
         this(
             new StickyScalar<>(
                 () -> {
@@ -76,7 +76,7 @@ public final class ExecuteWithinInstalledDocker implements Scalar<Boolean> {
      * Ctor.
      * @param cnd The condition that docker is installed to the env.
      */
-    public ExecuteWithinInstalledDocker(final Scalar<Boolean> cnd) {
+    public DockerWasInstalled(final Scalar<Boolean> cnd) {
         this.cnd = cnd;
     }
 

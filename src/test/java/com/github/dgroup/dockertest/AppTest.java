@@ -51,7 +51,7 @@ public final class AppTest {
 
     @Test
     public void run() throws AppException {
-        new Assume().that(new ExecuteWithinInstalledDocker());
+        new Assume().that(new DockerWasInstalled());
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
         std.print(new TextOf("File: %s.", path));

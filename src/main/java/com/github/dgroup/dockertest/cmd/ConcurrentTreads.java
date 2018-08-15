@@ -56,7 +56,7 @@ public final class ConcurrentTreads extends ArgEnvelope<Integer> {
         super(
             () -> new Alternative<>(
                 new Mapped<>(Integer::valueOf, new ArgOf("--threads", args)),
-                () -> 8
+                8
             )
         );
     }

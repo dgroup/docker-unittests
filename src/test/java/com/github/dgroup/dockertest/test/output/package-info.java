@@ -21,45 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.test;
-
-import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
-import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlString;
-import org.cactoos.collection.CollectionEnvelope;
-import org.cactoos.iterable.Mapped;
-import org.cactoos.list.StickyList;
 
 /**
- * Tests to be executed.
+ * Unit tests for package {@link com.github.dgroup.dockertest.test.output}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TestsOf extends CollectionEnvelope<Test> {
-
-    /**
-     * Ctor.
-     * @param image The name of the docker image.
-     * @param file The name of the YML file with tests.
-     */
-    public TestsOf(final Arg<String> image, final Arg<String> file) {
-        super(() -> new StickyList<>(
-            new Mapped<>(
-                ymlTagTest -> new TestOf(
-                    ymlTagTest,
-                    new DockerProcessOf(
-                        image.value(),
-                        ymlTagTest.containerCommandAsArray()
-                    )
-                ),
-                new YmlString(
-                    new TextFile(file.value())
-                ).asTests()
-            )
-        ));
-    }
-
-}
+package com.github.dgroup.dockertest.test.output;

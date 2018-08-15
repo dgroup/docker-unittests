@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.concurrent;
 
 import com.github.dgroup.dockertest.Assume;
-import com.github.dgroup.dockertest.ExecuteWithinInstalledDocker;
+import com.github.dgroup.dockertest.DockerWasInstalled;
 import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.cmd.ConcurrentTreads;
 import com.github.dgroup.dockertest.cmd.TimeoutPerThread;
@@ -96,7 +96,7 @@ public final class ConcurrentTest {
 
     @org.junit.Test
     public void executeConsequentially() throws Exception {
-        new Assume().that(new ExecuteWithinInstalledDocker());
+        new Assume().that(new DockerWasInstalled());
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
         out.print(new TextOf("File: %s.", path));

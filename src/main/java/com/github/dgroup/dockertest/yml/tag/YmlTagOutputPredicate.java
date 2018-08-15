@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
+import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.cactoos.Func;
 import org.hamcrest.Description;
@@ -103,6 +104,13 @@ public interface YmlTagOutputPredicate {
             } catch (final Exception exp) {
                 throw new IllegalYmlFormatException(exp);
             }
+        }
+
+        @Override
+        public String toString() {
+            return new TextOf(
+                "%s %s", this.comparingType(), this.expectedValue()
+            ).text();
         }
     }
 

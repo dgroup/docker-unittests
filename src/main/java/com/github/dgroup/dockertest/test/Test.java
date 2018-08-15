@@ -26,7 +26,6 @@ package com.github.dgroup.dockertest.test;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import com.github.dgroup.dockertest.text.TextOf;
 
 /**
@@ -68,7 +67,7 @@ public interface Test {
         public TestOutcome execute() throws DockerProcessExecutionException {
             try {
                 this.tmt.measure().sleep(this.tmt.timeout());
-                return new TestOutcomeOf(
+                return new TestOutcome.Fake(
                     true,
                     new TextOf(
                         "[%s:%s] Slept %s %s.",

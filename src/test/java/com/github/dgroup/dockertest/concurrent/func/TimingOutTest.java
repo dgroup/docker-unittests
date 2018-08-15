@@ -69,7 +69,7 @@ public final class TimingOutTest {
                         new TimeoutOf(2, TimeUnit.SECONDS)
                     ).execute()
                 )
-            ).message().iterator().next(),
+            ).scenario(),
             Matchers.containsString("Slept 2 SECONDS")
         );
     }

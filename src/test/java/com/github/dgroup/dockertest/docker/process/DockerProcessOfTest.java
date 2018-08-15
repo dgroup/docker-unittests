@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.docker.process;
 
 import com.github.dgroup.dockertest.Assume;
-import com.github.dgroup.dockertest.ExecuteWithinInstalledDocker;
+import com.github.dgroup.dockertest.DockerWasInstalled;
 import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import org.hamcrest.MatcherAssert;
@@ -43,7 +43,7 @@ public final class DockerProcessOfTest {
 
     @Test
     public void execute() throws DockerProcessExecutionException {
-        new Assume().that(new ExecuteWithinInstalledDocker());
+        new Assume().that(new DockerWasInstalled());
         MatcherAssert.assertThat(
             new DockerProcessOf(
                 "openjdk:9.0.1-11",

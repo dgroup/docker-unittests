@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.text.highlighted;
 
+import com.github.dgroup.dockertest.text.TextOf;
 import org.fusesource.jansi.Ansi;
 
 /**
@@ -40,6 +41,16 @@ public final class GreenText extends HighlightedTextEnvelope {
      */
     public GreenText(final Object msg) {
         super(msg, Ansi.Color.GREEN);
+    }
+
+    /**
+     * Ctor.
+     * @param ptrn The template where each {@code %s} symbol will be replaced
+     *  by the argument .
+     * @param args The arguments for template above.
+     */
+    public GreenText(final String ptrn, final Object... args) {
+        this(new TextOf(ptrn, args));
     }
 
 }

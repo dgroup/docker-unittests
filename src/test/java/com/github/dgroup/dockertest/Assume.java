@@ -63,7 +63,7 @@ public final class Assume {
             org.junit.Assume.assumeThat(cnd.value(), new True());
         } catch (final Exception cause) {
             org.junit.Assume.assumeThat(
-                new Stacktrace(cause).fullMessage(), false, new True()
+                new Stacktrace(cause).toString(), false, new True()
             );
         }
     }

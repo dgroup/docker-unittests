@@ -29,7 +29,7 @@
 
     <groupId>com.github.dgroup</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>1.0</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -38,8 +38,8 @@
 
     <licenses>
         <license>
-            <name>MIT License</name>
-            <url>https://github.com/dgroup/docker-unittests/blob/master/license.txt</url>
+            <name>${project.licence}</name>
+            <url>${project.licence.url}</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -61,6 +61,15 @@
     </scm>
 
     <properties>
+        <!-- Application properties -->
+        <build.version>${project.version}</build.version>
+        <output.xml.version>0.1.0</output.xml.version>
+        <output.xml.file>docker-unittests-report.xml</output.xml.file>
+        <license>MIT License</license>
+        <license.url>
+            https://github.com/dgroup/docker-unittests/blob/master/license.txt
+        </license.url>
+        <GAV>${project.groupId}:${project.artifactId}:${project.version}</GAV>
         <!-- System, mvn plugins, etc -->
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,6 +82,7 @@
         <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
         <mvn.source.version>2.2.1</mvn.source.version>
         <mvn.gpg.version>1.5</mvn.gpg.version>
+        <mvn.properties.version>1.0.0</mvn.properties.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
         <sonar.version>3.4.0.905</sonar.version>
@@ -85,18 +95,21 @@
         <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
         <jackson-databind>2.9.2</jackson-databind>
         <jansi.version>1.16</jansi.version>
+        <xembly.version>0.22</xembly.version>
+        <jcabi-xml.version>0.21.4</jcabi-xml.version>
+        <jcabi-matchers.version>1.4</jcabi-matchers.version>
         <!-- Unit testing dependencies -->
         <hamcrest-all.version>1.3</hamcrest-all.version>
         <assertj-core.version>3.8.0</assertj-core.version>
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
         <!-- Code quality -->
-        <code.coverage.limit.classes-without-tests>5</code.coverage.limit.classes-without-tests>
-        <code.coverage.limit.instructions>0.55</code.coverage.limit.instructions>
-        <code.coverage.limit.complexity>0.50</code.coverage.limit.complexity>
-        <code.coverage.limit.methods>0.55</code.coverage.limit.methods>
-        <code.coverage.limit.branch>0.50</code.coverage.limit.branch>
-        <code.coverage.limit.line>0.55</code.coverage.limit.line>
+        <code.cvrg.classes-without-tests>5</code.cvrg.classes-without-tests>
+        <code.cvrg.instructions>0.55</code.cvrg.instructions>
+        <code.cvrg.complexity>0.50</code.cvrg.complexity>
+        <code.cvrg.methods>0.55</code.cvrg.methods>
+        <code.cvrg.branch>0.50</code.cvrg.branch>
+        <code.cvrg.line>0.55</code.cvrg.line>
         <sonar.coverage.exclusions>
             **/RuntimeOf.java,
             **/*Exception.java,
@@ -148,6 +161,16 @@
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.jcabi.incubator</groupId>
+            <artifactId>xembly</artifactId>
+            <version>${xembly.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-xml</artifactId>
+            <version>${jcabi-xml.version}</version>
+        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -165,7 +188,12 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest-all.version}</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-matchers</artifactId>
+            <version>${jcabi-matchers.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -203,6 +231,22 @@
                                     <directory>src/main/resources</directory>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>${mvn.properties.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>write-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.outputDirectory}/build.properties</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -275,6 +319,8 @@
                                 <exclude>dependencies:com.github.docker-java:docker-java</exclude>
                                 <exclude>dependencies:junit:junit</exclude>
                                 <exclude>dependencies:org.assertj:assertj-core</exclude>
+                                <exclude>dependencies:com.jcabi.incubator:xembly</exclude>
+                                <exclude>dependencies:com.jcabi:jcabi-xml</exclude>
                                 <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>
@@ -326,32 +372,32 @@
                                                 <limit>
                                                     <counter>INSTRUCTION</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>${code.coverage.limit.instructions}</minimum>
+                                                    <minimum>${code.cvrg.instructions}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>LINE</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>${code.coverage.limit.line}</minimum>
+                                                    <minimum>${code.cvrg.line}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>BRANCH</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>${code.coverage.limit.branch}</minimum>
+                                                    <minimum>${code.cvrg.branch}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>COMPLEXITY</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>${code.coverage.limit.complexity}</minimum>
+                                                    <minimum>${code.cvrg.complexity}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>METHOD</counter>
                                                     <value>COVEREDRATIO</value>
-                                                    <minimum>${code.coverage.limit.methods}</minimum>
+                                                    <minimum>${code.cvrg.methods}</minimum>
                                                 </limit>
                                                 <limit>
                                                     <counter>CLASS</counter>
                                                     <value>MISSEDCOUNT</value>
-                                                    <maximum>${code.coverage.limit.classes-without-tests}</maximum>
+                                                    <maximum>${code.cvrg.classes-without-tests}</maximum>
                                                 </limit>
                                             </limits>
                                         </rule>
@@ -366,6 +412,25 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${mvn.jar.version}</version>
+                        <configuration>
+                            <archive>
+                                <index>true</index>
+                                <manifest>
+                                    <addDefaultImplementationEntries/>
+                                </manifest>
+                                <manifestEntries>
+                                    <Project-Url>${project.url}</Project-Url>
+                                    <Implementation-Build>${project.version}</Implementation-Build>
+                                    <License>${license}</License>
+                                    <License-Url>${license.url}</License-Url>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -431,6 +496,12 @@
                                 <manifest>
                                     <mainClass>com.github.dgroup.dockertest.App</mainClass>
                                 </manifest>
+                                <manifestEntries>
+                                    <Project-Url>${project.url}</Project-Url>
+                                    <Implementation-Build>${project.version}</Implementation-Build>
+                                    <License>${license}</License>
+                                    <License-Url>${license.url}</License-Url>
+                                </manifestEntries>
                             </archive>
                             <finalName>${project.name}-app-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>

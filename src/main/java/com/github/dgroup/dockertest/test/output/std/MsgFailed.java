@@ -21,61 +21,61 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.test.output;
+package com.github.dgroup.dockertest.test.output.std;
 
-import com.github.dgroup.dockertest.scalar.If;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
 import com.github.dgroup.dockertest.text.TextOf;
-import java.util.ArrayList;
-import java.util.List;
+import com.github.dgroup.dockertest.text.highlighted.RedText;
+import java.util.Iterator;
 import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 
 /**
- * Represent an output where we can print the testing results
- * (std out, xml, html, etc).
+ * Message to standard output about failed testing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface Output {
+public final class MsgFailed implements Iterable<String> {
 
     /**
-     * Print testing outcome.
-     * @param outcome Of testing.
+     * The single test result.
      */
-    void print(final TestingOutcome outcome);
+    private final TestOutcome outcome;
 
     /**
-     * Fake instance for unit testing purposes.
-     * @checkstyle JavadocMethodCheck (30 lines)
-     * @checkstyle JavadocVariableCheck (20 lines)
+     * Ctor.
+     * @param outcome The single test result.
      */
-    final class Fake implements Output {
+    public MsgFailed(final TestOutcome outcome) {
+        this.outcome = outcome;
+    }
 
-        private final List<String> output = new ArrayList<>(10);
-
-        @Override
-        public void print(final TestingOutcome outcome) {
-            this.output.addAll(
-                new Joined<>(
-                    new Mapped<TestOutcome, String>(
-                        test -> new If<>(
-                            test.successful(),
-                            new TextOf("%s PASSED", test.scenario()),
-                            new TextOf("%s FAILED", test.scenario())
-                        ).value().text(),
-                        outcome
-                    )
-                )
-            );
-        }
-
-        public List<String> lines() {
-            return this.output;
-        }
+    @Override
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    public Iterator<String> iterator() {
+        // @checkstyle LineLengthCheck (10 lines)
+        return new Joined<>(
+            new ListOf<>(
+                new TextOf(
+                    "> %s %s", this.outcome.scenario(), new RedText("FAILED")
+                ).text(),
+                new TextOf("  command: \"%s\"", this.outcome.cmd()).text(),
+                new TextOf("  output:  \"%s\"", this.outcome.rawOutput()).text(),
+                "  expected output:"
+            ),
+            new Mapped<>(
+                ec -> new TextOf("    - %s", ec).text(),
+                this.outcome.expectedConditions()
+            ),
+            new ListOf<>("  mismatch:"),
+            new Mapped<>(
+                fc -> new TextOf("    - %s", fc).text(),
+                this.outcome.failedConditions()
+            )
+        ).iterator();
     }
 
 }

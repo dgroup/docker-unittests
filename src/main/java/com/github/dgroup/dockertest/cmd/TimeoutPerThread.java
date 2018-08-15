@@ -56,7 +56,7 @@ public final class TimeoutPerThread extends ArgEnvelope<Timeout> {
      * @checkstyle MagicNumberCheck (10 lines)
      */
     public TimeoutPerThread(final List<String> args) {
-        super(() -> new Alternative<>(
+        super(() -> new Alternative<Timeout>(
             new Mapped<>(
                 arg -> new TimeoutOf(arg, TimeUnit.SECONDS),
                 new ArgOf("--timeout-per-test", args)
