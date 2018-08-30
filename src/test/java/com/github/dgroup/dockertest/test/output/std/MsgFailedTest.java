@@ -41,6 +41,7 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
@@ -76,13 +77,13 @@ public final class MsgFailedTest {
                 )
             ),
             Matchers.<List<String>>allOf(
-                Matchers.hasSize(8),
+                Matchers.hasSize(10),
                 new HasItems<>(
                     "> curl version is 7.xxx \u001B[91;1mFAILED\u001B[m",
                     "  command: \"curl --version\"",
-                    "  output:  \"curl 7.19.7 (x86_64-redhat-linux-gnu) lib\n" +
-                        "Protocols: tftp ftp telnet dict ldap ldaps\n" +
-                        "Features: GSS-Negotiate IDN IPv6 Largefile NTLM\"",
+                    "  output:  \"curl 7.19.7 (x86_64-redhat-linux-gnu) lib",
+                    "            Protocols: tftp ftp telnet dict ldap ldaps",
+                    "            Features: GSS-Negotiate IDN IPv6 Largefile NTLM\"",
                     "  expected output:",
                     "    - startsWith: \"curl 7.\"",
                     "    - contains:   \"OpenSSL/1.0.2m\"",

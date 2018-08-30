@@ -41,6 +41,7 @@ import org.junit.Test;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle LineLengthCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
@@ -112,8 +113,8 @@ public final class StdOutputOfTest {
                 "...> java version is 1.9 \u001B[91;1mFAILED\u001B[m\n" +
                 "...  command: \"java -version\"\n" +
                 "...  output:  \"java version \"1.8.0_161\"\n" +
-                "Java(TM) SE Runtime Environment (build 1.8.0_161)\n" +
-                "Java HotSpot(TM) 64-Bit Server VM (build 25.161)\"\n" +
+                "...            Java(TM) SE Runtime Environment (build 1.8.0_161)\n" +
+                "...            Java HotSpot(TM) 64-Bit Server VM (build 25.161)\"\n" +
                 "...  expected output:\n" +
                 "...    - contains 1.9\n" +
                 "...  mismatch:\n" +
