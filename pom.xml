@@ -29,7 +29,7 @@
 
     <groupId>com.github.dgroup</groupId>
     <artifactId>docker-unittests</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -126,7 +126,6 @@
             <groupId>org.cactoos</groupId>
             <artifactId>cactoos</artifactId>
             <version>${cactoos.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.docker-java</groupId>
@@ -143,13 +142,11 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>

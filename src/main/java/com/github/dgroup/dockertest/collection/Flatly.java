@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.cactoos.Scalar;
 import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.list.ListOf;
 import org.cactoos.scalar.StickyScalar;
@@ -55,16 +56,20 @@ public final class Flatly<X> extends CollectionEnvelope<X> {
      * @param src Origin.
      */
     public Flatly(final Collection<Collection<X>> src) {
-        super(
-            new StickyScalar<>(
-                () -> {
-                    final List<X> dst = new ArrayList<>(10);
-                    for (final Collection<X> item : src) {
-                        dst.addAll(item);
-                    }
-                    return Collections.unmodifiableList(dst);
-                }
-            )
-        );
+        super(() -> {
+            final List<X> dst = new ArrayList<>(10);
+            for (final Collection<X> item : src) {
+                dst.addAll(item);
+            }
+            return Collections.unmodifiableList(dst);
+        });
+    }
+
+    /**
+     * Ctor.
+     * @param src Origin.
+     */
+    public Flatly(final Scalar<Collection<X>> src) {
+        super(new StickyScalar<>(src));
     }
 }
