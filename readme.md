@@ -1,4 +1,8 @@
 ## docker-unittests 
+<a href="https://www.yegor256.com/2017/10/24/award-2018.html">
+  <img src="//www.yegor256.com/images/award/2017/winner-dgroup.png"
+  style="height:45px;" alt='Winner Badge'/></a>
+  
 [![Maven](https://img.shields.io/maven-central/v/com.github.dgroup/docker-unittests.svg)](https://mvnrepository.com/artifact/com.github.dgroup/docker-unittests)
 [![Javadocs](http://www.javadoc.io/badge/com.github.dgroup/docker-unittests.svg)](http://www.javadoc.io/doc/com.github.dgroup/docker-unittests)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt) 
