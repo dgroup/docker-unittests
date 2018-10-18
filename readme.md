@@ -1,6 +1,6 @@
 ## docker-unittests 
 <a href="https://www.yegor256.com/2017/10/24/award-2018.html">
-  <img src="https://www.yegor256.com/images/award/2017/winner-dgroup.png" style="height:45px;" alt='Winner Badge'/>
+  <img src="https://www.yegor256.com/images/award/2018/winner-dgroup.png" style="height:45px;" alt='Winner Badge'/>
 </a>
   
 [![Maven](https://img.shields.io/maven-central/v/com.github.dgroup/docker-unittests.svg)](https://mvnrepository.com/artifact/com.github.dgroup/docker-unittests)
