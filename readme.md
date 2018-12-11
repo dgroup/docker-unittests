@@ -1,4 +1,4 @@
-## docker-unittests 
+
   
 [![Maven](https://img.shields.io/maven-central/v/com.github.dgroup/docker-unittests.svg)](https://mvnrepository.com/artifact/com.github.dgroup/docker-unittests)
 [![Javadocs](http://www.javadoc.io/badge/com.github.dgroup/docker-unittests.svg)](http://www.javadoc.io/doc/com.github.dgroup/docker-unittests)
@@ -12,7 +12,7 @@
 
 <!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
 <a href="https://www.yegor256.com/2017/10/24/award-2018.html">
-  <img src="https://www.yegor256.com/images/award/2018/winner-dgroup.png" height=45px alt='Winner Badge'/>
+    <img src="https://www.yegor256.com/images/award/2018/winner-dgroup.png" height=45px alt='Winner Badge'></img>
 </a>
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
