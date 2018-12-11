@@ -85,10 +85,12 @@
         <mvn.properties.version>1.0.0</mvn.properties.version>
         <jacoco.version>0.7.9</jacoco.version>
         <qulice.version>0.17.1</qulice.version>
+        <!-- @todo #/DEV Upgrade qulice to the latest version -->
         <sonar.version>3.4.0.905</sonar.version>
         <!-- General dependencies -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
+        <!-- @todo #/DEV Upgrade cactoos dependency to latest version -->
         <cactoos.version>0.27</cactoos.version>
         <dockerjava.version>3.0.14</dockerjava.version>
         <snakeyaml.version>1.19</snakeyaml.version>
@@ -103,6 +105,8 @@
         <assertj-core.version>3.8.0</assertj-core.version>
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
+        <!-- @todo #/DEV Add cactoos-matchers dependency for unit testing -->
+        <!-- @todo #/DEV Move project to junit5 -->
         <!-- Code quality -->
         <code.cvrg.classes-without-tests>5</code.cvrg.classes-without-tests>
         <code.cvrg.instructions>0.55</code.cvrg.instructions>

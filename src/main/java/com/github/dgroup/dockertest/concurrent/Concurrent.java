@@ -116,6 +116,8 @@ public final class Concurrent implements AutoCloseable {
      * Execute the testing.
      * @param tasks To be executed concurrently.
      * @return The testing results.
+     * @todo #154/DEV Use 1 container per all tests. For now, all tests have
+     *  been executing on isolated "immutable" containers.
      */
     public TestingOutcome execute(final Collection<Test> tasks) {
         return new TestingOutcomeOf(

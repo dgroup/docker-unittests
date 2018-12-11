@@ -116,6 +116,8 @@ public final class YmlResource {
      * @param path Yml file with tests.
      * @param txt Yml text with tests.
      * @param tests List of tests for the yml file.
+     * @todo #154/DEV Add a way to obtain the "setup" section for Docker
+     *  container in order to write the unit tests without boiler-plate code.
      */
     public YmlResource(
         final Scalar<String> path,

@@ -32,6 +32,8 @@ import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
  * @version $Id$
  * @param <T> Type of item.
  * @since 1.0
+ * @todo #154/DEV The YmlTag should inherit Tag interface without any methods.
+ *  It will allow indicating of all tags despite on their type/values.
  */
 public interface YmlTag<T> {
 
