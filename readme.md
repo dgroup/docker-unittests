@@ -11,7 +11,9 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/docker-unittests/badge.svg)](https://snyk.io/org/dgroup/project/58b731a9-6b07-4ccf-9044-ad305ad243e6/?tab=dependencies&vulns=vulnerable)
 
 <!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
-<img src="https://www.yegor256.com/images/award/2018/winner-dgroup.png" height=45px alt='Winner Badge' class='inline' />
+<a href="https://www.yegor256.com/2017/10/24/award-2018.html">
+  <img src="https://raw.githubusercontent.com/dgroup/docker-unittests/master/docs/winner-dgroup.png" height=45px alt='Winner Badge'/>
+</a>
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
