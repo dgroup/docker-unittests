@@ -471,7 +471,7 @@
                                 </goals>
                                 <inherited>false</inherited>
                                 <configuration>
-                                    <releaseName>v${project.version}</releaseName>
+                                    <releaseName>Shade v${project.version}</releaseName>
                                     <tag>v${project.version}</tag>
                                     <artifact>${project.build.directory}${file.separator}${project.artifactId}-app-${project.version}.jar</artifact>
                                 </configuration>
