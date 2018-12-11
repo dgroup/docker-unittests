@@ -12,7 +12,7 @@
 
 <!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
 <a href="https://www.yegor256.com/2017/10/24/award-2018.html">
-  <img src="https://raw.githubusercontent.com/dgroup/docker-unittests/157/docs/winner-dgroup.png" height=45px alt='Winner Badge'/>
+  <img src="https://raw.githubusercontent.com/dgroup/docker-unittests/master/docs/winner-dgroup.png" height=45px alt='Winner Badge'/>
 </a>
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
