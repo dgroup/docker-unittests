@@ -35,6 +35,7 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @param <T> Type of item.
  * @since 1.0
+ * @todo #154/DEV The `setup` tag is required.
  */
 class YmlTagEnvelope<T> implements YmlTag<T> {
 
