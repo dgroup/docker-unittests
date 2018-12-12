@@ -103,10 +103,10 @@
         <!-- Unit testing dependencies -->
         <hamcrest-all.version>1.3</hamcrest-all.version>
         <assertj-core.version>3.8.0</assertj-core.version>
+        <!-- @todo #/DEV Move project to junit5 -->
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
         <!-- @todo #/DEV Add cactoos-matchers dependency for unit testing -->
-        <!-- @todo #/DEV Move project to junit5 -->
         <!-- Code quality -->
         <code.cvrg.classes-without-tests>5</code.cvrg.classes-without-tests>
         <code.cvrg.instructions>0.55</code.cvrg.instructions>
