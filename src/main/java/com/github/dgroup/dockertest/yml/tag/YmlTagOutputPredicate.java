@@ -37,7 +37,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @version $Id$
  * @since 1.0
  */
-public interface YmlTagOutputPredicate {
+public interface YmlTagOutputPredicate extends Tag {
 
     /**
      * Comparing type.

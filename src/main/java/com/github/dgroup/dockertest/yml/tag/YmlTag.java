@@ -26,16 +26,14 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
- * Represents single yml tag in *.yml file.
+ * Named yaml tag with the value within the *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @param <T> Type of item.
  * @since 1.0
- * @todo #154/DEV The YmlTag should inherit Tag interface without any methods.
- *  It will allow indicating of all tags despite on their type/values.
  */
-public interface YmlTag<T> {
+public interface YmlTag<T> extends Tag {
 
     /**
      * Represent tag name as string.

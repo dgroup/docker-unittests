@@ -57,9 +57,11 @@ public final class MsgFailedTest {
                         false,
                         "curl version is 7.xxx",
                         "curl --version",
-                        "curl 7.19.7 (x86_64-redhat-linux-gnu) lib\n" +
-                            "Protocols: tftp ftp telnet dict ldap ldaps\n" +
-                            "Features: GSS-Negotiate IDN IPv6 Largefile NTLM",
+                        String.format(
+                            "curl 7.19.7 (x86_64-redhat-linux-gnu) lib%n" +
+                                "Protocols: tftp ftp telnet dict ldap ldaps%n" +
+                                "Features: GSS-Negotiate IDN IPv6 Largefile"
+                        ),
                         new ListOf<>(
                             new YmlTagOutputPredicateOf(
                                 "startsWith", "curl 7.", String::startsWith
@@ -83,7 +85,7 @@ public final class MsgFailedTest {
                     "  command: \"curl --version\"",
                     "  output:  \"curl 7.19.7 (x86_64-redhat-linux-gnu) lib",
                     "            Protocols: tftp ftp telnet dict ldap ldaps",
-                    "            Features: GSS-Negotiate IDN IPv6 Largefile NTLM\"",
+                    "            Features: GSS-Negotiate IDN IPv6 Largefile\"",
                     "  expected output:",
                     "    - startsWith: \"curl 7.\"",
                     "    - contains:   \"OpenSSL/1.0.2m\"",

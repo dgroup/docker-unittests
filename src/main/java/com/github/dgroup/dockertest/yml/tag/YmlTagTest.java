@@ -34,7 +34,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface YmlTagTest {
+public interface YmlTagTest extends Tag {
 
     /**
      * Name of testing scenario.

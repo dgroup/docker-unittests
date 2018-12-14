@@ -140,7 +140,7 @@ public final class MsgFailed implements Iterable<String> {
         final List<String> raw = new Joined<>(
             new Mapped<>(
                 line -> new ListOf<>(line.split(this.ptrn.text())),
-                new ListOf<>(this.ocm.rawOutput().split("\n"))
+                new ListOf<>(this.ocm.rawOutput().split(System.lineSeparator()))
             )
         );
         final List<Text> lns = new ArrayList<>(raw.size());

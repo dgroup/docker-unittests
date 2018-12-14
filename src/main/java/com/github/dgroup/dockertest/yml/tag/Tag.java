@@ -21,34 +21,14 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.exception;
-
-import java.io.IOException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package com.github.dgroup.dockertest.yml.tag;
 
 /**
- * Unit tests for class {@link Stacktrace}.
+ * Represents single yml tag in *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class StacktraceTest {
-
-    @Test
-    public void fullMessage() {
-        MatcherAssert.assertThat(
-            new Stacktrace(
-                new Exception(new IOException("Shit happens"))
-            ).toString(),
-            Matchers.startsWith(
-                "java.lang.Exception: java.io.IOException: Shit happens"
-            )
-        );
-    }
-
+public interface Tag {
 }
