@@ -24,6 +24,7 @@
 package com.github.dgroup.dockertest.yml;
 
 import com.github.dgroup.dockertest.text.TextFile;
+import com.github.dgroup.dockertest.yml.tag.YmlTagSetup;
 import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
 import com.github.dgroup.dockertest.yml.tag.YmlTagTests;
 import com.github.dgroup.dockertest.yml.tag.YmlTagVersion;
@@ -39,6 +40,12 @@ import org.yaml.snakeyaml.Yaml;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV YmlString export to interface with several methods:
+ *  - version
+ *  - setup
+ *  - tests
+ *  Each method should return the corresponding YML tag.
+ * @todo #/DEV Rename the class to YmlTags.
  */
 public final class YmlString {
 
@@ -115,4 +122,14 @@ public final class YmlString {
         }
     }
 
+    /**
+     * Load string with setup information.
+     *
+     * @return The tag.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    public YmlTagSetup setupTag() throws IllegalYmlFormatException {
+        return new YmlTagSetup(this.ymlTree());
+    }
 }

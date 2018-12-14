@@ -45,7 +45,7 @@ import org.junit.Test;
 public final class YmlStringTest {
 
     @Test
-    public void iterator() {
+    public void iterator() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             new YmlResource("with-3-simple-tests.yml").scenarios(),
             Matchers.hasSize(3)
