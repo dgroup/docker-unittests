@@ -102,7 +102,7 @@
         <jcabi-matchers.version>1.4</jcabi-matchers.version>
         <!-- Unit testing dependencies -->
         <hamcrest-all.version>1.3</hamcrest-all.version>
-        <!-- @todo #/DEV Add cactoos-matchers dependency for unit testing -->
+        <cactoos-matchers.version>0.12</cactoos-matchers.version>
         <assertj-core.version>3.8.0</assertj-core.version>
         <!-- @todo #/DEV Move project to junit5 -->
         <junit.version>4.12</junit.version>
@@ -130,6 +130,12 @@
             <groupId>org.cactoos</groupId>
             <artifactId>cactoos</artifactId>
             <version>${cactoos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.llorllale</groupId>
+            <artifactId>cactoos-matchers</artifactId>
+            <version>${cactoos-matchers.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.docker-java</groupId>
@@ -322,6 +328,7 @@
                                 <exclude>dependencies:org.assertj:assertj-core</exclude>
                                 <exclude>dependencies:com.jcabi.incubator:xembly</exclude>
                                 <exclude>dependencies:com.jcabi:jcabi-xml</exclude>
+                                <exclude>dependencies:org.llorllale:cactoos-matchers</exclude>
                                 <exclude>duplicatefinder:</exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                                 <exclude>findbugs:.*</exclude>
                             </excludes>

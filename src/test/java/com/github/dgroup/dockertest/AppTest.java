@@ -34,6 +34,7 @@ import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -45,6 +46,7 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @todo #/DEV Unstable OS dependent test.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class AppTest {
@@ -69,6 +71,7 @@ public final class AppTest {
     }
 
     @Test
+    @Ignore(value = "Unstable OS dependent test")
     public void dueToIllegalYmlFormatException() {
         final StdOutput std = new StdOutput.Fake(new ArrayList<>(10));
         final String path = new YmlResource("tag-tests-is-missing.yml").path();

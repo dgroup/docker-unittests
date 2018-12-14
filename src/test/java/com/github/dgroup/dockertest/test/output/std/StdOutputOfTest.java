@@ -34,6 +34,7 @@ import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.HasLines;
 
 /**
  * Unit tests for class {@link StdOutputOf}.
@@ -66,11 +67,10 @@ public final class StdOutputOfTest {
         );
         MatcherAssert.assertThat(
             new String(baos.toByteArray(), StandardCharsets.UTF_8),
-            Matchers.equalTo("" +
-                "...> java version is 1.9 \u001B[92;1mPASSED\u001B[m\n" +
-                "...> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m\n" +
-                "\n" +
-                "...\u001B[92;1mTesting successful.\u001B[m\n\n"
+            new HasLines(
+                "...> java version is 1.9 \u001B[92;1mPASSED\u001B[m",
+                "...> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m",
+                "...\u001B[92;1mTesting successful.\u001B[m"
             )
         );
     }
@@ -88,9 +88,11 @@ public final class StdOutputOfTest {
                 new TestOutcome.Fake(
                     false,
                     "java version is 1.9", "java -version",
-                    "java version \"1.8.0_161\"\n" +
-                        "Java(TM) SE Runtime Environment (build 1.8.0_161)\n" +
-                        "Java HotSpot(TM) 64-Bit Server VM (build 25.161)",
+                    String.format("" +
+                        "java version \"1.8.0_161\"%n" +
+                        "Java(TM) SE Runtime Environment (build 1.8.0_161)%n" +
+                        "Java HotSpot(TM) 64-Bit Server VM (build 25.161)"
+                    ),
                     new ListOf<>(
                         new YmlTagOutputPredicate.Fake(
                             "contains", "1.9", raw -> raw.contains("1.9")
@@ -109,20 +111,19 @@ public final class StdOutputOfTest {
         );
         MatcherAssert.assertThat(
             new String(baos.toByteArray(), StandardCharsets.UTF_8),
-            Matchers.equalTo("" +
-                "...> java version is 1.9 \u001B[91;1mFAILED\u001B[m\n" +
-                "...  command: \"java -version\"\n" +
-                "...  output:  \"java version \"1.8.0_161\"\n" +
-                "...            Java(TM) SE Runtime Environment (build 1.8.0_161)\n" +
-                "...            Java HotSpot(TM) 64-Bit Server VM (build 25.161)\"\n" +
-                "...  expected output:\n" +
-                "...    - contains 1.9\n" +
-                "...  mismatch:\n" +
-                "...    - contains 1.9\n" +
-                "...> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m\n" +
-                "\n" +
-                "...\u001B[91;1mTesting failed.\u001B[m\n" +
-                "\n"
+            new HasLines(
+                "...> java version is 1.9 \u001B[91;1mFAILED\u001B[m",
+                "...  command: \"java -version\"",
+                "...  output:  \"java version \"1.8.0_161\"",
+                "...            Java(TM) SE Runtime Environment (build 1.8.0_161)",
+                "...            Java HotSpot(TM) 64-Bit Server VM (build 25.161)\"",
+                "...  expected output:",
+                "...    - contains 1.9",
+                "...  mismatch:",
+                "...    - contains 1.9",
+                "...> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m",
+                "",
+                "...\u001B[91;1mTesting failed.\u001B[m"
             )
         );
     }
@@ -146,7 +147,7 @@ public final class StdOutputOfTest {
         MatcherAssert.assertThat(
             new String(baos.toByteArray(), StandardCharsets.UTF_8),
             Matchers.startsWith("" +
-                "..Something went wrongly...\n" +
+                "..Something went wrongly..." + System.lineSeparator() +
                 "..com.github.dgroup.dockertest.test.output.std" +
                 ".StdOutputOfTest." +
                 "printException(StdOutputOfTest.java:"
