@@ -23,14 +23,15 @@
  */
 package com.github.dgroup.dockertest;
 
-import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.text.TextWithRepeatableArguments;
+import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.YmlString;
+import com.github.dgroup.dockertest.yml.tag.YmlTagSetup;
 import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.List;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
@@ -56,39 +57,20 @@ public final class YmlResource {
      */
     private final TextFile text;
     /**
-     * Tests within YML file.
+     * The tree of YML objects.
      */
-    private final Scalar<List<YmlTagTest>> tests;
-
-    /**
-     * Ctor.
-     * @param pattern For {@link TextOf}.
-     * @param args For {@link TextOf}.
-     */
-    public YmlResource(final String pattern, final String... args) {
-        this(new TextOf(pattern, args));
-    }
+    private final YmlString yml;
 
     /**
      * Ctor.
      * @param name Yml file with tests which was placed to YML resource dir
-     *  {@code src/test/resources/yml/tests }.
+     *  {@code src/test/resources/yml/tests}.
      */
     public YmlResource(final String name) {
         this(
-            new TextWithRepeatableArguments(
-                "src{0}test{0}resources{0}yml{0}tests{0}{1}",
-                File.separator, name
-            )
+            () -> Paths.get("src", "test", "resources", "yml", "tests", name)
+                .toFile()
         );
-    }
-
-    /**
-     * Ctor.
-     * @param path Yml file with tests.
-     */
-    public YmlResource(final Text path) {
-        this(() -> new File(path.text()));
     }
 
     /**
@@ -108,25 +90,21 @@ public final class YmlResource {
      * @param txt Yml text with tests.
      */
     public YmlResource(final Scalar<String> path, final TextFile txt) {
-        this(path, txt, new StickyScalar<>(() -> new YmlString(txt).asTests()));
+        this(path, txt, new YmlString(txt));
     }
 
     /**
      * Ctor.
      * @param path Yml file with tests.
      * @param txt Yml text with tests.
-     * @param tests List of tests for the yml file.
-     * @todo #154/DEV Add a way to obtain the "setup" section for Docker
-     *  container in order to write the unit tests without boiler-plate code.
+     * @param yml The YML tree.
      */
     public YmlResource(
-        final Scalar<String> path,
-        final TextFile txt,
-        final Scalar<List<YmlTagTest>> tests
+        final Scalar<String> path, final TextFile txt, final YmlString yml
     ) {
         this.location = path;
         this.text = txt;
-        this.tests = tests;
+        this.yml = yml;
     }
 
     /**
@@ -148,9 +126,11 @@ public final class YmlResource {
     /**
      * Return all tests within yml resource.
      * @return Testing scenarios.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> scenarios() {
-        return new UncheckedScalar<>(this.tests).value();
+    public List<YmlTagTest> scenarios() throws IllegalYmlFormatException {
+        return this.yml.asTests();
     }
 
     /**
@@ -162,12 +142,26 @@ public final class YmlResource {
      *  due to empty/corrupted YML file.
      */
     public YmlTagTest scenario(final int pos) throws IllegalArgumentException {
-        if (pos < 1 || pos > this.scenarios().size()) {
-            throw new IllegalArgumentException(
-                new TextOf("Scenario with '%s' position not found", pos).text()
-            );
+        try {
+            if (pos < 1 || pos > this.scenarios().size()) {
+                throw new IllegalArgumentException(
+                    new TextOf("Scenario with '%s' position not found", pos)
+                        .text()
+                );
+            }
+            return this.scenarios().get(pos - 1);
+        } catch (final IllegalYmlFormatException cause) {
+            throw new IllegalArgumentException(cause);
         }
-        return this.scenarios().get(pos - 1);
     }
 
+    /**
+     * Find the {@code setup} tag within YML file.
+     * @return The <em>setup</em> tag.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    public YmlTagSetup setup() throws IllegalYmlFormatException {
+        return this.yml.setupTag();
+    }
 }
