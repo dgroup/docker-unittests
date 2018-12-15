@@ -1,0 +1,19 @@
+version: 1.1
+
+setup:
+  - apt-get install curl
+  - apt-get install tree
+
+tests:
+  - assume:  "curl version is 7.xxx"
+    cmd:     "curl --version"
+    output:
+      startsWith:  "curl 7."
+      contains:
+       - "Protocols: "
+       - "Features"
+
+  - assume:  "java version is 9.xxx"
+    cmd:     "java --version"
+    output:
+      startsWith:  "openjdk 1.9"

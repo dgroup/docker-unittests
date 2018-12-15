@@ -108,7 +108,7 @@
         <junit.version>4.12</junit.version>
         <junit.dataprovider.version>2.0</junit.dataprovider.version>
         <!-- Code quality -->
-        <code.cvrg.classes-without-tests>5</code.cvrg.classes-without-tests>
+        <code.cvrg.classes-without-tests>10</code.cvrg.classes-without-tests>
         <code.cvrg.instructions>0.55</code.cvrg.instructions>
         <code.cvrg.complexity>0.50</code.cvrg.complexity>
         <code.cvrg.methods>0.55</code.cvrg.methods>
