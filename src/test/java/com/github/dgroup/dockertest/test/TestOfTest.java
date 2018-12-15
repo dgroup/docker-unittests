@@ -28,8 +28,8 @@ import com.github.dgroup.dockertest.docker.output.CmdOutput;
 import com.github.dgroup.dockertest.docker.process.DockerProcess;
 import com.github.dgroup.dockertest.hamcrest.False;
 import com.github.dgroup.dockertest.hamcrest.True;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicateOf;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.tag.TgOutputPredicateOf;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 
@@ -49,14 +49,14 @@ public final class TestOfTest {
     public void passed() throws DockerProcessExecutionException {
         MatcherAssert.assertThat(
             new TestOf(
-                new YmlTagTest.Fake(
+                new TgTest.Fake(
                     "curl version is 7.xxx",
                     "curl --version",
                     new ListOf<>(
-                        new YmlTagOutputPredicateOf(
+                        new TgOutputPredicateOf(
                             "startsWith", "curl 7.", String::startsWith
                         ),
-                        new YmlTagOutputPredicateOf(
+                        new TgOutputPredicateOf(
                             "endsWith", "7.57", String::endsWith
                         )
                     )
@@ -75,14 +75,14 @@ public final class TestOfTest {
     public void failed() throws DockerProcessExecutionException {
         MatcherAssert.assertThat(
             new TestOf(
-                new YmlTagTest.Fake(
+                new TgTest.Fake(
                     "curl version is 7.xxx",
                     "curl --version",
                     new ListOf<>(
-                        new YmlTagOutputPredicateOf(
+                        new TgOutputPredicateOf(
                             "startsWith", "curl 7.", String::startsWith
                         ),
-                        new YmlTagOutputPredicateOf(
+                        new TgOutputPredicateOf(
                             "contains", "OpenSSL/1.0.2m", String::contains
                         )
                     )

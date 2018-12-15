@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.RedText;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -193,11 +193,11 @@ public final class MsgFailed implements Iterable<String> {
     }
 
     /**
-     * Map the {@link YmlTagOutputPredicate} to {@link Text}.
+     * Map the {@link TgOutputPredicate} to {@link Text}.
      */
-    private final class ToText implements Func<YmlTagOutputPredicate, Text> {
+    private final class ToText implements Func<TgOutputPredicate, Text> {
         @Override
-        public Text apply(final YmlTagOutputPredicate prd) {
+        public Text apply(final TgOutputPredicate prd) {
             return new TextOf("    - %s", prd);
         }
     }

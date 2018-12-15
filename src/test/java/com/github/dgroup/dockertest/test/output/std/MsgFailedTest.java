@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicateOf;
+import com.github.dgroup.dockertest.yml.tag.TgOutputPredicateOf;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
@@ -63,15 +63,15 @@ public final class MsgFailedTest {
                                 "Features: GSS-Negotiate IDN IPv6 Largefile"
                         ),
                         new ListOf<>(
-                            new YmlTagOutputPredicateOf(
+                            new TgOutputPredicateOf(
                                 "startsWith", "curl 7.", String::startsWith
                             ),
-                            new YmlTagOutputPredicateOf(
+                            new TgOutputPredicateOf(
                                 "contains", "OpenSSL/1.0.2m", String::contains
                             )
                         ),
                         new ListOf<>(
-                            new YmlTagOutputPredicateOf(
+                            new TgOutputPredicateOf(
                                 "contains", "OpenSSL/1.0.2m", String::contains
                             )
                         )

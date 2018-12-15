@@ -34,7 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagVersion}.
+ * Unit tests for class {@link TgVersion}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -46,12 +46,12 @@ public final class YmlTagVersionTest {
 
     @Test(expected = IllegalYmlFormatException.class)
     public void noVersionSpecified() throws IllegalYmlFormatException {
-        new YmlTagVersion("").verify();
+        new TgVersion("").verify();
     }
 
     @Test(expected = IllegalYmlFormatException.class)
     public void unsupportedVersionSpecified() throws IllegalYmlFormatException {
-        new YmlTagVersion(
+        new TgVersion(
             new MapOf<>(
                 new MapEntry<>("version", "0.0-alpha")
             ).toString()
@@ -61,7 +61,7 @@ public final class YmlTagVersionTest {
     @Test
     public void version() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            new YmlTagVersion(
+            new TgVersion(
                 new YmlString(
                     new YmlResource("with-single-test.yml").file()
                 ).ymlTree()
@@ -73,7 +73,7 @@ public final class YmlTagVersionTest {
     @Test
     public void tagVersionIsMissing() {
         new Assert().thatThrows(
-            () -> new YmlTagVersion(
+            () -> new TgVersion(
                 new YmlString(
                     new YmlResource("with-missing-version-tag.yml").file()
                 ).ymlTree()

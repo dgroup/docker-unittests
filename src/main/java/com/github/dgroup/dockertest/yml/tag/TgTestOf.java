@@ -27,20 +27,23 @@ import com.github.dgroup.dockertest.text.Splitted;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.cutted.Between;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.YmlTag;
 import java.util.List;
 import org.cactoos.Scalar;
 
 /**
  * Represents yml tag {@code /tests/test}.
- * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link TgOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Use pass type `TgTest` to envelope instead of String.
  */
 @SuppressWarnings("PMD")
-public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
-    YmlTagTest {
+public final class TgTestOf extends TgEnvelope<String> implements TgTest {
 
     /**
      * Scenario name (assume YML tag).
@@ -59,7 +62,7 @@ public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
      * Ctor.
      * @param yml Presentation of tag `test` as string.
      */
-    public YmlTagTestOf(final String yml) {
+    public TgTestOf(final String yml) {
         this(() -> yml);
     }
 
@@ -67,17 +70,17 @@ public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
      * Ctor.
      * @param yml Presentation of tag `test` as string.
      */
-    public YmlTagTestOf(final Scalar<String> yml) {
+    public TgTestOf(final Scalar<String> yml) {
         this(
-            new TextTag(
+            new TgText(
                 () -> new Between(yml, "{test={assume=").first(", cmd="),
                 "assume"
             ),
-            new TextTag(
+            new TgText(
                 () -> new Between(yml, ", cmd=").first(", output=[{"),
                 "cmd"
             ),
-            new TextTag(
+            new TgText(
                 () -> new Between(yml, ", output=[{").last("]"),
                 "output"
             )
@@ -91,7 +94,7 @@ public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
      * @param output Yml tag under `test`.
      * @checkstyle IndentationCheck (20 lines)
      */
-    public YmlTagTestOf(
+    public TgTestOf(
         final YmlTag<String> assume,
         final YmlTag<String> cmd,
         final YmlTag<String> output
@@ -125,9 +128,9 @@ public final class YmlTagTestOf extends YmlTagEnvelope<String> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<YmlTagOutputPredicate> output()
+    public List<TgOutputPredicate> output()
         throws IllegalYmlFormatException {
-        return new YmlTagOutput(this.out).value();
+        return new TgOutput(this.out).value();
     }
 
 }

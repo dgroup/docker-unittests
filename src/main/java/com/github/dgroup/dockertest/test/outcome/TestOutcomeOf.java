@@ -23,9 +23,9 @@
  */
 package com.github.dgroup.dockertest.test.outcome;
 
-import com.github.dgroup.dockertest.yml.tag.UncheckedYmlTagTest;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.tag.UncheckedTgTest;
 import java.util.Collection;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
@@ -42,11 +42,11 @@ public final class TestOutcomeOf implements TestOutcome {
     /**
      * The original test.
      */
-    private final UncheckedYmlTagTest test;
+    private final UncheckedTgTest test;
     /**
      * Status of test scenario.
      */
-    private final Collection<YmlTagOutputPredicate> failed;
+    private final Collection<TgOutputPredicate> failed;
     /**
      * The message/details regarding testing scenario.
      */
@@ -58,8 +58,8 @@ public final class TestOutcomeOf implements TestOutcome {
      * @param raw The raw output from docker container.
      * @param failed The failed output predicates.
      */
-    public TestOutcomeOf(final YmlTagTest test, final String raw,
-        final Collection<YmlTagOutputPredicate> failed) {
+    public TestOutcomeOf(final TgTest test, final String raw,
+        final Collection<TgOutputPredicate> failed) {
         this(test, () -> raw, failed);
     }
 
@@ -69,9 +69,9 @@ public final class TestOutcomeOf implements TestOutcome {
      * @param raw The raw output from docker container.
      * @param failed The failed output predicates.
      */
-    public TestOutcomeOf(final YmlTagTest test, final Scalar<String> raw,
-        final Collection<YmlTagOutputPredicate> failed) {
-        this.test = new UncheckedYmlTagTest(test);
+    public TestOutcomeOf(final TgTest test, final Scalar<String> raw,
+        final Collection<TgOutputPredicate> failed) {
+        this.test = new UncheckedTgTest(test);
         this.raw = new UncheckedScalar<>(raw);
         this.failed = failed;
     }
@@ -97,12 +97,12 @@ public final class TestOutcomeOf implements TestOutcome {
     }
 
     @Override
-    public Collection<YmlTagOutputPredicate> expectedConditions() {
+    public Collection<TgOutputPredicate> expectedConditions() {
         return this.test.output();
     }
 
     @Override
-    public Collection<YmlTagOutputPredicate> failedConditions() {
+    public Collection<TgOutputPredicate> failedConditions() {
         return this.failed;
     }
 

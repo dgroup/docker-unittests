@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.test.outcome;
 
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -66,13 +66,13 @@ public interface TestOutcome {
      * Expected conditions/result within current testing scenario.
      * @return Expected conditions.
      */
-    Collection<YmlTagOutputPredicate> expectedConditions();
+    Collection<TgOutputPredicate> expectedConditions();
 
     /**
      * Failed conditions/result within current testing scenario.
      * @return Failed conditions.
      */
-    Collection<YmlTagOutputPredicate> failedConditions();
+    Collection<TgOutputPredicate> failedConditions();
 
     /**
      * Fake implementation for unit testing purposes.
@@ -84,8 +84,8 @@ public interface TestOutcome {
         private final String snr;
         private final String cmd;
         private final String out;
-        private final Collection<YmlTagOutputPredicate> ecnd;
-        private final Collection<YmlTagOutputPredicate> fcnd;
+        private final Collection<TgOutputPredicate> ecnd;
+        private final Collection<TgOutputPredicate> fcnd;
 
         /**
          * Ctor.
@@ -125,8 +125,8 @@ public interface TestOutcome {
          * @checkstyle ParameterNumberCheck (10 lines)
          */
         public Fake(final boolean sful, final String snr, final String cmd,
-            final String out, final Collection<YmlTagOutputPredicate> ecnd,
-            final Collection<YmlTagOutputPredicate> fcnd) {
+            final String out, final Collection<TgOutputPredicate> ecnd,
+            final Collection<TgOutputPredicate> fcnd) {
             this.sful = sful;
             this.snr = snr;
             this.cmd = cmd;
@@ -156,12 +156,12 @@ public interface TestOutcome {
         }
 
         @Override
-        public Collection<YmlTagOutputPredicate> expectedConditions() {
+        public Collection<TgOutputPredicate> expectedConditions() {
             return this.ecnd;
         }
 
         @Override
-        public Collection<YmlTagOutputPredicate> failedConditions() {
+        public Collection<TgOutputPredicate> failedConditions() {
             return this.fcnd;
         }
     }

@@ -27,9 +27,9 @@ import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.docker.process.DockerProcess;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
-import com.github.dgroup.dockertest.yml.tag.UncheckedYmlTagTest;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.tag.UncheckedTgTest;
 import java.util.Collection;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.StickyList;
@@ -50,7 +50,7 @@ public final class TestOf implements Test {
     /**
      * Origin test to be executed within docker container.
      */
-    private final UncheckedYmlTagTest test;
+    private final UncheckedTgTest test;
 
     /**
      * Ctor.
@@ -58,15 +58,15 @@ public final class TestOf implements Test {
      * @param proc Docker container where test be executed.
      * @checkstyle ParameterNumberCheck (10 lines)
      */
-    public TestOf(final YmlTagTest test, final DockerProcess proc) {
-        this.test = new UncheckedYmlTagTest(test);
+    public TestOf(final TgTest test, final DockerProcess proc) {
+        this.test = new UncheckedTgTest(test);
         this.process = proc;
     }
 
     @Override
     public TestOutcome execute() throws DockerProcessExecutionException {
         final String output = this.process.execute().asText();
-        final Collection<YmlTagOutputPredicate> failed = new StickyList<>(
+        final Collection<TgOutputPredicate> failed = new StickyList<>(
             new Filtered<>(t -> !t.test(output), this.test.output())
         );
         return new TestOutcomeOf(this.test, output, failed);

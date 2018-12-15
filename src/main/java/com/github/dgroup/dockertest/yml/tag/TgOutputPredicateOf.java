@@ -25,13 +25,14 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import org.cactoos.BiFunc;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
 import org.cactoos.text.UncheckedText;
 
 /**
- * Default implementation of {@link YmlTagOutputPredicate}.
+ * Default implementation of {@link TgOutputPredicate}.
  * Represents yml tag
  * {@code /tests/test/output/contains|equal|startsWith|endsWith|matches}.
  *
@@ -39,7 +40,7 @@ import org.cactoos.text.UncheckedText;
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagOutputPredicateOf implements YmlTagOutputPredicate {
+public final class TgOutputPredicateOf implements TgOutputPredicate {
 
     /**
      * Compare type: contains, equals, startsWith, endsWith, matches.
@@ -60,7 +61,7 @@ public final class YmlTagOutputPredicateOf implements YmlTagOutputPredicate {
      * @param expected Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public YmlTagOutputPredicateOf(final String type, final String expected,
+    public TgOutputPredicateOf(final String type, final String expected,
         final BiFunc<String, String, Boolean> predicate) {
         this(type, expected, new UncheckedBiFunc<>(predicate));
     }
@@ -71,7 +72,7 @@ public final class YmlTagOutputPredicateOf implements YmlTagOutputPredicate {
      * @param expected Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public YmlTagOutputPredicateOf(final String type, final String expected,
+    public TgOutputPredicateOf(final String type, final String expected,
         final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
         this.expected = expected;

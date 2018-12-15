@@ -29,6 +29,8 @@ import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.cutted.Before;
 import com.github.dgroup.dockertest.text.cutted.Between;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.YmlTag;
 import java.util.List;
 import java.util.Map;
 import org.cactoos.BiFunc;
@@ -47,14 +49,13 @@ import org.cactoos.map.MapOf;
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class YmlTagOutput extends
-    YmlTagEnvelope<List<YmlTagOutputPredicate>> {
+public final class TgOutput extends TgEnvelope<List<TgOutputPredicate>> {
 
     /**
      * Ctor.
      * @param yml Output tag.
      */
-    public YmlTagOutput(final YmlTag<String> yml) {
+    public TgOutput(final YmlTag<String> yml) {
         this(yml::value);
     }
 
@@ -62,7 +63,7 @@ public final class YmlTagOutput extends
      * Ctor.
      * @param yml Output tag.
      */
-    public YmlTagOutput(final Scalar<String> yml) {
+    public TgOutput(final Scalar<String> yml) {
         this(
             yml,
             new MapOf<>(
@@ -81,7 +82,7 @@ public final class YmlTagOutput extends
      * @param supported Conditions applicable for output from docker container.
      * @checkstyle IndentationCheck (40 lines)
      */
-    public YmlTagOutput(
+    public TgOutput(
         final Scalar<String> yml,
         final Map<String, BiFunc<String, String, Boolean>> supported
     ) {
@@ -110,7 +111,7 @@ public final class YmlTagOutput extends
                                 )
                             );
                         }
-                        return new YmlTagOutputPredicateOf(
+                        return new TgOutputPredicateOf(
                             type, val, supported.get(type)
                         );
                     },

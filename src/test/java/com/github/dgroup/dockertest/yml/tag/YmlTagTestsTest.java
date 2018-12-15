@@ -29,7 +29,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagTests}.
+ * Unit tests for class {@link TgTests}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

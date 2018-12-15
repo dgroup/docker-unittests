@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.io.Property;
 import com.github.dgroup.dockertest.scalar.If;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import java.io.FileWriter;
 import java.io.Writer;
 import org.cactoos.Scalar;
@@ -105,7 +105,7 @@ public final class XmlOutput implements Output {
                 .add("scenario").set(test.scenario()).up()
                 .add("status").set(this.decode(test.successful())).up()
                 .add("expectedThatOutput");
-            for (final YmlTagOutputPredicate prd : test.expectedConditions()) {
+            for (final TgOutputPredicate prd : test.expectedConditions()) {
                 report.add(prd.comparingType())
                     .set(prd.expectedValue())
                     .up();
@@ -115,7 +115,7 @@ public final class XmlOutput implements Output {
                 .add("command").set(test.cmd()).up()
                 .add("output").set(test.rawOutput()).up()
                 .add("failed");
-            for (final YmlTagOutputPredicate prd : test.failedConditions()) {
+            for (final TgOutputPredicate prd : test.failedConditions()) {
                 report.add(prd.comparingType())
                     .set(prd.expectedValue())
                     .up();

@@ -33,7 +33,7 @@ import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagOutput}.
+ * Unit tests for class {@link TgOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$

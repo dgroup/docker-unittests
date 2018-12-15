@@ -26,9 +26,9 @@ package com.github.dgroup.dockertest;
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.YmlString;
-import com.github.dgroup.dockertest.yml.tag.YmlTagSetup;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import com.github.dgroup.dockertest.yml.tag.TgSetup;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -129,7 +129,7 @@ public final class YmlResource {
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> scenarios() throws IllegalYmlFormatException {
+    public List<TgTest> scenarios() throws IllegalYmlFormatException {
         return this.yml.asTests();
     }
 
@@ -141,7 +141,7 @@ public final class YmlResource {
      * @throws IllegalArgumentException in case if we can't find the scenarios
      *  due to empty/corrupted YML file.
      */
-    public YmlTagTest scenario(final int pos) throws IllegalArgumentException {
+    public TgTest scenario(final int pos) throws IllegalArgumentException {
         try {
             if (pos < 1 || pos > this.scenarios().size()) {
                 throw new IllegalArgumentException(
@@ -161,7 +161,7 @@ public final class YmlResource {
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public YmlTagSetup setup() throws IllegalYmlFormatException {
+    public TgSetup setup() throws IllegalYmlFormatException {
         return this.yml.setupTag();
     }
 }
