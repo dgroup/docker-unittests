@@ -26,12 +26,14 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.YmlTag;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTagTestOf}.
+ * Unit tests for class {@link TgTestOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -44,7 +46,7 @@ import org.junit.Test;
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagTestOfTest {
+public final class TgTestOfTest {
 
     @Test
     public void tagTestsHasOneWronglyDefinedChild() {
@@ -70,7 +72,7 @@ public final class YmlTagTestOfTest {
     @Test
     public void tagTestHasMissingAssumeTagIsolated() {
         new Assert().thatThrows(
-            () -> new YmlTagTestOf(
+            () -> new TgTestOf(
                 "{test={" +
                     "cmd=curl --version, " +
                     "output=[" +
@@ -95,14 +97,14 @@ public final class YmlTagTestOfTest {
             new YmlResource(
                 "with-escaped-symbols-in-3-tests.yml"
             ).scenario(3).output().get(1),
-            new YmlTagOutputPredicate.Is("contains", "Protocols: \\{")
+            new TgOutputPredicate.Is("contains", "Protocols: \\{")
         );
     }
 
     @Test
     public void value() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            new YmlTagTestOf(
+            new TgTestOf(
                 new YmlTag.Fake("", "curl version is 7.xxx"),
                 new YmlTag.Fake("", "curl --version"),
                 new YmlTag.Fake("", "curl 7.")

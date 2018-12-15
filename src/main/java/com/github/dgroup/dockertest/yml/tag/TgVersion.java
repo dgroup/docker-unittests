@@ -23,43 +23,48 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.hamcrest.HasItems;
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import com.github.dgroup.dockertest.text.TextOf;
+import com.github.dgroup.dockertest.text.cutted.Between;
+import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 
 /**
- * Unit tests for class {@link YmlTagOutputPredicateOf}.
+ * Represents yml tag {@code /version}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagOutputPredicateOfTest {
+public final class TgVersion extends TgEnvelope<String> {
 
-    @Test
-    public void asString() {
-        MatcherAssert.assertThat(
-            new ListOf<>(
-                new YmlTagOutputPredicateOf(
-                    "startsWith", "curl 7.", String::startsWith
-                ).asYmlString(),
-                new YmlTagOutputPredicateOf(
-                    "equals", "curl 7.57.0", String::equals
-                ).asYmlString(),
-                new YmlTagOutputPredicateOf(
-                    "contains", "7.57", String::contains
-                ).asYmlString()
-            ),
-            new HasItems<>(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
-        );
+    /**
+     * Ctor.
+     * @param tree Yml object tree loaded from *.yml file with tests.
+     */
+    public TgVersion(final String tree) {
+        this(tree, "version");
+    }
+
+    /**
+     * Ctor.
+     * @param tree Object tree loaded from *.yml file with tests.
+     * @param tag Current YML tag name.
+     */
+    private TgVersion(final String tree, final String tag) {
+        super(() -> new Between(tree, "version=").first(","), tag);
+    }
+
+    /**
+     * Allows to verify version of *.yml file.
+     * For now only version `1` is supported.
+     * @throws IllegalYmlFormatException in case if tag is null/missing
+     *  or has no value.
+     */
+    public void verify() throws IllegalYmlFormatException {
+        if (!"1".equals(this.value())) {
+            throw new IllegalYmlFormatException(
+                new TextOf("Unsupported version: %s", this.value())
+            );
+        }
     }
 
 }

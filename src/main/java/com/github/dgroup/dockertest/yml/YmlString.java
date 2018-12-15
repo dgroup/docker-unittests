@@ -24,10 +24,9 @@
 package com.github.dgroup.dockertest.yml;
 
 import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.tag.YmlTagSetup;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTests;
-import com.github.dgroup.dockertest.yml.tag.YmlTagVersion;
+import com.github.dgroup.dockertest.yml.tag.TgSetup;
+import com.github.dgroup.dockertest.yml.tag.TgTests;
+import com.github.dgroup.dockertest.yml.tag.TgVersion;
 import java.util.List;
 import java.util.Map;
 import org.cactoos.Scalar;
@@ -35,7 +34,7 @@ import org.cactoos.scalar.StickyScalar;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Transform *.yml file with tests to collection of {@link YmlTagTest}.
+ * Transform *.yml file with tests to collection of {@link TgTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -97,11 +96,11 @@ public final class YmlString {
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public List<YmlTagTest> asTests() throws IllegalYmlFormatException {
-        new YmlTagVersion(
+    public List<TgTest> asTests() throws IllegalYmlFormatException {
+        new TgVersion(
             this.ymlTree()
         ).verify();
-        return new YmlTagTests(
+        return new TgTests(
             this.ymlTree()
         ).value();
     }
@@ -129,7 +128,7 @@ public final class YmlString {
      * @throws IllegalYmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    public YmlTagSetup setupTag() throws IllegalYmlFormatException {
-        return new YmlTagSetup(this.ymlTree());
+    public TgSetup setupTag() throws IllegalYmlFormatException {
+        return new TgSetup(this.ymlTree());
     }
 }

@@ -21,10 +21,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml;
 
 import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.cactoos.Func;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -37,7 +36,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @version $Id$
  * @since 1.0
  */
-public interface YmlTagOutputPredicate extends Tag {
+public interface TgOutputPredicate {
 
     /**
      * Comparing type.
@@ -67,7 +66,7 @@ public interface YmlTagOutputPredicate extends Tag {
      * @checkstyle JavadocMethodCheck (50 lines)
      * @checkstyle JavadocVariableCheck (50 lines)
      */
-    final class Fake implements YmlTagOutputPredicate {
+    final class Fake implements TgOutputPredicate {
 
         private final String type;
         private final String expected;
@@ -116,16 +115,16 @@ public interface YmlTagOutputPredicate extends Tag {
 
     /**
      * Hamcrest matcher to test the code which returns
-     *  {@link YmlTagOutputPredicate}.
+     *  {@link TgOutputPredicate}.
      *
      * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
      */
-    final class Is extends TypeSafeDiagnosingMatcher<YmlTagOutputPredicate> {
+    final class Is extends TypeSafeDiagnosingMatcher<TgOutputPredicate> {
 
         /**
          * Expected YML output predicate (contains, equals, startsWith, etc).
          */
-        private final YmlTagOutputPredicate expected;
+        private final TgOutputPredicate expected;
 
         /**
          * Ctor.
@@ -141,7 +140,7 @@ public interface YmlTagOutputPredicate extends Tag {
          * @param expected YML predicate.
          */
         @SuppressWarnings("PMD.CallSuperInConstructor")
-        public Is(final YmlTagOutputPredicate expected) {
+        public Is(final TgOutputPredicate expected) {
             this.expected = expected;
         }
 
@@ -151,7 +150,7 @@ public interface YmlTagOutputPredicate extends Tag {
         }
 
         @Override
-        protected boolean matchesSafely(final YmlTagOutputPredicate act,
+        protected boolean matchesSafely(final TgOutputPredicate act,
             final Description dsc) {
             this.describe(dsc, act);
             return act.comparingType().equals(this.expected.comparingType())
@@ -165,7 +164,7 @@ public interface YmlTagOutputPredicate extends Tag {
          * @checkstyle NonStaticMethodCheck (10 lines)
          */
         private void describe(final Description dsc,
-            final YmlTagOutputPredicate prd) {
+            final TgOutputPredicate prd) {
             dsc.appendText("comparing type=")
                 .appendValue(prd.comparingType())
                 .appendText(", value=")

@@ -23,48 +23,58 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.text.TextOf;
+import com.github.dgroup.dockertest.text.Splitted;
 import com.github.dgroup.dockertest.text.cutted.Between;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgTest;
+import java.util.List;
+import org.cactoos.iterable.Filtered;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 
 /**
- * Represents yml tag {@code /version}.
+ * Represents yml tag {@code /tests}.
+ * Tag can contain the list of {@link TgTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class YmlTagVersion extends YmlTagEnvelope<String> {
+public final class TgTests extends TgEnvelope<List<TgTest>> {
 
     /**
      * Ctor.
      * @param tree Yml object tree loaded from *.yml file with tests.
+     * @checkstyle IndentationCheck (40 lines)
+     * @checkstyle CascadeIndentationCheck (40 lines)
      */
-    public YmlTagVersion(final String tree) {
-        this(tree, "version");
-    }
-
-    /**
-     * Ctor.
-     * @param tree Object tree loaded from *.yml file with tests.
-     * @param tag Current YML tag name.
-     */
-    private YmlTagVersion(final String tree, final String tag) {
-        super(() -> new Between(tree, "version=").first(","), tag);
-    }
-
-    /**
-     * Allows to verify version of *.yml file.
-     * For now only version `1` is supported.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    public void verify() throws IllegalYmlFormatException {
-        if (!"1".equals(this.value())) {
-            throw new IllegalYmlFormatException(
-                new TextOf("Unsupported version: %s", this.value())
-            );
-        }
+    public TgTests(final String tree) {
+        super(() -> {
+                if ("version=1, tests=null".equals(tree)) {
+                    throw new IllegalYmlFormatException(
+                        "`tests` tag has incorrect structure"
+                    );
+                }
+                if ("version=1, tests=[null]".equals(tree)) {
+                    throw new IllegalYmlFormatException(
+                        "`tests` tag has no defined children"
+                    );
+                }
+                return new ListOf<>(
+                    new Filtered<>(
+                        t -> !t.output().isEmpty(),
+                        new Mapped<>(
+                            TgTestOf::new,
+                            new Splitted(
+                                new Between(tree, ", tests=[").last("]"),
+                                "}}, "
+                            )
+                        )
+                    )
+                );
+            },
+            "tests"
+        );
     }
 
 }

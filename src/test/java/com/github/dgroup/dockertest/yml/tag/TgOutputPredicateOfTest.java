@@ -23,56 +23,43 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.hamcrest.HasItems;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Named yaml tag with the value within the *.yml file.
+ * Unit tests for class {@link TgOutputPredicateOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
  */
-public interface YmlTag<T> extends Tag {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class TgOutputPredicateOfTest {
 
-    /**
-     * Represent tag name as string.
-     * @return Name.
-     */
-    String name();
-
-    /**
-     * Represent tag value as string.
-     * @return Value.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    T value() throws IllegalYmlFormatException;
-
-    /**
-     * Fake implementation for unit-testing purposes.
-     * @checkstyle JavadocVariableCheck (10 lines)
-     * @checkstyle JavadocMethodCheck (50 lines)
-     */
-    class Fake implements YmlTag<String> {
-
-        private final String tag;
-        private final String value;
-
-        public Fake(final String tag, final String value) {
-            this.tag = tag;
-            this.value = value;
-        }
-
-        @Override
-        public String name() {
-            return this.tag;
-        }
-
-        @Override
-        public String value() {
-            return this.value;
-        }
+    @Test
+    public void asString() {
+        MatcherAssert.assertThat(
+            new ListOf<>(
+                new TgOutputPredicateOf(
+                    "startsWith", "curl 7.", String::startsWith
+                ).asYmlString(),
+                new TgOutputPredicateOf(
+                    "equals", "curl 7.57.0", String::equals
+                ).asYmlString(),
+                new TgOutputPredicateOf(
+                    "contains", "7.57", String::contains
+                ).asYmlString()
+            ),
+            new HasItems<>(
+                "startsWith: \"curl 7.\"",
+                "equals:     \"curl 7.57.0\"",
+                "contains:   \"7.57\""
+            )
+        );
     }
 
 }

@@ -27,8 +27,8 @@ package com.github.dgroup.dockertest.test.output;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import com.github.dgroup.dockertest.yml.tag.YmlTagOutputPredicate;
-import com.github.dgroup.dockertest.yml.tag.YmlTagTest;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgTest;
 import java.io.StringWriter;
 import java.util.Collections;
 import com.jcabi.matchers.XhtmlMatchers;
@@ -55,11 +55,11 @@ public final class XmlOutputTest {
     public void print() {
         final TestingOutcome outcome = new TestingOutcomeOf(
             new TestOutcomeOf(
-                new YmlTagTest.Fake(
+                new TgTest.Fake(
                     "java version is 1.9, Debian build",
                     "java -version",
                     new ListOf<>(
-                        new YmlTagOutputPredicate.Fake(
+                        new TgOutputPredicate.Fake(
                             "contains", "1.9", output -> output.contains("1.9")
                         )
                     )
@@ -68,17 +68,17 @@ public final class XmlOutputTest {
                     "Java(TM) SE Runtime Environment (build 1.8.0_161-b12)\n" +
                     "Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12)\n",
                 new ListOf<>(
-                    new YmlTagOutputPredicate.Fake(
+                    new TgOutputPredicate.Fake(
                         "contains", "1.9", output -> output.contains("1.9")
                     )
                 )
             ),
             new TestOutcomeOf(
-                new YmlTagTest.Fake(
+                new TgTest.Fake(
                     "curl version is 800",
                     "curl --version",
                     new ListOf<>(
-                        new YmlTagOutputPredicate.Fake(
+                        new TgOutputPredicate.Fake(
                             "contains", "800", output -> output.contains("800")
                         )
                     )

@@ -23,28 +23,26 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlTag;
 import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * YmlTag envelope.
+ * Text yml tag.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 1.0
- * @todo #154/DEV The `setup` tag is required.
+ * @todo #/DEV Extend YmlTagEvnvelope instead of implementation of YmlTag.
  */
-class YmlTagEnvelope<T> implements YmlTag<T> {
+public final class TgText implements YmlTag<String> {
 
     /**
-     * YML tags tree.
+     * Origin.
      */
-    private final Scalar<T> yml;
+    private final Scalar<String> yml;
     /**
-     * YML tag name.
+     * Name of yml tag.
      */
     private final String tag;
 
@@ -53,7 +51,7 @@ class YmlTagEnvelope<T> implements YmlTag<T> {
      * @param yml Object tree loaded from *.yml file with tests.
      * @param tag Current YML tag name.
      */
-    YmlTagEnvelope(final Scalar<T> yml, final String tag) {
+    public TgText(final Scalar<String> yml, final String tag) {
         this.yml = yml;
         this.tag = tag;
     }
@@ -64,43 +62,13 @@ class YmlTagEnvelope<T> implements YmlTag<T> {
     }
 
     @Override
-    public T value() throws IllegalYmlFormatException {
-        final T val = new UncheckedScalar<>(this.yml).value();
-        if (val == null || val.toString().trim().isEmpty()) {
-            throw new IllegalYmlFormatException(
-                new TextOf(
-                    "`%s` tag is missing or has incorrect structure", this.tag
-                )
-            );
-        }
-        return val;
-    }
-
-    /**
-     * Give child tag value.
-     * @param child Tag.
-     * @return Value of child tag.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     * @checkstyle IllegalCatchCheck (20 lines)
-     */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    protected T child(final YmlTag<T> child)
-        throws IllegalYmlFormatException {
+    public String value() throws IllegalYmlFormatException {
+        // @checkstyle IllegalCatchCheck (10 lines)
         try {
-            final T cval = child.value();
-            if (cval == null || cval.toString().trim().isEmpty()) {
-                throw new IllegalYmlFormatException(
-                    new TextOf(
-                        "Tag `%s` has missing required child tag `%s`",
-                        this.name(), child.name()
-                    )
-                );
-            }
-            return cval;
+            return this.yml.value();
         } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp.getMessage(), exp);
+            throw new IllegalYmlFormatException(exp);
         }
     }
-
 }

@@ -21,20 +21,20 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.tag.TgOutput;
 import java.util.List;
 
 /**
  * Represents yml tag {@code /tests/test}.
- * Tag can contain {@code assume}, {@code cmd} and {@link YmlTagOutput}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link TgOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface YmlTagTest extends Tag {
+public interface TgTest {
 
     /**
      * Name of testing scenario.
@@ -79,23 +79,23 @@ public interface YmlTagTest extends Tag {
      * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    List<YmlTagOutputPredicate> output() throws IllegalYmlFormatException;
+    List<TgOutputPredicate> output() throws IllegalYmlFormatException;
 
     /**
      * Fake instance for unit testing purposes.
      * @checkstyle JavadocMethodCheck (10 lines)
      * @checkstyle JavadocVariableCheck (10 lines)
      */
-    final class Fake implements YmlTagTest {
+    final class Fake implements TgTest {
 
         private final String scenario;
         private final String command;
-        private final List<YmlTagOutputPredicate> expected;
+        private final List<TgOutputPredicate> expected;
 
         public Fake(
             final String scenario,
             final String cmd,
-            final List<YmlTagOutputPredicate> expected
+            final List<TgOutputPredicate> expected
         ) {
             this.scenario = scenario;
             this.command = cmd;
@@ -118,7 +118,7 @@ public interface YmlTagTest extends Tag {
         }
 
         @Override
-        public List<YmlTagOutputPredicate> output() {
+        public List<TgOutputPredicate> output() {
             return this.expected;
         }
     }

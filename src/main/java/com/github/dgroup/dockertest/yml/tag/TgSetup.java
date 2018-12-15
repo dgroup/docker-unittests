@@ -24,13 +24,28 @@
 package com.github.dgroup.dockertest.yml.tag;
 
 /**
- * Represents single yml tag in *.yml file.
+ * Represents yml tag {@code /setup}.
+ * The tag can contain a list of predefined instructions to set up the container
+ *  before execution of tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @todo #/DEV Rename all implementation to TgXyz. The interface itself
- *  should be moved to the parent package.
+ * @since 1.1.0
  */
-public interface Tag {
+public final class TgSetup extends TgEnvelope<Iterable<String>> {
+
+    /**
+     * Ctor.
+     * @param yml Object tree loaded from *.yml file with tests.
+     * @checkstyle IndentationCheck (20 lines)
+     */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
+    public TgSetup(final String yml) {
+        super(
+            () -> {
+                throw new UnsupportedOperationException("#tree");
+            },
+            "setup"
+        );
+    }
 }

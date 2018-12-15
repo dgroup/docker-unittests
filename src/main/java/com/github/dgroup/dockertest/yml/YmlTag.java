@@ -21,53 +21,56 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
-
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import org.cactoos.Scalar;
+package com.github.dgroup.dockertest.yml;
 
 /**
- * Text yml tag.
+ * Named yaml tag with the value within the *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of item.
  * @since 1.0
- * @todo #/DEV Extend YmlTagEvnvelope instead of implementation of YmlTag.
  */
-public final class TextTag implements YmlTag<String> {
+public interface YmlTag<T> {
 
     /**
-     * Origin.
+     * Represent tag name as string.
+     * @return Name.
      */
-    private final Scalar<String> yml;
-    /**
-     * Name of yml tag.
-     */
-    private final String tag;
+    String name();
 
     /**
-     * Ctor.
-     * @param yml Object tree loaded from *.yml file with tests.
-     * @param tag Current YML tag name.
+     * Represent tag value as string.
+     * @return Value.
+     * @throws IllegalYmlFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    public TextTag(final Scalar<String> yml, final String tag) {
-        this.yml = yml;
-        this.tag = tag;
-    }
+    T value() throws IllegalYmlFormatException;
 
-    @Override
-    public String name() {
-        return this.tag;
-    }
+    /**
+     * Fake implementation for unit-testing purposes.
+     * @checkstyle JavadocVariableCheck (10 lines)
+     * @checkstyle JavadocMethodCheck (50 lines)
+     */
+    class Fake implements YmlTag<String> {
 
-    @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public String value() throws IllegalYmlFormatException {
-        // @checkstyle IllegalCatchCheck (10 lines)
-        try {
-            return this.yml.value();
-        } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp);
+        private final String tag;
+        private final String value;
+
+        public Fake(final String tag, final String value) {
+            this.tag = tag;
+            this.value = value;
+        }
+
+        @Override
+        public String name() {
+            return this.tag;
+        }
+
+        @Override
+        public String value() {
+            return this.value;
         }
     }
+
 }

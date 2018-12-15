@@ -24,29 +24,32 @@
 package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgTest;
 import java.io.UncheckedIOException;
 import java.util.List;
 
 /**
- * Unchecked implementation of {@link YmlTagTest}.
+ * Unchecked implementation of {@link TgTest}.
  * Throws {@link UncheckedIOException} in case YML format exceptions.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Throw UncheckedYmlFormatException instead of UncheckedIOException
  */
-public final class UncheckedYmlTagTest implements YmlTagTest {
+public final class UncheckedTgTest implements TgTest {
 
     /**
      * The origin.
      */
-    private final YmlTagTest origin;
+    private final TgTest origin;
 
     /**
      * Ctor.
      * @param origin The origin.
      */
-    public UncheckedYmlTagTest(final YmlTagTest origin) {
+    public UncheckedTgTest(final TgTest origin) {
         this.origin = origin;
     }
 
@@ -78,7 +81,7 @@ public final class UncheckedYmlTagTest implements YmlTagTest {
     }
 
     @Override
-    public List<YmlTagOutputPredicate> output() {
+    public List<TgOutputPredicate> output() {
         try {
             return this.origin.output();
         } catch (final IllegalYmlFormatException cause) {
