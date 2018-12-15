@@ -32,6 +32,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Remove the class. Use {@code new IsEqual<>(false)}.
  * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
 public final class False extends TypeSafeDiagnosingMatcher<Boolean> {

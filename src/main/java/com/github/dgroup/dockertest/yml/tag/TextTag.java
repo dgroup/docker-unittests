@@ -32,6 +32,7 @@ import org.cactoos.Scalar;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Extend YmlTagEvnvelope instead of implementation of YmlTag.
  */
 public final class TextTag implements YmlTag<String> {
 
