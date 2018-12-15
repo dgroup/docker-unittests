@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -28,11 +28,11 @@ package com.github.dgroup.dockertest.docker.process;
 
 import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.docker.output.TextCmdOutput;
-import java.io.IOException;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.WaitContainerResultCallback;
+import java.io.IOException;
 
 /**
  * Docker container process based on testcontainers.

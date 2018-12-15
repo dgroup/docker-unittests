@@ -23,54 +23,49 @@
  */
 package com.github.dgroup.dockertest.yml;
 
+import com.github.dgroup.dockertest.yml.tag.TgSetup;
+import com.github.dgroup.dockertest.yml.tag.TgVersion;
+import java.util.Collection;
+
 /**
- * Named yaml tag with the value within the *.yml file.
+ * Transform *.yml file with tests to collection of {@link TgTest}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
- * @since 1.0
+ * @since 1.1
  */
-public interface YmlTag<T> {
+public interface YmlTags {
 
     /**
-     * Represent tag name as string.
-     * @return Name.
+     * Give the <em>version</em> tag.
+     * @return The yml tag <em>version</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    String name();
+    TgVersion version() throws IllegalYmlFormatException;
 
     /**
-     * Represent tag value as string.
-     * @return Value.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
+     * Give the <em>setup</em> tag.
+     * @return The yml tag <em>setup</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    T value() throws IllegalYmlFormatException;
+    TgSetup setup() throws IllegalYmlFormatException;
 
     /**
-     * Fake implementation for unit-testing purposes.
-     * @checkstyle JavadocVariableCheck (10 lines)
-     * @checkstyle JavadocMethodCheck (50 lines)
+     * Give the <em>tests</em> tag.
+     * @return The yml tag <em>tests</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
      */
-    class Fake implements YmlTag<String> {
+    Collection<TgTest> tests() throws IllegalYmlFormatException;
 
-        private final String tag;
-        private final String value;
-
-        public Fake(final String tag, final String value) {
-            this.tag = tag;
-            this.value = value;
-        }
-
-        @Override
-        public String name() {
-            return this.tag;
-        }
-
-        @Override
-        public String value() {
-            return this.value;
-        }
-    }
+    /**
+     * Give the yml tree as raw string.
+     * @return The yml tree as string.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    String raw() throws IllegalYmlFormatException;
 
 }

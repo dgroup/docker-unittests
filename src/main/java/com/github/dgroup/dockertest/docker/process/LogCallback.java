@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -26,9 +26,9 @@ package com.github.dgroup.dockertest.docker.process;
 // @checkstyle ImportCohesionCheck (2 lines)
 // @checkstyle ImportOrderCheck (5 lines)
 
-import java.nio.charset.StandardCharsets;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.core.command.LogContainerResultCallback;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Logs collector from docker container.

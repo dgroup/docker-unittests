@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.text.Splitted;
 import com.github.dgroup.dockertest.text.cutted.Between;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgTest;
-import java.util.List;
+import java.util.Collection;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
@@ -40,7 +40,7 @@ import org.cactoos.list.Mapped;
  * @version $Id$
  * @since 1.0
  */
-public final class TgTests extends TgEnvelope<List<TgTest>> {
+public final class TgTests extends TgEnvelope<Collection<TgTest>> {
 
     /**
      * Ctor.

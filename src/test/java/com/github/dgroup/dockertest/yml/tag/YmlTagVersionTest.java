@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import com.github.dgroup.dockertest.yml.YmlString;
+import com.github.dgroup.dockertest.yml.YmlTagsOf;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.hamcrest.MatcherAssert;
@@ -62,9 +62,9 @@ public final class YmlTagVersionTest {
     public void version() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             new TgVersion(
-                new YmlString(
+                new YmlTagsOf(
                     new YmlResource("with-single-test.yml").file()
-                ).ymlTree()
+                ).raw()
             ).value(),
             Matchers.equalTo("1")
         );
@@ -74,9 +74,9 @@ public final class YmlTagVersionTest {
     public void tagVersionIsMissing() {
         new Assert().thatThrows(
             () -> new TgVersion(
-                new YmlString(
+                new YmlTagsOf(
                     new YmlResource("with-missing-version-tag.yml").file()
-                ).ymlTree()
+                ).raw()
             ).verify(),
             new IllegalYmlFormatException(
                 "`version` tag is missing or has incorrect structure"

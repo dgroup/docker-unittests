@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,33 +23,20 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import com.github.dgroup.dockertest.YmlResource;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 /**
- * Unit tests for class {@link YmlString}.
+ * Unchecked notification that *.yml file has a wrong structure.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle OperatorWrapCheck (500 lines)
- * @checkstyle WhitespaceAroundCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @since 1.1
  */
-@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
-public final class YmlStringTest {
+public class UncheckedYmlFormatException extends RuntimeException {
 
-    @Test
-    public void iterator() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            new YmlResource("with-3-simple-tests.yml").scenarios(),
-            Matchers.hasSize(3)
-        );
+    /**
+     * Ctor.
+     * @param cause The original error.
+     */
+    public UncheckedYmlFormatException(final IllegalYmlFormatException cause) {
+        super(cause);
     }
-
 }
