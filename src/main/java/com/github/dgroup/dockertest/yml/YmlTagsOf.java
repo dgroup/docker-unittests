@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.yml.tag.TgSetup;
 import com.github.dgroup.dockertest.yml.tag.TgTests;
 import com.github.dgroup.dockertest.yml.tag.TgVersion;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.StickyScalar;
@@ -38,15 +38,9 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @todo #/DEV YmlString export to interface with several methods:
- *  - version
- *  - setup
- *  - tests
- *  Each method should return the corresponding YML tag.
- * @todo #/DEV Rename the class to YmlTags.
+ * @since 1.1
  */
-public final class YmlString {
+public final class YmlTagsOf implements YmlTags {
 
     /**
      * Yml tags as tree.
@@ -62,47 +56,22 @@ public final class YmlString {
     @SuppressWarnings({
         "PMD.PreserveStackTrace", "PMD.AvoidCatchingGenericException"
     })
-    public YmlString(final TextFile yml) {
-        this(
-            new StickyScalar<>(
-                () -> {
-                    try {
-                        final String text = new Yaml()
-                            .loadAs(yml.text(), Map.class)
-                            .toString();
-                        return text.substring(1, text.length() - 1);
-                    } catch (final Exception ex) {
-                        throw new IllegalYmlFormatException(
-                            "YML file `%s` has the wrong format:%n %s",
-                            yml.path(), ex.getMessage()
-                        );
-                    }
+    public YmlTagsOf(final TextFile yml) {
+        this.tree = new StickyScalar<>(
+            () -> {
+                try {
+                    final String text = new Yaml()
+                        .loadAs(yml.text(), Map.class)
+                        .toString();
+                    return text.substring(1, text.length() - 1);
+                } catch (final Exception ex) {
+                    throw new IllegalYmlFormatException(
+                        "YML file `%s` has the wrong format:%n %s",
+                        yml.path(), ex.getMessage()
+                    );
                 }
-            )
+            }
         );
-    }
-
-    /**
-     * Ctor.
-     * @param tree YML tags defined in file with tests as string.
-     */
-    public YmlString(final Scalar<String> tree) {
-        this.tree = tree;
-    }
-
-    /**
-     * Parsed yml tests as list.
-     * @return The yml tests.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
-     */
-    public List<TgTest> asTests() throws IllegalYmlFormatException {
-        new TgVersion(
-            this.ymlTree()
-        ).verify();
-        return new TgTests(
-            this.ymlTree()
-        ).value();
     }
 
     /**
@@ -113,7 +82,7 @@ public final class YmlString {
      * @checkstyle IllegalCatchCheck (10 lines)
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public String ymlTree() throws IllegalYmlFormatException {
+    public String raw() throws IllegalYmlFormatException {
         try {
             return this.tree.value();
         } catch (final Exception exp) {
@@ -121,14 +90,19 @@ public final class YmlString {
         }
     }
 
-    /**
-     * Load string with setup information.
-     *
-     * @return The tag.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
-     */
-    public TgSetup setupTag() throws IllegalYmlFormatException {
-        return new TgSetup(this.ymlTree());
+    @Override
+    public TgVersion version() throws IllegalYmlFormatException {
+        return new TgVersion(this.raw());
     }
+
+    @Override
+    public TgSetup setup() throws IllegalYmlFormatException {
+        return new TgSetup(this.raw());
+    }
+
+    @Override
+    public Collection<TgTest> tests() throws IllegalYmlFormatException {
+        return new TgTests(this.raw()).value();
+    }
+
 }

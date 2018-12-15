@@ -21,41 +21,30 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.docker.output;
+package com.github.dgroup.dockertest.yml;
 
-import java.util.List;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import com.github.dgroup.dockertest.YmlResource;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * CmdOutput envelope.
+ * Unit tests for class {@link YmlTags}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
-class CmdOutputEnvelope implements CmdOutput {
+public final class YmlTagsTest {
 
-    /**
-     * Origin.
-     */
-    private final Scalar<CmdOutput> origin;
-
-    /**
-     * Ctor.
-     * @param origin Output.
-     */
-    CmdOutputEnvelope(final Scalar<CmdOutput> origin) {
-        this.origin = origin;
+    @Test
+    public void iterator() throws IllegalYmlFormatException {
+        MatcherAssert.assertThat(
+            new YmlResource("with-3-simple-tests.yml").scenarios(),
+            Matchers.hasSize(3)
+        );
     }
 
-    @Override
-    public String asText() {
-        return new UncheckedScalar<>(this.origin).value().asText();
-    }
-
-    @Override
-    public List<String> byLines() {
-        return new UncheckedScalar<>(this.origin).value().byLines();
-    }
 }

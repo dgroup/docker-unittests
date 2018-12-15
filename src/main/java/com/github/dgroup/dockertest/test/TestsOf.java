@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ package com.github.dgroup.dockertest.test;
 import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
 import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlString;
+import com.github.dgroup.dockertest.yml.YmlTagsOf;
 import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.list.StickyList;
@@ -55,9 +55,7 @@ public final class TestsOf extends CollectionEnvelope<Test> {
                         ymlTagTest.containerCommandAsArray()
                     )
                 ),
-                new YmlString(
-                    new TextFile(file.value())
-                ).asTests()
+                new YmlTagsOf(new TextFile(file.value())).tests()
             )
         ));
     }

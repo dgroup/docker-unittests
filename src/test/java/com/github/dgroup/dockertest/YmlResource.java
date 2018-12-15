@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017 Yurii Dubinka
+ * Copyright (c) 2017-2018 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -27,13 +27,15 @@ import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgTest;
-import com.github.dgroup.dockertest.yml.YmlString;
+import com.github.dgroup.dockertest.yml.YmlTags;
+import com.github.dgroup.dockertest.yml.YmlTagsOf;
 import com.github.dgroup.dockertest.yml.tag.TgSetup;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.List;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
 
@@ -59,7 +61,7 @@ public final class YmlResource {
     /**
      * The tree of YML objects.
      */
-    private final YmlString yml;
+    private final YmlTags tags;
 
     /**
      * Ctor.
@@ -78,33 +80,11 @@ public final class YmlResource {
      * @param path Yml file with tests.
      */
     public YmlResource(final Scalar<File> path) {
-        this(
-            new StickyScalar<>(() -> path.value().getAbsolutePath()),
-            new TextFile(path, StandardCharsets.UTF_8)
+        this.location = new StickyScalar<>(
+            () -> path.value().getAbsolutePath()
         );
-    }
-
-    /**
-     * Ctor.
-     * @param path Yml file with tests.
-     * @param txt Yml text with tests.
-     */
-    public YmlResource(final Scalar<String> path, final TextFile txt) {
-        this(path, txt, new YmlString(txt));
-    }
-
-    /**
-     * Ctor.
-     * @param path Yml file with tests.
-     * @param txt Yml text with tests.
-     * @param yml The YML tree.
-     */
-    public YmlResource(
-        final Scalar<String> path, final TextFile txt, final YmlString yml
-    ) {
-        this.location = path;
-        this.text = txt;
-        this.yml = yml;
+        this.text = new TextFile(path, StandardCharsets.UTF_8);
+        this.tags = new YmlTagsOf(this.text);
     }
 
     /**
@@ -130,7 +110,7 @@ public final class YmlResource {
      *  wrong/corrupted/unsupported format.
      */
     public List<TgTest> scenarios() throws IllegalYmlFormatException {
-        return this.yml.asTests();
+        return new ListOf<>(this.tags.tests());
     }
 
     /**
@@ -162,6 +142,6 @@ public final class YmlResource {
      *  wrong/corrupted/unsupported format.
      */
     public TgSetup setup() throws IllegalYmlFormatException {
-        return this.yml.setupTag();
+        return this.tags.setup();
     }
 }
