@@ -21,54 +21,65 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml.tag.test;
 
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import com.github.dgroup.dockertest.yml.TgOutput;
+import com.github.dgroup.dockertest.yml.TgTest;
 
 /**
- * Tag envelope.
+ * Represents yml tag {@code /tests/test}.
+ * Tag can contain {@code assume}, {@code cmd} and {@link TgOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
  * @since 1.0
  */
-public class TgEnvelope<T> implements Tag<T> {
+public final class TgTestOf implements TgTest {
 
     /**
-     * YML tags tree.
+     * Scenario name, <em>assume</em> YML tag.
      */
-    private final Scalar<T> yml;
+    private final Tag<String> scenario;
 
     /**
-     * YML tag name.
+     * Container command, <em>cmd</em> YML tag.
      */
-    private final String tag;
+    private final Tag<String> command;
+
+    /**
+     * Container output, <em>output</em> YML tag.
+     */
+    private final TgOutput out;
 
     /**
      * Ctor.
-     * @param yml Object tree loaded from *.yml file with tests.
-     * @param tag Current YML tag name.
+     * @param assume Yml tag under `test`.
+     * @param cmd Yml tag under `test`.
+     * @param out Yml tag under `test`.
+     * @checkstyle IndentationCheck (20 lines)
      */
-    public TgEnvelope(final Scalar<T> yml, final String tag) {
-        this.yml = yml;
-        this.tag = tag;
+    public TgTestOf(
+        final Tag<String> assume, final Tag<String> cmd, final TgOutput out
+    ) {
+        this.scenario = assume;
+        this.command = cmd;
+        this.out = out;
     }
 
     @Override
-    public final String name() {
-        return this.tag;
+    public String assume() throws IllegalYmlFormatException {
+        return this.scenario.value();
     }
 
     @Override
-    public final T value() throws IllegalYmlFormatException {
-        final T val = new UncheckedScalar<>(this.yml).value();
-        if (val == null || val.toString().trim().isEmpty()) {
-            throw new IllegalYmlFormatException(this);
-        }
-        return val;
+    public String cmd() throws IllegalYmlFormatException {
+        return this.command.value();
+    }
+
+    @Override
+    public TgOutput output() {
+        return this.out;
     }
 }

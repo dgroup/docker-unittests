@@ -1,25 +1,25 @@
 version: 1
 
 tests:
-  - test:
-      assume: "java version is 1.8"
-      cmd:    "java -version"
-      output:
-        - contains: "Java(TM) SE Runtime Environment (build 1.8"
+  - assume: "java version is 1.8"
+    cmd:    "java -version"
+    output:
+      contains:
+       - "Java(TM) SE Runtime Environment (build 1.8"
 
-  - test:
-      assume: "node version is 8.5.1"
-      cmd:    "node -v"
-      output:
-        - contains:   "v8.5.0"
-        - startsWith: "v8."
-        - endsWith:   ".5.0"
-        - contains:   ".0"
+  - assume: "node version is 8.5.1"
+    cmd:    "node -v"
+    output:
+      contains:   ["v8.5.0", ".0"]
+      startsWith: "v8."
+      endsWith:   ".5.0"
 
-  - test:
-      assume: "curl version is 7.51.0"
-      cmd:    "curl --version"
-      output:
-        - startsWith: "curl 7."
-        - contains:   "Protocols: "
-        - matches:    "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"
+  - assume: "curl version is 7.51.0"
+    cmd:    "curl --version"
+    output:
+      startsWith: "curl 7."
+      contains:
+        - "Protocols: "
+      matches:
+        - "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"
+        - "^.*Protocols.+ftps.+https.+telnet.*$"

@@ -40,10 +40,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.1
- * @todo #154/DEV Rewrite the parsing mechanism in order to avoid raw parsing in
- *  YmlString#YmlString(TextFile) with
- *  {@code new Yaml().loadAs(yml.text(), Map.class)}.
- *  This class is an example how it can be done.
  * @checkstyle MemberNameCheck (200 lines)
  * @checkstyle JavadocTypeCheck (200 lines)
  * @checkstyle JavadocTagsCheck (200 lines)
@@ -117,7 +113,9 @@ public final class YamlSmokeTest {
     }
 
     private static class YmlTestOutput {
-        public List<String> contains;
         public String startsWith;
+        public String endsWith;
+        public Set<String> contains;
+        public Set<String> matches;
     }
 }

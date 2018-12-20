@@ -5,15 +5,15 @@ setup:
   - apt-get install tree
 
 tests:
-  - assume:  "curl version is 7.xxx"
-    cmd:     "curl --version"
+  - assume: "curl version is 7.xxx"
+    cmd:    "curl --version"
     output:
-      startsWith:  "curl 7."
-      contains:
-       - "Protocols: "
-       - "Features"
+      startsWith: "curl 7."
+      contains:   ["Protocols: ",   "Features"]
+      matches:    ["^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"]
 
-  - assume:  "java version is 9.xxx"
-    cmd:     "java --version"
+  - assume: "java version is 1.8"
+    cmd:    "java -version"
     output:
-      startsWith:  "openjdk 1.9"
+      contains:
+       - "Java(TM) SE Runtime Environment (build 1.8"

@@ -21,31 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
-
 /**
- * Represents yml tag {@code /setup}.
- * The tag can contain a list of predefined instructions to set up the container
- *  before execution of tests.
- *
- * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version $Id$
- * @since 1.1.0
+ * Classes related to tag {@link com.github.dgroup.dockertest.yml.TgTest}.
  */
-public final class TgSetup extends TgEnvelope<Iterable<String>> {
-
-    /**
-     * Ctor.
-     * @param yml Object tree loaded from *.yml file with tests.
-     * @checkstyle IndentationCheck (20 lines)
-     */
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    public TgSetup(final String yml) {
-        super(
-            () -> {
-                throw new UnsupportedOperationException("#tree");
-            },
-            "setup"
-        );
-    }
-}
+package com.github.dgroup.dockertest.yml.tag.test;

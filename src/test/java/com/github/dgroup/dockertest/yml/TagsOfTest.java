@@ -29,7 +29,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link YmlTags}.
+ * Unit tests for class {@link Tags}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -37,7 +37,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class YmlTagsTest {
+public final class TagsOfTest {
 
     @Test
     public void iterator() throws IllegalYmlFormatException {

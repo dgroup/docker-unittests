@@ -21,46 +21,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.collection;
 
-import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TgOutputPredicateOf}.
+ * Unit tests for class {@link SafeSet}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
+ * @since 1.1
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TgOutputPredicateOfTest {
+public final class SafeSetTest {
 
     @Test
-    public void asString() {
+    public void empty() {
         MatcherAssert.assertThat(
-            new ListOf<>(
-                new TgOutputPredicateOf(
-                    "startsWith", "curl 7.", String::startsWith
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "equals", "curl 7.57.0", String::equals
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "contains", "7.57", String::contains
-                ).asYmlString()
-            ),
-            new HasItems<>(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
+            new SafeSet<>((String) null),
+            Matchers.empty()
         );
     }
 
+    @Test
+    public void nonEmpty() {
+        MatcherAssert.assertThat(
+            new SafeSet<>("a", "b"),
+            Matchers.hasItems("a", "b")
+        );
+    }
 }

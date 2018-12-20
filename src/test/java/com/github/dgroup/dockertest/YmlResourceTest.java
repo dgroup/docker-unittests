@@ -72,13 +72,11 @@ public final class YmlResourceTest {
                 "version: 1",
                 "",
                 "tests:",
-                "  - test:",
-                "      assume:  \"curl version is 7.xxx\"",
-                "      cmd:     \"curl --version\"",
-                "      output:",
-                "        - startsWith:  \"curl 7.\"",
-                "        - contains:    \"Protocols: \"",
-                "        - contains:    \"Features: \""
+                "  - assume:  \"curl version is 7.xxx\"",
+                "    cmd:     \"curl --version\"",
+                "    output:",
+                "      startsWith:  \"curl 7.\"",
+                "      contains:    [\"Protocols: \", \"Features: \"]"
             )
         );
     }

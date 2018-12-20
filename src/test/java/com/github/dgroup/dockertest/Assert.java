@@ -24,8 +24,12 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.RootCauseOf;
+import com.github.dgroup.dockertest.hamcrest.True;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 
 /**
  * Simplify unit testing of exception throwing.
@@ -34,7 +38,13 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  * @version $Id$
  * @since 1.0
  * @checkstyle NonStaticMethodCheck (200 lines)
+ * @checkstyle IllegalCatchCheck (200 lines)
  */
+@SuppressWarnings({
+    "PMD.AvoidCatchingThrowable",
+    "PMD.AvoidDuplicateLiterals",
+    "PMD.OnlyOneConstructorShouldDoInitialization",
+    "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 public final class Assert {
 
     /**
@@ -45,12 +55,7 @@ public final class Assert {
      *
      * @param task Particular operation where exception is required.
      * @param exp Details which expected to be thrown.
-     * @checkstyle IllegalCatchCheck (20 lines)
      */
-    @SuppressWarnings({
-        "PMD.AvoidCatchingThrowable",
-        "PMD.OnlyOneConstructorShouldDoInitialization",
-        "PMD.ConstructorOnlyInitializesOrCallOtherConstructors" })
     public void thatThrownRootcause(
         final ThrowingCallable task,
         final Exception exp
@@ -107,5 +112,63 @@ public final class Assert {
         final String msg
     ) {
         Assertions.assertThatThrownBy(task).hasMessageEndingWith(msg);
+    }
+
+    /**
+     * Verify that exception was thrown during particular operation.
+     *
+     * @param task A particular operation where exception must be raised.
+     * @param exp Exception class which expected to be thrown.
+     * @param regexp A regular expression which should match to occurred
+     *  exception message.
+     */
+    public void hasRootCauseMatched(
+        final ThrowingCallable task,
+        final Class<? extends Exception> exp,
+        final String regexp
+    ) {
+        try {
+            task.call();
+            org.junit.Assert.fail("The exception wasn't thrown.");
+        } catch (final Throwable cause) {
+            final Throwable rootcause = new RootCauseOf(cause).exception();
+            MatcherAssert.assertThat(
+                "The thrown exception has unexpected type",
+                rootcause,
+                Matchers.instanceOf(exp)
+            );
+            MatcherAssert.assertThat(
+                "The message doesn't match regexp.",
+                rootcause.getMessage().matches(regexp),
+                new True()
+            );
+        }
+    }
+
+    /**
+     * Verify that exception was thrown during particular operation.
+     *
+     * @param task A particular operation where exception must be raised.
+     * @param exp Exception class which expected to be thrown.
+     * @param msg The expected message.
+     */
+    public void hasRootCause(
+        final ThrowingCallable task,
+        final Class<? extends Exception> exp,
+        final String msg
+    ) {
+        try {
+            task.call();
+            org.junit.Assert.fail("The exception wasn't thrown.");
+        } catch (final Throwable cause) {
+            final Throwable rcause = new RootCauseOf(cause).exception();
+            MatcherAssert.assertThat(
+                "The thrown exception has unexpected type",
+                rcause, Matchers.instanceOf(exp)
+            );
+            MatcherAssert.assertThat(
+                rcause.getMessage(), new IsEqual<>(msg)
+            );
+        }
     }
 }

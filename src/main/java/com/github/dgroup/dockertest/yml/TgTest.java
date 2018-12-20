@@ -23,9 +23,6 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import com.github.dgroup.dockertest.yml.tag.TgOutput;
-import java.util.List;
-
 /**
  * Represents yml tag {@code /tests/test}.
  * Tag can contain {@code assume}, {@code cmd} and {@link TgOutput}.
@@ -59,18 +56,6 @@ public interface TgTest {
     String cmd() throws IllegalYmlFormatException;
 
     /**
-     * Command for execution in docker container as array.
-     * Exported from `cmd` section {@code /tests/test/cmd} for each test
-     * defined in *.yml file.
-     *
-     * @return The splitted docker command by the space.
-     *  For example "java -version" became new String[]{"java", "-version"}.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    String[] containerCommandAsArray() throws IllegalYmlFormatException;
-
-    /**
      * List of expected conditions, which should be applied to output.
      * Exported from `output` section {@code /tests/test/output} for each test
      * defined in *.yml file. Tag may have several values.
@@ -79,7 +64,7 @@ public interface TgTest {
      * @throws IllegalYmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    List<TgOutputPredicate> output() throws IllegalYmlFormatException;
+    TgOutput output() throws IllegalYmlFormatException;
 
     /**
      * Fake instance for unit testing purposes.
@@ -90,12 +75,10 @@ public interface TgTest {
 
         private final String scenario;
         private final String command;
-        private final List<TgOutputPredicate> expected;
+        private final TgOutput expected;
 
         public Fake(
-            final String scenario,
-            final String cmd,
-            final List<TgOutputPredicate> expected
+            final String scenario, final String cmd, final TgOutput expected
         ) {
             this.scenario = scenario;
             this.command = cmd;
@@ -113,12 +96,7 @@ public interface TgTest {
         }
 
         @Override
-        public String[] containerCommandAsArray() {
-            return this.command.split(" ");
-        }
-
-        @Override
-        public List<TgOutputPredicate> output() {
+        public TgOutput output() {
             return this.expected;
         }
     }

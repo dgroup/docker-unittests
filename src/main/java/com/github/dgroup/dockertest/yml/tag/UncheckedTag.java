@@ -23,44 +23,44 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.Tag;
+import com.github.dgroup.dockertest.yml.UncheckedYmlFormatException;
 
 /**
- * Unit tests for class {@link TgOutputPredicateOf}.
+ * Tag that doesn't throw checked {@link IllegalYmlFormatException}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
+ * @param <T> Type of tag.
+ * @since 1.1
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TgOutputPredicateOfTest {
+public final class UncheckedTag<T> implements Tag<T> {
 
-    @Test
-    public void asString() {
-        MatcherAssert.assertThat(
-            new ListOf<>(
-                new TgOutputPredicateOf(
-                    "startsWith", "curl 7.", String::startsWith
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "equals", "curl 7.57.0", String::equals
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "contains", "7.57", String::contains
-                ).asYmlString()
-            ),
-            new HasItems<>(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
-        );
+    /**
+     * Origin.
+     */
+    private final Tag<T> tag;
+
+    /**
+     * Ctor.
+     * @param tag Origin.
+     */
+    public UncheckedTag(final Tag<T> tag) {
+        this.tag = tag;
     }
 
+    @Override
+    public String name() {
+        return this.tag.name();
+    }
+
+    @Override
+    public T value() {
+        try {
+            return this.tag.value();
+        } catch (final IllegalYmlFormatException cause) {
+            throw new UncheckedYmlFormatException(cause);
+        }
+    }
 }

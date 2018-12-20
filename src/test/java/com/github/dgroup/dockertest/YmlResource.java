@@ -26,10 +26,10 @@ package com.github.dgroup.dockertest;
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.Tags;
+import com.github.dgroup.dockertest.yml.TgSetup;
 import com.github.dgroup.dockertest.yml.TgTest;
-import com.github.dgroup.dockertest.yml.YmlTags;
-import com.github.dgroup.dockertest.yml.YmlTagsOf;
-import com.github.dgroup.dockertest.yml.tag.TgSetup;
+import com.github.dgroup.dockertest.yml.tag.TagsOf;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -61,7 +61,7 @@ public final class YmlResource {
     /**
      * The tree of YML objects.
      */
-    private final YmlTags tags;
+    private final Tags tags;
 
     /**
      * Ctor.
@@ -84,7 +84,7 @@ public final class YmlResource {
             () -> path.value().getAbsolutePath()
         );
         this.text = new TextFile(path, StandardCharsets.UTF_8);
-        this.tags = new YmlTagsOf(this.text);
+        this.tags = new TagsOf(this.text);
     }
 
     /**

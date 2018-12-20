@@ -29,8 +29,8 @@ import com.github.dgroup.dockertest.docker.process.DockerProcess;
 import com.github.dgroup.dockertest.hamcrest.False;
 import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.yml.TgTest;
-import com.github.dgroup.dockertest.yml.tag.TgOutputPredicateOf;
-import org.cactoos.list.ListOf;
+import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 
 /**
@@ -52,13 +52,11 @@ public final class TestOfTest {
                 new TgTest.Fake(
                     "curl version is 7.xxx",
                     "curl --version",
-                    new ListOf<>(
-                        new TgOutputPredicateOf(
-                            "startsWith", "curl 7.", String::startsWith
-                        ),
-                        new TgOutputPredicateOf(
-                            "endsWith", "7.57", String::endsWith
-                        )
+                    new TgOutputOf(
+                        Collections.singleton("curl 7."),
+                        Collections.singleton("7.57"),
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet()
                     )
                 ),
                 new DockerProcess.Fake(
@@ -78,13 +76,11 @@ public final class TestOfTest {
                 new TgTest.Fake(
                     "curl version is 7.xxx",
                     "curl --version",
-                    new ListOf<>(
-                        new TgOutputPredicateOf(
-                            "startsWith", "curl 7.", String::startsWith
-                        ),
-                        new TgOutputPredicateOf(
-                            "contains", "OpenSSL/1.0.2m", String::contains
-                        )
+                    new TgOutputOf(
+                        Collections.singleton("curl 7."),
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet(),
+                        Collections.singleton("OpenSSL/1.0.2m")
                     )
                 ),
                 new DockerProcess.Fake(

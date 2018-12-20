@@ -21,11 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml.tag.output;
 
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import java.util.Objects;
 import org.cactoos.BiFunc;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.text.RepeatedText;
@@ -46,10 +47,12 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
      * Compare type: contains, equals, startsWith, endsWith, matches.
      */
     private final String type;
+
     /**
      * Expected value from test scenario.
      */
-    private final String expected;
+    private final String expctd;
+
     /**
      * Condition which should satisfy the actual value.
      */
@@ -58,24 +61,24 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
     /**
      * Ctor.
      * @param type Comparing type like contains, equal, startsWiths, endsWith.
-     * @param expected Expected value from test scenario.
+     * @param expctd Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public TgOutputPredicateOf(final String type, final String expected,
+    public TgOutputPredicateOf(final String type, final String expctd,
         final BiFunc<String, String, Boolean> predicate) {
-        this(type, expected, new UncheckedBiFunc<>(predicate));
+        this(type, expctd, new UncheckedBiFunc<>(predicate));
     }
 
     /**
      * Ctor.
      * @param type Comparing type like contains, equal, startsWiths, endsWith.
-     * @param expected Expected value from test scenario.
+     * @param expctd Expected value from test scenario.
      * @param predicate Condition, which should satisfy the actual value.
      */
-    public TgOutputPredicateOf(final String type, final String expected,
+    public TgOutputPredicateOf(final String type, final String expctd,
         final UncheckedBiFunc<String, String, Boolean> predicate) {
         this.type = type;
-        this.expected = expected;
+        this.expctd = expctd;
         this.predicate = predicate;
     }
 
@@ -85,8 +88,8 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
     }
 
     @Override
-    public String expectedValue() {
-        return this.expected;
+    public String expected() {
+        return this.expctd;
     }
 
     @Override
@@ -95,11 +98,11 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
             throw new IllegalYmlFormatException(
                 new TextOf(
                     "Unsupported comparing expression `%s:%s`",
-                    this.comparingType(), this.expectedValue()
+                    this.comparingType(), this.expected()
                 )
             );
         }
-        return this.predicate.apply(actual, this.expected);
+        return this.predicate.apply(actual, this.expctd);
     }
 
     @Override
@@ -121,8 +124,27 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
                     " ", this.differenceInLengthComparingTo("startsWith") + 1
                 )
             ).asString(),
-            this.expectedValue()
+            this.expected()
         ).text();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.comparingType(), this.expected());
+    }
+
+    @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof TgOutputPredicate)) {
+            return false;
+        }
+        final TgOutputPredicate that = (TgOutputPredicate) obj;
+        return this.comparingType().equals(that.comparingType())
+            && this.expected().equals(that.expected());
     }
 
     /**
@@ -134,5 +156,4 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
     private int differenceInLengthComparingTo(final String longest) {
         return longest.length() - this.comparingType().length();
     }
-
 }

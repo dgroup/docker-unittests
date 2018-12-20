@@ -25,7 +25,8 @@ package com.github.dgroup.dockertest.test.outcome;
 
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
-import com.github.dgroup.dockertest.yml.tag.UncheckedTgTest;
+import com.github.dgroup.dockertest.yml.tag.UncheckedTag;
+import com.github.dgroup.dockertest.yml.tag.test.UncheckedTgTest;
 import java.util.Collection;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
@@ -98,7 +99,7 @@ public final class TestOutcomeOf implements TestOutcome {
 
     @Override
     public Collection<TgOutputPredicate> expectedConditions() {
-        return this.test.output();
+        return new UncheckedTag<>(this.test.output()).value();
     }
 
     @Override

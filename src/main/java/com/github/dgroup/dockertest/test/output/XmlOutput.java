@@ -107,7 +107,7 @@ public final class XmlOutput implements Output {
                 .add("expectedThatOutput");
             for (final TgOutputPredicate prd : test.expectedConditions()) {
                 report.add(prd.comparingType())
-                    .set(prd.expectedValue())
+                    .set(prd.expected())
                     .up();
             }
             report.up()
@@ -117,7 +117,7 @@ public final class XmlOutput implements Output {
                 .add("failed");
             for (final TgOutputPredicate prd : test.failedConditions()) {
                 report.add(prd.comparingType())
-                    .set(prd.expectedValue())
+                    .set(prd.expected())
                     .up();
             }
             report.up().up().up();

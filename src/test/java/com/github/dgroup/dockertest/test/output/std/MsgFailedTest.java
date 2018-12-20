@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.yml.tag.TgOutputPredicateOf;
+import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
 import java.util.List;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;

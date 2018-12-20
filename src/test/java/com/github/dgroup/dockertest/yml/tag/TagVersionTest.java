@@ -26,15 +26,10 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import com.github.dgroup.dockertest.yml.YmlTagsOf;
-import org.cactoos.map.MapEntry;
-import org.cactoos.map.MapOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TgVersion}.
+ * Unit tests to check the version for YML file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -42,46 +37,17 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagVersionTest {
-
-    @Test(expected = IllegalYmlFormatException.class)
-    public void noVersionSpecified() throws IllegalYmlFormatException {
-        new TgVersion("").verify();
-    }
-
-    @Test(expected = IllegalYmlFormatException.class)
-    public void unsupportedVersionSpecified() throws IllegalYmlFormatException {
-        new TgVersion(
-            new MapOf<>(
-                new MapEntry<>("version", "0.0-alpha")
-            ).toString()
-        ).verify();
-    }
-
-    @Test
-    public void version() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            new TgVersion(
-                new YmlTagsOf(
-                    new YmlResource("with-single-test.yml").file()
-                ).raw()
-            ).value(),
-            Matchers.equalTo("1")
-        );
-    }
+public final class TagVersionTest {
 
     @Test
     public void tagVersionIsMissing() {
         new Assert().thatThrows(
-            () -> new TgVersion(
-                new YmlTagsOf(
-                    new YmlResource("with-missing-version-tag.yml").file()
-                ).raw()
-            ).verify(),
+            () -> new TagsOf(
+                new YmlResource("with-missing-version-tag.yml").file()
+            ).version(),
             new IllegalYmlFormatException(
-                "`version` tag is missing or has incorrect structure"
+                "The tag `version` is missing or has incorrect structure"
             )
         );
     }
-
 }

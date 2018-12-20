@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -94,12 +94,12 @@ public final class StdOutputOfTest {
                         "Java HotSpot(TM) 64-Bit Server VM (build 25.161)"
                     ),
                     new ListOf<>(
-                        new TgOutputPredicate.Fake(
+                        new TgPredicateFake(
                             "contains", "1.9", raw -> raw.contains("1.9")
                         )
                     ),
                     new ListOf<>(
-                        new TgOutputPredicate.Fake(
+                        new TgPredicateFake(
                             "contains", "1.9", raw -> raw.contains("1.9")
                         )
                     )

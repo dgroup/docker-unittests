@@ -25,11 +25,14 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
+import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TgTests}.
+ * Unit tests for class {@link TagsOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -41,9 +44,10 @@ import org.junit.Test;
  * @todo #/DEV tagTestsIsMissing: Unstable OS dependent test.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagTestsTest {
+public final class TagTestsTest {
 
-    @Test @Ignore("OS dependent test")
+    @Test
+    @Ignore("OS dependent test")
     public void tagTestsIsMissing() {
         new Assert().thatThrowableMessageEndingWith(
             () -> new YmlResource("tag-tests-is-missing.yml").scenarios(),
@@ -56,13 +60,11 @@ public final class YmlTagTestsTest {
     }
 
     @Test
-    public void tagTestsHasNoDefinedChildren() {
-        new Assert().thatThrowableMessageEndingWith(
-            () -> new YmlResource("tag-tests-has-no-children.yml")
-                .scenario(1)
-                .assume(),
-            "IllegalYmlFormatException: " +
-                "`tests` tag has incorrect structure"
+    public void tagTestsHasNoDefinedChildren()
+        throws IllegalYmlFormatException {
+        MatcherAssert.assertThat(
+            new YmlResource("tag-tests-has-no-children.yml").scenarios(),
+            Matchers.hasSize(0)
         );
     }
 

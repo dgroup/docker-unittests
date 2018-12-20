@@ -21,38 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml;
-
 /**
- * Represents yml tag
- * {@code /tests/test/output/contains|equal|startsWith|endsWith}.
- *
- * @author Yurii Dubinka (yurii.dubinka@gmail.com)
- * @version $Id$
- * @since 1.0
+ * Classes related to tag {@link com.github.dgroup.dockertest.yml.TgSetup}.
  */
-public interface TgOutputPredicate {
-
-    /**
-     * Comparing type.
-     * @return Available types are contains, equal, startsWith, endsWith.
-     */
-    String comparingType();
-
-    /**
-     * Expected value by test.
-     * @return Value expected by test. For example, in case of `matches` tag
-     *  the method return regexp statement.
-     */
-    String expected();
-
-    /**
-     * Compare expected value with actual.
-     *
-     * @param actual Output received from docker container.
-     * @return True in case if expected value is equal to actual value.
-     * @throws IllegalYmlFormatException in case when condition is
-     *  unsupported or har wrong/empty value.
-     */
-    boolean test(final String actual) throws IllegalYmlFormatException;
-}
+package com.github.dgroup.dockertest.yml.tag.setup;

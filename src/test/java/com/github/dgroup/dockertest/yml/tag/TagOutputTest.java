@@ -27,8 +27,9 @@ import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.TgOutput;
+import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 
@@ -45,8 +46,8 @@ import org.junit.Test;
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
-@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
-public final class YmlTagOutputTest {
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
+public final class TagOutputTest {
 
     @Test
     public void matchesRegexpSmoke() {
@@ -71,10 +72,11 @@ public final class YmlTagOutputTest {
 
     @Test
     public void tagOutputHasOneWrongChild() {
-        new Assert().thatThrowableMessageEndingWith(
+        new Assert().hasRootCause(
             () -> new YmlResource("tag-output-has-one-wrong-child.yml")
                 .scenarios().iterator().next().output(),
-            "IllegalYmlFormatException: Tag `output` has missing required " +
+            IllegalYmlFormatException.class,
+            "Tag `output` has missing required " +
                 "child tag `contains|endsWith|equal|matches|startsWith`"
         );
     }
@@ -91,14 +93,13 @@ public final class YmlTagOutputTest {
 
     @Test
     public void tagOutputHasUnsupportedChild() {
-        new Assert().thatThrownRootcause(
+        new Assert().hasRootCauseMatched(
             () -> new YmlResource("tag-output-has-unsupported-child.yml")
-                .scenario(1)
-                .output()
-                .get(1)
-                .test("curl 7.57.0 (x86_64-pc-linux-gnu)"),
-            new IllegalYmlFormatException(
-                "Unsupported comparing expression `containsss:Protocols`"
+                .scenario(1),
+            IllegalYmlFormatException.class,
+            String.format(
+                "^.*(tag-output-has-unsupported-child.yml).*%n.*" +
+                    "(Unable\\sto\\sfind\\sproperty\\s'containsss').*$"
             )
         );
     }
@@ -107,79 +108,37 @@ public final class YmlTagOutputTest {
     public void tagOutputHasAllNecessaryYmlPredicates() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
-            new YmlResource("with-3-simple-tests.yml").scenario(2).output(),
+            new YmlResource("with-3-simple-tests.yml").scenario(2).output()
+                .value(),
             IsCollectionWithSize.hasSize(4)
         );
     }
 
     @Test
-    public void tagOutputContains() throws IllegalYmlFormatException {
+    public void tagOutputHasValidPredicates() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 1st statement `contains`",
-            new YmlResource("with-3-simple-tests.yml").scenario(2)
-                .output()
-                .get(0)
-                .comparingType(),
-            Matchers.equalTo("contains")
-        );
-    }
-
-    @Test
-    public void tagOutputStartsWith() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 2nd statement `startsWith`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(2).output().get(1)
-                .comparingType(),
-            Matchers.equalTo("startsWith")
-        );
-    }
-
-    @Test
-    public void tagOutputStartsWithHasExpectedValue() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 2nd statement `startsWith`" +
-                " and expected value is `v8.`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(2)
-                .output()
-                .get(1)
-                .test("v8."),
-            new True()
-        );
-    }
-
-    @Test
-    public void tagOutputEndsWith() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 3rd statement `endsWith`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(2)
-                .output().get(2).comparingType(),
-            Matchers.equalTo("endsWith")
-        );
-    }
-
-    @Test
-    public void tagOutputEndsWithHasExpectedValue() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 3rd statement `endsWith`" +
-                " and expected value is `.5.0`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(2)
-                .output().get(2).test(".5.0"),
-            new True()
+            "Tag `tests/2/output` has valid structure",
+            new YmlResource("with-3-simple-tests.yml").scenario(2).output(),
+            new TgOutput.Is(
+                new TgPredicateFake("startsWith", "v8."),
+                new TgPredicateFake("endsWith", ".5.0"),
+                new TgPredicateFake("contains", "v8.5.0"),
+                new TgPredicateFake("contains", ".0")
+            )
         );
     }
 
     @Test
     public void tagOutputMatches() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            "Tag `tests/test[3]/output` has 4th statement `matches`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(3)
-                .output().get(2).comparingType(),
-            Matchers.equalTo("matches")
+            "Tag `tests/3/output` has valid structure",
+            new YmlResource("with-3-simple-tests.yml").scenario(3).output(),
+            new TgOutput.Is(
+                new TgPredicateFake(
+                    "matches",
+                    "^\\W+|.*\n.*\nProtocols.+ftps.+https.+telnet.*\n.*$"
+                )
+            )
         );
     }
 
@@ -198,23 +157,10 @@ public final class YmlTagOutputTest {
         MatcherAssert.assertThat(
             "Tag `tests/test[3]/output` has 4th statement `matches`" +
                 " and match regexp expression.",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(3)
-                .output().get(2).test(version),
+            new YmlResource("with-3-simple-tests.yml").scenario(3).output()
+                .value().iterator().next()
+                .test(version),
             new True()
         );
     }
-
-    @Test
-    public void tagOutputContainsHasExpectedValue() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            "Tag `tests/test[2]/output` has 1st statement `contains`" +
-                " and expected value is `v8.5.0`",
-            new YmlResource("with-3-simple-tests.yml")
-                .scenario(2)
-                .output().get(0).test("v8.5.0"),
-            new True()
-        );
-    }
-
 }
