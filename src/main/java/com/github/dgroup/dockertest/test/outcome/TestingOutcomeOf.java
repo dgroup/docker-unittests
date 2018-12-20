@@ -42,10 +42,9 @@ import org.cactoos.scalar.UncheckedScalar;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle RegexpSinglelineCheck (4 lines)
  */
-public final class TestingOutcomeOf extends CollectionEnvelope<TestOutcome>
-    implements TestingOutcome {
+public final class TestingOutcomeOf extends
+    CollectionEnvelope<TestOutcome> implements TestingOutcome {
 
     /**
      * Testing status.

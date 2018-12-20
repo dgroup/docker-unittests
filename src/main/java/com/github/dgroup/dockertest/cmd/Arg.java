@@ -30,6 +30,7 @@ package com.github.dgroup.dockertest.cmd;
  * @version $Id$
  * @param <X> Type of item.
  * @since 1.0
+ * @todo #/DEV Move all arguments to package `***.cmd.arg`
  */
 public interface Arg<X> {
 

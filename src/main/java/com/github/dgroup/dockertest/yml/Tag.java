@@ -23,49 +23,28 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import com.github.dgroup.dockertest.yml.tag.TgSetup;
-import com.github.dgroup.dockertest.yml.tag.TgVersion;
-import java.util.Collection;
-
 /**
- * Transform *.yml file with tests to collection of {@link TgTest}.
+ * Named yaml tag with the value within the *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1
+ * @param <T> Type of tag.
+ * @since 1.0
  */
-public interface YmlTags {
+public interface Tag<T> {
 
     /**
-     * Give the <em>version</em> tag.
-     * @return The yml tag <em>version</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
+     * Represent tag name as string.
+     * @return Name.
      */
-    TgVersion version() throws IllegalYmlFormatException;
+    String name();
 
     /**
-     * Give the <em>setup</em> tag.
-     * @return The yml tag <em>setup</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
+     * Represent tag value as string.
+     * @return Value.
+     * @throws IllegalYmlFormatException in case if tag is null/missing
+     *  or has no value.
      */
-    TgSetup setup() throws IllegalYmlFormatException;
-
-    /**
-     * Give the <em>tests</em> tag.
-     * @return The yml tag <em>tests</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
-     */
-    Collection<TgTest> tests() throws IllegalYmlFormatException;
-
-    /**
-     * Give the yml tree as raw string.
-     * @return The yml tree as string.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
-     */
-    String raw() throws IllegalYmlFormatException;
+    T value() throws IllegalYmlFormatException;
 
 }

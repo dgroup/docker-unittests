@@ -21,49 +21,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.collection;
 
-import com.github.dgroup.dockertest.Assert;
-import com.github.dgroup.dockertest.YmlResource;
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TgTests}.
+ * Unit tests for class {@link SafeSet}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle OperatorWrapCheck (500 lines)
+ * @since 1.1
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
- * @todo #/DEV tagTestsIsMissing: Unstable OS dependent test.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class YmlTagTestsTest {
+public final class SafeSetTest {
 
-    @Test @Ignore("OS dependent test")
-    public void tagTestsIsMissing() {
-        new Assert().thatThrowableMessageEndingWith(
-            () -> new YmlResource("tag-tests-is-missing.yml").scenarios(),
-            "tag-tests-is-missing.yml` has the wrong format:\n" +
-                " mapping values are not allowed here\n" +
-                " in 'string', line 3, column 9:\n" +
-                "      - test:\n" +
-                "            ^\n"
+    @Test
+    public void empty() {
+        MatcherAssert.assertThat(
+            new SafeSet<>((String) null),
+            Matchers.empty()
         );
     }
 
     @Test
-    public void tagTestsHasNoDefinedChildren() {
-        new Assert().thatThrowableMessageEndingWith(
-            () -> new YmlResource("tag-tests-has-no-children.yml")
-                .scenario(1)
-                .assume(),
-            "IllegalYmlFormatException: " +
-                "`tests` tag has incorrect structure"
+    public void nonEmpty() {
+        MatcherAssert.assertThat(
+            new SafeSet<>("a", "b"),
+            Matchers.hasItems("a", "b")
         );
     }
-
 }

@@ -29,7 +29,8 @@ import com.github.dgroup.dockertest.test.outcome.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
-import com.github.dgroup.dockertest.yml.tag.UncheckedTgTest;
+import com.github.dgroup.dockertest.yml.tag.UncheckedTag;
+import com.github.dgroup.dockertest.yml.tag.test.UncheckedTgTest;
 import java.util.Collection;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.StickyList;
@@ -67,7 +68,10 @@ public final class TestOf implements Test {
     public TestOutcome execute() throws DockerProcessExecutionException {
         final String output = this.process.execute().asText();
         final Collection<TgOutputPredicate> failed = new StickyList<>(
-            new Filtered<>(t -> !t.test(output), this.test.output())
+            new Filtered<>(
+                t -> !t.test(output),
+                new UncheckedTag<>(this.test.output()).value()
+            )
         );
         return new TestOutcomeOf(this.test, output, failed);
     }

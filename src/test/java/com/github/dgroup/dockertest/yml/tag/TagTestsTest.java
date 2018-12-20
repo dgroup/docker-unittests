@@ -23,43 +23,32 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
-import org.cactoos.list.ListOf;
+import com.github.dgroup.dockertest.YmlResource;
+import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit tests for class {@link TgOutputPredicateOf}.
+ * Unit tests for class {@link TagsOf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TgOutputPredicateOfTest {
+public final class TagTestsTest {
 
     @Test
-    public void asString() {
+    public void tagTestsHasNoDefinedChildren()
+        throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            new ListOf<>(
-                new TgOutputPredicateOf(
-                    "startsWith", "curl 7.", String::startsWith
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "equals", "curl 7.57.0", String::equals
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "contains", "7.57", String::contains
-                ).asYmlString()
-            ),
-            new HasItems<>(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
+            new YmlResource("tag-tests-has-no-children.yml").scenarios(),
+            Matchers.hasSize(0)
         );
     }
 

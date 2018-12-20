@@ -21,54 +21,25 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import com.github.dgroup.dockertest.yml.YmlTag;
-import org.cactoos.Scalar;
-
 /**
- * Text yml tag.
+ * Represents a tag from *.yml file.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @todo #/DEV Extend YmlTagEvnvelope instead of implementation of YmlTag.
+ * @param <T> The type of tag.
+ * @since 1.1
  */
-public final class TgText implements YmlTag<String> {
-
-    /**
-     * Origin.
-     */
-    private final Scalar<String> yml;
-    /**
-     * Name of yml tag.
-     */
-    private final String tag;
+public class TagOf<T> extends TgEnvelope<T> {
 
     /**
      * Ctor.
-     * @param yml Object tree loaded from *.yml file with tests.
-     * @param tag Current YML tag name.
+     * @param tag The value of YML tag.
+     * @param name The name of YML tag.
      */
-    public TgText(final Scalar<String> yml, final String tag) {
-        this.yml = yml;
-        this.tag = tag;
-    }
-
-    @Override
-    public String name() {
-        return this.tag;
-    }
-
-    @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public String value() throws IllegalYmlFormatException {
-        // @checkstyle IllegalCatchCheck (10 lines)
-        try {
-            return this.yml.value();
-        } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp);
-        }
+    public TagOf(final T tag, final String name) {
+        super(() -> tag, name);
     }
 }

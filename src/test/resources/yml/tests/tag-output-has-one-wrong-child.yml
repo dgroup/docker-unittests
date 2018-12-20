@@ -1,8 +1,6 @@
 version: 1
 
 tests:
-  - test:
-      assume: "curl version is 7.xxx"
-      cmd:    "curl --version"
-      output:
-        -
+  - assume: "curl version is 7.xxx"
+    cmd:    "curl --version"
+    output:

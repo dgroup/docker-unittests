@@ -27,8 +27,9 @@ package com.github.dgroup.dockertest.test.output;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
+import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import java.io.StringWriter;
 import java.util.Collections;
 import com.jcabi.matchers.XhtmlMatchers;
@@ -47,6 +48,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class XmlOutputTest {
@@ -58,17 +60,17 @@ public final class XmlOutputTest {
                 new TgTest.Fake(
                     "java version is 1.9, Debian build",
                     "java -version",
-                    new ListOf<>(
-                        new TgOutputPredicate.Fake(
-                            "contains", "1.9", output -> output.contains("1.9")
-                        )
+                    new TgOutputOf(
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.singleton("1.9")
                     )
                 ),
                 "java version \"1.8.0_161\"\n" +
                     "Java(TM) SE Runtime Environment (build 1.8.0_161-b12)\n" +
                     "Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12)\n",
                 new ListOf<>(
-                    new TgOutputPredicate.Fake(
+                    new TgPredicateFake(
                         "contains", "1.9", output -> output.contains("1.9")
                     )
                 )
@@ -77,16 +79,16 @@ public final class XmlOutputTest {
                 new TgTest.Fake(
                     "curl version is 800",
                     "curl --version",
-                    new ListOf<>(
-                        new TgOutputPredicate.Fake(
-                            "contains", "800", output -> output.contains("800")
-                        )
+                    new TgOutputOf(
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.singleton("800")
                     )
                 ),
                 "curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0\n" +
                     "Protocols: dict file ftp ftps gopher http https \n" +
                     "Features: AsynchDNS IPv6 Largefile GSS-API Kerberos\n",
-                Collections.emptyList()
+                Collections.emptySet()
             )
         );
         final StringWriter swr = new StringWriter();

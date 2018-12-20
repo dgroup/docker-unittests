@@ -25,8 +25,9 @@ package com.github.dgroup.dockertest.test;
 
 import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.docker.process.DockerProcessOf;
+import com.github.dgroup.dockertest.text.Splitted;
 import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.YmlTagsOf;
+import com.github.dgroup.dockertest.yml.tag.TagsOf;
 import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.list.StickyList;
@@ -44,20 +45,22 @@ public final class TestsOf extends CollectionEnvelope<Test> {
      * Ctor.
      * @param image The name of the docker image.
      * @param file The name of the YML file with tests.
+     * @checkstyle IndentationCheck (50 lines)
      */
     public TestsOf(final Arg<String> image, final Arg<String> file) {
-        super(() -> new StickyList<>(
-            new Mapped<>(
-                ymlTagTest -> new TestOf(
-                    ymlTagTest,
-                    new DockerProcessOf(
-                        image.value(),
-                        ymlTagTest.containerCommandAsArray()
-                    )
-                ),
-                new YmlTagsOf(new TextFile(file.value())).tests()
+        super(
+            () -> new StickyList<>(
+                new Mapped<>(
+                    ymlTagTest -> new TestOf(
+                        ymlTagTest,
+                        new DockerProcessOf(
+                            image.value(),
+                            new Splitted(ymlTagTest.cmd()).toStringArray()
+                        )
+                    ),
+                    new TagsOf(new TextFile(file.value())).tests()
+                )
             )
-        ));
+        );
     }
-
 }

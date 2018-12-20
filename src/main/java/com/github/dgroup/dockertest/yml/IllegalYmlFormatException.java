@@ -79,11 +79,11 @@ public final class IllegalYmlFormatException extends IOException {
 
     /**
      * Ctor.
-     * @param tag YML tag which has missing required child.
-     * @param child Name of child YML tag.
+     * @param tag YML tag which has incorrect structure.
+     * @param <T> The type of tag.
      */
-    public IllegalYmlFormatException(final String tag, final String child) {
-        this("Tag `%s` has missing required child tag `%s`", tag, child);
+    public <T> IllegalYmlFormatException(final Tag<T> tag) {
+        this("The tag `%s` is missing or has incorrect structure", tag.name());
     }
 
     /**
@@ -94,5 +94,4 @@ public final class IllegalYmlFormatException extends IOException {
     public IllegalYmlFormatException(final String ptrn, final Object... args) {
         this(new TextOf(ptrn, args));
     }
-
 }

@@ -21,46 +21,40 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml;
 
-import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import java.util.Collection;
 
 /**
- * Unit tests for class {@link TgOutputPredicateOf}.
+ * Represents *.yml file with tests as an object.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle LineLengthCheck (500 lines)
+ * @since 1.1
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TgOutputPredicateOfTest {
+public interface Tags {
 
-    @Test
-    public void asString() {
-        MatcherAssert.assertThat(
-            new ListOf<>(
-                new TgOutputPredicateOf(
-                    "startsWith", "curl 7.", String::startsWith
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "equals", "curl 7.57.0", String::equals
-                ).asYmlString(),
-                new TgOutputPredicateOf(
-                    "contains", "7.57", String::contains
-                ).asYmlString()
-            ),
-            new HasItems<>(
-                "startsWith: \"curl 7.\"",
-                "equals:     \"curl 7.57.0\"",
-                "contains:   \"7.57\""
-            )
-        );
-    }
+    /**
+     * Give the <em>version</em> tag.
+     * @return The yml tag <em>version</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    Tag<String> version() throws IllegalYmlFormatException;
 
+    /**
+     * Give the <em>setup</em> tag.
+     * @return The yml tag <em>setup</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    TgSetup setup() throws IllegalYmlFormatException;
+
+    /**
+     * Give the <em>tests</em> tag.
+     * @return The yml tag <em>tests</em>.
+     * @throws IllegalYmlFormatException in case if YML file has
+     *  wrong/corrupted/unsupported format.
+     */
+    Collection<TgTest> tests() throws IllegalYmlFormatException;
 }

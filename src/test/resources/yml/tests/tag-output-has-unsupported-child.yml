@@ -1,9 +1,8 @@
 version: 1
 
 tests:
-  - test:
-      assume: "curl version is 7.xxx"
-      cmd:    "curl --version"
-      output:
-        - startsWith:  "curl 7."
-        - containsss:  "Protocols"
+  - assume: "curl version is 7.xxx"
+    cmd:    "curl --version"
+    output:
+      startsWith:  "curl 7."
+      containsss:  "Protocols"

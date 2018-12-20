@@ -24,7 +24,6 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.hamcrest.ItemsEndsWith;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
@@ -32,9 +31,6 @@ import java.io.File;
 import java.util.ArrayList;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,7 +42,6 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @todo #/DEV dueToIllegalYmlFormatException: Unstable OS dependent test.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class AppTest {
@@ -68,35 +63,6 @@ public final class AppTest {
             std.details(),
             new HasItems<>("Testing successfully completed.")
         );
-    }
-
-    @Test
-    @Ignore(value = "Unstable OS dependent test")
-    public void dueToIllegalYmlFormatException() {
-        final StdOutput std = new StdOutput.Fake(new ArrayList<>(10));
-        final String path = new YmlResource("tag-tests-is-missing.yml").path();
-        std.print(new TextOf("File: %s.", path));
-        try {
-            new App(
-                new ListOf<>(
-                    "-f", path,
-                    "-i", "openjdk:9.0.1-11"
-                ),
-                std
-            ).start();
-            Assert.fail("Exception is expected here.");
-        } catch (final AppException exp) {
-            MatcherAssert.assertThat(
-                exp.exitCode(), new IsEqual<>(-2)
-            );
-            MatcherAssert.assertThat(
-                exp.message(),
-                new ItemsEndsWith(
-                    "tag-tests-is-missing.yml` has the wrong format:",
-                    "mapping values are not allowed here"
-                )
-            );
-        }
     }
 
 }

@@ -23,54 +23,17 @@
  */
 package com.github.dgroup.dockertest.yml;
 
+import java.util.Set;
+
 /**
- * Named yaml tag with the value within the *.yml file.
+ * Represents yml tag {@code /setup}.
+ * The tag can contain a list of predefined instructions to set up the container
+ *  before execution of tests.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of item.
- * @since 1.0
+ * @since 1.1.0
  */
-public interface YmlTag<T> {
-
-    /**
-     * Represent tag name as string.
-     * @return Name.
-     */
-    String name();
-
-    /**
-     * Represent tag value as string.
-     * @return Value.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    T value() throws IllegalYmlFormatException;
-
-    /**
-     * Fake implementation for unit-testing purposes.
-     * @checkstyle JavadocVariableCheck (10 lines)
-     * @checkstyle JavadocMethodCheck (50 lines)
-     */
-    class Fake implements YmlTag<String> {
-
-        private final String tag;
-        private final String value;
-
-        public Fake(final String tag, final String value) {
-            this.tag = tag;
-            this.value = value;
-        }
-
-        @Override
-        public String name() {
-            return this.tag;
-        }
-
-        @Override
-        public String value() {
-            return this.value;
-        }
-    }
+public interface TgSetup extends Tag<Set<String>> {
 
 }

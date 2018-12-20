@@ -25,8 +25,9 @@ package com.github.dgroup.dockertest.test.outcome;
 
 import com.github.dgroup.dockertest.test.TestingFailedException;
 import com.github.dgroup.dockertest.test.output.Output;
-import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
+import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import java.util.Collections;
 import org.cactoos.list.ListOf;
 import org.junit.Test;
@@ -51,13 +52,18 @@ public final class TestingOutcomeOfTest {
         new TestingOutcomeOf(
             new TestOutcomeOf(
                 new TgTest.Fake(
-                    "", "", Collections.emptyList()
+                    "", "",
+                    new TgOutputOf(
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet(), Collections.emptySet(),
+                        Collections.emptySet()
+                    )
                 ),
                 "curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0\n" +
                     "Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp \n" +
                     "Features: AsynchDNS IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz HTTP2 UnixSockets HTTPS-proxy \n",
                 new ListOf<>(
-                    new TgOutputPredicate.Fake(
+                    new TgPredicateFake(
                         "startsWith", "curl 8000",
                         input -> input.startsWith("curl 8000")
                     )

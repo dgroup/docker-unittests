@@ -26,8 +26,9 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import com.github.dgroup.dockertest.yml.TgOutputPredicate;
-import com.github.dgroup.dockertest.yml.YmlTag;
+import com.github.dgroup.dockertest.yml.TgOutput;
+import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
+import com.github.dgroup.dockertest.yml.tag.test.TgTestOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -49,22 +50,20 @@ import org.junit.Test;
 public final class TgTestOfTest {
 
     @Test
-    public void tagTestsHasOneWronglyDefinedChild() {
-        new Assert().thatThrowableMessageEndingWith(
-            () -> new YmlResource("tag-tests-has-one-wrong-child.yml")
-                .scenarios().iterator().next(),
-            "IllegalYmlFormatException: " +
-                "`tests` tag has no defined children"
+    public void tagTestsHasOneWronglyDefinedChild()
+        throws IllegalYmlFormatException {
+        MatcherAssert.assertThat(
+            new YmlResource("tag-tests-has-one-wrong-child.yml").scenarios(),
+            Matchers.hasSize(0)
         );
     }
 
     @Test
     public void tagOutputStartsWith() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            "Tag `tests/test[1]/output` has 2nd statement `startsWith`",
-            new YmlResource("with-single-test.yml")
-                .scenario(1)
-                .output().get(0).comparingType(),
+            "Tag `tests/test[1]/output` has 1st statement `startsWith`",
+            new YmlResource("with-single-test.yml").scenario(1)
+                .output().value().iterator().next().comparingType(),
             Matchers.equalTo("startsWith")
         );
     }
@@ -73,46 +72,26 @@ public final class TgTestOfTest {
     public void tagTestHasMissingAssumeTagIsolated() {
         new Assert().thatThrows(
             () -> new TgTestOf(
-                "{test={" +
-                    "cmd=curl --version, " +
-                    "output=[" +
-                    "{startsWith=curl 7.}, " +
-                    "{contains=Protocols: }, " +
-                    "{contains=Features: }" +
-                    "]}}"
+                new TagOf<>(null, "assume"), null, null
             ).assume(),
             new IllegalYmlFormatException(
-                "Tag `test` has missing required child tag `assume`"
+                "The tag `assume` is missing or has incorrect structure"
             )
         );
     }
 
-    /**
-     * @todo #DEV Implement escaping of chars which are using for split
-     */
     @Test
     public void escapedSymbols() throws IllegalYmlFormatException {
         MatcherAssert.assertThat(
-            "Tag `tests/test[3]/output` has 2nd statement `contains`",
-            new YmlResource(
-                "with-escaped-symbols-in-3-tests.yml"
-            ).scenario(3).output().get(1),
-            new TgOutputPredicate.Is("contains", "Protocols: \\{")
-        );
-    }
-
-    @Test
-    public void value() throws IllegalYmlFormatException {
-        MatcherAssert.assertThat(
-            new TgTestOf(
-                new YmlTag.Fake("", "curl version is 7.xxx"),
-                new YmlTag.Fake("", "curl --version"),
-                new YmlTag.Fake("", "curl 7.")
-            ).value(),
-            Matchers.equalTo(
-                "tag `test`, assume `curl version is 7.xxx`, cmd `curl " +
-                    "--version`, " +
-                    "output `curl 7.`"
+            "Tag `tests/3/output` loaded despite on escaped symbols",
+            new YmlResource("with-escaped-symbols-in-3-tests.yml").scenario(3)
+                .output(),
+            new TgOutput.Is(
+                new TgPredicateFake(
+                    "matches",
+                    "^.*Protocols.+ftps.+https.+telnet.*$"
+                ),
+                new TgPredicateFake("contains", "Protocols: \\{")
             )
         );
     }
@@ -121,10 +100,9 @@ public final class TgTestOfTest {
     public void tagTestHasMissingAssumeTag() {
         new Assert().thatThrows(
             () -> new YmlResource("tag-test-has-missing-assume-tag.yml")
-                .scenario(1)
-                .assume(),
+                .scenario(1).assume(),
             new IllegalYmlFormatException(
-                "Tag `test` has missing required child tag `assume`"
+                "The tag `assume` is missing or has incorrect structure"
             )
         );
     }
@@ -135,7 +113,7 @@ public final class TgTestOfTest {
             () -> new YmlResource("tag-test-has-missing-cmd-tag.yml")
                 .scenario(1).cmd(),
             new IllegalYmlFormatException(
-                "Tag `test` has missing required child tag `cmd`"
+                "The tag `cmd` is missing or has incorrect structure"
             )
         );
     }

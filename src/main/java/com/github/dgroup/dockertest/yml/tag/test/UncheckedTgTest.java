@@ -21,13 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
+package com.github.dgroup.dockertest.yml.tag.test;
 
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
-import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.TgOutput;
 import com.github.dgroup.dockertest.yml.TgTest;
 import java.io.UncheckedIOException;
-import java.util.List;
 
 /**
  * Unchecked implementation of {@link TgTest}.
@@ -72,16 +71,7 @@ public final class UncheckedTgTest implements TgTest {
     }
 
     @Override
-    public String[] containerCommandAsArray() {
-        try {
-            return this.origin.containerCommandAsArray();
-        } catch (final IllegalYmlFormatException cause) {
-            throw new UncheckedIOException(cause);
-        }
-    }
-
-    @Override
-    public List<TgOutputPredicate> output() {
+    public TgOutput output() {
         try {
             return this.origin.output();
         } catch (final IllegalYmlFormatException cause) {

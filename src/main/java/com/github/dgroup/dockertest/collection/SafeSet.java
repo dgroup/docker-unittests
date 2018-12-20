@@ -21,50 +21,48 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.text.cutted.Between;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+package com.github.dgroup.dockertest.collection;
+
+import com.github.dgroup.dockertest.scalar.If;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import org.cactoos.collection.CollectionOf;
+import org.cactoos.collection.Filtered;
 
 /**
- * Represents yml tag {@code /version}.
+ * Null-safe set.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
+ * @param <T> The type of item.
+ * @since 1.1
+ * @todo #/DEV Add null-safe elements verification.
  */
-public final class TgVersion extends TgEnvelope<String> {
+public class SafeSet<T> extends SetEnvelope<T> {
 
     /**
      * Ctor.
-     * @param tree Yml object tree loaded from *.yml file with tests.
+     * @param src The source collection.
      */
-    public TgVersion(final String tree) {
-        this(tree, "version");
+    public SafeSet(final T... src) {
+        this(new CollectionOf<T>(src));
     }
 
     /**
      * Ctor.
-     * @param tree Object tree loaded from *.yml file with tests.
-     * @param tag Current YML tag name.
+     * @param src The source collection.
      */
-    private TgVersion(final String tree, final String tag) {
-        super(() -> new Between(tree, "version=").first(","), tag);
+    public SafeSet(final Collection<T> src) {
+        super(
+            new If<>(
+                () -> src == null || src.isEmpty()
+                    || new Filtered<>(Objects::nonNull, src).isEmpty(),
+                Collections::emptySet,
+                () -> new LinkedHashSet<>(src)
+            )
+        );
     }
-
-    /**
-     * Allows to verify version of *.yml file.
-     * For now only version `1` is supported.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
-     *  or has no value.
-     */
-    public void verify() throws IllegalYmlFormatException {
-        if (!"1".equals(this.value())) {
-            throw new IllegalYmlFormatException(
-                new TextOf("Unsupported version: %s", this.value())
-            );
-        }
-    }
-
 }
