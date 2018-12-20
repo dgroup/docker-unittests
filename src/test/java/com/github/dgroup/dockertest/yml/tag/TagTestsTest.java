@@ -23,12 +23,10 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -41,23 +39,9 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
- * @todo #/DEV tagTestsIsMissing: Unstable OS dependent test.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TagTestsTest {
-
-    @Test
-    @Ignore("OS dependent test")
-    public void tagTestsIsMissing() {
-        new Assert().thatThrowableMessageEndingWith(
-            () -> new YmlResource("tag-tests-is-missing.yml").scenarios(),
-            "tag-tests-is-missing.yml` has the wrong format:\n" +
-                " mapping values are not allowed here\n" +
-                " in 'string', line 3, column 9:\n" +
-                "      - test:\n" +
-                "            ^\n"
-        );
-    }
 
     @Test
     public void tagTestsHasNoDefinedChildren()

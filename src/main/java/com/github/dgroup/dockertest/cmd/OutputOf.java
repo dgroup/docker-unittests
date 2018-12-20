@@ -46,6 +46,8 @@ import org.cactoos.map.MapOf;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Use ',' delimiter instead of '|' as its can cause issue with
+ *  linux pipelines.
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class OutputOf extends ArgEnvelope<Collection<Output>> {

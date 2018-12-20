@@ -36,55 +36,58 @@ We, like users, receive the image and we are going to check what we've got.
 The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. 
 Kindly ask you to raise the issue in case of any suggestions regarding another ways\languages.
 
-### General image test 
+#### General image test
 1. Define an [*.yml file](./docs/image-tests.yml) with tests.
    ```yml
-   version: 1
-   
-   tests:
-     - test:
-         assume: "java version is 1.9, Debian build"
-         cmd:    "java -version"
-         output:
-           - contains: "openjdk version \"9.0.1\""
-           - contains: "build 9.0.1+11-Debian-1"
-   
-     - test:
-         assume: "curl version is 7.xxx"
-         cmd:    "curl --version"
-         output:
-           - startsWith: "curl 7."
-           - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
-           - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
-   ```
+
+    version: 1.1
+
+    tests:
+
+      - assume: "java version is 1.9, Debian build"
+        cmd:    "java -version"
+        output:
+          contains:
+            - openjdk version "9.0.1"
+            - build 9.0.1+11-Debian
+
+      - assume: "curl version is 7.xxx"
+        cmd:    "curl --version"
+        output:
+          startsWith: "curl 7."
+          matches:
+           - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
+          contains:
+           - "AsynchDNS IDN IPv6 Largefile GSS-API"
+    ```
 2. Run tests for image 
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
    ![docker image tests results](./docs/image-tests-results.png)
-### Test image by shell script
+#### Test image by shell script
 1. Define the `test.yml` with tests.
    ```yaml
-   version: 1
+    version: 1.1
     
     tests:
     
-      - test:
-          assume: "java version is 1.9, Debian build"
-          cmd:    "java -version"
-          output:
-            - contains: openjdk version "9.0.1"
-            - contains: build 9.0.1+11-Debian
+      -  assume: "java version is 1.9, Debian build"
+         cmd:    "java -version"
+         output:
+            contains:
+             - openjdk version "9.0.1"
+             - build 9.0.1+11-Debian
     
       # The test below will fail due to wrong version of curl.
-      - test: 
-          assume: "curl version is 8000"
-          cmd:    "curl --version"
-          output:
-            - startsWith: "curl 8000"
-            - matches:    "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
-            - contains:   "AsynchDNS IDN IPv6 Largefile GSS-API"
-
+      -  assume: "curl version is 8000"
+         cmd:    "curl --version"
+         output:
+            startsWith: "curl 8000"
+            matches:
+              - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
+            contains:
+              - "AsynchDNS IDN IPv6 Largefile GSS-API"
    ``` 
 2. Define an `test.sh` with testing command
    ```bash
@@ -97,8 +100,16 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
 3. Run the `test.sh`
     ![docker image tests results](./docs/image-tests-results-failure.png)
 
+#### Output matching predicates
+
+| Predicate   | Multiple | YML tag format                                   |
+|-------------|:--------:|--------------------------------------------------|
+| startsWith  | No       | `startsWith: "curl 8000"`                        |
+| endsWith    | No       | `endsWith: "VM (build 25.181-b13, mixed mode)"`  |
+| equals      | No       | `equals: "curl 7.54.0"`                          |
+| contains    | Yes      | `contains: ["7.54", "LibreSSL", "pop3 pop3s"]`   |
+| matches     | Yes      | `matches: ["^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+.*\\n$"]` |
 #### F.A.Q.
- - Supported output predicates are `startsWith`, `endsWith`, `contains`, `equals` and `matches`(regexp statement).
- - [Contributing guide](./docs/contributing.md)  
+ - [Contributing guide](./docs/contributing.md)
  - [Github](./docs/github.md)
  - [Docker](https://github.com/dgroup/docker-on-windows#docker-faq)                                       

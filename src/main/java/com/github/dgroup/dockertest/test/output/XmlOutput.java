@@ -48,6 +48,7 @@ import org.xembly.Xembler;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Do not print `failed` tag in case if the scenario passed.
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class XmlOutput implements Output {
