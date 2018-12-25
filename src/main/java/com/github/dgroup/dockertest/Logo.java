@@ -38,11 +38,8 @@ import org.cactoos.scalar.UncheckedScalar;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #/DEV Rename the "Docker testing tool" to "Docker image testing" and
- *  replace all \n by System.lineseparator
  */
 public final class Logo implements Iterable<String> {
-
     /**
      * Application version.
      */
@@ -57,6 +54,7 @@ public final class Logo implements Iterable<String> {
 
     /**
      * Ctor.
+     *
      * @param version The application version.
      */
     public Logo(final Scalar<String> version) {
@@ -71,21 +69,23 @@ public final class Logo implements Iterable<String> {
      * @checkstyle OperatorWrapCheck (50 lines)
      * @checkstyle RegexpSinglelineCheck (50 lines)
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
+     * @checkstyle LocalFinalVariableNameCheck (50 lines)
      */
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
-        return new TextOf(
-            "\nDocker testing tool (%s)\n%s",
+        final String ls = System.lineSeparator();
+        return new TextOf(System.lineSeparator() +
+            "Docker image testing (%s)%s" + ls,
             new GreenText("v%s", this.version.value()),
-            new BlueText("" +
-                "                  ##         .            \n" +
-                "            ## ## ##        ==            \n" +
-                "         ## ## ## ##       ===            \n" +
-                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
-                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
-                "     \\______ o          __/            \n" +
-                "      \\    \\        __/             \n" +
-                "       \\____\\______/   \n"
+            new BlueText("" + ls +
+                "                  ##         .            " + ls +
+                "            ## ## ##        ==            " + ls +
+                "         ## ## ## ##       ===            " + ls +
+                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        " + ls +
+                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   " + ls +
+                "     \\______ o          __/            " + ls +
+                "      \\    \\        __/             " + ls +
+                "       \\____\\______/   " + ls
             )
         ).text();
     }
