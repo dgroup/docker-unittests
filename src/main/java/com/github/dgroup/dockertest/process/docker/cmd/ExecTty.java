@@ -39,11 +39,11 @@ import org.cactoos.text.UncheckedText;
  *
  * TTY basically means “a console”. When you are in Windows or Linux and open a
  *  terminal to start interacting with the OS via typing some text and getting
- *  some text responses, that’s TTY. It’s pseudo-TTY in docker because it’s been
- *  a pseudo-TTY since being able to connect to an arbitrary computer remotely
- *  created the need for a common “terminal” experience independent of what
- *  shell the user is running and what the abilities of the physical device
- *  I’m connecting to are.
+ *  some text responses, that’s TTY. It’s pseudo-TTY in docker because it’s
+ *  been a pseudo-TTY since being able to connect to an arbitrary computer
+ *  remotely created the need for a common “terminal” experience independent of
+ *  what shell the user is running and what the abilities of the physical
+ *  device I’m connecting to are.
  * Read more here https://www.quora.com/What-does-the-t-or-tty-do-in-Docker.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
