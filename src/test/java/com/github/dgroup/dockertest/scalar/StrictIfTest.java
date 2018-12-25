@@ -23,21 +23,20 @@
  */
 package com.github.dgroup.dockertest.scalar;
 
-import org.cactoos.ScalarHasValue;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.ScalarHasValue;
 
 /**
  * Unit tests for class {@link StrictIf}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class StrictIfTest {
-
     @Test
     public void conditionIsTrue() {
         MatcherAssert.assertThat(

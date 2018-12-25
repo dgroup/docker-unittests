@@ -23,10 +23,10 @@
  */
 package com.github.dgroup.dockertest.cmd.scalar;
 
-import org.cactoos.ScalarHasValue;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.ScalarHasValue;
 
 /**
  * Unit tests for class {@link ArgIn}.

@@ -86,7 +86,7 @@ public final class TimedCmdOutput extends CmdOutputEnvelope {
 
     @Override
     public List<String> byLines() {
-        return new Joined<>(
+        return new Joined<String>(
             super.byLines(),
             new ListOf<>(String.format("Elapsed: %ss", this.seconds))
         );

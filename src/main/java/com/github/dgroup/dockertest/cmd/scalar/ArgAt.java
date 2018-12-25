@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.cmd.scalar;
 
 import java.util.List;
 import org.cactoos.Scalar;
-import org.cactoos.iterable.ItemAt;
+import org.cactoos.scalar.ItemAt;
 
 /**
  * Find particular argument in command-line arguments specified by the user.

@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.io;
 
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.iterable.PropertiesOf;
+import org.cactoos.scalar.PropertiesOf;
 
 /**
  * Represents single property from classpath.

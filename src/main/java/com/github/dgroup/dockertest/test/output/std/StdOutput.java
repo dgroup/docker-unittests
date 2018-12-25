@@ -100,7 +100,7 @@ public final class StdOutput implements Std {
     @Override
     public void print(final String msg, final Exception exp) {
         this.print(
-            new Joined<>(
+            new Joined<String>(
                 new ListOf<>(msg),
                 new Mapped<>(
                     StackTraceElement::toString,

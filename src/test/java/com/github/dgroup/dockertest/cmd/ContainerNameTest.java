@@ -23,9 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
-import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
 import com.github.dgroup.dockertest.cmd.arg.ContainerName;
-import java.io.IOException;
 import java.nio.file.Paths;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.StringStartsWith;
@@ -36,14 +34,13 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.1
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class ContainerNameTest {
-
     @Test
-    public void test() throws CmdArgNotFoundException, IOException {
+    public void test() throws Exception {
         MatcherAssert.assertThat(
             new ContainerName(
                 new Arg.Fake<>(
