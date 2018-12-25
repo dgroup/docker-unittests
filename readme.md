@@ -22,11 +22,8 @@
 <!--- [![jpeek report](http://i.jpeek.org/com.github.dgroup/docker-unittests/badge.svg)](http://i.jpeek.org/com.github.dgroup/docker-unittests) -->
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![SQ passed](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
-[![SQ bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=bugs)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
-[![SQ tech debt](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=sqale_index)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
 [![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a44d11a620da4ff0a6ff294ff9045aa3)](https://www.codacy.com/app/dgroup/docker-unittests?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/docker-unittests&amp;utm_campaign=Badge_Grade)
-
 [![SQ coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=coverage)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
 
@@ -40,25 +37,35 @@ Kindly ask you to raise the issue in case of any suggestions regarding another w
 1. Define an [*.yml file](./docs/image-tests.yml) with tests.
    ```yml
 
-    version: 1.1
+   version: 1.1
 
-    tests:
+   setup:
+    - apt-get update
+    - apt-get install -y tree
 
-      - assume: "java version is 1.9, Debian build"
-        cmd:    "java -version"
-        output:
-          contains:
-            - openjdk version "9.0.1"
-            - build 9.0.1+11-Debian
+   tests:
 
-      - assume: "curl version is 7.xxx"
-        cmd:    "curl --version"
-        output:
-          startsWith: "curl 7."
-          matches:
-           - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
-          contains:
-           - "AsynchDNS IDN IPv6 Largefile GSS-API"
+    - assume: java version is 1.9, Debian build
+      cmd:    java -version
+      output:
+        contains:
+         - openjdk version "9.0.1"
+         - build 9.0.1+11-Debian
+
+    - assume: curl version is 7.xxx
+      cmd:    curl --version
+      output:
+        startsWith: curl 7.
+        matches:
+         - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
+        contains:
+         - AsynchDNS IDN IPv6 Largefile GSS-API
+
+    - assume:  Setup section installed `tree`
+      cmd:     tree --version
+      output:
+        contains: ["Steve Baker", "Florian Sesser"]
+      
     ```
 2. Run tests for image 
    ```bash
