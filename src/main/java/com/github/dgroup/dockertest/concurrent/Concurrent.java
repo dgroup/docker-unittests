@@ -25,16 +25,22 @@ package com.github.dgroup.dockertest.concurrent;
 
 import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.concurrent.func.TimingOut;
+import com.github.dgroup.dockertest.process.docker.Docker;
+import com.github.dgroup.dockertest.process.docker.cmd.ExecTty;
+import com.github.dgroup.dockertest.process.docker.cmd.Remove;
+import com.github.dgroup.dockertest.process.docker.cmd.Start;
 import com.github.dgroup.dockertest.scalar.If;
-import com.github.dgroup.dockertest.test.Test;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.test.TestOf;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
-import java.util.Collection;
+import com.github.dgroup.dockertest.yml.Tags;
+import com.github.dockerjava.api.DockerClient;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
+import org.cactoos.Text;
 import org.cactoos.list.Mapped;
 import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
@@ -52,7 +58,7 @@ public final class Concurrent implements AutoCloseable {
     /**
      * Instance of executor service for concurrent execution.
      */
-    private final Scalar<ExecutorService> exec;
+    private final UncheckedScalar<ExecutorService> exec;
     /**
      * Timeout per single thread dedicated to task(test) execution.
      */
@@ -98,37 +104,56 @@ public final class Concurrent implements AutoCloseable {
      */
     public Concurrent(final Scalar<ExecutorService> exc,
         final Scalar<Timeout> thrd, final Scalar<Timeout> swn) {
-        this.exec = exc;
+        this.exec = new UncheckedScalar<>(exc);
         this.thread = thrd;
         this.graceful = swn;
     }
 
     /**
      * Execute the testing.
-     * @param tasks To be executed concurrently.
+     *
+     * @param image The Docker image name.
+     * @param container The Docker container name.
+     * @param tags The YML file with tags as object.
      * @return The testing results.
+     * @checkstyle IllegalCatchCheck (50 lines)
      */
-    public TestingOutcome execute(final Test... tasks) {
-        return this.execute(new ListOf<>(tasks));
-    }
-
-    /**
-     * Execute the testing.
-     * @param tasks To be executed concurrently.
-     * @return The testing results.
-     * @todo #154/DEV Use 1 container per all tests. For now, all tests have
-     *  been executing on isolated "immutable" containers.
-     */
-    public TestingOutcome execute(final Collection<Test> tasks) {
-        return new TestingOutcomeOf(
-            new Mapped<>(
-                new TimingOut<>(this.thread),
-                new Mapped<>(
-                    tsk -> this.exec.value().submit(tsk::execute),
-                    tasks
-                )
-            )
-        );
+    @SuppressWarnings({
+        "PMD.AvoidCatchingGenericException",
+        "PMD.AvoidInstantiatingObjectsInLoops"})
+    public TestingOutcome execute(
+        final String image, final Text container, final Tags tags
+    ) {
+        try (final DockerClient client = new Docker().value()) {
+            try {
+                new Start(image, container, client).execute();
+                for (final String instruction : tags.setup().value()) {
+                    new ExecTty(instruction, container, client, true).execute();
+                }
+                return new TestingOutcomeOf(
+                    new ArrayList<>(
+                        new Mapped<>(
+                            new TimingOut<>(this.thread),
+                            this.exec.value().invokeAll(
+                                new Mapped<>(
+                                    tgTest -> new TestOf(
+                                        tgTest,
+                                        new ExecTty(
+                                            tgTest.cmd(), container, client
+                                        )
+                                    ),
+                                    tags.tests()
+                                )
+                            )
+                        )
+                    )
+                );
+            } finally {
+                new Remove(container, client).execute();
+            }
+        } catch (final Exception exp) {
+            throw new IllegalStateException(exp);
+        }
     }
 
     @Override

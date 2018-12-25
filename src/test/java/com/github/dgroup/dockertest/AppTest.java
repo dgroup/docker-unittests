@@ -25,9 +25,10 @@ package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.text.Text;
+import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
 import com.github.dgroup.dockertest.text.TextOf;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
@@ -49,16 +50,17 @@ public final class AppTest {
     @Test
     public void run() throws AppException {
         new Assume().that(new DockerWasInstalled());
-        final Text path = new TextOf("docs%simage-tests.yml", File.separator);
+        final File src = Paths.get("docs", "image-tests.yml").toFile();
         final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
-        std.print(new TextOf("File: %s.", path));
+        std.print(new TextOf("File: %s.", src.getAbsolutePath()));
         new App(
             new ListOf<>(
-                "-f", path.text(),
+                "-f", src.getAbsolutePath(),
                 "-i", "openjdk:9.0.1-11"
             ),
             std
         ).start();
+        new StdOutputOf().print(std.details());
         MatcherAssert.assertThat(
             std.details(),
             new HasItems<>("Testing successfully completed.")

@@ -23,8 +23,8 @@
  */
 package com.github.dgroup.dockertest.test.outcome;
 
+import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.TestingFailedException;
-import com.github.dgroup.dockertest.test.output.Output;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
 import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;

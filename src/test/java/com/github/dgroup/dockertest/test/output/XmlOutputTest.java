@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.test.output;
 // @checkstyle ImportOrderCheck (10 lines)
 
+import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;

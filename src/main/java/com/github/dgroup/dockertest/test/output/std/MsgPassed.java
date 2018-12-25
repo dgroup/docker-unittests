@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.test.output.std;
 
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import java.util.Iterator;

@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.scalar.If;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.RedText;

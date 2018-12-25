@@ -38,7 +38,7 @@ import java.util.Set;
  * @version $Id$
  * @since 1.1
  */
-public final class TgSetupOf extends TgEnvelope<Set<String>> implements
+public final class TgSetupOf extends TgEnvelope<Iterable<String>> implements
     TgSetup {
 
     /**

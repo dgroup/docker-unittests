@@ -26,27 +26,30 @@ package com.github.dgroup.dockertest;
 import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.cmd.CmdArgNotFoundException;
 import com.github.dgroup.dockertest.cmd.ConcurrentTreads;
+import com.github.dgroup.dockertest.cmd.ContainerName;
 import com.github.dgroup.dockertest.cmd.ImageOf;
 import com.github.dgroup.dockertest.cmd.OutputOf;
 import com.github.dgroup.dockertest.cmd.TimeoutPerThread;
 import com.github.dgroup.dockertest.cmd.YmlFileOf;
+import com.github.dgroup.dockertest.cmd.YmlTags;
 import com.github.dgroup.dockertest.concurrent.Concurrent;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.exception.RootCauseOf;
 import com.github.dgroup.dockertest.exception.Stacktrace;
 import com.github.dgroup.dockertest.termination.RuntimeOf;
-import com.github.dgroup.dockertest.test.Test;
+import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.TestingFailedException;
-import com.github.dgroup.dockertest.test.TestsOf;
-import com.github.dgroup.dockertest.test.output.Output;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.YellowText;
 import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.Tags;
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import org.cactoos.Text;
 import org.cactoos.list.ListOf;
 
 /**
@@ -119,17 +122,18 @@ public final class App {
         "PMD.PreserveStackTrace",
         "PMD.AvoidCatchingGenericException"})
     public void start() throws AppException {
-        final Arg<String> file = new YmlFileOf(this.args);
+        final Arg<File> file = new YmlFileOf(this.args);
         final Arg<String> image = new ImageOf(this.args);
         final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
         final Arg<Integer> threads = new ConcurrentTreads(this.args);
         final Arg<Collection<Output>> out = new OutputOf(this.std, this.args);
-        final Collection<Test> tests = new TestsOf(image, file);
+        final Arg<Text> container = new ContainerName(file);
+        final Arg<Tags> tags = new YmlTags(file);
         try (final Concurrent ctly = new Concurrent(ttrd, threads)) {
             if (!file.specifiedByUser()) {
                 throw new AppException("YML file with tests wasn't specified.");
             }
-            if (tests.isEmpty()) {
+            if (tags.value().tests().isEmpty()) {
                 throw new AppException(
                     new TextOf(
                         "%s testing scenarios found.", new YellowText(0)
@@ -138,11 +142,20 @@ public final class App {
             }
             this.std.print(new Logo());
             this.std.print(
-                new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
+                new TextOf(
+                    "Found scenarios: %s.",
+                    new GreenText(tags.value().tests().size())
+                )
             );
-            ctly.execute(tests).report(out);
+            ctly.execute(
+                image.value(), container.value(), tags.value()
+            ).report(out);
         } catch (final TestingFailedException ex) {
             throw new AppException(-1, ex);
+        } catch (final IllegalYmlFormatException ex) {
+            throw new AppException(-2, ex);
+        } catch (final CmdArgNotFoundException exp) {
+            throw new AppException(-3, exp);
         } catch (final RuntimeException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
             if (cause instanceof IllegalYmlFormatException) {

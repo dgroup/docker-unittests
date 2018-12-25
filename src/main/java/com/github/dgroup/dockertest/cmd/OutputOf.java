@@ -23,8 +23,8 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
-import com.github.dgroup.dockertest.test.output.Output;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
 import com.github.dgroup.dockertest.text.Splitted;
 import java.util.Collection;

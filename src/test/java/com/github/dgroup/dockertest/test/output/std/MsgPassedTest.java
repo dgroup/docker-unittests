@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

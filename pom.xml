@@ -368,7 +368,7 @@
                             </execution>
                             <execution>
                                 <id>jacoco-check</id>
-                                <phase>test</phase>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>

@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.concurrent.ExcsrvFake;
 import com.github.dgroup.dockertest.concurrent.SimplifiedFuture;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.concurrent.TimeoutOf;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

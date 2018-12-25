@@ -1,0 +1,18 @@
+
+version: 1.1
+
+tests:
+  - assume:       "1st thread is sleeping 5s"
+    cmd:          "sleep 5"
+    output:
+      startsWith: ""
+
+  - assume:       "2nd thread is sleeping 5s"
+    cmd:          "sleep 5"
+    output:
+      startsWith: ""
+
+  - assume:       "3rd thread is sleeping 5s"
+    cmd:          "sleep 5"
+    output:
+      startsWith: ""

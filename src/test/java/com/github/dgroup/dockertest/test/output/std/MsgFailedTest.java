@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputPredicateOf;
 import java.util.List;
 import org.cactoos.list.ListOf;
@@ -87,10 +87,10 @@ public final class MsgFailedTest {
                     "            Protocols: tftp ftp telnet dict ldap ldaps",
                     "            Features: GSS-Negotiate IDN IPv6 Largefile\"",
                     "  expected output:",
-                    "    - startsWith: \"curl 7.\"",
-                    "    - contains:   \"OpenSSL/1.0.2m\"",
+                    "    startsWith: \"curl 7.\"",
+                    "    contains:   \"OpenSSL/1.0.2m\"",
                     "  mismatch:",
-                    "    - contains:   \"OpenSSL/1.0.2m\""
+                    "    contains:   \"OpenSSL/1.0.2m\""
                 )
             )
         );

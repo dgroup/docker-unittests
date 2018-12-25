@@ -76,12 +76,12 @@ public class SetEnvelope<T> implements Set<T> {
 
     @Override
     public final Object[] toArray() {
-        throw new UnsupportedOperationException("#toArray()");
+        return this.origin.value().toArray();
     }
 
     @Override
     public final <T> T[] toArray(final T... obj) {
-        throw new UnsupportedOperationException("#toArray(T)");
+        return this.origin.value().toArray(obj);
     }
 
     @Override

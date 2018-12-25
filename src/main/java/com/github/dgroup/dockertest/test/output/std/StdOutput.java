@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.scalar.If;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
-import com.github.dgroup.dockertest.test.output.Output;
+import com.github.dgroup.dockertest.test.Output;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.text.Text;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ import java.util.List;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #/DEV Rename the interface to Std, the implementation to StdOutput
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public interface StdOutput extends Output {

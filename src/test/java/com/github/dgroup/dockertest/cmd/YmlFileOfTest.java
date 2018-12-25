@@ -41,7 +41,7 @@ public final class YmlFileOfTest {
     @Test
     public void filename() throws CmdArgNotFoundException {
         MatcherAssert.assertThat(
-            new YmlFileOf("-f", ".gitignore").value(),
+            new YmlFileOf("-f", ".gitignore").value().getName(),
             Matchers.equalTo(".gitignore")
         );
     }

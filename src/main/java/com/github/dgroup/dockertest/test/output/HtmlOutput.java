@@ -23,7 +23,8 @@
  */
 package com.github.dgroup.dockertest.test.output;
 
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.test.Output;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 
 /**
  * Print testing results to html file.

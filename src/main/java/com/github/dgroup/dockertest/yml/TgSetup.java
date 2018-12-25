@@ -23,8 +23,6 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import java.util.Set;
-
 /**
  * Represents yml tag {@code /setup}.
  * The tag can contain a list of predefined instructions to set up the container
@@ -32,8 +30,8 @@ import java.util.Set;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1.0
+ * @since 1.1
  */
-public interface TgSetup extends Tag<Set<String>> {
+public interface TgSetup extends Tag<Iterable<String>> {
 
 }

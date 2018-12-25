@@ -1,20 +1,29 @@
 
 version: 1.1
 
+setup:
+  - apt-get update
+  - apt-get install -y tree
+
 tests:
 
-  - assume: "java version is 1.9, Debian build"
-    cmd:    "java -version"
+  - assume: java version is 1.9, Debian build
+    cmd:    java -version
     output:
       contains:
         - openjdk version "9.0.1"
         - build 9.0.1+11-Debian
 
-  - assume: "curl version is 7.xxx"
-    cmd:    "curl --version"
+  - assume: curl version is 7.xxx
+    cmd:    curl --version
     output:
-      startsWith: "curl 7."
+      startsWith: curl 7.
       matches:
        - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
       contains:
-       - "AsynchDNS IDN IPv6 Largefile GSS-API"
+       - AsynchDNS IDN IPv6 Largefile GSS-API
+
+  - assume:     Setup section installed `tree`
+    cmd:        tree --version
+    output:
+      contains: ["Steve Baker", "Florian Sesser"]

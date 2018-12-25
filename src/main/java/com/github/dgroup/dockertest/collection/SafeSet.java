@@ -39,7 +39,6 @@ import org.cactoos.collection.Filtered;
  * @version $Id$
  * @param <T> The type of item.
  * @since 1.1
- * @todo #/DEV Add null-safe elements verification.
  */
 public class SafeSet<T> extends SetEnvelope<T> {
 

@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.test.output.std;
 
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.test.outcome.TestingOutcomeOf;
 import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import java.io.ByteArrayOutputStream;
@@ -118,9 +118,9 @@ public final class StdOutputOfTest {
                 "...            Java(TM) SE Runtime Environment (build 1.8.0_161)",
                 "...            Java HotSpot(TM) 64-Bit Server VM (build 25.161)\"",
                 "...  expected output:",
-                "...    - contains 1.9",
+                "...    contains 1.9",
                 "...  mismatch:",
-                "...    - contains 1.9",
+                "...    contains 1.9",
                 "...> curl version is 7.xxx \u001B[92;1mPASSED\u001B[m",
                 "",
                 "...\u001B[91;1mTesting failed.\u001B[m"

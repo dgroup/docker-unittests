@@ -23,7 +23,9 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import java.io.File;
 import java.util.List;
+import org.cactoos.func.StickyFunc;
 import org.cactoos.list.ListOf;
 
 /**
@@ -33,7 +35,7 @@ import org.cactoos.list.ListOf;
  * @version $Id$
  * @since 1.0
  */
-public final class YmlFileOf extends ArgEnvelope<String> {
+public final class YmlFileOf extends ArgEnvelope<File> {
 
     /**
      * Ctor.
@@ -48,7 +50,7 @@ public final class YmlFileOf extends ArgEnvelope<String> {
      * @param args Command-line arguments specified by user.
      */
     public YmlFileOf(final List<String> args) {
-        super(() -> new ArgOf("-f", args));
+        super("-f", args, new StickyFunc<>(File::new));
     }
 
 }

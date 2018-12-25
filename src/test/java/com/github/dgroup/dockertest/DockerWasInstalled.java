@@ -23,8 +23,8 @@
  */
 package com.github.dgroup.dockertest;
 
-import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
-import com.github.dgroup.dockertest.docker.process.SystemUnixDockerProcess;
+import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
+import com.github.dgroup.dockertest.process.docker.UnixProcess;
 import java.util.List;
 import org.cactoos.Func;
 import org.cactoos.Scalar;
@@ -55,7 +55,7 @@ public final class DockerWasInstalled implements Scalar<Boolean> {
             new StickyScalar<>(
                 () -> {
                     try {
-                        final List<String> output = new SystemUnixDockerProcess(
+                        final List<String> output = new UnixProcess(
                             "docker", "info"
                         ).execute().byLines();
                         return new Or(

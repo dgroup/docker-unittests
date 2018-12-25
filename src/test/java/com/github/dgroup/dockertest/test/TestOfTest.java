@@ -23,11 +23,11 @@
  */
 package com.github.dgroup.dockertest.test;
 
-import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
-import com.github.dgroup.dockertest.docker.output.CmdOutput;
-import com.github.dgroup.dockertest.docker.process.DockerProcess;
 import com.github.dgroup.dockertest.hamcrest.False;
 import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.process.CmdOutput;
+import com.github.dgroup.dockertest.process.DockerProcess;
+import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
 import java.util.Collections;

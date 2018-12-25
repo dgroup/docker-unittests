@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.test.outcome;
 
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.UncheckedTag;

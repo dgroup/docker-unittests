@@ -24,8 +24,7 @@
 package com.github.dgroup.dockertest.test;
 
 import com.github.dgroup.dockertest.concurrent.Timeout;
-import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.text.TextOf;
 
 /**

@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.test.output.std;
 
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.RedText;
@@ -198,7 +198,7 @@ public final class MsgFailed implements Iterable<String> {
     private final class ToText implements Func<TgOutputPredicate, Text> {
         @Override
         public Text apply(final TgOutputPredicate prd) {
-            return new TextOf("    - %s", prd);
+            return new TextOf("    %s", prd);
         }
     }
 }

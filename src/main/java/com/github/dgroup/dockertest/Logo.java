@@ -38,6 +38,8 @@ import org.cactoos.scalar.UncheckedScalar;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Rename the "Docker testing tool" to "Docker image testing" and
+ *  replace all \n by System.lineseparator
  */
 public final class Logo implements Iterable<String> {
 
