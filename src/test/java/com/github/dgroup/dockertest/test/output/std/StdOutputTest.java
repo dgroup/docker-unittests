@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.llorllale.cactoos.matchers.HasLines;
 
 /**
- * Unit tests for class {@link StdOutputOf}.
+ * Unit tests for class {@link StdOutput}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -50,12 +50,12 @@ import org.llorllale.cactoos.matchers.HasLines;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.AddEmptyString"})
-public final class StdOutputOfTest {
+public final class StdOutputTest {
 
     @Test
     public void printTestingOutcome() throws UnsupportedEncodingException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final StdOutput out = new StdOutputOf(
+        final Std out = new StdOutput(
             new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
             "..."
         );
@@ -79,7 +79,7 @@ public final class StdOutputOfTest {
     public void printFailedTestingOutcome()
         throws UnsupportedEncodingException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final StdOutput out = new StdOutputOf(
+        final Std out = new StdOutput(
             new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
             "..."
         );
@@ -132,7 +132,7 @@ public final class StdOutputOfTest {
     public void printException()
         throws UnsupportedEncodingException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final StdOutput out = new StdOutputOf(
+        final Std out = new StdOutput(
             new PrintStream(baos, true, StandardCharsets.UTF_8.toString()),
             ".."
         );
@@ -149,8 +149,8 @@ public final class StdOutputOfTest {
             Matchers.startsWith("" +
                 "..Something went wrongly..." + System.lineSeparator() +
                 "..com.github.dgroup.dockertest.test.output.std" +
-                ".StdOutputOfTest." +
-                "printException(StdOutputOfTest.java:"
+                ".StdOutputTest." +
+                "printException(StdOutputTest.java:"
             )
         );
     }

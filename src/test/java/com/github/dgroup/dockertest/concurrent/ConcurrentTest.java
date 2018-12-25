@@ -30,7 +30,7 @@ import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
 import com.github.dgroup.dockertest.cmd.arg.ContainerName;
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.TestingFailedException;
-import com.github.dgroup.dockertest.test.output.std.StdOutput;
+import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.yml.tag.TagsOf;
@@ -72,7 +72,7 @@ public final class ConcurrentTest {
     private void execute(final int threads, final Timeout thrd, final Path src)
         throws CmdArgNotFoundException, TestingFailedException {
         new Assume().that(new DockerWasInstalled());
-        final StdOutput.Fake out = new StdOutput.Fake(new LinkedList<>());
+        final Std.Fake out = new Std.Fake(new LinkedList<>());
         out.print(new TextOf("File: %s.", src.toAbsolutePath()));
         new Concurrent(
             new Arg.Fake<>("-timeout", thrd),

@@ -24,108 +24,146 @@
 package com.github.dgroup.dockertest.test.output.std;
 
 import com.github.dgroup.dockertest.scalar.If;
-import com.github.dgroup.dockertest.test.Output;
+import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.text.Text;
-import java.util.ArrayList;
-import java.util.List;
+import com.github.dgroup.dockertest.text.highlighted.GreenText;
+import com.github.dgroup.dockertest.text.highlighted.RedText;
+import java.io.PrintStream;
+import java.util.Objects;
+import org.cactoos.Proc;
+import org.cactoos.iterable.IterableOf;
+import org.cactoos.list.Joined;
+import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
+import org.cactoos.scalar.And;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Standard output for application progress.
+ * Standard output for printing app progress and testing results.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 0.1.0
- * @todo #/DEV Rename the interface to Std, the implementation to StdOutput
+ * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public interface StdOutput extends Output {
+public final class StdOutput implements Std {
 
     /**
-     * Print text to single line.
-     * @param msg The text to print
+     * Standard indent from left side of screen.
      */
-    void print(final Text msg);
+    private final String indent;
+    /**
+     * Standard output.
+     */
+    private final PrintStream out;
 
     /**
-     * Print text to single line.
-     * @param msg The text to print
+     * Ctor.
      */
-    void print(final String msg);
+    public StdOutput() {
+        this(System.out, "    ");
+    }
 
     /**
-     * Print text to single line.
-     * @param msg The text to print.
+     * Ctor.
+     * @param out Instance for print procedure.
+     * @param indent Default indent from left side of screen.
      */
-    void print(final Iterable<String> msg);
+    public StdOutput(final PrintStream out, final String indent) {
+        this.out = out;
+        this.indent = indent;
+    }
+
+    @Override
+    public void print(final TestingOutcome outcome) {
+        this.printTestingStatus(
+            new UncheckedScalar<>(
+                new And(
+                    (Proc<TestOutcome>) this::print,
+                    outcome
+                )
+            ).value() && outcome.successful()
+        );
+    }
+
+    @Override
+    public void print(final Text msg) {
+        this.print(msg.text());
+    }
+
+    @Override
+    public void print(final String msg) {
+        this.print(new ListOf<>(msg));
+    }
+
+    @Override
+    public void print(final String msg, final Exception exp) {
+        this.print(
+            new Joined<>(
+                new ListOf<>(msg),
+                new Mapped<>(
+                    StackTraceElement::toString,
+                    new IterableOf<>(exp.getStackTrace())
+                )
+            )
+        );
+    }
+
+    @Override
+    public void print(final Iterable<String> messages) {
+        for (final String msg : messages) {
+            this.out.printf("%s%s%n", this.indent, msg);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final StdOutput that = (StdOutput) other;
+        return Objects.equals(this.indent, that.indent)
+            && Objects.equals(this.out, that.out);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.indent, this.out);
+    }
 
     /**
-     * Print app exception.
-     * @param msg App exception message
-     * @param exp App exception details
+     * Print testing results based on status.
+     * @param status Of testing.
      */
-    void print(final String msg, final Exception exp);
+    private void printTestingStatus(final boolean status) {
+        this.out.println();
+        this.print(
+            new If<Text>(
+                () -> status,
+                () -> new GreenText("Testing successful."),
+                () -> new RedText("Testing failed.")
+            ).value().text()
+        );
+        this.out.println();
+    }
 
     /**
-     * Fake instance for unit-testing purposes.
-     * @checkstyle JavadocMethodCheck (100 lines)
+     * Print the test details.
+     * @param outcome The single test result.
      */
-    final class Fake implements StdOutput {
-
-        /**
-         * Fake application output.
-         */
-        private final List<String> lines;
-
-        /**
-         * Ctor.
-         * @checkstyle ConditionalRegexpMultilineCheck (5 lines)
-         */
-        public Fake() {
-            this(new ArrayList<>());
-        }
-
-        public Fake(final List<String> lines) {
-            this.lines = lines;
-        }
-
-        @Override
-        public void print(final Text msg) {
-            this.lines.add(msg.text());
-        }
-
-        @Override
-        public void print(final String msg) {
-            this.lines.add(msg);
-        }
-
-        @Override
-        public void print(final Iterable<String> messages) {
-            for (final String msg : messages) {
-                this.print(msg);
-            }
-        }
-
-        @Override
-        public void print(final String msg, final Exception exp) {
-            this.print(msg);
-            this.print(exp.toString());
-        }
-
-        @Override
-        public void print(final TestingOutcome outcome) {
-            this.print(
-                new If<>(
-                    outcome.successful(),
-                    "Testing successfully completed.",
-                    "Testing failed."
-                ).value()
-            );
-        }
-
-        public List<String> details() {
-            return this.lines;
-        }
+    private void print(final TestOutcome outcome) {
+        this.print(
+            new If<>(
+                outcome.successful(),
+                new MsgPassed(outcome),
+                new MsgFailed(outcome)
+            ).value()
+        );
     }
 
 }

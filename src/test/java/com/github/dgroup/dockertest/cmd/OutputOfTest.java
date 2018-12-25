@@ -27,7 +27,7 @@ import com.github.dgroup.dockertest.cmd.arg.OutputOf;
 import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
-import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
+import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import java.io.StringWriter;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public final class OutputOfTest {
     @Test
     public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
-            new OutputOf(new StdOutputOf()).specifiedByUser(),
+            new OutputOf(new StdOutput()).specifiedByUser(),
             new True()
         );
     }
@@ -55,7 +55,7 @@ public final class OutputOfTest {
     public void specifiedOutput() {
         MatcherAssert.assertThat(
             new OutputOf(
-                new StdOutputOf(), "-o", "xml|html"
+                new StdOutput(), "-o", "xml|html"
             ),
             new HasValues<>(
                 new XmlOutput("0.1.0", StringWriter::new),
@@ -67,8 +67,8 @@ public final class OutputOfTest {
     @Test
     public void defaultOutput() {
         MatcherAssert.assertThat(
-            new OutputOf(new StdOutputOf(), ""),
-            new HasValues<>(new StdOutputOf())
+            new OutputOf(new StdOutput(), ""),
+            new HasValues<>(new StdOutput())
         );
     }
 

@@ -39,8 +39,8 @@ import com.github.dgroup.dockertest.exception.Stacktrace;
 import com.github.dgroup.dockertest.termination.RuntimeOf;
 import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.TestingFailedException;
+import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.YellowText;
@@ -69,14 +69,14 @@ public final class App {
     /**
      * Standard application output.
      */
-    private final StdOutput std;
+    private final Std std;
 
     /**
      * Ctor.
      * @param args Command-line arguments specified by the user from the shell.
      * @param std Standard application output.
      */
-    public App(final List<String> args, final StdOutput std) {
+    public App(final List<String> args, final Std std) {
         this.args = args;
         this.std = std;
     }
@@ -90,7 +90,7 @@ public final class App {
      * @see ConcurrentTreads
      */
     public static void main(final String... cargs) {
-        final StdOutput std = new StdOutputOf(System.out, "    ");
+        final Std std = new StdOutput(System.out, "    ");
         final List<String> args = new ListOf<>(cargs);
         if (args.isEmpty()) {
             std.print(new Help());
