@@ -21,8 +21,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
+import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
@@ -97,7 +98,7 @@ public final class OutputOf extends ArgEnvelope<Collection<Output>> {
         final Arg<String> arg, final Func<String, Collection<Output>> fnc) {
         super(
             () -> new Alternative<Collection<Output>>(
-                new com.github.dgroup.dockertest.cmd.Mapped<>(fnc, arg),
+                new com.github.dgroup.dockertest.cmd.arg.Mapped<>(fnc, arg),
                 () -> new ListOf<>(std)
             )
         );

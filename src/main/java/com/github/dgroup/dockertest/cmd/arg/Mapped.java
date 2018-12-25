@@ -21,61 +21,59 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import com.github.dgroup.dockertest.cmd.Arg;
+import org.cactoos.Func;
 
 /**
- * Argument that doesn't throw the checked {@link Exception}.
+ * Map function to the {@link Arg}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <T> Type of command-line argument.
+ * @param <X> Type of source item.
+ * @param <Y> Type of target item.
  * @since 1.0
  */
-public final class Unchecked<T> implements Arg<T> {
+public final class Mapped<X, Y> implements Arg<Y> {
 
     /**
      * Origin.
      */
-    private final Scalar<Arg<T>> origin;
+    private final Arg<X> src;
+    /**
+     * Map function to the argument.
+     */
+    private final Func<X, Y> fnc;
 
     /**
      * Ctor.
-     * @param arg Origin.
+     * @param fnc Map function.
+     * @param src Source argument.
      */
-    public Unchecked(final Arg<T> arg) {
-        this(() -> arg);
-    }
-
-    /**
-     * Ctor.
-     * @param arg Origin.
-     */
-    public Unchecked(final Scalar<Arg<T>> arg) {
-        this.origin = arg;
+    public Mapped(final Func<X, Y> fnc, final Arg<X> src) {
+        this.fnc = fnc;
+        this.src = src;
     }
 
     @Override
     public String name() {
-        return new UncheckedScalar<>(this.origin).value().name();
+        return this.src.name();
     }
 
     @Override
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public T value() {
+    public Y value() throws CmdArgNotFoundException {
         // @checkstyle IllegalCatchCheck (5 lines)
         try {
-            return this.origin.value().value();
+            return this.fnc.apply(this.src.value());
         } catch (final Exception exp) {
-            throw new IllegalStateException(exp);
+            throw new CmdArgNotFoundException(exp);
         }
     }
 
     @Override
     public boolean specifiedByUser() {
-        return new UncheckedScalar<>(this.origin).value().specifiedByUser();
+        return this.src.specifiedByUser();
     }
-
 }

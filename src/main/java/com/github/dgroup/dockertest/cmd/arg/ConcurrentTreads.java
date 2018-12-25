@@ -21,58 +21,44 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import org.cactoos.Func;
+import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
- * Map function to the {@link Arg}.
+ * Command line argument which represents quantity of concurrent threads for
+ *  testing procedure.
+ *
+ * In case if the argument is missing, the default value is 8.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <X> Type of source item.
- * @param <Y> Type of target item.
  * @since 1.0
  */
-public final class Mapped<X, Y> implements Arg<Y> {
-
-    /**
-     * Origin.
-     */
-    private final Arg<X> src;
-    /**
-     * Map function to the argument.
-     */
-    private final Func<X, Y> fnc;
+public final class ConcurrentTreads extends ArgEnvelope<Integer> {
 
     /**
      * Ctor.
-     * @param fnc Map function.
-     * @param src Source argument.
+     * @param args Command-line arguments specified by user.
      */
-    public Mapped(final Func<X, Y> fnc, final Arg<X> src) {
-        this.fnc = fnc;
-        this.src = src;
+    public ConcurrentTreads(final String... args) {
+        this(new ListOf<>(args));
     }
 
-    @Override
-    public String name() {
-        return this.src.name();
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     * @checkstyle IndentationCheck (10 lines)
+     * @checkstyle MagicNumberCheck (10 lines)
+     */
+    public ConcurrentTreads(final List<String> args) {
+        super(
+            () -> new Alternative<>(
+                new Mapped<>(Integer::valueOf, new ArgOf("--threads", args)),
+                8
+            )
+        );
     }
 
-    @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public Y value() throws CmdArgNotFoundException {
-        // @checkstyle IllegalCatchCheck (5 lines)
-        try {
-            return this.fnc.apply(this.src.value());
-        } catch (final Exception exp) {
-            throw new CmdArgNotFoundException(exp);
-        }
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return this.src.specifiedByUser();
-    }
 }

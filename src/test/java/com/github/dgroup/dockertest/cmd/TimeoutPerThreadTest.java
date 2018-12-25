@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.TimeoutPerThread;
 import com.github.dgroup.dockertest.concurrent.TimeoutOf;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;

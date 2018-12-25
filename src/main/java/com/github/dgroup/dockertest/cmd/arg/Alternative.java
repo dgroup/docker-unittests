@@ -21,36 +21,64 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import java.io.File;
-import java.util.List;
-import org.cactoos.func.StickyFunc;
-import org.cactoos.list.ListOf;
+import com.github.dgroup.dockertest.cmd.Arg;
+import com.github.dgroup.dockertest.scalar.If;
+import org.cactoos.Scalar;
 
 /**
- * Path to YML file (with tests).
+ * Argument with alternative value in case if original is missing.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <X> Type of command-line argument.
  * @since 1.0
  */
-public final class YmlFileOf extends ArgEnvelope<File> {
+public final class Alternative<X> implements Arg<X> {
+
+    /**
+     * Original argument.
+     */
+    private final Arg<X> origin;
+    /**
+     * The alternative value.
+     */
+    private final Scalar<X> alt;
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by user.
+     * @param src The original argument value.
+     * @param alt The alternative argument value.
      */
-    public YmlFileOf(final String... args) {
-        this(new ListOf<>(args));
+    public Alternative(final Arg<X> src, final X alt) {
+        this(src, () -> alt);
     }
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by user.
+     * @param src The original argument value.
+     * @param alt The alternative argument value.
      */
-    public YmlFileOf(final List<String> args) {
-        super("-f", args, new StickyFunc<>(File::new));
+    public Alternative(final Arg<X> src, final Scalar<X> alt) {
+        this.origin = src;
+        this.alt = alt;
     }
 
+    @Override
+    public String name() {
+        return this.origin.name();
+    }
+
+    @Override
+    public X value() {
+        return new If<>(
+            this.origin::specifiedByUser, this.origin::value, this.alt
+        ).value();
+    }
+
+    @Override
+    public boolean specifiedByUser() {
+        return true;
+    }
 }

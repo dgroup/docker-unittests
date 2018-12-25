@@ -21,8 +21,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
+import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.cmd.scalar.ArgAt;
 import com.github.dgroup.dockertest.cmd.scalar.ArgIn;
 import com.github.dgroup.dockertest.scalar.Mapped;

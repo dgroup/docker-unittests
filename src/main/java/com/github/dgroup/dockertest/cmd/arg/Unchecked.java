@@ -21,34 +21,62 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import com.github.dgroup.dockertest.text.Text;
+import com.github.dgroup.dockertest.cmd.Arg;
+import org.cactoos.Scalar;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
- * Thrown in case if command-line argument is required,
- * but not found in the arguments specified by user.
+ * Argument that doesn't throw the checked {@link Exception}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
+ * @param <T> Type of command-line argument.
  * @since 1.0
  */
-public class CmdArgNotFoundException extends Exception {
+public final class Unchecked<T> implements Arg<T> {
+
+    /**
+     * Origin.
+     */
+    private final Scalar<Arg<T>> origin;
 
     /**
      * Ctor.
-     * @param cause Origin.
+     * @param arg Origin.
      */
-    public CmdArgNotFoundException(final Exception cause) {
-        super(cause);
+    public Unchecked(final Arg<T> arg) {
+        this(() -> arg);
     }
 
     /**
      * Ctor.
-     * @param msg Detailed description with missing argument.
+     * @param arg Origin.
      */
-    public CmdArgNotFoundException(final Text msg) {
-        super(msg.text());
+    public Unchecked(final Scalar<Arg<T>> arg) {
+        this.origin = arg;
+    }
+
+    @Override
+    public String name() {
+        return new UncheckedScalar<>(this.origin).value().name();
+    }
+
+    @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public T value() {
+        // @checkstyle IllegalCatchCheck (5 lines)
+        try {
+            return this.origin.value().value();
+        } catch (final Exception exp) {
+            throw new IllegalStateException(exp);
+        }
+    }
+
+    @Override
+    public boolean specifiedByUser() {
+        return new UncheckedScalar<>(this.origin).value().specifiedByUser();
     }
 
 }

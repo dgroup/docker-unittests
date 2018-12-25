@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.ArgOf;
 import com.github.dgroup.dockertest.hamcrest.False;
 import com.github.dgroup.dockertest.hamcrest.True;
 import org.cactoos.list.ListOf;

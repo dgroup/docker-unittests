@@ -21,36 +21,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
-import com.github.dgroup.dockertest.cmd.arg.ContainerName;
-import java.io.IOException;
-import java.nio.file.Paths;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.StringStartsWith;
-import org.junit.Test;
+import java.io.File;
+import java.util.List;
+import org.cactoos.func.StickyFunc;
+import org.cactoos.list.ListOf;
 
 /**
- * Test case for {@link ContainerName}.
+ * Path to YML file (with tests).
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class ContainerNameTest {
+public final class YmlFileOf extends ArgEnvelope<File> {
 
-    @Test
-    public void test() throws CmdArgNotFoundException, IOException {
-        MatcherAssert.assertThat(
-            new ContainerName(
-                new Arg.Fake<>(
-                    "-c", Paths.get("docs", "image-tests.yml").toFile()
-                )
-            ).value().asString(),
-            new StringStartsWith("image-tests-20")
-        );
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     */
+    public YmlFileOf(final String... args) {
+        this(new ListOf<>(args));
     }
+
+    /**
+     * Ctor.
+     * @param args Command-line arguments specified by user.
+     */
+    public YmlFileOf(final List<String> args) {
+        super("-f", args, new StickyFunc<>(File::new));
+    }
+
 }

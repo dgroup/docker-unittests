@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.OutputOf;
 import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;

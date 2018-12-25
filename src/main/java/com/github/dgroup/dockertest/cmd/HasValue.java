@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.Unchecked;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 

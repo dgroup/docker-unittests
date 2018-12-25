@@ -21,48 +21,34 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import com.github.dgroup.dockertest.concurrent.Timeout;
-import com.github.dgroup.dockertest.concurrent.TimeoutOf;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import org.cactoos.list.ListOf;
+import com.github.dgroup.dockertest.text.Text;
 
 /**
- * Each test will be executed in separate thread.
- * User may specify the timeout(in seconds) for each test in command line args:
- *  {@code --timeout-per-test 120}.
- *
- * In case if the argument is missing, the default timeout is 5 minutes.
+ * Thrown in case if command-line argument is required,
+ * but not found in the arguments specified by user.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class TimeoutPerThread extends ArgEnvelope<Timeout> {
+public class CmdArgNotFoundException extends Exception {
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by user.
+     * @param cause Origin.
      */
-    public TimeoutPerThread(final String... args) {
-        this(new ListOf<>(args));
+    public CmdArgNotFoundException(final Exception cause) {
+        super(cause);
     }
 
     /**
      * Ctor.
-     * @param args Command-line arguments specified by user.
-     * @checkstyle MagicNumberCheck (10 lines)
+     * @param msg Detailed description with missing argument.
      */
-    public TimeoutPerThread(final List<String> args) {
-        super(() -> new Alternative<Timeout>(
-            new Mapped<>(
-                arg -> new TimeoutOf(arg, TimeUnit.SECONDS),
-                new ArgOf("--timeout-per-test", args)
-            ),
-            () -> new TimeoutOf(5, TimeUnit.MINUTES)
-        ));
+    public CmdArgNotFoundException(final Text msg) {
+        super(msg.text());
     }
 
 }

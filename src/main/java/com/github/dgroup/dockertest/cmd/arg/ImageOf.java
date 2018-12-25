@@ -21,36 +21,35 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
 import java.util.List;
+import org.cactoos.list.ListOf;
 
 /**
- * Default implementation for single command-line argument.
+ * Docker image specified by the user from shell.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class ArgOf extends ArgEnvelope<String> {
+public final class ImageOf extends ArgEnvelope<String> {
 
     /**
      * Ctor.
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
+     * @param label The marker of the argument for the docker image.
+     * @param image The name of the docker image.
      */
-    public ArgOf(final String name, final List<String> args) {
-        super(name, args, arg -> arg);
+    public ImageOf(final String label, final String image) {
+        this(new ListOf<>(label, image));
     }
 
     /**
      * Ctor.
-     * @param name Cmd argument name.
-     * @param args All cmd arguments.
-     * @param msg Error message in case if arguments wasn't specified by user.
+     * @param args Command-line arguments specified by user.
      */
-    public ArgOf(final String name, final List<String> args, final String msg) {
-        super(name, args, arg -> arg, () -> () -> msg);
+    public ImageOf(final List<String> args) {
+        super(() -> new ArgOf("-i", args, "Docker image wasn't specified."));
     }
 
 }

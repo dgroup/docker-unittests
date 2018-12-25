@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.test.outcome;
 
 import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.cmd.CmdArgNotFoundException;
+import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
 import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.TestOutcome;
 import com.github.dgroup.dockertest.test.TestingFailedException;

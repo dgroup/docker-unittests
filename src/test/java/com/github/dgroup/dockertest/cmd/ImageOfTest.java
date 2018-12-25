@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.ImageOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 

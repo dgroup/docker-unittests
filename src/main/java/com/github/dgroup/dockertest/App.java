@@ -24,14 +24,14 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import com.github.dgroup.dockertest.cmd.ConcurrentTreads;
-import com.github.dgroup.dockertest.cmd.ContainerName;
-import com.github.dgroup.dockertest.cmd.ImageOf;
-import com.github.dgroup.dockertest.cmd.OutputOf;
-import com.github.dgroup.dockertest.cmd.TimeoutPerThread;
-import com.github.dgroup.dockertest.cmd.YmlFileOf;
-import com.github.dgroup.dockertest.cmd.YmlTags;
+import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
+import com.github.dgroup.dockertest.cmd.arg.ConcurrentTreads;
+import com.github.dgroup.dockertest.cmd.arg.ContainerName;
+import com.github.dgroup.dockertest.cmd.arg.ImageOf;
+import com.github.dgroup.dockertest.cmd.arg.OutputOf;
+import com.github.dgroup.dockertest.cmd.arg.TimeoutPerThread;
+import com.github.dgroup.dockertest.cmd.arg.YmlFileOf;
+import com.github.dgroup.dockertest.cmd.arg.YmlTags;
 import com.github.dgroup.dockertest.concurrent.Concurrent;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.exception.RootCauseOf;

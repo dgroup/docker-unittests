@@ -21,45 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
-
-import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.Tags;
-import com.github.dgroup.dockertest.yml.tag.TagsOf;
-import java.io.File;
 
 /**
- * YML file with tests as object.
+ * Classes dedicated for interaction with command line arguments,
+ * like yml file with tests, docker image, etc.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1
+ * @since 1.0
  */
-public final class YmlTags extends ArgEnvelope<Tags> {
-
-    /**
-     * Ctor.
-     * @param src The YML file with tests.
-     * @checkstyle IndentationCheck (30 lines)
-     */
-    public YmlTags(final Arg<File> src) {
-        super(
-            () -> new Arg<Tags>() {
-                @Override
-                public String name() {
-                    return src.name();
-                }
-
-                @Override
-                public Tags value() {
-                    return new TagsOf(new TextFile(src::value));
-                }
-
-                @Override
-                public boolean specifiedByUser() {
-                    return src.specifiedByUser();
-                }
-            }
-        );
-    }
-}
+package com.github.dgroup.dockertest.cmd.arg;

@@ -23,6 +23,7 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.Unchecked;
 import java.util.Collection;
 import org.cactoos.list.ListOf;
 import org.hamcrest.Description;

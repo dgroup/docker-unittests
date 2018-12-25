@@ -21,63 +21,46 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.dgroup.dockertest.cmd;
+package com.github.dgroup.dockertest.cmd.arg;
 
-import com.github.dgroup.dockertest.scalar.If;
-import org.cactoos.Scalar;
+import com.github.dgroup.dockertest.cmd.Arg;
+import com.github.dgroup.dockertest.text.TextFile;
+import com.github.dgroup.dockertest.yml.Tags;
+import com.github.dgroup.dockertest.yml.tag.TagsOf;
+import java.io.File;
 
 /**
- * Argument with alternative value in case if original is missing.
+ * YML file with tests as object.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @param <X> Type of command-line argument.
- * @since 1.0
+ * @since 1.1
  */
-public final class Alternative<X> implements Arg<X> {
-
-    /**
-     * Original argument.
-     */
-    private final Arg<X> origin;
-    /**
-     * The alternative value.
-     */
-    private final Scalar<X> alt;
+public final class YmlTags extends ArgEnvelope<Tags> {
 
     /**
      * Ctor.
-     * @param src The original argument value.
-     * @param alt The alternative argument value.
+     * @param src The YML file with tests.
+     * @checkstyle IndentationCheck (30 lines)
      */
-    public Alternative(final Arg<X> src, final X alt) {
-        this(src, () -> alt);
-    }
+    public YmlTags(final Arg<File> src) {
+        super(
+            () -> new Arg<Tags>() {
+                @Override
+                public String name() {
+                    return src.name();
+                }
 
-    /**
-     * Ctor.
-     * @param src The original argument value.
-     * @param alt The alternative argument value.
-     */
-    public Alternative(final Arg<X> src, final Scalar<X> alt) {
-        this.origin = src;
-        this.alt = alt;
-    }
+                @Override
+                public Tags value() {
+                    return new TagsOf(new TextFile(src::value));
+                }
 
-    @Override
-    public String name() {
-        return this.origin.name();
-    }
-
-    @Override
-    public X value() {
-        return new If<>(
-            this.origin::specifiedByUser, this.origin::value, this.alt
-        ).value();
-    }
-
-    @Override
-    public boolean specifiedByUser() {
-        return true;
+                @Override
+                public boolean specifiedByUser() {
+                    return src.specifiedByUser();
+                }
+            }
+        );
     }
 }
