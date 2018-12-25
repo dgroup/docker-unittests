@@ -31,7 +31,7 @@ The main concept is that all tests should use the image as is without any 'inter
 We, like users, receive the image and we are going to check what we've got.
 
 The project has been started in Java as POC, however, I'm thinking about porting to python which is more suitable lang for the Ansible-oriented stack. 
-Kindly ask you to raise the issue in case of any suggestions regarding another ways\languages.
+Kindly ask you to raise the issue in case of any suggestions/bugs.
 
 #### General image test
 1. Define an [*.yml file](./docs/image-tests.yml) with tests.
