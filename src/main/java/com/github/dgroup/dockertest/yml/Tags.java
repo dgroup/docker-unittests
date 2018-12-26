@@ -37,24 +37,24 @@ public interface Tags {
     /**
      * Give the <em>version</em> tag.
      * @return The yml tag <em>version</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
+     * @throws YmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    Tag<String> version() throws IllegalYmlFormatException;
+    Tag<String> version() throws YmlFormatException;
 
     /**
      * Give the <em>setup</em> tag.
      * @return The yml tag <em>setup</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
+     * @throws YmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    TgSetup setup() throws IllegalYmlFormatException;
+    TgSetup setup() throws YmlFormatException;
 
     /**
      * Give the <em>tests</em> tag.
      * @return The yml tag <em>tests</em>.
-     * @throws IllegalYmlFormatException in case if YML file has
+     * @throws YmlFormatException in case if YML file has
      *  wrong/corrupted/unsupported format.
      */
-    Collection<TgTest> tests() throws IllegalYmlFormatException;
+    Collection<TgTest> tests() throws YmlFormatException;
 }

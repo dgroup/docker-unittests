@@ -26,8 +26,8 @@ package com.github.dgroup.dockertest.yml.tag;
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
 import com.github.dgroup.dockertest.hamcrest.True;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutput;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsCollectionWithSize;
@@ -38,17 +38,16 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle LineLength (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @since 1.0
  */
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
+@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class TagOutputTest {
-
     @Test
     public void matchesRegexpSmoke() {
         final String version =
@@ -75,7 +74,7 @@ public final class TagOutputTest {
         new Assert().hasRootCause(
             () -> new YmlResource("tag-output-has-one-wrong-child.yml")
                 .scenarios().iterator().next().output(),
-            IllegalYmlFormatException.class,
+            YmlFormatException.class,
             "Tag `output` has missing required " +
                 "child tag `contains|endsWith|equal|matches|startsWith`"
         );
@@ -86,7 +85,7 @@ public final class TagOutputTest {
         new Assert().thatThrowableMessageEndingWith(
             () -> new YmlResource("tag-output-has-no-children.yml")
                 .scenarios().iterator().next().output(),
-            "IllegalYmlFormatException: Tag `output` has missing required " +
+            "YmlFormatException: Tag `output` has missing required " +
                 "child tag `contains|endsWith|equal|matches|startsWith`"
         );
     }
@@ -96,7 +95,7 @@ public final class TagOutputTest {
         new Assert().hasRootCauseMatched(
             () -> new YmlResource("tag-output-has-unsupported-child.yml")
                 .scenario(1),
-            IllegalYmlFormatException.class,
+            YmlFormatException.class,
             String.format(
                 "^.*(tag-output-has-unsupported-child.yml).*%n.*" +
                     "(Unable\\sto\\sfind\\sproperty\\s'containsss').*$"
@@ -105,7 +104,7 @@ public final class TagOutputTest {
     }
 
     @Test
-    public void tagOutputHasAllNecessaryYmlPredicates() throws IllegalYmlFormatException {
+    public void tagOutputHasAllNecessaryYmlPredicates() throws YmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[2]/output` has 4 statements",
             new YmlResource("with-3-simple-tests.yml").scenario(2).output()
@@ -115,7 +114,7 @@ public final class TagOutputTest {
     }
 
     @Test
-    public void tagOutputHasValidPredicates() throws IllegalYmlFormatException {
+    public void tagOutputHasValidPredicates() throws YmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/2/output` has valid structure",
             new YmlResource("with-3-simple-tests.yml").scenario(2).output(),
@@ -129,7 +128,7 @@ public final class TagOutputTest {
     }
 
     @Test
-    public void tagOutputMatches() throws IllegalYmlFormatException {
+    public void tagOutputMatches() throws YmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/3/output` has valid structure",
             new YmlResource("with-3-simple-tests.yml").scenario(3).output(),
@@ -143,7 +142,7 @@ public final class TagOutputTest {
     }
 
     @Test
-    public void tagOutputMatchesHasExpectedValue() throws IllegalYmlFormatException {
+    public void tagOutputMatchesHasExpectedValue() throws YmlFormatException {
         final String version = "curl 7.57.0 (x86_64-pc-linux-gnu) " +
             "libcurl/7.57.0 OpenSSL/1.0.2m zlib/1.2.8 libidn2/2.0.4 " +
             "libpsl/0.19.1 (+libidn2/2.0.4) libssh2/1.8.0 nghttp2/1.28.0 " +

@@ -23,9 +23,9 @@
  */
 package com.github.dgroup.dockertest.yml.tag.test;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutput;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import java.io.UncheckedIOException;
 
 /**
@@ -56,7 +56,7 @@ public final class UncheckedTgTest implements TgTest {
     public String assume() {
         try {
             return this.origin.assume();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedIOException(cause);
         }
     }
@@ -65,7 +65,7 @@ public final class UncheckedTgTest implements TgTest {
     public String cmd() {
         try {
             return this.origin.cmd();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedIOException(cause);
         }
     }
@@ -74,7 +74,7 @@ public final class UncheckedTgTest implements TgTest {
     public TgOutput output() {
         try {
             return this.origin.output();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedIOException(cause);
         }
     }
