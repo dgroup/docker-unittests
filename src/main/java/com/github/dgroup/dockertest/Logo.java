@@ -73,19 +73,19 @@ public final class Logo implements Iterable<String> {
      */
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
-        final String ls = System.lineSeparator();
-        return new TextOf(System.lineSeparator() +
-            "Docker image testing (%s)%s" + ls,
+        final String eol = System.lineSeparator();
+        return new TextOf(
+            eol + "Docker image testing (%s)" + eol + "%s",
             new GreenText("v%s", this.version.value()),
-            new BlueText("" + ls +
-                "                  ##         .            " + ls +
-                "            ## ## ##        ==            " + ls +
-                "         ## ## ## ##       ===            " + ls +
-                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        " + ls +
-                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   " + ls +
-                "     \\______ o          __/            " + ls +
-                "      \\    \\        __/             " + ls +
-                "       \\____\\______/   " + ls
+            new BlueText("" +
+                "                  ##         .            " + eol +
+                "            ## ## ##        ==            " + eol +
+                "         ## ## ## ##       ===            " + eol +
+                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        " + eol +
+                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   " + eol +
+                "     \\______ o          __/            " + eol +
+                "      \\    \\        __/             " + eol +
+                "       \\____\\______/   " + eol
             )
         ).text();
     }
