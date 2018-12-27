@@ -97,7 +97,7 @@ public final class YmlResource {
 
     /**
      * Return yml file as is.
-     * @return YML file with tests.
+     * @return YML file withxml tests.
      */
     public TextFile file() {
         return this.text;

@@ -14,7 +14,7 @@ tests:
         - openjdk version "9.0.1"
         - build 9.0.1+11-Debian
 
-  - assume: curl version is 7.xxx
+  - assume: curl version is 8.xxx
     cmd:    curl --version
     output:
       startsWith: curl 7.

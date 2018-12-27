@@ -12,7 +12,7 @@
 
 <!--- [![Open issues](https://milestone.sloppy.zone/github/dgroup/docker-unittests/milestone/2)](https://github.com/dgroup/docker-unittests/milestone/2) -->
 <a href="https://www.yegor256.com/2017/10/24/award-2018.html">
-  <img src="docs/winner-dgroup.png" height=45px alt='Winner Badge'/>
+  <img src="../docs/winner-dgroup.png" height=45px alt='Winner Badge'/>
 </a>
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/docker-unittests)](http://www.rultor.com/p/dgroup/docker-unittests)
@@ -72,6 +72,13 @@ Kindly ask you to raise the issue in case of any suggestions/bugs.
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
    ![docker image tests results](./docs/image-tests-results.png)
+3. Export result of tests to the xml 
+ ```bash
+    java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11 -o xml
+   ``` 
+   ![docker image tests results](./docs/test-result-in-xml-1.png) 
+   ![docker image tests results](./docs/test-result-in-xml-2.png)
+    
 #### Test image by shell script
 1. Define the `test.yml` with tests.
    ```yaml
