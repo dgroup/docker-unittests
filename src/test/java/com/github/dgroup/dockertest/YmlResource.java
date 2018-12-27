@@ -67,7 +67,7 @@ public final class YmlResource {
      * Ctor.
      *
      * @param name Yml file with tests which was placed to YML resource dir
-     *                                  {@code src/test/resources/yml/tests}.
+     * {@code src/test/resources/yml/tests}.
      */
     public YmlResource(final String name) {
         this(
@@ -112,7 +112,7 @@ public final class YmlResource {
      *
      * @return Testing scenarios.
      * @throws YmlFormatException in case if YML file has
-     *                            wrong/corrupted/unsupported format.
+     * wrong/corrupted/unsupported format.
      */
     public List<TgTest> scenarios() throws YmlFormatException {
         return new ListOf<>(this.tags.tests());
@@ -124,7 +124,7 @@ public final class YmlResource {
      * @param pos Scenario number.
      * @return One testing scenario.
      * @throws IllegalArgumentException in case if we can't find the scenarios
-     *                                  due to empty/corrupted YML file.
+     * due to empty/corrupted YML file.
      */
     public TgTest scenario(final int pos) throws IllegalArgumentException {
         try {
@@ -145,7 +145,7 @@ public final class YmlResource {
      *
      * @return The <em>setup</em> tag.
      * @throws YmlFormatException in case if YML file has
-     *                            wrong/corrupted/unsupported format.
+     * wrong/corrupted/unsupported format.
      */
     public TgSetup setup() throws YmlFormatException {
         return this.tags.setup();

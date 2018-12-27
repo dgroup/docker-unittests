@@ -33,7 +33,6 @@ import java.io.IOException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #/DEV Rename to YmlFormatException
  */
 public final class YmlFormatException extends IOException {
     /**
