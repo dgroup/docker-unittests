@@ -71,16 +71,17 @@ Kindly ask you to raise the issue in case of any suggestions/bugs.
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
-   ![docker image tests results](./docs/image-tests-results.png)
+    ![docker image tests results](./docs/image-tests-results.png)
 
-#### Export result of tests to the xml 
+#### General image test with output to xml file
 1. Add -o xml option to generate xml file
- ```bash
+   ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11 -o xml
    ``` 
-   ![docker image tests results](./docs/test-result-in-xml-1.png) 
-   ![docker image tests results](./docs/test-result-in-xml-2.png)
-    
+    ![xml result of docker image testing](./docs/test-result-in-xml-1.png)
+    ![xml result of docker image testing](./docs/test-result-in-xml-2.png)
+   ```
+   
 #### Test image by shell script
 1. Define the `test.yml` with tests.
    ```yaml
