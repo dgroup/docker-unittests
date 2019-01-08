@@ -74,13 +74,11 @@ Kindly ask you to raise the issue in case of any suggestions/bugs.
     ![docker image tests results](./docs/image-tests-results.png)
 
 #### General image test with output to xml file
-1. Add -o xml option to generate xml file
+1. Use -o xml option in order to receive the testing report in xml format
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11 -o xml
    ``` 
-    ![xml result of docker image testing](./docs/test-result-in-xml-1.png)
-    ![xml result of docker image testing](./docs/test-result-in-xml-2.png)
-   ```
+    ![xml result of docker image testing](./docs/test-result-in-xml.png) 
    
 #### Test image by shell script
 1. Define the `test.yml` with tests.
