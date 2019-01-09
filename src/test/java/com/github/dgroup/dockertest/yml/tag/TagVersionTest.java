@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import org.junit.Test;
 
 /**
@@ -45,7 +45,7 @@ public final class TagVersionTest {
             () -> new TagsOf(
                 new YmlResource("with-missing-version-tag.yml").file()
             ).version(),
-            new IllegalYmlFormatException(
+            new YmlFormatException(
                 "The tag `version` is missing or has incorrect structure"
             )
         );

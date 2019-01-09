@@ -36,7 +36,7 @@ public class UncheckedYmlFormatException extends RuntimeException {
      * Ctor.
      * @param cause The original error.
      */
-    public UncheckedYmlFormatException(final IllegalYmlFormatException cause) {
+    public UncheckedYmlFormatException(final YmlFormatException cause) {
         super(cause);
     }
 }

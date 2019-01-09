@@ -42,9 +42,9 @@ public interface Tag<T> {
     /**
      * Represent tag value as string.
      * @return Value.
-     * @throws IllegalYmlFormatException in case if tag is null/missing
+     * @throws YmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    T value() throws IllegalYmlFormatException;
+    T value() throws YmlFormatException;
 
 }

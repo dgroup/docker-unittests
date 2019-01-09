@@ -23,16 +23,16 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
 import com.github.dgroup.dockertest.yml.Tags;
 import com.github.dgroup.dockertest.yml.TgSetup;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.UncheckedYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import java.util.Collection;
 
 /**
- * Tags that doesn't throw checked {@link IllegalYmlFormatException}.
+ * Tags that doesn't throw checked {@link YmlFormatException}.
  *
  * In case of YML format error the {@link UncheckedYmlFormatException} will be
  *  thrown.
@@ -60,7 +60,7 @@ public final class UncheckedTags implements Tags {
     public Tag<String> version() {
         try {
             return this.tags.version();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedYmlFormatException(cause);
         }
     }
@@ -69,7 +69,7 @@ public final class UncheckedTags implements Tags {
     public TgSetup setup() {
         try {
             return this.tags.setup();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedYmlFormatException(cause);
         }
     }

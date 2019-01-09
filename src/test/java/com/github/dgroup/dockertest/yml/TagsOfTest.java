@@ -40,7 +40,7 @@ import org.junit.Test;
 public final class TagsOfTest {
 
     @Test
-    public void iterator() throws IllegalYmlFormatException {
+    public void iterator() throws YmlFormatException {
         MatcherAssert.assertThat(
             new YmlResource("with-3-simple-tests.yml").scenarios(),
             Matchers.hasSize(3)

@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.yml.tag.output;
 
 import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import java.util.Objects;
 import org.cactoos.BiFunc;
 import org.cactoos.func.UncheckedBiFunc;
@@ -93,9 +93,9 @@ public final class TgOutputPredicateOf implements TgOutputPredicate {
     }
 
     @Override
-    public boolean test(final String actual) throws IllegalYmlFormatException {
+    public boolean test(final String actual) throws YmlFormatException {
         if (this.predicate == null) {
-            throw new IllegalYmlFormatException(
+            throw new YmlFormatException(
                 new TextOf(
                     "Unsupported comparing expression `%s:%s`",
                     this.comparingType(), this.expected()

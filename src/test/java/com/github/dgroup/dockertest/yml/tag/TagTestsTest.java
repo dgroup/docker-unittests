@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public final class TagTestsTest {
 
     @Test
     public void tagTestsHasNoDefinedChildren()
-        throws IllegalYmlFormatException {
+        throws YmlFormatException {
         MatcherAssert.assertThat(
             new YmlResource("tag-tests-has-no-children.yml").scenarios(),
             Matchers.hasSize(0)

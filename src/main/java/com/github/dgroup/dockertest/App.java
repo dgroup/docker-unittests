@@ -44,8 +44,8 @@ import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.YellowText;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tags;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
@@ -152,13 +152,13 @@ public final class App {
             ).report(out);
         } catch (final TestingFailedException ex) {
             throw new AppException(-1, ex);
-        } catch (final IllegalYmlFormatException ex) {
+        } catch (final YmlFormatException ex) {
             throw new AppException(-2, ex);
         } catch (final CmdArgNotFoundException exp) {
             throw new AppException(-3, exp);
         } catch (final RuntimeException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
-            if (cause instanceof IllegalYmlFormatException) {
+            if (cause instanceof YmlFormatException) {
                 throw new AppException(-2, cause);
             }
             if (cause instanceof CmdArgNotFoundException) {
