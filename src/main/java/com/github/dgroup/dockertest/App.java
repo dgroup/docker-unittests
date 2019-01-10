@@ -61,7 +61,6 @@ import org.cactoos.list.ListOf;
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class App {
-
     /**
      * Command-line arguments specified by the user from the shell.
      */
@@ -73,6 +72,7 @@ public final class App {
 
     /**
      * Ctor.
+     *
      * @param args Command-line arguments specified by the user from the shell.
      * @param std Standard application output.
      */
@@ -83,6 +83,7 @@ public final class App {
 
     /**
      * Start point.
+     *
      * @param cargs The cmd arguments specified by the user from the shell.
      * @see YmlFileOf
      * @see ImageOf
@@ -103,6 +104,8 @@ public final class App {
             new RuntimeOf().shutdownWith(
                 cause.exitCode()
             );
+        } catch (final TestingFailedException ex) {
+            new AppException(-1, ex);
         }
     }
 
@@ -113,15 +116,17 @@ public final class App {
      * 3. Detect the expected output formats like std, xml or html;
      * 4. Execute tests concurrently;
      * 5. Report the results.
-     * @throws AppException in case of testing or other errors.
+     *
+     * @throws AppException           in case of testing or other errors.
+     * @throws TestingFailedException show fail testing results to std.
      * @checkstyle MagicNumberCheck (100 lines)
      * @checkstyle IllegalCatchCheck (100 lines)
      * @checkstyle ExecutableStatementCountCheck (100 lines)
      */
     @SuppressWarnings({
         "PMD.PreserveStackTrace",
-        "PMD.AvoidCatchingGenericException"})
-    public void start() throws AppException {
+        "PMD.AvoidCatchingGenericException" })
+    public void start() throws AppException, TestingFailedException {
         final Arg<File> file = new YmlFileOf(this.args);
         final Arg<String> image = new ImageOf(this.args);
         final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
@@ -150,8 +155,6 @@ public final class App {
             ctly.execute(
                 image.value(), container.value(), tags.value()
             ).report(out);
-        } catch (final TestingFailedException ex) {
-            throw new AppException(-1, ex);
         } catch (final YmlFormatException ex) {
             throw new AppException(-2, ex);
         } catch (final CmdArgNotFoundException exp) {

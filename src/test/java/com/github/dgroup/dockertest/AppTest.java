@@ -24,6 +24,7 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
+import com.github.dgroup.dockertest.test.TestingFailedException;
 import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.text.TextOf;
@@ -48,7 +49,7 @@ import org.junit.Test;
 public final class AppTest {
 
     @Test
-    public void run() throws AppException {
+    public void run() throws AppException, TestingFailedException {
         new Assume().that(new DockerWasInstalled());
         final File src = Paths.get("docs", "image-tests.yml").toFile();
         final Std.Fake std = new Std.Fake(new ArrayList<>(10));
