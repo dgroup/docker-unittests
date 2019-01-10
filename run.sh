@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 mvn -P github package
-version=1.0.3
+version=1.1.0
 app=docker-unittests-${version}.jar
 shade_app=docker-unittests-app-${version}.jar
 JAVA_OPTS="${JAVA_OPTS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=10050"

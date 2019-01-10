@@ -71,7 +71,15 @@ Kindly ask you to raise the issue in case of any suggestions/bugs.
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11
    ``` 
-   ![docker image tests results](./docs/image-tests-results.png)
+    ![docker image tests results](./docs/image-tests-results.png)
+
+#### General image test with output to xml file
+1. Use -o xml option in order to receive the testing report in xml format
+   ```bash
+    java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11 -o xml
+   ``` 
+    ![xml result of docker image testing](./docs/test-result-in-xml.png) 
+   
 #### Test image by shell script
 1. Define the `test.yml` with tests.
    ```yaml
