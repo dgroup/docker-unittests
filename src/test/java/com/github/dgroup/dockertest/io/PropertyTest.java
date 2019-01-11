@@ -41,7 +41,7 @@ public final class PropertyTest {
     @Test
     public void value() throws Exception {
         MatcherAssert.assertThat(
-            new Property("test.properties", "app.version").value(),
+            new Property("app.version").value(),
             Matchers.equalTo("1.0.3")
         );
     }
