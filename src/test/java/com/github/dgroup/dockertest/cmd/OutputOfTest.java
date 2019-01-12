@@ -55,7 +55,7 @@ public final class OutputOfTest {
     public void specifiedOutput() {
         MatcherAssert.assertThat(
             new OutputOf(
-                new StdOutput(), "-o", "xml|html"
+                new StdOutput(), "-o", "xml,html"
             ),
             new HasValues<>(
                 new XmlOutput("0.1.0", StringWriter::new),
