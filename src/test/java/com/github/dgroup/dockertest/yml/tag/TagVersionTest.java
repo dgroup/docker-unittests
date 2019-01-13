@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import org.junit.Test;
 
 /**
@@ -45,7 +45,7 @@ public final class TagVersionTest {
             () -> new TagsOf(
                 new YmlResource("with-missing-version-tag.yml").file()
             ).version(),
-            new IllegalYmlFormatException(
+            new YmlFormatException(
                 "The tag `version` is missing or has incorrect structure"
             )
         );

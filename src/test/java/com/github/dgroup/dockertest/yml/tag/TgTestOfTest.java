@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -25,8 +25,8 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutput;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
 import com.github.dgroup.dockertest.yml.tag.test.TgTestOf;
 import org.hamcrest.MatcherAssert;
@@ -38,20 +38,19 @@ import org.junit.Test;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpMultilineCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
+ * @since 1.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TgTestOfTest {
-
     @Test
     public void tagTestsHasOneWronglyDefinedChild()
-        throws IllegalYmlFormatException {
+        throws YmlFormatException {
         MatcherAssert.assertThat(
             new YmlResource("tag-tests-has-one-wrong-child.yml").scenarios(),
             Matchers.hasSize(0)
@@ -59,7 +58,7 @@ public final class TgTestOfTest {
     }
 
     @Test
-    public void tagOutputStartsWith() throws IllegalYmlFormatException {
+    public void tagOutputStartsWith() throws YmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/test[1]/output` has 1st statement `startsWith`",
             new YmlResource("with-single-test.yml").scenario(1)
@@ -74,14 +73,14 @@ public final class TgTestOfTest {
             () -> new TgTestOf(
                 new TagOf<>(null, "assume"), null, null
             ).assume(),
-            new IllegalYmlFormatException(
+            new YmlFormatException(
                 "The tag `assume` is missing or has incorrect structure"
             )
         );
     }
 
     @Test
-    public void escapedSymbols() throws IllegalYmlFormatException {
+    public void escapedSymbols() throws YmlFormatException {
         MatcherAssert.assertThat(
             "Tag `tests/3/output` loaded despite on escaped symbols",
             new YmlResource("with-escaped-symbols-in-3-tests.yml").scenario(3)
@@ -101,7 +100,7 @@ public final class TgTestOfTest {
         new Assert().thatThrows(
             () -> new YmlResource("tag-test-has-missing-assume-tag.yml")
                 .scenario(1).assume(),
-            new IllegalYmlFormatException(
+            new YmlFormatException(
                 "The tag `assume` is missing or has incorrect structure"
             )
         );
@@ -112,7 +111,7 @@ public final class TgTestOfTest {
         new Assert().thatThrows(
             () -> new YmlResource("tag-test-has-missing-cmd-tag.yml")
                 .scenario(1).cmd(),
-            new IllegalYmlFormatException(
+            new YmlFormatException(
                 "The tag `cmd` is missing or has incorrect structure"
             )
         );

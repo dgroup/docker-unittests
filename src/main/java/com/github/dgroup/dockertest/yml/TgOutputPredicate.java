@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -51,8 +51,8 @@ public interface TgOutputPredicate {
      *
      * @param actual Output received from docker container.
      * @return True in case if expected value is equal to actual value.
-     * @throws IllegalYmlFormatException in case when condition is
+     * @throws YmlFormatException in case when condition is
      *  unsupported or har wrong/empty value.
      */
-    boolean test(final String actual) throws IllegalYmlFormatException;
+    boolean test(final String actual) throws YmlFormatException;
 }

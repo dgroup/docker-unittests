@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -40,7 +40,7 @@ import org.junit.Test;
 public final class TagsOfTest {
 
     @Test
-    public void iterator() throws IllegalYmlFormatException {
+    public void iterator() throws YmlFormatException {
         MatcherAssert.assertThat(
             new YmlResource("with-3-simple-tests.yml").scenarios(),
             Matchers.hasSize(3)

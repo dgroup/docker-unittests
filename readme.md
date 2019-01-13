@@ -21,10 +21,10 @@
 
 <!--- [![jpeek report](http://i.jpeek.org/com.github.dgroup/docker-unittests/badge.svg)](http://i.jpeek.org/com.github.dgroup/docker-unittests) -->
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
-[![SQ passed](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
+[![SQ passed](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup%3Adocker-unittests&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.github.dgroup:docker-unittests)
 [![Codebeat](https://codebeat.co/badges/f61cb4a4-660f-4149-bbc6-8b66fec90941)](https://codebeat.co/projects/github-com-dgroup-docker-unittests-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a44d11a620da4ff0a6ff294ff9045aa3)](https://www.codacy.com/app/dgroup/docker-unittests?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/docker-unittests&amp;utm_campaign=Badge_Grade)
-[![SQ coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup.dockertest%3Adocker-unittests&metric=coverage)](https://sonarcloud.io/dashboard/index/com.github.dgroup.dockertest:docker-unittests)
+[![SQ coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.dgroup%3Adocker-unittests&metric=coverage)](https://sonarcloud.io/dashboard/index/com.github.dgroup:docker-unittests)
 [![Codecov](https://codecov.io/gh/dgroup/docker-unittests/branch/master/graph/badge.svg?token=Pqdeao3teI)](https://codecov.io/gh/dgroup/docker-unittests)
 
 The main concept is that all tests should use the image as is without any 'internal' go-related features.
@@ -74,13 +74,11 @@ Kindly ask you to raise the issue in case of any suggestions/bugs.
     ![docker image tests results](./docs/image-tests-results.png)
 
 #### General image test with output to xml file
-1. Add -o xml option to generate xml file
+1. Use -o xml option in order to receive the testing report in xml format
    ```bash
     java -jar docker-unittests.jar -f image-tests.yml -i openjdk:9.0.1-11 -o xml
    ``` 
-    ![xml result of docker image testing](./docs/test-result-in-xml-1.png)
-    ![xml result of docker image testing](./docs/test-result-in-xml-2.png)
-   ```
+    ![xml result of docker image testing](./docs/test-result-in-xml.png) 
    
 #### Test image by shell script
 1. Define the `test.yml` with tests.

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -25,10 +25,10 @@ package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tags;
 import com.github.dgroup.dockertest.yml.TgSetup;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import com.github.dgroup.dockertest.yml.tag.TagsOf;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -47,9 +47,9 @@ import org.cactoos.scalar.UncheckedScalar;
  * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
+ * @checkstyle MultilineJavadocTagsCheck (100 lines)
  */
 public final class YmlResource {
-
     /**
      * Path to yml file.
      */
@@ -65,8 +65,9 @@ public final class YmlResource {
 
     /**
      * Ctor.
+     *
      * @param name Yml file with tests which was placed to YML resource dir
-     *  {@code src/test/resources/yml/tests}.
+     * {@code src/test/resources/yml/tests}.
      */
     public YmlResource(final String name) {
         this(
@@ -77,6 +78,7 @@ public final class YmlResource {
 
     /**
      * Ctor.
+     *
      * @param path Yml file with tests.
      */
     public YmlResource(final Scalar<File> path) {
@@ -89,6 +91,7 @@ public final class YmlResource {
 
     /**
      * Path to *.yml file with tests.
+     *
      * @return Path to file.
      */
     public String path() {
@@ -97,6 +100,7 @@ public final class YmlResource {
 
     /**
      * Return yml file as is.
+     *
      * @return YML file with tests.
      */
     public TextFile file() {
@@ -105,11 +109,12 @@ public final class YmlResource {
 
     /**
      * Return all tests within yml resource.
+     *
      * @return Testing scenarios.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
+     * @throws YmlFormatException in case if YML file has
+     * wrong/corrupted/unsupported format.
      */
-    public List<TgTest> scenarios() throws IllegalYmlFormatException {
+    public List<TgTest> scenarios() throws YmlFormatException {
         return new ListOf<>(this.tags.tests());
     }
 
@@ -119,7 +124,7 @@ public final class YmlResource {
      * @param pos Scenario number.
      * @return One testing scenario.
      * @throws IllegalArgumentException in case if we can't find the scenarios
-     *  due to empty/corrupted YML file.
+     * due to empty/corrupted YML file.
      */
     public TgTest scenario(final int pos) throws IllegalArgumentException {
         try {
@@ -130,18 +135,19 @@ public final class YmlResource {
                 );
             }
             return this.scenarios().get(pos - 1);
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new IllegalArgumentException(cause);
         }
     }
 
     /**
      * Find the {@code setup} tag within YML file.
+     *
      * @return The <em>setup</em> tag.
-     * @throws IllegalYmlFormatException in case if YML file has
-     *  wrong/corrupted/unsupported format.
+     * @throws YmlFormatException in case if YML file has
+     * wrong/corrupted/unsupported format.
      */
-    public TgSetup setup() throws IllegalYmlFormatException {
+    public TgSetup setup() throws YmlFormatException {
         return this.tags.setup();
     }
 }

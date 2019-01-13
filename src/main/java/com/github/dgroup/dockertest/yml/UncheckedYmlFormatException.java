@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@ public class UncheckedYmlFormatException extends RuntimeException {
      * Ctor.
      * @param cause The original error.
      */
-    public UncheckedYmlFormatException(final IllegalYmlFormatException cause) {
+    public UncheckedYmlFormatException(final YmlFormatException cause) {
         super(cause);
     }
 }

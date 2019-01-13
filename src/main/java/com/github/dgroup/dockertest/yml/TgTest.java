@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -39,10 +39,10 @@ public interface TgTest {
      * defined in *.yml file.
      *
      * @return The value for tag {@code /tests/test/assume}
-     * @throws IllegalYmlFormatException in case if tag is null/missing
+     * @throws YmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    String assume() throws IllegalYmlFormatException;
+    String assume() throws YmlFormatException;
 
     /**
      * Command for execution in docker container.
@@ -50,10 +50,10 @@ public interface TgTest {
      * defined in *.yml file.
      *
      * @return The value for tag {@code /tests/test/cmd}
-     * @throws IllegalYmlFormatException in case if tag is null/missing
+     * @throws YmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    String cmd() throws IllegalYmlFormatException;
+    String cmd() throws YmlFormatException;
 
     /**
      * List of expected conditions, which should be applied to output.
@@ -61,10 +61,10 @@ public interface TgTest {
      * defined in *.yml file. Tag may have several values.
      *
      * @return All specified values for tag {@code output}
-     * @throws IllegalYmlFormatException in case if tag is null/missing
+     * @throws YmlFormatException in case if tag is null/missing
      *  or has no value.
      */
-    TgOutput output() throws IllegalYmlFormatException;
+    TgOutput output() throws YmlFormatException;
 
     /**
      * Fake instance for unit testing purposes.

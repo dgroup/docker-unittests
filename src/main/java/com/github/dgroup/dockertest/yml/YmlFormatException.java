@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -33,65 +33,69 @@ import java.io.IOException;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
- * @todo #/DEV Rename to YmlFormatException
  */
-public final class IllegalYmlFormatException extends IOException {
-
+public final class YmlFormatException extends IOException {
     /**
      * Ctor.
      */
-    public IllegalYmlFormatException() {
+    public YmlFormatException() {
         this("YML file has invalid format");
     }
 
     /**
      * Ctor.
+     *
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFormatException(final String msg) {
+    public YmlFormatException(final String msg) {
         super(msg);
     }
 
     /**
      * Ctor.
+     *
      * @param cause Original cause.
      */
-    public IllegalYmlFormatException(final Throwable cause) {
+    public YmlFormatException(final Throwable cause) {
         super(cause);
     }
 
     /**
      * Ctor.
+     *
      * @param msg Describes what exactly tag is wrong.
      * @param cause Original cause.
      */
-    public IllegalYmlFormatException(final String msg, final Throwable cause) {
+    public YmlFormatException(final String msg, final Throwable cause) {
         super(msg, cause);
     }
 
     /**
      * Ctor.
+     *
      * @param msg Describes what exactly tag is wrong.
      */
-    public IllegalYmlFormatException(final Text msg) {
+    public YmlFormatException(final Text msg) {
         this(msg.text());
     }
 
     /**
      * Ctor.
+     *
      * @param tag YML tag which has incorrect structure.
      * @param <T> The type of tag.
      */
-    public <T> IllegalYmlFormatException(final Tag<T> tag) {
+    public <T> YmlFormatException(final Tag<T> tag) {
         this("The tag `%s` is missing or has incorrect structure", tag.name());
     }
 
     /**
      * Ctor.
+     *
      * @param ptrn Template.
      * @param args Arguments for template above.
      */
-    public IllegalYmlFormatException(final String ptrn, final Object... args) {
+    public YmlFormatException(final String ptrn, final Object... args) {
         this(new TextOf(ptrn, args));
     }
 }
