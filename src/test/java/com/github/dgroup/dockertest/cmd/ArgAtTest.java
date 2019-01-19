@@ -24,9 +24,9 @@
 package com.github.dgroup.dockertest.cmd;
 
 import com.github.dgroup.dockertest.cmd.arg.ArgOf;
-import com.github.dgroup.dockertest.hamcrest.False;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.llorllale.cactoos.matchers.IsTrue;
 
@@ -65,7 +65,7 @@ public final class ArgAtTest {
                 ),
                 "Argument `-o` wasn't found"
             ).specifiedByUser(),
-            new False()
+            new IsNot<>(new IsTrue())
         );
     }
 
