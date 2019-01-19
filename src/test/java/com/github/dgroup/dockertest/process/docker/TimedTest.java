@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.process.docker;
 
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.process.output.TextCmdOutput;
 import com.github.dgroup.dockertest.text.Joined;
@@ -59,7 +59,7 @@ public final class TimedTest {
             ).text().matches(
                 "^Some\\sdocker-related\\saction.\\sElapsed:\\s\\d\\.\\d+s$"
             ),
-            new True()
+            new IsTrue()
         );
     }
 

@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.Stacktrace;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.cactoos.Scalar;
 import org.junit.AssumptionViolatedException;
 
@@ -60,10 +60,10 @@ public final class Assume {
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void that(final Scalar<Boolean> cnd) {
         try {
-            org.junit.Assume.assumeThat(cnd.value(), new True());
+            org.junit.Assume.assumeThat(cnd.value(), new IsTrue());
         } catch (final Exception cause) {
             org.junit.Assume.assumeThat(
-                new Stacktrace(cause).toString(), false, new True()
+                new Stacktrace(cause).toString(), false, new IsTrue()
             );
         }
     }

@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest.text;
 
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public final class OccuredInTest {
     public void equalTo() {
         MatcherAssert.assertThat(
             new OccuredIn("%s", "Hey %s. My name is %s").apply(2),
-            new True()
+            new IsTrue()
         );
     }
 

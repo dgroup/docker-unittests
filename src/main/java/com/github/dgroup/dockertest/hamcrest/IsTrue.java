@@ -35,7 +35,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @todo #/DEV Use IsTrue matcher from cactoos-matchers.
  * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-public final class True extends TypeSafeDiagnosingMatcher<Boolean> {
+public final class IsTrue extends TypeSafeDiagnosingMatcher<Boolean> {
 
     @Override
     public void describeTo(final Description description) {

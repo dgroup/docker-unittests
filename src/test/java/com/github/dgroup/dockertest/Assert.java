@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.RootCauseOf;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.hamcrest.MatcherAssert;
@@ -140,7 +140,7 @@ public final class Assert {
             MatcherAssert.assertThat(
                 "The message doesn't match regexp.",
                 rootcause.getMessage().matches(regexp),
-                new True()
+                new IsTrue()
             );
         }
     }

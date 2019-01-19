@@ -25,7 +25,7 @@ package com.github.dgroup.dockertest.yml.tag;
 
 import com.github.dgroup.dockertest.Assert;
 import com.github.dgroup.dockertest.YmlResource;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.yml.TgOutput;
 import com.github.dgroup.dockertest.yml.YmlFormatException;
 import com.github.dgroup.dockertest.yml.tag.output.TgPredicateFake;
@@ -65,7 +65,7 @@ public final class TagOutputTest {
             version.matches(
                 "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
             ),
-            new True()
+            new IsTrue()
         );
     }
 
@@ -159,7 +159,7 @@ public final class TagOutputTest {
             new YmlResource("with-3-simple-tests.yml").scenario(3).output()
                 .value().iterator().next()
                 .test(version),
-            new True()
+            new IsTrue()
         );
     }
 }

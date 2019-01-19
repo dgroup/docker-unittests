@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.test;
 
 import com.github.dgroup.dockertest.hamcrest.False;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.process.CmdOutput;
 import com.github.dgroup.dockertest.process.DockerProcess;
 import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
@@ -65,7 +65,7 @@ public final class TestOfTest {
                     )
                 )
             ).execute().successful(),
-            new True()
+            new IsTrue()
         );
     }
 

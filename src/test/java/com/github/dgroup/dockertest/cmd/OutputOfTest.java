@@ -24,7 +24,7 @@
 package com.github.dgroup.dockertest.cmd;
 
 import com.github.dgroup.dockertest.cmd.arg.OutputOf;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
@@ -47,7 +47,7 @@ public final class OutputOfTest {
     public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
             new OutputOf(new StdOutput()).specifiedByUser(),
-            new True()
+            new IsTrue()
         );
     }
 

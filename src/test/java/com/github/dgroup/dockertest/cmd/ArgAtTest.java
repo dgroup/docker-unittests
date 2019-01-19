@@ -25,10 +25,10 @@ package com.github.dgroup.dockertest.cmd;
 
 import com.github.dgroup.dockertest.cmd.arg.ArgOf;
 import com.github.dgroup.dockertest.hamcrest.False;
-import com.github.dgroup.dockertest.hamcrest.True;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link ArgOf}.
@@ -50,7 +50,7 @@ public final class ArgAtTest {
                 new ListOf<>("-o", "std"),
                 "Argument `-o` wasn't found"
             ).specifiedByUser(),
-            new True()
+            new IsTrue()
         );
     }
 
