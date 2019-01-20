@@ -24,9 +24,9 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.Stacktrace;
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.cactoos.Scalar;
 import org.junit.AssumptionViolatedException;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Soft assertions within unit tests.

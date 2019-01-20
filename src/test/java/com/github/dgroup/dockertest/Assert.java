@@ -24,12 +24,12 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.RootCauseOf;
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Simplify unit testing of exception throwing.

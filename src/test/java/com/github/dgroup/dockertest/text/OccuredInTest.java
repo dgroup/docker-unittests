@@ -23,9 +23,9 @@
  */
 package com.github.dgroup.dockertest.text;
 
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for {@link OccuredIn}.

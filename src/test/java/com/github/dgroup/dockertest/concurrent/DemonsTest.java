@@ -23,13 +23,13 @@
  */
 package com.github.dgroup.dockertest.concurrent;
 
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.text.Joined;
 import com.github.dgroup.dockertest.text.TextOf;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link Demons}.

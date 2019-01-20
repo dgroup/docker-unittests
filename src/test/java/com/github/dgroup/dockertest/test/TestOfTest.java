@@ -23,7 +23,6 @@
  */
 package com.github.dgroup.dockertest.test;
 
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.process.CmdOutput;
 import com.github.dgroup.dockertest.process.DockerProcess;
 import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
@@ -32,6 +31,7 @@ import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsNot;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link TestOf}.

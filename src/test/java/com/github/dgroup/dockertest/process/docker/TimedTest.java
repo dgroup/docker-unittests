@@ -23,13 +23,13 @@
  */
 package com.github.dgroup.dockertest.process.docker;
 
-import com.github.dgroup.dockertest.hamcrest.IsTrue;
 import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.process.output.TextCmdOutput;
 import com.github.dgroup.dockertest.text.Joined;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link Timed}.
