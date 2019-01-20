@@ -23,9 +23,9 @@
  */
 package com.github.dgroup.dockertest.text;
 
-import com.github.dgroup.dockertest.hamcrest.True;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for {@link OccuredIn}.
@@ -42,7 +42,7 @@ public final class OccuredInTest {
     public void equalTo() {
         MatcherAssert.assertThat(
             new OccuredIn("%s", "Hey %s. My name is %s").apply(2),
-            new True()
+            new IsTrue()
         );
     }
 

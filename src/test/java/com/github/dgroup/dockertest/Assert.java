@@ -24,12 +24,12 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.RootCauseOf;
-import com.github.dgroup.dockertest.hamcrest.True;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Simplify unit testing of exception throwing.
@@ -140,7 +140,7 @@ public final class Assert {
             MatcherAssert.assertThat(
                 "The message doesn't match regexp.",
                 rootcause.getMessage().matches(regexp),
-                new True()
+                new IsTrue()
             );
         }
     }

@@ -50,7 +50,7 @@ public interface TgOutputPredicate {
      * Compare expected value with actual.
      *
      * @param actual Output received from docker container.
-     * @return True in case if expected value is equal to actual value.
+     * @return IsTrue in case if expected value is equal to actual value.
      * @throws YmlFormatException in case when condition is
      *  unsupported or har wrong/empty value.
      */

@@ -24,13 +24,13 @@
 package com.github.dgroup.dockertest.cmd;
 
 import com.github.dgroup.dockertest.cmd.arg.OutputOf;
-import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.test.output.HtmlOutput;
 import com.github.dgroup.dockertest.test.output.XmlOutput;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import java.io.StringWriter;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link OutputOf}.
@@ -47,7 +47,7 @@ public final class OutputOfTest {
     public void notSpecifiedOutput() {
         MatcherAssert.assertThat(
             new OutputOf(new StdOutput()).specifiedByUser(),
-            new True()
+            new IsTrue()
         );
     }
 
