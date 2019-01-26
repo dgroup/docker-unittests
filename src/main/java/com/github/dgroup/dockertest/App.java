@@ -85,6 +85,7 @@ public final class App {
      * @see ImageOf
      * @see OutputOf
      * @see ConcurrentTreads
+     * @checkstyle MagicNumberCheck (100 lines)
      */
     public static void main(final String... cargs) {
         final StdOutput std = new StdOutputOf(System.out, "    ");
@@ -100,6 +101,8 @@ public final class App {
             new RuntimeOf().shutdownWith(
                 cause.exitCode()
             );
+        } catch (final TestingFailedException cause) {
+            new RuntimeOf().shutdownWith(-1);
         }
     }
 
@@ -110,15 +113,15 @@ public final class App {
      * 3. Detect the expected output formats like std, xml or html;
      * 4. Execute tests concurrently;
      * 5. Report the results.
-     * @throws AppException in case of testing or other errors.
-     * @checkstyle MagicNumberCheck (100 lines)
+     * @throws AppException in case of errors during the testing.
+     * @throws TestingFailedException in case of testing failure.
      * @checkstyle IllegalCatchCheck (100 lines)
      * @checkstyle ExecutableStatementCountCheck (100 lines)
      */
     @SuppressWarnings({
         "PMD.PreserveStackTrace",
         "PMD.AvoidCatchingGenericException"})
-    public void start() throws AppException {
+    public void start() throws AppException, TestingFailedException {
         final Arg<String> file = new YmlFileOf(this.args);
         final Arg<String> image = new ImageOf(this.args);
         final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
@@ -141,8 +144,6 @@ public final class App {
                 new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
             );
             ctly.execute(tests).report(out);
-        } catch (final TestingFailedException ex) {
-            throw new AppException(-1, ex);
         } catch (final RuntimeException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
             if (cause instanceof IllegalYmlFormatException) {

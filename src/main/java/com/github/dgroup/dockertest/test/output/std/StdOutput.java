@@ -36,6 +36,7 @@ import java.util.List;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 0.1.0
+ * @todo #/DEV Use term4j instead of raw access to the stdout.
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public interface StdOutput extends Output {

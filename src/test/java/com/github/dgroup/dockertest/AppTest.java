@@ -24,13 +24,18 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
+import com.github.dgroup.dockertest.test.TestingFailedException;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -47,7 +52,7 @@ import org.junit.Test;
 public final class AppTest {
 
     @Test
-    public void run() throws AppException {
+    public void run() throws AppException, TestingFailedException {
         new Assume().that(new DockerWasInstalled());
         final Text path = new TextOf("docs%simage-tests.yml", File.separator);
         final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
@@ -63,6 +68,41 @@ public final class AppTest {
             std.details(),
             new HasItems<>("Testing successfully completed.")
         );
+    }
+
+    @Test
+    public void failed() throws AppException, TestingFailedException {
+        new Assume().that(new DockerWasInstalled());
+        final Path path = Paths.get(
+            "src", "test", "resources", "yml", "tests", "with-failed-test.yml"
+        );
+        final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
+        std.print(new TextOf("File: %s.", path));
+        try {
+            new App(
+                new ListOf<>(
+                    "-f", path.toString(),
+                    "-i", "openjdk:9.0.1-11"
+                ),
+                std
+            ).start();
+            Assert.fail("The expected exception wasn't thrown");
+        } catch (final TestingFailedException cause) {
+            MatcherAssert.assertThat(
+                "The std output has main details about testing procedure",
+                std.details(),
+                new HasItems<>(
+                    "File: src/test/resources/yml/tests/with-failed-test.yml.",
+                    "Found scenarios: \u001B[92;1m2\u001B[m.",
+                    "Testing failed."
+                )
+            );
+            MatcherAssert.assertThat(
+                "The std output has 14 lines",
+                std.details(),
+                Matchers.hasSize(14)
+            );
+        }
     }
 
 }

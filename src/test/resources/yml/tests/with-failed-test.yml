@@ -1,0 +1,20 @@
+
+version: 1.1
+
+tests:
+
+  - assume: "java version is 1.9, Debian build"
+    cmd:    "java -version"
+    output:
+      contains:
+        - openjdk version "9.0.1"
+        - build 9.0.1+11-Debian
+
+  - assume: "curl version is 8.xxx"
+    cmd:    "curl --version"
+    output:
+      startsWith: "curl 8."
+      matches:
+       - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
+      contains:
+       - "AsynchDNS IDN IPv6 Largefile GSS-API"
