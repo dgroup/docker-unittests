@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -25,8 +25,8 @@ package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.TestingFailedException;
+import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.text.Text;
 import com.github.dgroup.dockertest.text.TextOf;
 import java.io.File;
 import java.nio.file.Path;
@@ -54,16 +54,17 @@ public final class AppTest {
     @Test
     public void run() throws AppException, TestingFailedException {
         new Assume().that(new DockerWasInstalled());
-        final Text path = new TextOf("docs%simage-tests.yml", File.separator);
-        final StdOutput.Fake std = new StdOutput.Fake(new ArrayList<>(10));
-        std.print(new TextOf("File: %s.", path));
+        final File src = Paths.get("docs", "image-tests.yml").toFile();
+        final Std.Fake std = new Std.Fake(new ArrayList<>(10));
+        std.print(new TextOf("File: %s.", src.getAbsolutePath()));
         new App(
             new ListOf<>(
-                "-f", path.text(),
+                "-f", src.getAbsolutePath(),
                 "-i", "openjdk:9.0.1-11"
             ),
             std
         ).start();
+        new StdOutput().print(std.details());
         MatcherAssert.assertThat(
             std.details(),
             new HasItems<>("Testing successfully completed.")

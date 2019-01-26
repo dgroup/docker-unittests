@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,7 +23,6 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import org.cactoos.io.ResourceOf;
@@ -48,7 +47,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
  * @checkstyle VisibilityModifierCheck (200 lines)
  */
 public final class YamlSmokeTest {
-
     /**
      * The test is verifying that we can easily parse the YML file based on
      * structure of private <em>domain</em> classes.
@@ -56,15 +54,15 @@ public final class YamlSmokeTest {
      * These classes should be private and not be available to use anyone
      * outside of the parser because they are against to EO development
      * principles:
-     *  - no null
-     *  - no getters/setters
-     *  - no mutable classes
+     * - no null
+     * - no getters/setters
+     * - no mutable classes
      * More about them you may find here https://www.elegantobjects.org.
      *
-     * @throws IOException In case of I/O errors.
+     * @throws Exception In case of I/O errors.
      */
     @Test
-    public void smoke() throws IOException {
+    public void smoke() throws Exception {
         final YmlFile file = new Yaml(new Constructor(YmlFile.class)).load(
             new ResourceOf("yml/3rd-party-tests/with-single-test.yml").stream()
         );

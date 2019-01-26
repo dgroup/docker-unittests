@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -27,12 +27,12 @@ import com.github.dgroup.dockertest.collection.SafeSet;
 import com.github.dgroup.dockertest.exception.RootCauseOf;
 import com.github.dgroup.dockertest.scalar.If;
 import com.github.dgroup.dockertest.text.TextFile;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
 import com.github.dgroup.dockertest.yml.Tags;
 import com.github.dgroup.dockertest.yml.TgOutput;
 import com.github.dgroup.dockertest.yml.TgSetup;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
 import com.github.dgroup.dockertest.yml.tag.setup.TgSetupOf;
 import com.github.dgroup.dockertest.yml.tag.test.TgTestOf;
@@ -77,7 +77,7 @@ public final class TagsOf implements Tags {
                             src.text(), YmlFile.class
                         );
                     } catch (final Exception ex) {
-                        throw new IllegalYmlFormatException(
+                        throw new YmlFormatException(
                             "YML file `%s` has unsupported format:%n %s",
                             src.path(),
                             new RootCauseOf(ex).exception().getMessage()
@@ -89,7 +89,7 @@ public final class TagsOf implements Tags {
     }
 
     @Override
-    public Tag<String> version() throws IllegalYmlFormatException {
+    public Tag<String> version() throws YmlFormatException {
         return this.tags.value().tagVersion();
     }
 
@@ -119,11 +119,11 @@ public final class TagsOf implements Tags {
         public Set<String> setup;
         public Set<YmlTest> tests;
 
-        public Tag<String> tagVersion() throws IllegalYmlFormatException {
+        public Tag<String> tagVersion() throws YmlFormatException {
             final TagOf<String> vrsn = new TagOf<>(this.version, "version");
             // @todo #/DEV Add mechanism for back-comparability and verification
             if (!"1.1".equals(vrsn.value())) {
-                throw new IllegalYmlFormatException(
+                throw new YmlFormatException(
                     "Unsupported version: %s", vrsn.value()
                 );
             }
@@ -156,11 +156,11 @@ public final class TagsOf implements Tags {
         public String cmd;
         public YmlTestOutput output;
 
-        public TgOutput tagOutput() throws IllegalYmlFormatException {
+        public TgOutput tagOutput() throws YmlFormatException {
             if (this.output == null) {
                 // @checkstyle OperatorWrapCheck (5 lines)
                 // @checkstyle StringLiteralsConcatenationCheck (5 lines)
-                throw new IllegalYmlFormatException(
+                throw new YmlFormatException(
                     "Tag `output` has missing required child tag "
                         + "`contains|endsWith|equal|matches|startsWith`"
                 );

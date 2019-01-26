@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -26,19 +26,19 @@ package com.github.dgroup.dockertest.concurrent;
 import com.github.dgroup.dockertest.Assume;
 import com.github.dgroup.dockertest.DockerWasInstalled;
 import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.cmd.ConcurrentTreads;
-import com.github.dgroup.dockertest.cmd.TimeoutPerThread;
+import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
+import com.github.dgroup.dockertest.cmd.arg.ContainerName;
 import com.github.dgroup.dockertest.hamcrest.HasItems;
-import com.github.dgroup.dockertest.test.Test.Sleeping;
-import com.github.dgroup.dockertest.test.TestsOf;
-import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.text.Text;
+import com.github.dgroup.dockertest.test.TestingFailedException;
+import com.github.dgroup.dockertest.test.output.std.Std;
+import com.github.dgroup.dockertest.text.TextFile;
 import com.github.dgroup.dockertest.text.TextOf;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.github.dgroup.dockertest.yml.tag.TagsOf;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 
 /**
@@ -48,66 +48,39 @@ import org.hamcrest.MatcherAssert;
  * @version $Id$
  * @since 1.0
  * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle OperatorWrapCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle JavadocVariableCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class ConcurrentTest {
 
-    @org.junit.Test(timeout = 20 * 1000)
-    public void executeConcurrently() throws Exception {
-        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
-        final List<String> args = new ListOf<>(
-            "--threads", "5",
-            "--timeout-per-test", "10"
-        );
-        final Arg<Timeout> tmt = new TimeoutPerThread(args);
-        final Arg<Integer> threads = new ConcurrentTreads(args);
-        try (Concurrent concurrently = new Concurrent(tmt, threads)) {
-            concurrently.execute(
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS)),
-                new Sleeping(new TimeoutOf(5, TimeUnit.SECONDS))
-            ).report(out);
-        }
-        MatcherAssert.assertThat(
-            "15 tasks (5 seconds each) within 5 threads should take less then" +
-                " 20 seconds",
-            out.details(),
-            new HasItems<>("Testing successfully completed.")
+    @org.junit.Test(timeout = 60 * 1000)
+    public void executeConcurrently()
+        throws CmdArgNotFoundException, TestingFailedException {
+        this.execute(
+            3,
+            new TimeoutOf(7, TimeUnit.SECONDS),
+            Paths.get(
+                "src", "test", "resources", "yml", "tests", "concurrent.yml"
+            )
         );
     }
 
-    @org.junit.Test
-    public void executeConsequentially() throws Exception {
+    /**
+     * Execute the testing procedure.
+     * @param threads The quantity of threads for {@link ExecutorService}.
+     */
+    private void execute(final int threads, final Timeout thrd, final Path src)
+        throws CmdArgNotFoundException, TestingFailedException {
         new Assume().that(new DockerWasInstalled());
-        final Text path = new TextOf("docs%simage-tests.yml", File.separator);
-        final StdOutput.Fake out = new StdOutput.Fake(new ArrayList<>(12));
-        out.print(new TextOf("File: %s.", path));
+        final Std.Fake out = new Std.Fake(new LinkedList<>());
+        out.print(new TextOf("File: %s.", src.toAbsolutePath()));
         new Concurrent(
-            new Arg.Fake<>("-timeout", new TimeoutOf(5, TimeUnit.SECONDS)),
-            new Arg.Fake<>("-threads", 1)
+            new Arg.Fake<>("-timeout", thrd),
+            new Arg.Fake<>("-threads", threads)
         ).execute(
-            new TestsOf(
-                new Arg.Fake<>("-i", "openjdk:9.0.1-11"),
-                new Arg.Fake<>("-f", path.text())
-            )
+            "openjdk:9.0.1-11",
+            new ContainerName(new Arg.Fake<>("-c", src.toFile())).value(),
+            new TagsOf(new TextFile(src::toFile))
         ).report(out);
         MatcherAssert.assertThat(
             out.details(),

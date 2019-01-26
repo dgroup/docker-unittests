@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.text;
 
 import com.github.dgroup.dockertest.Assert;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,10 +45,9 @@ public final class TextFileTest {
     public void fileContentWasRedAsString() throws IOException {
         MatcherAssert.assertThat(
             new TextFile(
-                new TextWithRepeatableArguments(
-                    "src{0}test{0}resources{0}txt{0}tests{0}simple.txt",
-                    File.separator
-                )
+                Paths.get(
+                    "src", "test", "resources", "txt", "tests", "simple.txt"
+                ).toFile()
             ).text(),
             Matchers.equalTo(
                 "test:\nassume: \"curl version is 7.xxx\"\ncmd"
@@ -59,7 +58,9 @@ public final class TextFileTest {
     @Test
     public void fileNotFound() {
         new Assert().thatThrows(
-            () -> new TextFile(".gitignoreeeeeee").text(),
+            () -> new TextFile(
+                () -> Paths.get(".gitignoreeeeeee").toFile()
+            ).text(),
             IOException.class,
             "^java\\.io\\.FileNotFoundException:\\s\\.gitignoreeeeeee\\s\\(.*$"
         );

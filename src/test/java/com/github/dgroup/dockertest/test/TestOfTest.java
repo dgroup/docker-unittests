@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,15 +23,15 @@
  */
 package com.github.dgroup.dockertest.test;
 
-import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
-import com.github.dgroup.dockertest.docker.output.CmdOutput;
-import com.github.dgroup.dockertest.docker.process.DockerProcess;
-import com.github.dgroup.dockertest.hamcrest.False;
-import com.github.dgroup.dockertest.hamcrest.True;
+import com.github.dgroup.dockertest.process.CmdOutput;
+import com.github.dgroup.dockertest.process.DockerProcess;
+import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.output.TgOutputOf;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsNot;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link TestOf}.
@@ -65,7 +65,7 @@ public final class TestOfTest {
                     )
                 )
             ).execute().successful(),
-            new True()
+            new IsTrue()
         );
     }
 
@@ -89,7 +89,7 @@ public final class TestOfTest {
                     )
                 )
             ).execute().successful(),
-            new False()
+            new IsNot<>(new IsTrue())
         );
     }
 }

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.yml.tag.output;
 
 import com.github.dgroup.dockertest.text.TextOf;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import java.util.Objects;
 import org.cactoos.Func;
 
@@ -89,12 +89,12 @@ public final class TgPredicateFake implements TgOutputPredicate {
     @Override
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public boolean test(final String actual)
-        throws IllegalYmlFormatException {
+        throws YmlFormatException {
         // @checkstyle IllegalCatchCheck (5 lines)
         try {
             return this.fnc.apply(actual);
         } catch (final Exception exp) {
-            throw new IllegalYmlFormatException(exp);
+            throw new YmlFormatException(exp);
         }
     }
 

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -40,7 +40,6 @@ import org.cactoos.scalar.UncheckedScalar;
  * @since 1.0
  */
 public final class Logo implements Iterable<String> {
-
     /**
      * Application version.
      */
@@ -55,6 +54,7 @@ public final class Logo implements Iterable<String> {
 
     /**
      * Ctor.
+     *
      * @param version The application version.
      */
     public Logo(final Scalar<String> version) {
@@ -69,21 +69,23 @@ public final class Logo implements Iterable<String> {
      * @checkstyle OperatorWrapCheck (50 lines)
      * @checkstyle RegexpSinglelineCheck (50 lines)
      * @checkstyle StringLiteralsConcatenationCheck (50 lines)
+     * @checkstyle LocalFinalVariableNameCheck (50 lines)
      */
     @SuppressWarnings("PMD.AddEmptyString")
     public String asString() {
+        final String eol = System.lineSeparator();
         return new TextOf(
-            "\nDocker testing tool (%s)\n%s",
+            eol + "Docker image testing (%s)" + eol + "%s",
             new GreenText("v%s", this.version.value()),
             new BlueText("" +
-                "                  ##         .            \n" +
-                "            ## ## ##        ==            \n" +
-                "         ## ## ## ##       ===            \n" +
-                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        \n" +
-                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   \n" +
-                "     \\______ o          __/            \n" +
-                "      \\    \\        __/             \n" +
-                "       \\____\\______/   \n"
+                "                  ##         .            " + eol +
+                "            ## ## ##        ==            " + eol +
+                "         ## ## ## ##       ===            " + eol +
+                "     /\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"___/ ===        " + eol +
+                "~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /===- ~~~   " + eol +
+                "     \\______ o          __/            " + eol +
+                "      \\    \\        __/             " + eol +
+                "       \\____\\______/   " + eol
             )
         ).text();
     }

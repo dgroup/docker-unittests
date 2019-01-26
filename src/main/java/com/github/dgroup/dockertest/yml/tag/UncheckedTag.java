@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,12 +23,12 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
 import com.github.dgroup.dockertest.yml.UncheckedYmlFormatException;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 
 /**
- * Tag that doesn't throw checked {@link IllegalYmlFormatException}.
+ * Tag that doesn't throw checked {@link YmlFormatException}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
@@ -59,7 +59,7 @@ public final class UncheckedTag<T> implements Tag<T> {
     public T value() {
         try {
             return this.tag.value();
-        } catch (final IllegalYmlFormatException cause) {
+        } catch (final YmlFormatException cause) {
             throw new UncheckedYmlFormatException(cause);
         }
     }

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -39,7 +39,6 @@ import org.cactoos.collection.Filtered;
  * @version $Id$
  * @param <T> The type of item.
  * @since 1.1
- * @todo #/DEV Add null-safe elements verification.
  */
 public class SafeSet<T> extends SetEnvelope<T> {
 

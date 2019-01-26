@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,8 +23,6 @@
  */
 package com.github.dgroup.dockertest.yml;
 
-import java.util.Set;
-
 /**
  * Represents yml tag {@code /setup}.
  * The tag can contain a list of predefined instructions to set up the container
@@ -32,8 +30,8 @@ import java.util.Set;
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1.0
+ * @since 1.1
  */
-public interface TgSetup extends Tag<Set<String>> {
+public interface TgSetup extends Tag<Iterable<String>> {
 
 }

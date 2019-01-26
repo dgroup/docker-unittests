@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  */
 package com.github.dgroup.dockertest;
 
-import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
+import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public final class LogoTest {
     @Test
     public void byLines() {
         final Logo logo = new Logo(() -> "1.0");
-        new StdOutputOf().print(logo);
+        new StdOutput().print(logo);
         MatcherAssert.assertThat(
             logo,
             Matchers.iterableWithSize(11)

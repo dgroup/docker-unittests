@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -25,8 +25,9 @@ package com.github.dgroup.dockertest.test.output;
 
 import com.github.dgroup.dockertest.io.Property;
 import com.github.dgroup.dockertest.scalar.If;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.test.Output;
+import com.github.dgroup.dockertest.test.TestOutcome;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import java.io.FileWriter;
 import java.io.Writer;

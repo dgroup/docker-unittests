@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ import java.util.Set;
  * @version $Id$
  * @since 1.1
  */
-public final class TgSetupOf extends TgEnvelope<Set<String>> implements
+public final class TgSetupOf extends TgEnvelope<Iterable<String>> implements
     TgSetup {
 
     /**

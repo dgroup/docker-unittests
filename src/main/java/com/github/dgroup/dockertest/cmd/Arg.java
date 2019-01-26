@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,6 +23,8 @@
  */
 package com.github.dgroup.dockertest.cmd;
 
+import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
+
 /**
  * Represents single command-line argument.
  *
@@ -30,7 +32,6 @@ package com.github.dgroup.dockertest.cmd;
  * @version $Id$
  * @param <X> Type of item.
  * @since 1.0
- * @todo #/DEV Move all arguments to package `***.cmd.arg`
  */
 public interface Arg<X> {
 

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -76,12 +76,12 @@ public class SetEnvelope<T> implements Set<T> {
 
     @Override
     public final Object[] toArray() {
-        throw new UnsupportedOperationException("#toArray()");
+        return this.origin.value().toArray();
     }
 
     @Override
     public final <T> T[] toArray(final T... obj) {
-        throw new UnsupportedOperationException("#toArray(T)");
+        return this.origin.value().toArray(obj);
     }
 
     @Override

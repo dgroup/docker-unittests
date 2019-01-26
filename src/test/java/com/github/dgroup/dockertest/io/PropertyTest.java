@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -41,7 +41,7 @@ public final class PropertyTest {
     @Test
     public void value() throws Exception {
         MatcherAssert.assertThat(
-            new Property("test.properties", "app.version").value(),
+            new Property("app.version").value(),
             Matchers.equalTo("1.0.3")
         );
     }

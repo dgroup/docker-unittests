@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,7 +23,8 @@
  */
 package com.github.dgroup.dockertest.test.output;
 
-import com.github.dgroup.dockertest.test.outcome.TestingOutcome;
+import com.github.dgroup.dockertest.test.Output;
+import com.github.dgroup.dockertest.test.TestingOutcome;
 
 /**
  * Print testing results to html file.

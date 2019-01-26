@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -30,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 import org.cactoos.Scalar;
 import org.cactoos.io.BytesOf;
 import org.cactoos.io.InputOf;
-import org.cactoos.scalar.StickyScalar;
 import org.cactoos.scalar.UncheckedScalar;
 import org.cactoos.text.TextOf;
 
@@ -46,7 +45,7 @@ public final class TextFile {
     /**
      * File to read.
      */
-    private final Scalar<File> origin;
+    private final UncheckedScalar<File> origin;
     /**
      * File charset.
      */
@@ -54,29 +53,18 @@ public final class TextFile {
 
     /**
      * Ctor.
-     * @param path For reading.
-     * @todo #4 Add cmd flag which allows user to select encoding
-     *  for *.yml file with tests.
+     * @param path The file for reading.
      */
-    public TextFile(final Text path) {
-        this(path.text());
+    public TextFile(final File path) {
+        this(() -> path);
     }
 
     /**
      * Ctor.
-     * @param path Origin file path for reading.
+     * @param origin File for reading.
      */
-    public TextFile(final String path) {
-        this(path, StandardCharsets.UTF_8);
-    }
-
-    /**
-     * Ctor.
-     * @param path Origin file path for reading.
-     * @param charset Origin file charset for reading.
-     */
-    public TextFile(final String path, final Charset charset) {
-        this(new StickyScalar<>(() -> new File(path)), charset);
+    public TextFile(final Scalar<File> origin) {
+        this(origin, StandardCharsets.UTF_8);
     }
 
     /**
@@ -85,7 +73,7 @@ public final class TextFile {
      * @param charset File charset for reading.
      */
     public TextFile(final Scalar<File> origin, final Charset charset) {
-        this.origin = origin;
+        this.origin = new UncheckedScalar<>(origin);
         this.charset = charset;
     }
 
@@ -114,7 +102,14 @@ public final class TextFile {
      * @return The path.
      */
     public String path() {
-        return new UncheckedScalar<>(this.origin).value().getAbsolutePath();
+        return this.origin.value().getAbsolutePath();
     }
 
+    /**
+     * The name of original file.
+     * @return The file name itself.
+     */
+    public String name() {
+        return this.origin.value().getName();
+    }
 }

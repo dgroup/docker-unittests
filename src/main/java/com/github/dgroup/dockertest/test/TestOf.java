@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,15 +23,15 @@
  */
 package com.github.dgroup.dockertest.test;
 
-import com.github.dgroup.dockertest.docker.DockerProcessExecutionException;
-import com.github.dgroup.dockertest.docker.process.DockerProcess;
-import com.github.dgroup.dockertest.test.outcome.TestOutcome;
+import com.github.dgroup.dockertest.process.DockerProcess;
+import com.github.dgroup.dockertest.process.DockerProcessExecutionException;
 import com.github.dgroup.dockertest.test.outcome.TestOutcomeOf;
 import com.github.dgroup.dockertest.yml.TgOutputPredicate;
 import com.github.dgroup.dockertest.yml.TgTest;
 import com.github.dgroup.dockertest.yml.tag.UncheckedTag;
 import com.github.dgroup.dockertest.yml.tag.test.UncheckedTgTest;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.list.StickyList;
 
@@ -42,12 +42,13 @@ import org.cactoos.list.StickyList;
  * @version $Id$
  * @since 1.0
  */
-public final class TestOf implements Test {
+public final class TestOf implements Test, Callable<TestOutcome> {
 
     /**
      * Docker container where we need to execute the test.
      */
     private final DockerProcess process;
+
     /**
      * Origin test to be executed within docker container.
      */
@@ -66,7 +67,7 @@ public final class TestOf implements Test {
 
     @Override
     public TestOutcome execute() throws DockerProcessExecutionException {
-        final String output = this.process.execute().asText();
+        final String output = this.process.execute().text();
         final Collection<TgOutputPredicate> failed = new StickyList<>(
             new Filtered<>(
                 t -> !t.test(output),
@@ -76,4 +77,8 @@ public final class TestOf implements Test {
         return new TestOutcomeOf(this.test, output, failed);
     }
 
+    @Override
+    public TestOutcome call() throws DockerProcessExecutionException {
+        return this.execute();
+    }
 }

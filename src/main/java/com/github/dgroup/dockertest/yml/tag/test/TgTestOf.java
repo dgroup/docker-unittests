@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,10 +23,10 @@
  */
 package com.github.dgroup.dockertest.yml.tag.test;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
 import com.github.dgroup.dockertest.yml.TgOutput;
 import com.github.dgroup.dockertest.yml.TgTest;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 
 /**
  * Represents yml tag {@code /tests/test}.
@@ -69,12 +69,12 @@ public final class TgTestOf implements TgTest {
     }
 
     @Override
-    public String assume() throws IllegalYmlFormatException {
+    public String assume() throws YmlFormatException {
         return this.scenario.value();
     }
 
     @Override
-    public String cmd() throws IllegalYmlFormatException {
+    public String cmd() throws YmlFormatException {
         return this.command.value();
     }
 

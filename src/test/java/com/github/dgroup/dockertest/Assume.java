@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -24,9 +24,9 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.exception.Stacktrace;
-import com.github.dgroup.dockertest.hamcrest.True;
 import org.cactoos.Scalar;
 import org.junit.AssumptionViolatedException;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Soft assertions within unit tests.
@@ -60,10 +60,10 @@ public final class Assume {
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void that(final Scalar<Boolean> cnd) {
         try {
-            org.junit.Assume.assumeThat(cnd.value(), new True());
+            org.junit.Assume.assumeThat(cnd.value(), new IsTrue());
         } catch (final Exception cause) {
             org.junit.Assume.assumeThat(
-                new Stacktrace(cause).toString(), false, new True()
+                new Stacktrace(cause).toString(), false, new IsTrue()
             );
         }
     }

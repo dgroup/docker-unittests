@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -24,35 +24,39 @@
 package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.cmd.Arg;
-import com.github.dgroup.dockertest.cmd.CmdArgNotFoundException;
-import com.github.dgroup.dockertest.cmd.ConcurrentTreads;
-import com.github.dgroup.dockertest.cmd.ImageOf;
-import com.github.dgroup.dockertest.cmd.OutputOf;
-import com.github.dgroup.dockertest.cmd.TimeoutPerThread;
-import com.github.dgroup.dockertest.cmd.YmlFileOf;
+import com.github.dgroup.dockertest.cmd.arg.CmdArgNotFoundException;
+import com.github.dgroup.dockertest.cmd.arg.ConcurrentTreads;
+import com.github.dgroup.dockertest.cmd.arg.ContainerName;
+import com.github.dgroup.dockertest.cmd.arg.ImageOf;
+import com.github.dgroup.dockertest.cmd.arg.OutputOf;
+import com.github.dgroup.dockertest.cmd.arg.TimeoutPerThread;
+import com.github.dgroup.dockertest.cmd.arg.YmlFileOf;
+import com.github.dgroup.dockertest.cmd.arg.YmlTags;
 import com.github.dgroup.dockertest.concurrent.Concurrent;
 import com.github.dgroup.dockertest.concurrent.Timeout;
 import com.github.dgroup.dockertest.exception.RootCauseOf;
 import com.github.dgroup.dockertest.exception.Stacktrace;
 import com.github.dgroup.dockertest.termination.RuntimeOf;
-import com.github.dgroup.dockertest.test.Test;
+import com.github.dgroup.dockertest.test.Output;
 import com.github.dgroup.dockertest.test.TestingFailedException;
-import com.github.dgroup.dockertest.test.TestsOf;
-import com.github.dgroup.dockertest.test.output.Output;
+import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
 import com.github.dgroup.dockertest.text.TextOf;
 import com.github.dgroup.dockertest.text.highlighted.GreenText;
 import com.github.dgroup.dockertest.text.highlighted.YellowText;
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
+import com.github.dgroup.dockertest.yml.Tags;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import org.cactoos.Text;
 import org.cactoos.list.ListOf;
 
 /**
  * App start point with main method only.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
+ * @version $Id$
  * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
@@ -66,14 +70,14 @@ public final class App {
     /**
      * Standard application output.
      */
-    private final StdOutput std;
+    private final Std std;
 
     /**
      * Ctor.
      * @param args Command-line arguments specified by the user from the shell.
      * @param std Standard application output.
      */
-    public App(final List<String> args, final StdOutput std) {
+    public App(final List<String> args, final Std std) {
         this.args = args;
         this.std = std;
     }
@@ -88,7 +92,7 @@ public final class App {
      * @checkstyle MagicNumberCheck (100 lines)
      */
     public static void main(final String... cargs) {
-        final StdOutput std = new StdOutputOf(System.out, "    ");
+        final Std std = new StdOutput(System.out, "    ");
         final List<String> args = new ListOf<>(cargs);
         if (args.isEmpty()) {
             std.print(new Help());
@@ -122,17 +126,18 @@ public final class App {
         "PMD.PreserveStackTrace",
         "PMD.AvoidCatchingGenericException"})
     public void start() throws AppException, TestingFailedException {
-        final Arg<String> file = new YmlFileOf(this.args);
+        final Arg<File> file = new YmlFileOf(this.args);
         final Arg<String> image = new ImageOf(this.args);
         final Arg<Timeout> ttrd = new TimeoutPerThread(this.args);
         final Arg<Integer> threads = new ConcurrentTreads(this.args);
         final Arg<Collection<Output>> out = new OutputOf(this.std, this.args);
-        final Collection<Test> tests = new TestsOf(image, file);
+        final Arg<Text> container = new ContainerName(file);
+        final Arg<Tags> tags = new YmlTags(file);
         try (final Concurrent ctly = new Concurrent(ttrd, threads)) {
             if (!file.specifiedByUser()) {
                 throw new AppException("YML file with tests wasn't specified.");
             }
-            if (tests.isEmpty()) {
+            if (tags.value().tests().isEmpty()) {
                 throw new AppException(
                     new TextOf(
                         "%s testing scenarios found.", new YellowText(0)
@@ -141,12 +146,21 @@ public final class App {
             }
             this.std.print(new Logo());
             this.std.print(
-                new TextOf("Found scenarios: %s.", new GreenText(tests.size()))
+                new TextOf(
+                    "Found scenarios: %s.",
+                    new GreenText(tags.value().tests().size())
+                )
             );
-            ctly.execute(tests).report(out);
+            ctly.execute(
+                image.value(), container.value(), tags.value()
+            ).report(out);
+        } catch (final YmlFormatException ex) {
+            throw new AppException(-2, ex);
+        } catch (final CmdArgNotFoundException exp) {
+            throw new AppException(-3, exp);
         } catch (final RuntimeException ex) {
             final Throwable cause = new RootCauseOf(ex).exception();
-            if (cause instanceof IllegalYmlFormatException) {
+            if (cause instanceof YmlFormatException) {
                 throw new AppException(-2, cause);
             }
             if (cause instanceof CmdArgNotFoundException) {

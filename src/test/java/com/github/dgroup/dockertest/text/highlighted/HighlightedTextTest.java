@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -24,8 +24,8 @@
 package com.github.dgroup.dockertest.text.highlighted;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
+import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
-import com.github.dgroup.dockertest.test.output.std.StdOutputOf;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public final class HighlightedTextTest {
 
     @Test
     public void visualColor() {
-        final StdOutput std = new StdOutputOf();
+        final Std std = new StdOutput();
         std.print(new RedText("FAILED"));
         std.print(new GreenText("PASSED"));
         std.print(new YellowText("WARNING"));

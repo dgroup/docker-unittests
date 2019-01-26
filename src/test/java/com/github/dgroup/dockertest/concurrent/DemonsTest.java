@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,13 +23,13 @@
  */
 package com.github.dgroup.dockertest.concurrent;
 
-import com.github.dgroup.dockertest.hamcrest.True;
 import com.github.dgroup.dockertest.text.Joined;
 import com.github.dgroup.dockertest.text.TextOf;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
  * Unit tests for class {@link Demons}.
@@ -68,7 +68,7 @@ public final class DemonsTest {
             ).text().matches(
                 "^dt-\\d-true;dt-\\d-true;dt-\\d-true$"
             ),
-            new True()
+            new IsTrue()
         );
     }
 

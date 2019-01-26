@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2017-2018 Yurii Dubinka
+ * Copyright (c) 2017-2019 Yurii Dubinka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"),
@@ -23,8 +23,8 @@
  */
 package com.github.dgroup.dockertest.yml.tag;
 
-import com.github.dgroup.dockertest.yml.IllegalYmlFormatException;
 import com.github.dgroup.dockertest.yml.Tag;
+import com.github.dgroup.dockertest.yml.YmlFormatException;
 import org.cactoos.Scalar;
 import org.cactoos.scalar.UncheckedScalar;
 
@@ -64,10 +64,10 @@ public class TgEnvelope<T> implements Tag<T> {
     }
 
     @Override
-    public final T value() throws IllegalYmlFormatException {
+    public final T value() throws YmlFormatException {
         final T val = new UncheckedScalar<>(this.yml).value();
         if (val == null || val.toString().trim().isEmpty()) {
-            throw new IllegalYmlFormatException(this);
+            throw new YmlFormatException(this);
         }
         return val;
     }
