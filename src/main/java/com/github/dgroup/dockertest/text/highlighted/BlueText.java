@@ -31,6 +31,7 @@ import org.fusesource.jansi.Ansi;
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @todo #/DEV Use term4j instead of this package.
  */
 public final class BlueText extends HighlightedTextEnvelope {
 

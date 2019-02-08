@@ -92,7 +92,10 @@
     <dockerjava.version>3.1.0</dockerjava.version>
     <snakeyaml.version>1.19</snakeyaml.version>
     <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
-    <jackson-databind>2.9.2</jackson-databind>
+    <jackson-databind.version>2.9.7</jackson-databind.version>
+    <bcprov-jdk15on.version>1.60</bcprov-jdk15on.version>
+    <commons-compress.version>1.18</commons-compress.version>
+    <guava.version>27.0.1-jre</guava.version>
     <jansi.version>1.16</jansi.version>
     <xembly.version>0.22</xembly.version>
     <jcabi-xml.version>0.21.4</jcabi-xml.version>
@@ -138,6 +141,44 @@
       <groupId>com.github.docker-java</groupId>
       <artifactId>docker-java</artifactId>
       <version>${dockerjava.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-compress</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-databind.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>${bcprov-jdk15on.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>${commons-compress.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.fusesource.jansi</groupId>
@@ -311,6 +352,10 @@
                 <exclude>dependencies:com.jcabi.incubator:xembly</exclude>
                 <exclude>dependencies:com.jcabi:jcabi-xml</exclude>
                 <exclude>dependencies:org.llorllale:cactoos-matchers</exclude>
+                <exclude>dependencies:com.fasterxml.jackson.core:jackson-databind</exclude>
+                <exclude>dependencies:org.bouncycastle:bcprov-jdk15on</exclude>
+                <exclude>dependencies:com.google.guava:guava</exclude>
+                <exclude>dependencies:org.apache.commons:commons-compress</exclude>
                 <exclude>duplicatefinder:
                 </exclude> <!-- @todo #100 Validate classpath in order to avoid duplicates -->
                 <exclude>findbugs:.*</exclude>
