@@ -19,5 +19,5 @@ release:
     mvn versions:set "-DnewVersion=$tag"
     git add pom.xml
     git commit -am "$tag"
-    mvn -V -Dgpg.homedir="$HOME" -P qulice,ossrh -s ../settings.xml clean deploy
+    mvn -V -Dgpg.homedir="$HOME" -P qulice,ossrh -Djacoco.skip=true -s ../settings.xml clean deploy
     mvn -V -P github -s ../settings.xml deploy
