@@ -49,7 +49,7 @@ public final class Logo implements Iterable<String> {
      * Ctor.
      */
     public Logo() {
-        this(new Property("build.version"));
+        this(new Property("app.version"));
     }
 
     /**
