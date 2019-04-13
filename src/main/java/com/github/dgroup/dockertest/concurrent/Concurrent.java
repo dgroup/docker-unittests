@@ -27,6 +27,7 @@ import com.github.dgroup.dockertest.cmd.Arg;
 import com.github.dgroup.dockertest.concurrent.func.TimingOut;
 import com.github.dgroup.dockertest.process.docker.Docker;
 import com.github.dgroup.dockertest.process.docker.cmd.ExecTty;
+import com.github.dgroup.dockertest.process.docker.cmd.Pull;
 import com.github.dgroup.dockertest.process.docker.cmd.Remove;
 import com.github.dgroup.dockertest.process.docker.cmd.Start;
 import com.github.dgroup.dockertest.scalar.If;
@@ -126,6 +127,7 @@ public final class Concurrent implements AutoCloseable {
     ) {
         try (final DockerClient client = new Docker().value()) {
             try {
+                new Pull(image, client).execute();
                 new Start(image, container, client).execute();
                 for (final String instruction : tags.setup().value()) {
                     new ExecTty(instruction, container, client, true).execute();
