@@ -23,42 +23,34 @@
  */
 package com.github.dgroup.dockertest.process.docker.cmd;
 
-import com.github.dgroup.dockertest.process.docker.DockerProcessEnvelope;
-import com.github.dgroup.dockertest.process.output.TextCmdOutput;
-import com.github.dockerjava.api.DockerClient;
-import org.cactoos.Text;
-import org.cactoos.text.UncheckedText;
+import com.github.dgroup.dockertest.AppException;
+import com.github.dgroup.dockertest.ScenarioOf;
+import com.github.dgroup.dockertest.process.docker.Docker;
+import com.github.dgroup.dockertest.test.TestingFailedException;
+import org.junit.Test;
 
 /**
- * The process to create and start a new Docker container.
+ * Test case for {@link Pull}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @version $Id$
- * @since 1.1
+ * @since 1.1.1
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class Start extends DockerProcessEnvelope {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class PullTest {
 
-    /**
-     * Ctor.
-     * @param img The Docker container image.
-     * @param name The Docker container name.
-     * @param client The java-api client to Docker OS process.
-     * @todo #/DEV Avoid hardcoded timeout in 30 minutes.
-     *  The container should be up & running in order to inspect/manipulate.
-     *  App is using <em>sleep</em> as some images may be without entrypoint.
-     * @checkstyle IndentationCheck (20 lines)
-     */
-    public Start(
-        final String img, final Text name, final DockerClient client
-    ) {
-        super(() -> {
-            final String container = client.createContainerCmd(img)
-                .withCmd("sleep", "1800")
-                .withName(new UncheckedText(name).asString())
-                .exec()
-                .getId();
-            client.startContainerCmd(container).exec();
-            return new TextCmdOutput(container);
-        });
+    @Test
+    public void pull() throws TestingFailedException, AppException {
+        final String image = "alpine:latest";
+        new Docker().value()
+            .removeImageCmd(image)
+            .withForce(true)
+            .exec();
+        new ScenarioOf(
+            "https://github.com/dgroup/docker-unittests/issues/242",
+            "src/test/resources/yml/regression/issue242.yml",
+            image
+        ).execute();
     }
 }

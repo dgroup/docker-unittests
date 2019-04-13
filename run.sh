@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+if [ -z "$1" ]
+    then
+        souce_tests=./docs/image-tests.yml
+    else
+        source_tests=$1
+fi
 mvn -P github package
 version=1.1.0
 app=docker-unittests-${version}.jar

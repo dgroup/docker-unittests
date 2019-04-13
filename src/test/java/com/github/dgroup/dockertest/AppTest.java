@@ -25,10 +25,8 @@ package com.github.dgroup.dockertest;
 
 import com.github.dgroup.dockertest.hamcrest.HasItems;
 import com.github.dgroup.dockertest.test.TestingFailedException;
-import com.github.dgroup.dockertest.test.output.std.Std;
 import com.github.dgroup.dockertest.test.output.std.StdOutput;
 import com.github.dgroup.dockertest.text.TextOf;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -53,26 +51,15 @@ public final class AppTest {
 
     @Test
     public void run() throws AppException, TestingFailedException {
-        new Assume().that(new DockerWasInstalled());
-        final File src = Paths.get("docs", "image-tests.yml").toFile();
-        final Std.Fake std = new Std.Fake(new ArrayList<>(10));
-        std.print(new TextOf("File: %s.", src.getAbsolutePath()));
-        new App(
-            new ListOf<>(
-                "-f", src.getAbsolutePath(),
-                "-i", "openjdk:9.0.1-11"
-            ),
-            std
-        ).start();
-        new StdOutput().print(std.details());
-        MatcherAssert.assertThat(
-            std.details(),
-            new HasItems<>("Testing successfully completed.")
-        );
+        new ScenarioOf(
+            "Default application test",
+            "docs/image-tests.yml",
+            "openjdk:9.0.1-11"
+        ).execute();
     }
 
     @Test
-    public void failed() throws AppException, TestingFailedException {
+    public void failed() throws AppException {
         new Assume().that(new DockerWasInstalled());
         final Path path = Paths.get(
             "src", "test", "resources", "yml", "tests", "with-failed-test.yml"

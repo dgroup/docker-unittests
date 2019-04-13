@@ -29,7 +29,7 @@
 
   <groupId>com.github.dgroup</groupId>
   <artifactId>docker-unittests</artifactId>
-  <version>1.0.4</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -83,6 +83,7 @@
     <mvn.gpg.version>1.5</mvn.gpg.version>
     <mvn.properties.version>1.0.0</mvn.properties.version>
     <jacoco.version>0.7.9</jacoco.version>
+    <!-- @todo #/DEV Upgrade the qulice to the latest version -->
     <qulice.version>0.17.1</qulice.version>
     <sonar.version>3.4.0.905</sonar.version>
     <!-- General dependencies -->

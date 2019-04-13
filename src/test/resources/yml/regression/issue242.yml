@@ -1,0 +1,15 @@
+#
+# The prerequisite for the issue
+#   "NotModifiedException for simple test"
+#   https://github.com/dgroup/docker-unittests/issues/242
+#
+version: 1.1
+setup:
+  - "apk --update --no-cache add curl"
+tests:
+  - assume: curl version is 7.xxx
+    cmd: curl --version
+    output:
+      startsWith: curl 7.
+      matches:
+        - "^curl\\s7.*\\n.*\\nProtocols.+ftps.+https.+telnet.*\\n.*\\n$"
