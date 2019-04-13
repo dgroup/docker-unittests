@@ -29,7 +29,7 @@
 
   <groupId>com.github.dgroup</groupId>
   <artifactId>docker-unittests</artifactId>
-  <version>1.0.4</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -76,7 +76,7 @@
     <mvn.jar.version>3.0.2</mvn.jar.version>
     <mvn.assembly.version>3.1.0</mvn.assembly.version>
     <mvn.resources.version>3.0.2</mvn.resources.version>
-    <mvn.gh.release.version>1.2.0</mvn.gh.release.version>
+    <mvn.gh.release.version>1.3.0</mvn.gh.release.version>
     <mvn.nexus.version>1.6.8</mvn.nexus.version>
     <mvn.javadoc.version>2.9.1</mvn.javadoc.version>
     <mvn.source.version>2.2.1</mvn.source.version>
@@ -511,17 +511,18 @@
                 </goals>
                 <inherited>false</inherited>
                 <configuration>
-                  <releaseName>Shade v${project.version}</releaseName>
-                  <tag>v${project.version}</tag>
+                  <releaseName>Release ${project.version} (shaded)</releaseName>
+                  <tag>s${project.version}</tag>
                   <artifact>
                     ${project.build.directory}${file.separator}${project.artifactId}-app-${project.version}.jar
                   </artifact>
+                  <overwriteArtifact>true</overwriteArtifact>
+                  <deleteRelease>true</deleteRelease>
                 </configuration>
               </execution>
             </executions>
             <configuration>
-              <repositoryId>https://github.com/dgroup/docker-unittests
-              </repositoryId>
+              <repositoryId>https://github.com/dgroup/docker-unittests</repositoryId>
             </configuration>
           </plugin>
           <plugin>

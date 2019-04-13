@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+source_tests=./docs/image-tests.yml
+source_image="openjdk:9.0.1-11"
+if [[ ! -z "$1" ]]
+then
+    source_tests=$1
+fi
+if [[ ! -z "$2" ]]
+then
+    source_image=$2
+fi
 mvn -P github package
 version=1.1.0
 app=docker-unittests-${version}.jar
@@ -12,6 +22,4 @@ sleep 2
 set -e
 unzip -l target/${app}
 unzip -l target/${shade_app} | grep "App.class\|MANIFEST.MF"
-java ${JAVA_OPTS} -jar target/${shade_app} \
-    -f ./docs/image-tests.yml \
-    -i openjdk:9.0.1-11
+java ${JAVA_OPTS} -jar target/${shade_app} -f ${source_tests} -i ${source_image}

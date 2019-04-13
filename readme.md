@@ -34,7 +34,13 @@ The project has been started in Java as POC, however, I'm thinking about porting
 Kindly ask you to raise the issue in case of any suggestions/bugs.
 
 #### General image test
-1. Define an [*.yml file](./docs/image-tests.yml) with tests.
+1. Download the latest shaded dist from https://github.com/dgroup/docker-unittests/releases:
+   ```bash
+   wget https://github.com/dgroup/docker-unittests/releases/download/s1.1.1/docker-unittests-app-1.1.1.jar
+
+   ``` 
+
+2. Define an [*.yml file](./docs/image-tests.yml) with tests.
    ```yml
 
    version: 1.1
