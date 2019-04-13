@@ -24,6 +24,7 @@
 package com.github.dgroup.dockertest.process.docker.cmd;
 
 import com.github.dgroup.dockertest.AppException;
+import com.github.dgroup.dockertest.Assume;
 import com.github.dgroup.dockertest.ScenarioOf;
 import com.github.dgroup.dockertest.process.docker.Docker;
 import com.github.dgroup.dockertest.test.TestingFailedException;
@@ -43,10 +44,15 @@ public final class PullTest {
     @Test
     public void pull() throws TestingFailedException, AppException {
         final String image = "alpine:latest";
-        new Docker().value()
-            .removeImageCmd(image)
-            .withForce(true)
-            .exec();
+        new Assume().that(
+            () -> {
+                new Docker().value()
+                    .removeImageCmd(image)
+                    .withForce(true)
+                    .exec();
+                return true;
+            }
+        );
         new ScenarioOf(
             "https://github.com/dgroup/docker-unittests/issues/242",
             "src/test/resources/yml/regression/issue242.yml",
