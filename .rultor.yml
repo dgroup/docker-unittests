@@ -17,14 +17,13 @@ merge:
 
 deploy:
   script: |
-    echo "Deploy shaded *.jar to the GitHub"
+    echo "Deploy shaded *.jar to the GitHub: ${tag}"
     mvn -V -P github -s ../settings.xml deploy
 
 release:
   script: |
-    echo "Release *.jar to the Maven Central"
+    echo "Release *.jar to the Maven Central: ${tag}"
     mvn versions:set "-DnewVersion=$tag"
     git add pom.xml
     git commit -am "$tag"
-    git push --set-upstream origin __rultor
-#    mvn -V -Dgpg.homedir="$HOME" -P qulice,ossrh -Djacoco.skip=true -s ../settings.xml clean deploy
+    mvn -V -Dgpg.homedir="$HOME" -P qulice,ossrh -Djacoco.skip=true -s ../settings.xml clean deploy
