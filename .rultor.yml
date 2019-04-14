@@ -11,13 +11,14 @@ assets:
 
 merge:
   env:
-      MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
+    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
   script:
     - mvn -Pqulice clean package
 
 deploy:
   script: |
     echo "Deploy shaded *.jar to the GitHub: ${tag}"
+    mvn versions:set "-DnewVersion=$tag"
     mvn -V -P github -s ../settings.xml deploy
 
 release:
