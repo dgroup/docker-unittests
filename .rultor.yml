@@ -26,5 +26,5 @@ release:
     mvn versions:set "-DnewVersion=$tag"
     git add pom.xml
     git commit -am "$tag"
-    git push
+    git push --set-upstream origin __rultor
 #    mvn -V -Dgpg.homedir="$HOME" -P qulice,ossrh -Djacoco.skip=true -s ../settings.xml clean deploy
