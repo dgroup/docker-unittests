@@ -4,6 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.github.dgroup/docker-unittests.svg)](http://www.javadoc.io/doc/com.github.dgroup/docker-unittests)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt) 
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/docker-unittests.svg?style=flat-square)](https://github.com/dgroup/docker-unittests/graphs/commit-activity)
+[![Hits-of-Code](https://hitsofcode.com/github/dgroup/docker-unittests)](https://hitsofcode.com/view/github/dgroup/docker-unittests)
 
 [![Build Status](https://travis-ci.org/dgroup/docker-unittests.svg?branch=master&style=for-the-badge)](https://travis-ci.org/dgroup/docker-unittests)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/docker-unittests)](http://www.0pdd.com/p?name=dgroup/docker-unittests)
