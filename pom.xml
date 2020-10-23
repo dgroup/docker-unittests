@@ -96,7 +96,7 @@
     <jackson-databind.version>2.10.0.pr1</jackson-databind.version>
     <bcprov-jdk15on.version>1.60</bcprov-jdk15on.version>
     <commons-compress.version>1.19</commons-compress.version>
-    <guava.version>27.0.1-jre</guava.version>
+    <guava.version>30.0-android</guava.version>
     <jansi.version>1.16</jansi.version>
     <xembly.version>0.22</xembly.version>
     <jcabi-xml.version>0.21.4</jcabi-xml.version>
