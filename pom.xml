@@ -93,7 +93,7 @@
     <dockerjava.version>3.1.0</dockerjava.version>
     <snakeyaml.version>1.19</snakeyaml.version>
     <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
-    <jackson-databind.version>2.10.0.pr1</jackson-databind.version>
+    <jackson-databind.version>2.13.4.1</jackson-databind.version>
     <bcprov-jdk15on.version>1.60</bcprov-jdk15on.version>
     <commons-compress.version>1.19</commons-compress.version>
     <guava.version>27.0.1-jre</guava.version>
