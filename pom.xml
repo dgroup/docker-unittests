@@ -91,7 +91,7 @@
     <logback.version>1.2.3</logback.version>
     <cactoos.version>0.38</cactoos.version>
     <dockerjava.version>3.1.0</dockerjava.version>
-    <snakeyaml.version>1.19</snakeyaml.version>
+    <snakeyaml.version>1.32</snakeyaml.version>
     <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
     <jackson-databind.version>2.10.0.pr1</jackson-databind.version>
     <bcprov-jdk15on.version>1.60</bcprov-jdk15on.version>
