@@ -95,7 +95,7 @@
     <jackson-dataformat-yam.version>2.9.2</jackson-dataformat-yam.version>
     <jackson-databind.version>2.10.0.pr1</jackson-databind.version>
     <bcprov-jdk15on.version>1.60</bcprov-jdk15on.version>
-    <commons-compress.version>1.19</commons-compress.version>
+    <commons-compress.version>1.26.0</commons-compress.version>
     <guava.version>27.0.1-jre</guava.version>
     <jansi.version>1.16</jansi.version>
     <xembly.version>0.22</xembly.version>
